@@ -198,6 +198,7 @@
                     <th>Image</th>
                     <th>Room Name</th>
                     <th>Price</th>
+                    <th>Downpayment</th>
                     <th>Bed</th>
                     <th>Bath</th>
                     <th>Description</th>
@@ -211,6 +212,7 @@
                     <td>{{ room.image }}</td>
                     <td>{{ room.room_name }}</td>
                     <td>{{ room.price }}</td>
+                    <td>{{ room.downpayment }}</td>
                     <td>{{ room.bed }}</td>
                     <td>{{ room.bath }}</td>
                     <td>{{ room.description }}</td>
@@ -253,6 +255,13 @@
         <div class="input-group">
          
           <input type="number" class="form-control" placeholder="Price" v-model="editedRoom.price">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="downpayment">Room Downpayment</label>
+        <div class="input-group">
+         
+          <input type="number" class="form-control" placeholder="Downpayment" v-model="editedRoom.downpayment">
         </div>
       </div>
       <div class="form-group">
@@ -317,6 +326,10 @@
                       <label for="price">Room Price</label>
                       <input type="number" class="form-control" placeholder="Price" v-model="price" required>
                     </div>
+                    <div class="form-group col-md-6">
+                      <label for="downpayment">Room Downpayment</label>
+                      <input type="number" class="form-control" placeholder="Downpayment" v-model="downpayment" required>
+                    </div>
                   </div>
 
                   <div class="form-row">
@@ -367,7 +380,7 @@
                     <th>Room</th>
                     <th>Booking Status</th>
                     <th>Booking Payment</th>
-
+                    <th>Total Price</th>
                     <th>Action</th>
 
                   </tr>
@@ -384,7 +397,7 @@
                     <td>{{ book.room_name }}</td>
                     <td>{{ book.booking_status }}</td>
                     <td>{{ book.payment_method }}</td>
-
+                   <td>{{ book.total_price }}</td>
                     <td>
                       <div class="dropdown">
                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
@@ -432,7 +445,6 @@
                 <th>Shop</th>
                 <th>Quantity</th>
                 <th>status</th>                
-
                 <th>Action</th>
               </tr>
             </thead>
@@ -645,6 +657,7 @@ async saveRoomEdit() {
     const data = {
       room_name: this.editedRoom.room_name,
       price: this.editedRoom.price,
+      downpayment: this.editedRoom.downpayment,
       bed: this.editedRoom.bed,
       bath: this.editedRoom.bath,
       description: this.editedRoom.description,
@@ -689,6 +702,7 @@ async saveRoomEdit() {
         const data = this.room_img;
         data.append('room_name', this.room_name);
         data.append('price', this.price);
+        data.append('downpayment', this.downpayment);
         data.append('bed', this.bed);
         data.append('bath', this.bath);
         data.append('description', this.description);
@@ -700,6 +714,7 @@ async saveRoomEdit() {
         this.room_img = '';
         this.room_name = '';
         this.price = '';
+        this.downpayment = '';
         this.bed = '';
         this.bath = '';
         this.description = '';

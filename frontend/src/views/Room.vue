@@ -51,8 +51,10 @@
 							:src="require('@/assets/img/' + room.image)" alt="" />            
                 <small
                 class="position-absolute start-0 top-100 translate-middle-y bg-primary text-white rounded py-1 px-3 ms-4"
-                >Php.{{ room.price }}</small
-              >
+                >Php.{{ room.price }} 
+            | Downpayment {{ room.downpayment }}</small
+              > 
+              
             </div>
             <div class="p-4 mt-2">
               <div class="d-flex justify-content-between mb-3">

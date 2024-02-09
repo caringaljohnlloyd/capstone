@@ -270,6 +270,9 @@ public function getStaff()
         $this->room = new RoomModel();
         $booked = $this->room->where(['room_id' => $room_id])->first();
     
+        // Calculate total price by summing price and downpayment
+        $totalPrice = $booked['price'] + $booked['downpayment'];
+    
         $data = [
             'id' => $json->id,
             'checkin' => $json->checkin,
@@ -280,6 +283,7 @@ public function getStaff()
             'room_id' => $json->room_id,
             'booking_status' => 'pending',
             'payment_method' => $json->payment_method,
+            'total_price' => $json->$totalPrice, // Add total price to data array
         ];
     
         // Check if the total persons exceed bed capacity
@@ -305,6 +309,7 @@ public function getStaff()
             return $this->respond(['message' => 'Booking failed'], 500);
         }
     }
+    
     public function declineBooking($booking_id)
     {
         $roomModel = new RoomModel();
@@ -800,6 +805,7 @@ public function updateRoom($room_id = null)
     $data = [
         'room_name' => $request->getVar('room_name') ?? $existingData['room_name'],
         'price' => $request->getVar('price') ?? $existingData['price'],
+        'downpayment' => $request->getVar('downpayment') ?? $existingData['downpayment'],
         'bed' => $request->getVar('bed') ?? $existingData['bed'],
         'bath' => $request->getVar('bath') ?? $existingData['bath'],
         'description' => $request->getVar('description') ?? $existingData['description'],

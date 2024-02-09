@@ -66,7 +66,7 @@
 <!-- invoice section-->
           
 <div class="column text-lg invoice-section sticky-column">
-              <h4>Products to Pay:</h4>
+              <h4>Payment Details:</h4>
               <table class="table">
     <thead>
       <tr>
