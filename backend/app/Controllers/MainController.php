@@ -716,7 +716,7 @@ public function confirmOrder($orderId)
         
         public function handleImageUpload($image, $imageName)
         {
-            $uploadPath = 'C:/laragon/www/backup/frontend/src/assets/img';
+            $uploadPath = 'C:/laragon/www/capstone/frontend/src/assets/img';
 
             $image->move($uploadPath, $imageName);
                         return  $imageName;
@@ -753,7 +753,7 @@ public function confirmOrder($orderId)
 }
 public function handleRoomImageUpload($image, $imageName)
 {
-    $uploadPath = 'C:/laragon/www/backup/frontend/src/assets/img';
+    $uploadPath = 'C:/laragon/www/capstone/frontend/src/assets/img';
 
     $image->move($uploadPath, $imageName);
                 return  $imageName;
@@ -820,7 +820,7 @@ public function updateRoom($room_id = null)
 
 public function handleEditImageUpload($image, $imageName)
 {
-    $uploadPath = 'C:/laragon/www/backup/frontend/src/assets/img';
+    $uploadPath = 'C:/laragon/www/capstone/frontend/src/assets/img';
 
     $image->move($uploadPath, $imageName);
                 return  $imageName;
@@ -857,7 +857,7 @@ public function saveStaff()
 
 public function handleStaffImageUpload($image, $imageName)
 {
-    $uploadPath = 'C:/laragon/www/backup/frontend/src/assets/img';
+    $uploadPath = 'C:/laragon/www/capstone/frontend/src/assets/img';
 
     $image->move($uploadPath, $imageName);
                 return  $imageName;
