@@ -52,7 +52,7 @@
                 <small
                 class="position-absolute start-0 top-100 translate-middle-y bg-primary text-white rounded py-1 px-3 ms-4"
                 >Php.{{ room.price }} 
-            | Downpayment {{ room.downpayment }}</small
+            |   500 {{ room.downpayment }}</small
               > 
               
             </div>

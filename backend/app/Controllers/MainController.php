@@ -211,32 +211,7 @@ public function getStaff()
 }
 
     
-    public function acceptBooking($booking_id)
-    {
-        $roomModel = new RoomModel();
-        $bookingModel = new BookingModel();
-    
-        $booking = $bookingModel->find($booking_id);
-    
-        if ($booking) {
-            $updatedBooking = $bookingModel->update($booking['book_id'], ['booking_status' => 'confirmed']);
-    
-            if ($updatedBooking) {
-                $updatedRoom = $roomModel->update($booking['room_id'], ['room_status' => 'booked']);
-    
-                if ($updatedRoom) {
-                    return $this->respond(['message' => 'Booking and room status updated successfully', 'booking_id' => $booking['book_id']], 200);
-                } else {
-                    $bookingModel->update($booking['book_id'], ['booking_status' => 'pending']);
-                    return $this->respond(['message' => 'Failed to update room status'], 500);
-                }
-            } else {
-                return $this->respond(['message' => 'Failed to update booking status'], 500);
-            }
-        } else {
-            return $this->respond(['message' => 'Booking not found'], 404);
-        }
-    }
+
     public function markAsPaid($booking_id)
     {
         $roomModel = new RoomModel();
@@ -271,7 +246,7 @@ public function getStaff()
         $booked = $this->room->where(['room_id' => $room_id])->first();
     
         // Calculate total price by summing price and downpayment
-        $totalPrice = $booked['price'] + $booked['downpayment'];
+        //$totalPrice = $booked['price'] + $booked['downpayment'];
     
         $data = [
             'id' => $json->id,
@@ -283,7 +258,8 @@ public function getStaff()
             'room_id' => $json->room_id,
             'booking_status' => 'pending',
             'payment_method' => $json->payment_method,
-            'total_price' => $json->$totalPrice, // Add total price to data array
+            'downpayment' => $json->downpayment,
+           // 'total_price' => $json->$totalPrice,
         ];
     
         // Check if the total persons exceed bed capacity
@@ -310,37 +286,7 @@ public function getStaff()
         }
     }
     
-    public function declineBooking($booking_id)
-    {
-        $roomModel = new RoomModel();
-        $bookingModel = new BookingModel();
-    
-        $booking = $bookingModel->find($booking_id);
-    
-        if ($booking) {
-            // Check if the booking status is 'pending'
-            if ($booking['booking_status'] === 'pending') {
-                // Update the booking status to 'declined' and add a message
-                $updatedBooking = $bookingModel->update($booking['book_id'], [
-                    'booking_status' => 'declined',
-                    'message' => 'Booking declined.']);
-    
-                if ($updatedBooking) {
-                    // Optional: Update the room status or perform any other necessary actions
-                    $updatedRoom = $roomModel->update($booking['room_id'], ['room_status' => 'booked']);
-    
-                    // Return the response
-                    return $this->respond(['message' => 'Booking declined successfully', 'booking_id' => $booking['book_id']], 200);
-                } else {
-                    return $this->respond(['message' => 'Failed to decline booking'], 500);
-                }
-            } else {
-                return $this->respond(['message' => 'Cannot decline booking with the current status'], 400);
-            }
-        } else {
-            return $this->respond(['message' => 'Booking not found'], 404);
-        }
-    }
+
 
     public function getDataShop()
     {
@@ -1122,37 +1068,119 @@ public function deleteShop($shop_id = null)
 
         return $this->respond($data, 200);
     }
-    public function confirmRes($id = null)
+    // public function confirmRes($id = null)
+    // {
+    //     $model = new BookingModel();
+    //     $notifModel = new NotificationModel();
+    
+    //     try {
+    //         $booking = $model->find($id);
+    
+    //         if (!$booking) {
+    //             return $this->fail('No Data Found for Update', 404);
+    //         }
+    
+    //         if ($booking['status'] === 'booked') {
+    //             return $this->respond(['message' => 'Reservation is already confirmed']);
+    //         }
+    
+    //         $model->update($id, ['status' => 'booked']);
+    
+    //         $id = $booking['id'];
+    //         $notificationData = [
+    //             'id' => $id,
+    //             'message' => 'Your reservation has been confirmed.',
+    //         ];
+    
+    //         $notifModel->insert($notificationData);
+    
+    //         return $this->respond(['message' => 'Reservation confirmed successfully']);
+    //     } catch (\Exception $e) {
+    //         return $this->fail('Internal Server Error: ' . $e->getMessage(), 500);
+    //     }
+    // }
+    public function acceptBooking($booking_id)
     {
-        $model = new BookingModel();
-        $notifModel = new NotificationModel();
+        $roomModel = new RoomModel();
+        $bookingModel = new BookingModel();
+        $notificationModel = new NotificationModel();
     
-        try {
-            $booking = $model->find($id);
+        $booking = $bookingModel->find($booking_id);
     
-            if (!$booking) {
-                return $this->fail('No Data Found for Update', 404);
+        if ($booking) {
+            // Retrieve the room details associated with the booking
+            $room = $roomModel->find($booking['room_id']);
+    
+            if ($room) {
+                $updatedBooking = $bookingModel->update($booking['book_id'], ['booking_status' => 'confirmed']);
+    
+                if ($updatedBooking) {
+                    $updatedRoom = $roomModel->update($booking['room_id'], ['room_status' => 'booked']);
+    
+                    if ($updatedRoom) {
+                        // Insert accept notification into the database
+                        $notificationData = [
+                            'id' => $booking['id'],
+                            'message' => 'Your booking for ' . $room['room_name'] . ' has been accepted.',
+                        ];
+                        $notificationModel->insert($notificationData);
+    
+                        return $this->respond(['message' => 'Booking and room status updated successfully', 'booking_id' => $booking['book_id']], 200);
+                    } else {
+                        $bookingModel->update($booking['book_id'], ['booking_status' => 'pending']);
+                        return $this->respond(['message' => 'Failed to update room status'], 500);
+                    }
+                } else {
+                    return $this->respond(['message' => 'Failed to update booking status'], 500);
+                }
+            } else {
+                return $this->respond(['message' => 'Room not found'], 404);
             }
-    
-            if ($booking['status'] === 'booked') {
-                return $this->respond(['message' => 'Reservation is already confirmed']);
-            }
-    
-            $model->update($id, ['status' => 'booked']);
-    
-            $id = $booking['id'];
-            $notificationData = [
-                'id' => $id,
-                'message' => 'Your reservation has been confirmed.',
-            ];
-    
-            $notifModel->insert($notificationData);
-    
-            return $this->respond(['message' => 'Reservation confirmed successfully']);
-        } catch (\Exception $e) {
-            return $this->fail('Internal Server Error: ' . $e->getMessage(), 500);
+        } else {
+            return $this->respond(['message' => 'Booking not found'], 404);
         }
     }
+    public function declineBooking($booking_id)
+    {
+        $roomModel = new RoomModel();
+        $bookingModel = new BookingModel();
+        $notificationModel = new NotificationModel();
+    
+        $booking = $bookingModel->find($booking_id);
+    
+        if ($booking) {
+            // Check if the booking status is 'pending'
+            if ($booking['booking_status'] === 'pending') {
+                // Update the booking status to 'declined' and add a message
+                $updatedBooking = $bookingModel->update($booking['book_id'], [
+                    'booking_status' => 'declined',
+                    'message' => 'Booking declined.'
+                ]);
+    
+                if ($updatedBooking) {
+                    // Insert decline notification into the database
+                    $notificationData = [
+                        'id' => $booking['id'],
+                        'message' => 'Your booking has been declined.'
+                    ];
+                    $notificationModel->insert($notificationData);
+    
+                    // Optional: Update the room status or perform any other necessary actions
+                    $updatedRoom = $roomModel->update($booking['room_id'], ['room_status' => 'Available']);
+    
+                    // Return the response
+                    return $this->respond(['message' => 'Booking declined successfully', 'booking_id' => $booking['book_id']], 200);
+                } else {
+                    return $this->respond(['message' => 'Failed to decline booking'], 500);
+                }
+            } else {
+                return $this->respond(['message' => 'Cannot decline booking with the current status'], 400);
+            }
+        } else {
+            return $this->respond(['message' => 'Booking not found'], 404);
+        }
+    }
+    
     
 }
 

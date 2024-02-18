@@ -168,6 +168,14 @@
     </select>
   </div>
 </div>
+<!-- Downpayment Option -->
+<div class="col-md-12">
+  <div class="form-group">
+    <label for="downpayment">Downpayment (PHP)</label><br>
+    <input type="text" id="downpayment" v-model="downpayment" class="form-control">
+  </div>
+</div>
+
 
 
     <!-- Submit Button -->
@@ -266,6 +274,7 @@ export default {
       successMessage: "",
       errorMessage: "",
       payment_method: "",
+      downpayment:"",
     };
   },
   methods: {
@@ -281,6 +290,7 @@ export default {
       specialRequest: this.specialRequest,
       room_id: this.$route.params.id,
       payment_method: this.payment_method,
+      downpayment: this.downpayment,
     });
 
     if (response.status === 200) {
@@ -292,6 +302,7 @@ export default {
       this.child = "";
       this.specialRequest = "";
       this.payment_method = "";
+      this.downpayment = "";
 
       setTimeout(() => {
         this.successMessage = "";

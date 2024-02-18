@@ -1,0 +1,140 @@
+CRITICAL - 2024-02-13 04:19:39 --> Undefined property: stdClass::$5000
+in APPPATH\Controllers\MainController.php on line 286.
+ 1 APPPATH\Controllers\MainController.php(286): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$5000', 'C:\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php', 286)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->booking()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-02-13 04:19:46 --> Undefined property: stdClass::$5000
+in APPPATH\Controllers\MainController.php on line 286.
+ 1 APPPATH\Controllers\MainController.php(286): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$5000', 'C:\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php', 286)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->booking()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-02-13 04:19:46 --> Undefined property: stdClass::$5000
+in APPPATH\Controllers\MainController.php on line 286.
+ 1 APPPATH\Controllers\MainController.php(286): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$5000', 'C:\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php', 286)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->booking()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-02-13 04:19:47 --> Undefined property: stdClass::$5000
+in APPPATH\Controllers\MainController.php on line 286.
+ 1 APPPATH\Controllers\MainController.php(286): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$5000', 'C:\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php', 286)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->booking()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-02-13 04:20:31 --> Undefined property: stdClass::$5000
+in APPPATH\Controllers\MainController.php on line 286.
+ 1 APPPATH\Controllers\MainController.php(286): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$5000', 'C:\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php', 286)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->booking()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\public\\index.php')
+ERROR - 2024-02-13 05:30:33 --> mysqli_sql_exception: Cannot add or update a child row: a foreign key constraint fails (`crud`.`notifications`, CONSTRAINT `notifications_ibfk_1` FOREIGN KEY (`id`) REFERENCES `user` (`id`)) in C:\laragon\www\capstone\backend\system\Database\MySQLi\Connection.php:306
+Stack trace:
+#0 C:\laragon\www\capstone\backend\system\Database\MySQLi\Connection.php(306): mysqli->query('INSERT INTO `no...', 0)
+#1 C:\laragon\www\capstone\backend\system\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `no...')
+#2 C:\laragon\www\capstone\backend\system\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `no...')
+#3 C:\laragon\www\capstone\backend\system\Database\BaseBuilder.php(2308): CodeIgniter\Database\BaseConnection->query('INSERT INTO `no...', Array, false)
+#4 C:\laragon\www\capstone\backend\system\Model.php(319): CodeIgniter\Database\BaseBuilder->insert()
+#5 C:\laragon\www\capstone\backend\system\BaseModel.php(788): CodeIgniter\Model->doInsert(Array)
+#6 C:\laragon\www\capstone\backend\system\Model.php(715): CodeIgniter\BaseModel->insert(Array, true)
+#7 C:\laragon\www\capstone\backend\app\Controllers\MainController.php(336): CodeIgniter\Model->insert(Array)
+#8 C:\laragon\www\capstone\backend\system\CodeIgniter.php(942): App\Controllers\MainController->declineBooking('147')
+#9 C:\laragon\www\capstone\backend\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+#10 C:\laragon\www\capstone\backend\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\laragon\www\capstone\backend\public\index.php(86): CodeIgniter\CodeIgniter->run()
+#12 C:\laragon\www\capstone\backend\system\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\...')
+#13 {main}
+CRITICAL - 2024-02-13 05:30:33 --> Cannot add or update a child row: a foreign key constraint fails (`crud`.`notifications`, CONSTRAINT `notifications_ibfk_1` FOREIGN KEY (`id`) REFERENCES `user` (`id`))
+in SYSTEMPATH\Database\BaseConnection.php on line 647.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(2308): CodeIgniter\Database\BaseConnection->query('INSERT INTO `notifications` (`message`) VALUES (:message:)', [...], false)
+ 2 SYSTEMPATH\Model.php(319): CodeIgniter\Database\BaseBuilder->insert()
+ 3 SYSTEMPATH\BaseModel.php(788): CodeIgniter\Model->doInsert([...])
+ 4 SYSTEMPATH\Model.php(715): CodeIgniter\BaseModel->insert([...], true)
+ 5 APPPATH\Controllers\MainController.php(336): CodeIgniter\Model->insert([...])
+ 6 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->declineBooking('147')
+ 7 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 8 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-02-13 06:15:23 --> Undefined array key "downpayment"
+in APPPATH\Controllers\MainController.php on line 784.
+ 1 APPPATH\Controllers\MainController.php(784): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "downpayment"', 'C:\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php', 784)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->updateRoom('7')
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-02-13 06:15:56 --> Undefined array key "downpayment"
+in APPPATH\Controllers\MainController.php on line 784.
+ 1 APPPATH\Controllers\MainController.php(784): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "downpayment"', 'C:\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php', 784)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->updateRoom('7')
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-02-13 06:15:56 --> Undefined array key "downpayment"
+in APPPATH\Controllers\MainController.php on line 784.
+ 1 APPPATH\Controllers\MainController.php(784): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "downpayment"', 'C:\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php', 784)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->updateRoom('7')
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-02-13 06:17:03 --> Undefined array key "downpayment"
+in APPPATH\Controllers\MainController.php on line 784.
+ 1 APPPATH\Controllers\MainController.php(784): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "downpayment"', 'C:\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php', 784)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->updateRoom('18')
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-02-13 06:18:13 --> Undefined array key "downpayment"
+in APPPATH\Controllers\MainController.php on line 784.
+ 1 APPPATH\Controllers\MainController.php(784): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "downpayment"', 'C:\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php', 784)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->updateRoom('7')
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-02-13 06:18:18 --> Undefined array key "downpayment"
+in APPPATH\Controllers\MainController.php on line 784.
+ 1 APPPATH\Controllers\MainController.php(784): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "downpayment"', 'C:\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php', 784)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->updateRoom('7')
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-02-13 06:18:19 --> Undefined array key "downpayment"
+in APPPATH\Controllers\MainController.php on line 784.
+ 1 APPPATH\Controllers\MainController.php(784): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "downpayment"', 'C:\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php', 784)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->updateRoom('7')
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-02-13 06:18:20 --> Undefined array key "downpayment"
+in APPPATH\Controllers\MainController.php on line 784.
+ 1 APPPATH\Controllers\MainController.php(784): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "downpayment"', 'C:\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php', 784)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->updateRoom('7')
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-02-13 06:18:40 --> Undefined array key "downpayment"
+in APPPATH\Controllers\MainController.php on line 784.
+ 1 APPPATH\Controllers\MainController.php(784): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "downpayment"', 'C:\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php', 784)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->updateRoom('7')
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\public\\index.php')

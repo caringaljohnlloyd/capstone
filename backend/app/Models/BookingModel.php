@@ -12,7 +12,7 @@ class BookingModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['id','checkin','checkout','adult','child','specialRequest','room_id','booking_status','payment_method','message'];
+    protected $allowedFields    = ['id','checkin','checkout','adult','child','specialRequest','room_id','booking_status','payment_method','downpayment','message'];
 
     // Dates
     protected $useTimestamps = false;

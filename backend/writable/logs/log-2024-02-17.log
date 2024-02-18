@@ -1,0 +1,55 @@
+CRITICAL - 2024-02-17 03:31:54 --> Undefined array key "room_name"
+in APPPATH\Controllers\MainController.php on line 1164.
+ 1 APPPATH\Controllers\MainController.php(1164): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "room_name"', 'C:\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php', 1164)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->declineBooking('149')
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-02-17 03:33:14 --> Undefined array key "room_name"
+in APPPATH\Controllers\MainController.php on line 1156.
+ 1 APPPATH\Controllers\MainController.php(1156): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "room_name"', 'C:\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php', 1156)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->declineBooking('150')
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-02-17 13:52:20 --> require(vendor/autoload.php): Failed to open stream: No such file or directory
+in APPPATH\Controllers\MainController.php on line 25.
+ 1 APPPATH\Controllers\MainController.php(25): CodeIgniter\Debug\Exceptions->errorHandler(2, 'require(vendor/autoload.php): Failed to open stream: No such file or directory', 'C:\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php', 25)
+ 2 APPPATH\Controllers\MainController.php(25): require()
+ 3 SYSTEMPATH\Autoloader\Autoloader.php(312): include_once('C:\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php')
+ 4 SYSTEMPATH\Autoloader\Autoloader.php(291): CodeIgniter\Autoloader\Autoloader->includeFile('C:\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php')
+ 5 SYSTEMPATH\Autoloader\Autoloader.php(269): CodeIgniter\Autoloader\Autoloader->loadInNamespace('App\\Controllers\\MainController')
+ 6 [internal function]: CodeIgniter\Autoloader\Autoloader->loadClass('App\\Controllers\\MainController')
+ 7 SYSTEMPATH\CodeIgniter.php(900): class_exists('\\App\\Controllers\\MainController', true)
+ 8 SYSTEMPATH\CodeIgniter.php(489): CodeIgniter\CodeIgniter->startController()
+ 9 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-02-17 13:52:22 --> require(vendor/autoload.php): Failed to open stream: No such file or directory
+in APPPATH\Controllers\MainController.php on line 25.
+ 1 APPPATH\Controllers\MainController.php(25): CodeIgniter\Debug\Exceptions->errorHandler(2, 'require(vendor/autoload.php): Failed to open stream: No such file or directory', 'C:\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php', 25)
+ 2 APPPATH\Controllers\MainController.php(25): require()
+ 3 SYSTEMPATH\Autoloader\Autoloader.php(312): include_once('C:\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php')
+ 4 SYSTEMPATH\Autoloader\Autoloader.php(291): CodeIgniter\Autoloader\Autoloader->includeFile('C:\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php')
+ 5 SYSTEMPATH\Autoloader\Autoloader.php(269): CodeIgniter\Autoloader\Autoloader->loadInNamespace('App\\Controllers\\MainController')
+ 6 [internal function]: CodeIgniter\Autoloader\Autoloader->loadClass('App\\Controllers\\MainController')
+ 7 SYSTEMPATH\CodeIgniter.php(900): class_exists('\\App\\Controllers\\MainController', true)
+ 8 SYSTEMPATH\CodeIgniter.php(489): CodeIgniter\CodeIgniter->startController()
+ 9 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-02-17 13:52:44 --> require(vendor/autoload.php): Failed to open stream: No such file or directory
+in APPPATH\Controllers\MainController.php on line 25.
+ 1 APPPATH\Controllers\MainController.php(25): CodeIgniter\Debug\Exceptions->errorHandler(2, 'require(vendor/autoload.php): Failed to open stream: No such file or directory', 'C:\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php', 25)
+ 2 APPPATH\Controllers\MainController.php(25): require()
+ 3 SYSTEMPATH\Autoloader\Autoloader.php(312): include_once('C:\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php')
+ 4 SYSTEMPATH\Autoloader\Autoloader.php(291): CodeIgniter\Autoloader\Autoloader->includeFile('C:\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php')
+ 5 SYSTEMPATH\Autoloader\Autoloader.php(269): CodeIgniter\Autoloader\Autoloader->loadInNamespace('App\\Controllers\\MainController')
+ 6 [internal function]: CodeIgniter\Autoloader\Autoloader->loadClass('App\\Controllers\\MainController')
+ 7 SYSTEMPATH\CodeIgniter.php(900): class_exists('\\App\\Controllers\\MainController', true)
+ 8 SYSTEMPATH\CodeIgniter.php(489): CodeIgniter\CodeIgniter->startController()
+ 9 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\public\\index.php')

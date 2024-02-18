@@ -198,7 +198,6 @@
                     <th>Image</th>
                     <th>Room Name</th>
                     <th>Price</th>
-                    <th>Downpayment</th>
                     <th>Bed</th>
                     <th>Bath</th>
                     <th>Description</th>
@@ -212,7 +211,6 @@
                     <td>{{ room.image }}</td>
                     <td>{{ room.room_name }}</td>
                     <td>{{ room.price }}</td>
-                    <td>{{ room.downpayment }}</td>
                     <td>{{ room.bed }}</td>
                     <td>{{ room.bath }}</td>
                     <td>{{ room.description }}</td>
@@ -257,13 +255,13 @@
           <input type="number" class="form-control" placeholder="Price" v-model="editedRoom.price">
         </div>
       </div>
-      <div class="form-group">
+      <!-- <div class="form-group">
         <label for="downpayment">Room Downpayment</label>
         <div class="input-group">
          
           <input type="number" class="form-control" placeholder="Downpayment" v-model="editedRoom.downpayment">
         </div>
-      </div>
+      </div> -->
       <div class="form-group">
         <label for="bed">Number of Beds</label>
         <input type="number" class="form-control" placeholder="Beds" v-model="editedRoom.bed">
@@ -380,7 +378,7 @@
                     <th>Room</th>
                     <th>Booking Status</th>
                     <th>Booking Payment</th>
-                    <th>Total Price</th>
+                    <th>Down Payment</th>
                     <th>Action</th>
 
                   </tr>
@@ -397,7 +395,7 @@
                     <td>{{ book.room_name }}</td>
                     <td>{{ book.booking_status }}</td>
                     <td>{{ book.payment_method }}</td>
-                   <td>{{ book.total_price }}</td>
+                   <td>{{ book.downpayment }}</td>
                     <td>
                       <div class="dropdown">
                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"

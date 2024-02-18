@@ -35,6 +35,7 @@ import pos from '../views/Pos.vue'
 const routes = [
   {
     path: '/',
+    name: LoginForm,
     component: LoginForm
   },
   {
