@@ -200,6 +200,8 @@
                     <th>Price</th>
                     <th>Bed</th>
                     <th>Bath</th>
+                    <th>Number of Packs</th>
+
                     <th>Description</th>
                     <th>Room Status</th>
                     <th>Action</th>
@@ -213,6 +215,8 @@
                     <td>{{ room.price }}</td>
                     <td>{{ room.bed }}</td>
                     <td>{{ room.bath }}</td>
+                    <td>{{ room.packs }}</td>
+
                     <td>{{ room.description }}</td>
                     <td>{{ room.room_status }}</td>
                     <td><button @click="openRoomEditModal(room)">Edit</button> 
@@ -328,6 +332,14 @@
                       <label for="downpayment">Room Downpayment</label>
                       <input type="number" class="form-control" placeholder="Downpayment" v-model="downpayment" required>
                     </div>
+                    <div class="form-group col-md-6">
+      <label for="packs">Number of Packs</label>
+      <select class="form-control" v-model="packs">
+        <option value="3">3 Packs</option>
+        <option value="4">4 Packs</option>
+        <option value="6">6 Packs</option>
+      </select>
+    </div>
                   </div>
 
                   <div class="form-row">
@@ -549,7 +561,9 @@ export default {
       price: '',
       bed: '',
       bath: '',
+      packs: '3', // Default to 3 packs
       description: '',
+      downpayment:'',
       room_img: '',
       ConfirmationVisible: false,
 
@@ -701,6 +715,8 @@ async saveRoomEdit() {
         data.append('room_name', this.room_name);
         data.append('price', this.price);
         data.append('downpayment', this.downpayment);
+        data.append('packs', this.packs);
+
         data.append('bed', this.bed);
         data.append('bath', this.bath);
         data.append('description', this.description);
@@ -713,6 +729,8 @@ async saveRoomEdit() {
         this.room_name = '';
         this.price = '';
         this.downpayment = '';
+        this.packs = '';
+
         this.bed = '';
         this.bath = '';
         this.description = '';

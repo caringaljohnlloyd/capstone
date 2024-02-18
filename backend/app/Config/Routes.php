@@ -62,6 +62,9 @@ $routes->get('getNotif', 'MainController::getNotifications');
 $routes->post( '/confirmRes/(:num)', 'MainController::confirmRes/$1');
 $routes->get('/getBookingHistory', 'MainController::getBookingHistory');
 $routes->get('getNotif/(:num)', 'MainController::notif/$1');
+$routes->get('/pack3','MainController::pack3');
+$routes->get('/pack4','MainController::pack4');
+$routes->get('/pack6','MainController::pack6');
 
 
 $routes->group('api', ['namespace' => 'App\Controllers'], function ($routes) {

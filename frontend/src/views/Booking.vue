@@ -112,7 +112,7 @@
     </div>
 
     <!-- Number of Adult -->
-    <div class="col-md-6">
+    <!-- <div class="col-md-6">
       <div class="form-group">
         <label for="adult">Number of Adult</label>
         <input
@@ -123,10 +123,10 @@
           required
         />
       </div>
-    </div>
+    </div> -->
 
     <!-- Number of Child -->
-    <div class="col-md-6">
+    <!-- <div class="col-md-6">
       <div class="form-group">
         <label for="child">Number of Child</label>
         <input
@@ -136,7 +136,7 @@
           class="form-control"
         />
       </div>
-    </div>
+    </div> -->
 
     <!-- Special Request -->
     <div class="col-md-12">
@@ -268,8 +268,8 @@ export default {
     return {
       checkin: "",
       checkout: "",
-      adult: "",
-      child: "",
+      // adult: "",
+      // child: "",
       specialRequest: "",
       successMessage: "",
       errorMessage: "",
@@ -285,8 +285,8 @@ export default {
       id: id,
       checkin: this.checkin,
       checkout: this.checkout,
-      adult: this.adult,
-      child: this.child,
+      // adult: this.adult,
+      // child: this.child,
       specialRequest: this.specialRequest,
       room_id: this.$route.params.id,
       payment_method: this.payment_method,
@@ -298,8 +298,8 @@ export default {
       // Reset form fields
       this.checkin = "";
       this.checkout = "";
-      this.adult = "";
-      this.child = "";
+      // this.adult = "";
+      // this.child = "";
       this.specialRequest = "";
       this.payment_method = "";
       this.downpayment = "";

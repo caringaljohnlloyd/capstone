@@ -174,7 +174,30 @@ public function getStaff()
     
         return $this->respond($data, 200);
     }
+    public function pack3()
+    {
+        $f = new RoomModel();
     
+        $data = $f->where('packs', 3)->findAll();
+    
+        return $this->respond($data, 200);
+    }
+    public function pack4()
+    {
+        $f = new RoomModel();
+    
+        $data = $f->where('packs', 4)->findAll();
+    
+        return $this->respond($data, 200);
+    }
+    public function pack6()
+    {
+        $f = new RoomModel();
+    
+        $data = $f->where('packs', 6)->findAll();
+    
+        return $this->respond($data, 200);
+    }
     public function getRoom()
     {
         $room = new RoomModel();
@@ -252,8 +275,8 @@ public function getStaff()
             'id' => $json->id,
             'checkin' => $json->checkin,
             'checkout' => $json->checkout,
-            'adult' => $json->adult,
-            'child' => $json->child,
+            // 'adult' => $json->adult,
+            // 'child' => $json->child,
             'specialRequest' => $json->specialRequest,
             'room_id' => $json->room_id,
             'booking_status' => 'pending',
@@ -263,12 +286,12 @@ public function getStaff()
         ];
     
         // Check if the total persons exceed bed capacity
-        $totalPersons = ceil($json->adult / 2) + ceil($json->child / 2); // 2 adults or 2 children or both for 1 bed
-        $bedCapacity = $booked['bed'];
+        // $totalPersons = ceil($json->adult / 2) + ceil($json->child / 2); // 2 adults or 2 children or both for 1 bed
+        // $bedCapacity = $booked['bed'];
     
-        if ($totalPersons > $bedCapacity) {
-            return $this->respond(['message' => 'Booking failed. Exceeds bed capacity.'], 400);
-        }
+        // if ($totalPersons > $bedCapacity) {
+        //     return $this->respond(['message' => 'Booking failed. Exceeds bed capacity.'], 400);
+        // }
     
         $booking = new BookingModel();
         $r = $booking->save($data);
@@ -682,6 +705,8 @@ public function confirmOrder($orderId)
         'price' => $request->getPost('price'),
         'bed' => $request->getPost('bed'),
         'bath' => $request->getPost('bath'),
+        'packs' => $request->getPost('packs'),
+        'downpayment' => $request->getPost('downpayment'),
         'description' => $request->getPost('description'),
     ];
 

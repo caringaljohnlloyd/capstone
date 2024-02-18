@@ -27,6 +27,9 @@ import AuditHistory from '@/views/AuditHistory.vue';
 import Invoice from '@/components/Invoice.vue';
 import Home from '../views/Home.vue'
 import pos from '../views/Pos.vue'
+import packs3 from '@/components/packs.vue'
+import packs4 from '@/components/pack4.vue'
+import packs6 from '@/components/packs6.vue'
 
 
 
@@ -93,6 +96,24 @@ const routes = [
   meta: { requiresAuth: true, role: 'user' }
 },
 {
+  path: '/packs/:packs', 
+  component: packs3,
+  name:'packs3',
+  meta: { requiresAuth: true, role: 'user' }
+},
+{
+  path: '/packs/:packs', 
+  component: packs4,
+  name:'packs4',
+  meta: { requiresAuth: true, role: 'user' }
+},
+{
+  path: '/packs/:packs', 
+  component: packs6,
+  name:'packs6',
+  meta: { requiresAuth: true, role: 'user' }
+},
+{
   path: '/team',
   component: Team,
   meta: { requiresAuth: true, role: 'user' }
@@ -104,6 +125,7 @@ const routes = [
   meta: { requiresAuth: true, role: 'user' }
 
 },
+
 {
   path: '/shopcart',
   component: Cart,
