@@ -83,34 +83,33 @@
 <!-- Booking Form -->
 <form @submit.prevent="save">
   <div class="row">
-    <!-- Checkin -->
-    <div class="col-md-6">
-      <div class="form-group">
-        <label for="checkin">Checkin</label>
-        <input
-          type="date"
-          placeholder="Checkin"
-          v-model="checkin"
-          class="form-control"
-          required
-        />
-      </div>
-    </div>
+<!-- Checkin -->
+<div class="col-md-6">
+  <div class="form-group">
+    <label for="checkin">Checkin</label>
+    <input
+      type="datetime-local"
+      id="checkin"
+      v-model="checkin"
+      class="form-control"
+      required
+    />
+  </div>
+</div>
 
-    <!-- Checkout -->
-    <div class="col-md-6">
-      <div class="form-group">
-        <label for="checkout">Checkout</label>
-        <input
-          type="date"
-          placeholder="Checkout"
-          v-model="checkout"
-          class="form-control"
-          required
-        />
-      </div>
+<!-- Checkout -->
+<div class="col-md-6">
+    <div class="form-group">
+      <label for="checkout">Checkout</label>
+      <input
+        type="datetime-local"
+        id="checkout"
+        v-model="checkout"
+        class="form-control"
+        required
+      />
     </div>
-
+  </div>
     <!-- Number of Adult -->
     <!-- <div class="col-md-6">
       <div class="form-group">
@@ -268,8 +267,6 @@ export default {
     return {
       checkin: "",
       checkout: "",
-      // adult: "",
-      // child: "",
       specialRequest: "",
       successMessage: "",
       errorMessage: "",
@@ -278,49 +275,66 @@ export default {
     };
   },
   methods: {
-    async save() {
-  try {
-    const id = sessionStorage.getItem("id");
-    const response = await axios.post("booking", {
-      id: id,
-      checkin: this.checkin,
-      checkout: this.checkout,
-      // adult: this.adult,
-      // child: this.child,
-      specialRequest: this.specialRequest,
-      room_id: this.$route.params.id,
-      payment_method: this.payment_method,
-      downpayment: this.downpayment,
-    });
+    calculateCheckoutTime() {
+  if (this.checkin) {
+    // Create a Date object from the checkin string
+    let checkinDate = new Date(this.checkin);
 
-    if (response.status === 200) {
-      this.successMessage = response.data.message;
-      // Reset form fields
-      this.checkin = "";
-      this.checkout = "";
-      // this.adult = "";
-      // this.child = "";
-      this.specialRequest = "";
-      this.payment_method = "";
-      this.downpayment = "";
+    let timezoneOffset = checkinDate.getTimezoneOffset();
 
-      setTimeout(() => {
-        this.successMessage = "";
-      }, 2000);
-    }
-  } catch (error) {
-    console.error("Error booking", error);
-    if (error.response && error.response.status === 400) {
-      // Display specific error message for exceeding bed capacity
-      this.errorMessage = error.response.data.message || "Booking failed";
-    } else {
-      // Display a generic error message for other errors
-      this.errorMessage = "Error booking";
-    }
-    this.successMessage = "";
+    checkinDate.setHours(checkinDate.getHours() + 6);
+
+    checkinDate.setMinutes(checkinDate.getMinutes() - timezoneOffset);
+
+    let checkoutTimeString = checkinDate.toISOString().slice(0, 16);
+
+    this.checkout = checkoutTimeString;
   }
 },
-  }
+
+
+    async save() {
+      try {
+        const id = sessionStorage.getItem("id");
+        const response = await axios.post("booking", {
+          id: id,
+          checkin: this.checkin,
+          checkout: this.checkout,
+          specialRequest: this.specialRequest,
+          room_id: this.$route.params.id,
+          payment_method: this.payment_method,
+          downpayment: this.downpayment,
+        });
+
+        if (response.status === 200) {
+          this.successMessage = response.data.message;
+          this.checkin = "";
+          this.checkout = "";
+          this.specialRequest = "";
+          this.payment_method = "";
+          this.downpayment = "";
+
+          setTimeout(() => {
+            this.successMessage = "";
+          }, 2000);
+        }
+      } catch (error) {
+        console.error("Error booking", error);
+        if (error.response && error.response.status === 400) {
+          this.errorMessage = error.response.data.message || "Booking failed";
+        } else {
+          this.errorMessage = "Error booking";
+        }
+        this.successMessage = "";
+      }
+    },
+  },
+  watch: {
+    checkin(newValue) {
+      this.calculateCheckoutTime();
+    },
+  },
 };
 </script>
+
   

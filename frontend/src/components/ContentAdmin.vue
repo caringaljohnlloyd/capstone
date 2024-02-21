@@ -216,7 +216,6 @@
                     <td>{{ room.bed }}</td>
                     <td>{{ room.bath }}</td>
                     <td>{{ room.packs }}</td>
-
                     <td>{{ room.description }}</td>
                     <td>{{ room.room_status }}</td>
                     <td><button @click="openRoomEditModal(room)">Edit</button> 
@@ -315,9 +314,10 @@
               <form @submit.prevent="saveRoom">
                 <div class="modal-body">
                   <div class="form-group">
-                    <label for="image">Room Image</label>
-                    <input type="file" ref="roomImageInput" @change="handleRoomImageUpload" class="form-control-file" required>
-                  </div>
+    <label for="image">Room Images</label>
+    <input type="file" ref="roomImageInput" @change="handleRoomImageUpload" class="form-control-file" multiple required>
+</div>
+
 
                   <div class="form-row">
                     <div class="form-group col-md-6">
@@ -333,11 +333,11 @@
                       <input type="number" class="form-control" placeholder="Downpayment" v-model="downpayment" required>
                     </div>
                     <div class="form-group col-md-6">
-      <label for="packs">Number of Packs</label>
+      <label for="packs">Number of Pax</label>
       <select class="form-control" v-model="packs">
-        <option value="3">3 Packs</option>
-        <option value="4">4 Packs</option>
-        <option value="6">6 Packs</option>
+        <option value="3">3 Pax</option>
+        <option value="4">4 Pax</option>
+        <option value="6">6 Pax</option>
       </select>
     </div>
                   </div>

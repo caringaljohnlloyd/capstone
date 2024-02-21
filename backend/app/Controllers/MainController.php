@@ -19,7 +19,8 @@ use App\Models\OrdersModel;
 use App\Models\AuditModel;
 use App\Models\StaffModel;
 use App\Models\NotificationModel;
-
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
 
 
@@ -308,8 +309,6 @@ public function getStaff()
             return $this->respond(['message' => 'Booking failed'], 500);
         }
     }
-    
-
 
     public function getDataShop()
     {
@@ -367,17 +366,22 @@ public function getStaff()
             if (!preg_match('/[A-Za-z]/', $password) || !preg_match('/[0-9]/', $password) || !preg_match('/[^A-Za-z0-9]/', $password)) {
                 return $this->respond(["error" => "Password must contain at least one letter, one number, and one special character"], 400);
             }
-
+            $verificationToken = bin2hex(random_bytes(32));
+            $tokenExpiry = date('Y-m-d H:i:s', strtotime('+2 minutes'));
             $data = [
                 'name' => $json->name,
                 'email' => $email,
                 'password' => password_hash($password, PASSWORD_BCRYPT),
                 'token' => $token,
-                'status' => 'active',
+                'status' => 'inactive',
                 'role' => 'user',
+                'ver_token' => $verificationToken,
+                'expiry' => $tokenExpiry,
             ];
 
             $u = $userModel->save($data);
+            $emailController = new \App\Controllers\EmailController();
+            $emailController->sendVerificationEmail($data);
             if ($u) {
                 return $this->respond(['msg' => 'Registered Successfully', 'token' => $token]);
             } else {
@@ -385,6 +389,7 @@ public function getStaff()
             }
         }
     }
+    
 
 
     public function verification($length)

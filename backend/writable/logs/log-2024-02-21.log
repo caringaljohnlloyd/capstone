@@ -1,0 +1,51 @@
+CRITICAL - 2024-02-21 05:16:14 --> Undefined property: stdClass::$address
+in APPPATH\Controllers\MainController.php on line 376.
+ 1 APPPATH\Controllers\MainController.php(376): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$address', 'C:\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php', 376)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->register()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-02-21 05:17:22 --> Undefined property: stdClass::$role
+in APPPATH\Controllers\MainController.php on line 379.
+ 1 APPPATH\Controllers\MainController.php(379): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$role', 'C:\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php', 379)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->register()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-02-21 05:17:50 --> Undefined property: stdClass::$role
+in APPPATH\Controllers\MainController.php on line 379.
+ 1 APPPATH\Controllers\MainController.php(379): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$role', 'C:\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php', 379)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->register()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-02-21 05:22:08 --> Undefined array key "last_name"
+in APPPATH\Controllers\EmailController.php on line 67.
+ 1 APPPATH\Controllers\EmailController.php(67): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "last_name"', 'C:\\laragon\\www\\capstone\\backend\\app\\Controllers\\EmailController.php', 67)
+ 2 APPPATH\Controllers\MainController.php(389): App\Controllers\EmailController->sendVerificationEmail([...])
+ 3 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->register()
+ 4 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 5 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-02-21 05:33:18 --> Undefined array key "last_name"
+in APPPATH\Controllers\EmailController.php on line 67.
+ 1 APPPATH\Controllers\EmailController.php(67): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "last_name"', 'C:\\laragon\\www\\capstone\\backend\\app\\Controllers\\EmailController.php', 67)
+ 2 APPPATH\Controllers\MainController.php(384): App\Controllers\EmailController->sendVerificationEmail([...])
+ 3 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->register()
+ 4 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 5 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-02-21 05:36:24 --> Undefined array key "last_name"
+in APPPATH\Controllers\EmailController.php on line 67.
+ 1 APPPATH\Controllers\EmailController.php(67): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "last_name"', 'C:\\laragon\\www\\capstone\\backend\\app\\Controllers\\EmailController.php', 67)
+ 2 APPPATH\Controllers\MainController.php(384): App\Controllers\EmailController->sendVerificationEmail([...])
+ 3 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->register()
+ 4 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 5 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\public\\index.php')

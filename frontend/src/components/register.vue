@@ -141,7 +141,8 @@ return {
         this.$refs.registerForm.reset();
         this.$emit('data-saved');
         this.getInfo();
-           }catch (error) {
+        
+          } catch (error) {
         if (error.response && error.response.data && error.response.data.error) {
           this.errorMessage = error.response.data.error;
           setTimeout(() => {

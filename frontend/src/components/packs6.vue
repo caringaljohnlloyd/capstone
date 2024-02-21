@@ -51,7 +51,7 @@
                               :src="require('@/assets/img/' + room.image)" alt="" />            
                   <small
                   class="position-absolute start-0 top-100 translate-middle-y bg-primary text-white rounded py-1 px-3 ms-4"
-                  >Php.{{ room.price }} 
+                  >Php.{{ room.price }} per head
               |   500 {{ room.downpayment }}</small
                 > 
                 

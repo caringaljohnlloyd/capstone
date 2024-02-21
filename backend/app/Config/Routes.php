@@ -65,6 +65,9 @@ $routes->get('getNotif/(:num)', 'MainController::notif/$1');
 $routes->get('/pack3','MainController::pack3');
 $routes->get('/pack4','MainController::pack4');
 $routes->get('/pack6','MainController::pack6');
+$routes->match(['post','get'],'/sendVerificationEmail', 'EmailController::sendVerificationEmail');
+$routes->match(['post','get'],'/resendVerificationEmail', 'EmailController::resendVerificationEmail');
+$routes->get('/verify','EmailController::verify_email');
 
 
 $routes->group('api', ['namespace' => 'App\Controllers'], function ($routes) {

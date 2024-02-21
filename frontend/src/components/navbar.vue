@@ -55,27 +55,27 @@
                   :class="{ active: $route.path === '/service' }">Services</router-link>
                 <router-link to="/shop" class="nav-item nav-link"
                   :class="{ active: $route.path === '/shop' }">Shop</router-link>
-                <button type="button" class="btn btn-primary" @click="showPackSelectionModal">Rooms</button>
+                  <router-link to="/room" class="nav-item nav-link"
+                  :class="{ active: $route.path === '/room' }">Rooms</router-link>
+                <!-- <button type="button" class="btn text-white" @click="showPackSelectionModal">Rooms    </button>    
 
                 <div v-if="packSelectionModalVisible" class="modal" tabindex="-1" role="dialog" style="display: block;">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Select Packs</h5>
+                <h5 class="modal-title">Select Pax</h5>
                 <button type="button" class="close" @click="closePackSelectionModal">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <!-- Pack selection form -->
                 <form @submit.prevent="savePackSelection">
                     <div class="form-group">
-                        <label for="numberOfPacks">Number of Packs</label>
-                        <!-- Router links for different number of packs -->
+                        <label for="numberOfPacks">Number of Pax</label>
                         <div class="pack-links">
-                             | <router-link v-if="selectedPacks !== 3" :to="{ name: 'packs3', params: { packs: 3 }}">3 Packs</router-link> | 
-                            <router-link v-if="selectedPacks !== 4" :to="{ name: 'packs4', params: { packs: 4 }}">4 Packs</router-link> | 
-                            <router-link v-if="selectedPacks !== 6" :to="{ name: 'packs6', params: { packs: 6 }}">6 Packs</router-link> |
+                             | <router-link v-if="selectedPacks !== 3" :to="{ name: 'packs3', params: { packs: 3 }}">3 Pax</router-link> | 
+                            <router-link v-if="selectedPacks !== 4" :to="{ name: 'packs4', params: { packs: 4 }}">4 Pax</router-link> | 
+                            <router-link v-if="selectedPacks !== 6" :to="{ name: 'packs6', params: { packs: 6 }}">6 Pax</router-link> |
                         </div>
                     </div>
                 </form>
@@ -83,7 +83,7 @@
            
         </div>
     </div>
-</div>
+</div> -->
 
 
                 <div class="nav-item dropdown">

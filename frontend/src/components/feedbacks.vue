@@ -38,40 +38,39 @@
 </style>
 <script>
     import Top from '@/components/Top.vue';
-    import axios from 'axios'
+    import axios from 'axios';
+
     export default {
-        name:
-        'testimonials',
+        name: 'testimonials',
         components: {
             Top
-
         },
         data() {
             return {
                 feed: [],
                 name: [],
+                feedbackSent: false // Add feedbackSent property
             }
         },
-        mounted() {
-            this.getFeed();
-            this.getData();
-            this.getName();
+        async mounted() {
+            await this.getFeed(); // Wait for getFeed to complete
         },
         methods: {
-            async getFeed(){
-                const[g, n] = await Promise.all([axios.get("/getFeedback"), axios.get("/getData")]);
-                this.feed = g.data;
-                this.name = n.data;
+            async getFeed() {
+                try {
+                    const [feedbackResponse, dataResponse] = await Promise.all([
+                        axios.get("/getFeedback"),
+                        axios.get("/getData")
+                    ]);
+                    this.feed = feedbackResponse.data;
+                    this.name = dataResponse.data;
+                } catch (error) {
+                    console.error("Error fetching data:", error);
+                }
             },
-            getName(g){
-                return this.name.find(n => n.id === g.id) || {};
+            getName(feed) {
+                return this.name.find(n => n.id === feed.id) || {};
             },
-            async getData(){
-                const response = await axios.get("/getData");
-                this.data = response.data;
-                this.numberOfClients = this.data.length;
-            },
-
         }
     }
 </script>
