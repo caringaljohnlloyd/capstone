@@ -1,0 +1,14 @@
+CRITICAL - 2024-02-27 04:31:12 --> Too few arguments to function App\Controllers\MainController::getRoom(), 0 passed in C:\laragon\www\capstone\backend\system\CodeIgniter.php on line 942 and exactly 1 expected
+in APPPATH\Controllers\MainController.php on line 202.
+ 1 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->getRoom()
+ 2 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 3 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-02-27 04:31:16 --> Too few arguments to function App\Controllers\MainController::getRoom(), 0 passed in C:\laragon\www\capstone\backend\system\CodeIgniter.php on line 942 and exactly 1 expected
+in APPPATH\Controllers\MainController.php on line 202.
+ 1 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->getRoom()
+ 2 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 3 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\public\\index.php')

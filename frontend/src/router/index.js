@@ -61,11 +61,13 @@ const routes = [
 
   },
   {
-  path: '/room',
-  component: Room,
-  meta: { requiresAuth: true, role: 'user' }
-
-},
+    path: '/rooms/total_pax/:packs?', 
+    name: 'RoomsWithTotalPax',
+    component: Room,
+    meta: { requiresAuth: true, role: 'user' }
+  },
+  
+  
 {
   path: '/shop',
   component: Shop,

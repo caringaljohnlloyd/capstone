@@ -181,6 +181,7 @@ export default {
     return {
       feed: [],
       room: [],
+      packs:[],
     };
   },
   mounted() {
@@ -200,9 +201,13 @@ export default {
       return this.name.find((n) => n.id === g.id) || {};
     },
     async getRoom() {
-      const r = await axios.get("/getRoom");
-      this.room = r.data;
-    },
+  try {
+    const response = await axios.get(`/rooms/total_pax/${this.packs}`);
+    this.room = response.data; 
+  } catch (error) {
+    console.error('Error fetching rooms:', error);
+  }
+},
     redirectToBooking() {
       this.$router.push("/booking");
     },

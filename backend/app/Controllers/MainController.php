@@ -175,36 +175,164 @@ public function getStaff()
     
         return $this->respond($data, 200);
     }
-    public function pack3()
+    // public function pack3()
+    // {
+    //     $f = new RoomModel();
+    
+    //     $data = $f->where('packs', 3)->findAll();
+    
+    //     return $this->respond($data, 200);
+    // }
+    // public function pack4()
+    // {
+    //     $f = new RoomModel();
+    
+    //     $data = $f->where('packs', 4)->findAll();
+    
+    //     return $this->respond($data, 200);
+    // }
+    // public function pack6()
+    // {
+    //     $f = new RoomModel();
+    
+    //     $data = $f->where('packs', 6)->findAll();
+    
+    //     return $this->respond($data, 200);
+    // }
+
+    
+
+    public function getRoomByTotalPax($targetPacks)
     {
-        $f = new RoomModel();
+        
+        $roomModel = new RoomModel();
+        $allRooms = $roomModel->findAll();
     
-        $data = $f->where('packs', 3)->findAll();
+        $totalPacks = array_sum(array_column($allRooms, 'packs'));
     
-        return $this->respond($data, 200);
+        if ($targetPacks > $totalPacks) {
+            return $this->respond([], 200);
+        }
+    
+        $combination = [];
+        $this->findRoomCombination($allRooms, $targetPacks, 0, 0, $totalPacks, $combination);
+    
+        if (empty($combination)) {
+            return $this->respond([], 200);
+        }
+    
+        $roomIds = [];
+        foreach ($combination as $packs) {
+            $rooms = $roomModel->where('packs', $packs)->findAll();
+            foreach ($rooms as $room) {
+                $roomIds[] = $room['room_id'];
+            }
+        }
+    
+        $filteredRooms = $roomModel->whereIn('room_id', $roomIds)->findAll();
+    
+        return $this->respond($filteredRooms, 200);
     }
-    public function pack4()
+
+    
+    
+    private function findRoomCombination($rooms, $targetPacks, $currentIndex, $currentPacks, $totalPacks, &$combination)
     {
-        $f = new RoomModel();
+        if ($currentPacks == $targetPacks) {
+            return true;
+        }
     
-        $data = $f->where('packs', 4)->findAll();
+        if ($currentIndex >= count($rooms) || $currentPacks > $targetPacks || $currentPacks > $totalPacks) {
+            return false;
+        }
     
-        return $this->respond($data, 200);
+        for ($i = $currentIndex; $i < count($rooms); $i++) {
+            $newPacks = $currentPacks + $rooms[$i]['packs'];
+            if ($newPacks <= $targetPacks && $this->findRoomCombination($rooms, $targetPacks, $i + 1, $newPacks, $totalPacks, $combination)) {
+                $combination[] = $rooms[$i]['packs'];
+                return true;
+            }
+        }
+    
+        return false;
     }
-    public function pack6()
-    {
-        $f = new RoomModel();
     
-        $data = $f->where('packs', 6)->findAll();
     
-        return $this->respond($data, 200);
-    }
+
+    // public function getRoomByTotalPax($packs)
+    // {
+    //     $roomModel = new RoomModel();
+    
+    //     $filteredRooms = $roomModel->where('packs', $packs)->findAll();
+    
+    //     if (!empty($filteredRooms)) {
+    //         return $this->response->setStatusCode(200)->setJSON($filteredRooms);
+    //     } else {
+        
+    // }
+    
+    
+// public function getRoomByTotalPax($packs)
+// {
+//     $room = new RoomModel();
+//     $allRooms = $room->findAll();
+//     $filteredRooms = [];
+
+//     $index = 0;
+
+//     do {
+//         $currentRoom = $allRooms[$index];
+
+//         if ($currentRoom->packs == $packs) {
+//             $filteredRooms[] = $currentRoom;
+//         }
+
+//         $index++;
+
+//     } while ($index < count($allRooms));
+
+//     return $this->respond($filteredRooms, 200);
+// }
+
+// public function getRoomByTotalPax($packs)
+// {
+//     $room = new RoomModel();
+//     $allRooms = $room->findAll();
+//     var_dump($allRooms); // Debugging output
+//     $filteredRooms = $this->findComb($allRooms, $packs);
+//     var_dump($filteredRooms); // Debugging output
+//     return $this->respond($filteredRooms, 200);
+// }
+
+// // Define the findComb method
+// protected function findComb($rooms, $packs)
+// {
+//     $filteredRooms = [];
+
+//     foreach ($rooms as $room) {
+//         // Check if $room is an object before accessing its properties
+//         if (is_object($room) && property_exists($room, 'packs') && $room->packs == $packs) {
+//             $filteredRooms[] = $room;
+//         }
+//     }
+
+//     return $filteredRooms;
+// }
+
+
+
+    //pag di gumana, kaya yan next sem hahaha
+    // 😭😭😭😭
+    //try nga kung eerror
+
     public function getRoom()
     {
         $room = new RoomModel();
         $data = $room->findAll();
         return $this->respond($data, 200);
     }
+
+
     public function del()
     {
         $json = $this->request->getJSON();

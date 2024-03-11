@@ -68,6 +68,7 @@ $routes->get('/pack6','MainController::pack6');
 $routes->match(['post','get'],'/sendVerificationEmail', 'EmailController::sendVerificationEmail');
 $routes->match(['post','get'],'/resendVerificationEmail', 'EmailController::resendVerificationEmail');
 $routes->get('/verify','EmailController::verify_email');
+$routes->get('/rooms/total_pax/(:num)', 'MainController::getRoomByTotalPax/$1');
 
 
 $routes->group('api', ['namespace' => 'App\Controllers'], function ($routes) {
