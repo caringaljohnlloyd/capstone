@@ -147,10 +147,6 @@
               <form @submit.prevent="saveShop('add')" enctype="multipart/form-data">
   <div class="modal-body">
     <!-- Your form inputs -->
-    <div class="form-group">
-      <label for="prod_image">Product Image</label>
-      <input type="file" ref="imageInput" @change="handleImageUpload" class="form-control" required />
-    </div>
 
     <div class="form-group">
       <label for="prod_name">Product Name</label>
@@ -182,6 +178,8 @@
           {{ successMessage }}
         </div>
       </div>
+
+
       <div class="row">
         <div class="col-12">
           <div class="card card-default">
@@ -437,6 +435,72 @@
        
       </div>
 
+
+
+      <div class="row">
+        <!-- Table Product -->
+        <div class="col-12">
+          <div class="card card-default">
+            <div class="card-header">
+              <h2>Swimming Inventory</h2>
+
+            </div>
+            <div class="card-body">
+              <table id="productsTable" class="table table-hover table-product" style="width:100%">
+                <thead>
+                  <tr>
+                    <th>Enroll Id</th>
+                    <th>Account Id</th>
+                    <th>FullName</th>
+                    <th>Age</th>
+                    <th>Contact Number</th>
+                    <th>Experience</th>
+                    <th>Lesson Date</th>
+                    <th>Action</th>
+
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="enroll in enroll">
+                    <td>{{ enroll.enroll_id }}</td>
+                    <td>{{ enroll.id }}</td>
+                    <td>{{ enroll.fullname }}</td>
+                    <td>{{ enroll.age }}</td>
+                    <td>{{ enroll.contact_number }}</td>
+                    <td>{{ enroll.experience }}</td>
+                    <td>{{ enroll.lesson_date }}</td>
+                    <td>{{ enroll.enrollment_status }}</td>
+                    <td>
+                      <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          Actions
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                          <a class="dropdown-item" @click="markthisPaid(enroll.enroll_id)">Paid</a>
+                          <a class="dropdown-item" @click="acceptenrolling(enroll.enroll_id)">Confirm</a>
+                          <a class="dropdown-item" @click="declineenrolling(enroll.enroll_id)">Decline Enroll</a>
+                        </div>
+                      </div>
+                    </td>
+
+                  </tr>
+                </tbody>
+              </table>
+              <!-- Quantity Modal -->
+
+              <!-- Success Message -->
+              <div v-if="successMessage" class="alert alert-success" role="alert">
+                {{ successMessage }}
+              </div>
+            </div>
+          </div>
+        </div>
+       
+      </div>
+
+
+
       <div class="row">
     <!-- Table Product -->
     <div class="col-12">
@@ -538,6 +602,7 @@ export default {
       editedInfo: null,
       room: [],
       book: [],
+      enroll:[],
       infos: [],
       shop: [],
       addModalVisible: false,
@@ -575,6 +640,7 @@ export default {
     this.getInfo();
     this.getRoom();
     this.getbook();
+    this.getenroll();
     this.fetchOrdersForAllUsers();  
 
   },
@@ -613,6 +679,23 @@ export default {
     }
   } catch (error) {
     console.error('Error declining booking:', error);
+  }
+},
+async declineenrolling(enroll_id) {
+  try {
+    const response = await axios.post(`/api/decline-enroll/${enroll_id}`);
+
+    if (response.status === 200) {
+      this.showSuccessNotification(`Enrolling ${enroll_id} Declined`);
+      this.getenroll();
+   
+
+      this.$emit('data-saved');
+    } else {
+      console.error('Failed to decline enroll:', response.data.message);
+    }
+  } catch (error) {
+    console.error('Error declining enroll:', error);
   }
 },
 
@@ -741,6 +824,7 @@ async saveRoomEdit() {
         console.error(error);
       }
     },
+
     async markAsPaid(booking_id) {
       try {
         const response = await axios.post(`/mark-as-paid/${booking_id}`);
@@ -757,6 +841,23 @@ async saveRoomEdit() {
         console.error('Error marking as paid:', error);
       }
     },
+    async markthisPaid(enroll_id) {
+      try {
+        const response = await axios.post(`/mark-this-paid/${enroll_id}`);
+
+        if (response.status === 200) {
+          this.showSuccessNotification(`enrollment ${enroll_id} Marked this Paid`);
+          this.getbook();
+
+          this.$emit('data-saved');
+        } else {
+          console.error('Failed to mark this paid:', response.data.message);
+        }
+      } catch (error) {
+        console.error('Error marking this paid:', error);
+      }
+    },
+
     async acceptBooking(booking_id) {
       try {
         const response = await axios.post(`/accept-booking/${booking_id}`);
@@ -774,6 +875,23 @@ async saveRoomEdit() {
       }
     },
 
+    async acceptenrolling(enroll_id) {
+      try {
+        const response = await axios.post(`/accept-enrolling/${enroll_id}`);
+
+        if (response.status === 200) {
+          const updatedEnrollingId = response.data.enroll_id;
+          this.showSuccessNotification(`Enrolling ${updatedEnrollingId} Accepted`);
+          this.getenroll();
+          this.$emit('data-saved');
+        } else {
+          console.error('Failed to accept enrolling:', response.data.message);
+        }
+      } catch (error) {
+        console.error('Error accepting enrolling:', error);
+      }
+    },
+
     async getbook() {
       const b = await axios.get("/getbook");
       this.book = b.data;
@@ -784,7 +902,10 @@ async saveRoomEdit() {
       this.getbook();
 
     },
-
+    async getenroll() {
+      const b = await axios.get("/getenroll");
+      this.enroll = b.data;
+    },
     navigateToAuditHistory(info) {
       const shopId = info.shop_id;
       this.$router.push({ name: 'auditHistory', params: { shopId } });

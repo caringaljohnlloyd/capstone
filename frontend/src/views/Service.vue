@@ -23,7 +23,7 @@
 									</a>
 								</li>
 								<li class="breadcrumb-item text-white active" aria-current="page">
-									Contact
+									contact_number
 								</li>
 							</ol>
 						</nav>
@@ -35,6 +35,14 @@
 	<!-- Page Header End -->
 	<!-- Service Start -->
 	<div class="container-xxl py-5">
+		        <!-- Enrollment success/error message -->
+						<div class="row justify-content-center mt-3">
+            <div class="col-lg-8">
+                <div v-if="enrollmentMessage" class="alert" :class="{'alert-success': isSuccessMessage, 'alert-danger': !isSuccessMessage}">
+                    {{ enrollmentMessage }}
+                </div>
+            </div>
+        </div>
 		<div class="container">
 			<div class="text-center wow fadeInUp" data-wow-delay="0.1s">
 				<h6 class="section-title text-center text-primary text-uppercase">
@@ -92,24 +100,23 @@
 			<br>
 			<div class="row g-4">
 				<div class="col-lg-6 col-md-6 wow fadeInUp" data-wow-delay="0.4s">
-					<a class="service-item rounded" href="">
-						<div class="service-icon bg-transparent border rounded p-1">
-							<div class="w-100 h-100 border rounded d-flex align-items-center justify-content-center">
-								<i class="fa fa-swimmer fa-2x text-primary">
-								</i>
-							</div>
-						</div>
-						<h5 class="mb-3">
-							Swimming Lesson
-						</h5>
-						<p class="text-body mb-0">
-							"Dive into a world of aqua adventures at our resort's Swimming Lessons!
-							Whether you're a beginner looking to conquer the waters or an experienced
-							swimmer seeking to refine your skills, our certified instructors are here
-							to guide you through an exciting and educational journey. "
-						</p>
-					</a>
-				</div>
+					<a class="service-item rounded" @click="openAddRoomModal">
+    <div class="service-icon bg-transparent border rounded p-1">
+        <div class="w-100 h-100 border rounded d-flex align-items-center justify-content-center">
+            <i class="fa fa-swimmer fa-2x text-primary"></i>
+        </div>
+    </div>
+    <h5 class="mb-3">Swimming Lesson</h5>
+    <p class="text-body mb-0">
+        "Dive into a world of aqua adventures at our resort's Swimming Lessons!
+        Whether you're a beginner looking to conquer the waters or an experienced
+        swimmer seeking to refine your skills, our certified instructors are here
+        to guide you through an exciting and educational journey."
+    </p>
+</a>
+
+</div>
+
 				<div class="col-lg-6 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
 					<a class="service-item rounded" href="">
 						<div class="service-icon bg-transparent border rounded p-1">
@@ -163,51 +170,178 @@
 		<i class="bi bi-arrow-up">
 		</i>
 	</a>
+	<div class="col-12">
+		<div class="modal" v-if="isAddRoomModalOpen" tabindex="-1" role="dialog" style="display: block;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Enrollment Form</h5>
+                <button type="button" class="close" @click="closeAddRoomModal">&times;</button>
+            </div>
+            <div class="modal-body">
+							<form class="enrollment-form" @submit.prevent="save">
+                    <div class="form-group">
+                        <label for="fullname">Full Name:</label>
+                        <input type="text" class="form-control" id="fullname" v-model="fullName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="contact_number">Contact Number:</label>
+                        <input type="tel" class="form-control" id="contact_number" v-model="contact_number" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="age">Age:</label>
+                        <input type="number" class="form-control" id="age" v-model="age" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="experience">Swimming Experience:</label>
+                        <textarea class="form-control" id="experience" v-model="experience" rows="3" required></textarea>
+                    </div>
+										<div class="form-group">
+    <label for="lesson_date">Select Lesson Date:</label>
+    <select class="form-control" id="lesson_date" v-model="lessonDate" required>
+        <option value="" disabled>Select a date</option>
+        <option value="2024-03-17">March 17, 2024</option>
+        <option value="2024-03-18">March 18, 2024</option>
+        <!-- Add more options as needed -->
+    </select>
+</div>
+<br>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+    </div>
 </template>
 <style>
 	@import '@/assets/css/bootstrap.min.css'; @import '@/assets/css/style.css';
 	.service { background-image: url('~@/assets/img/pool4.jpg'); background-size:
 	cover; background-repeat: no-repeat; background-position: center center;
 	width: 100%; height: 338px; }
+
+
+	    /* Form styling */
+			.enrollment-form {
+        max-width: 400px;
+        margin: 0 auto;
+    }
+    .enrollment-form label {
+        margin-bottom: 0.5rem;
+        font-weight: bold;
+    }
+    .enrollment-form input[type="text"],
+    .enrollment-form input[type="email"],
+    .enrollment-form input[type="tel"],
+    .enrollment-form input[type="number"],
+    .enrollment-form textarea {
+        width: 100%;
+        padding: 0.5rem;
+        margin-bottom: 1rem;
+        border: 1px solid #ced4da;
+        border-radius: 0.25rem;
+    }
+    .enrollment-form textarea {
+        resize: vertical; /* Allow vertical resizing */
+    }
+    .enrollment-form button[type="submit"] {
+        display: block;
+        width: 100%;
+        padding: 0.75rem;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 0.25rem;
+        cursor: pointer;
+    }
 </style>
 <script>
-	import Top from '@/components/Top.vue';
-	import navbar from '@/components/navbar.vue';
-	import End from '@/components/End.vue';
+    import Top from '@/components/Top.vue';
+    import navbar from '@/components/navbar.vue';
+    import End from '@/components/End.vue';
     import feedbacks from '@/components/feedbacks.vue';
-	import spinner from '@/components/spinner.vue';
+    import spinner from '@/components/spinner.vue';
 
-	import axios from 'axios'
+    import axios from 'axios';
 
-	export
-default{
-		name:
-		'service',
-		components:{
-			spinner,Top,
-			navbar,
-			End,
+    export default {
+        name: 'service',
+        components: {
+            spinner,
+            Top,
+            navbar,
+            End,
             feedbacks
-		},
-		data(){
-			return {
-				feed: [],
-			}
-		},
-		mounted() {
-			this.getFeed();
-		},
+        },
+				data() {
+    return {
+        feed: [],
+        isAddRoomModalOpen: false, // Initialize as false
+        fullName: '',
+        contact_number: '',
+        age: '',
+        experience: '',
+        lessonDate: '', // Add lessonDate property
+        enrollmentMessage: '',
+        errorMessage: '', // Define errorMessage variable
+        isSuccessMessage: false // Initialize isSuccessMessage
+    };
+},
+methods: {
+    async save() {
+        try {
+            const id = sessionStorage.getItem("id");
+            const response = await axios.post("enroll", {
+                id: id,
+                fullName: this.fullName,
+                contact_number: this.contact_number,
+                age: this.age,
+                experience: this.experience,
+                lessonDate: this.lessonDate,
+            });
 
-		methods:{
-			async getFeed(){
-				const[g, n] = await Promise.all([axios.get("/getFeedback"), axios.get("/getData")]);
-				this.feed = g.data;
-				this.name = n.data;
-			},
-			getName(g){
-				return this.name.find(n => n.id === g.id) || {};
-			},
+            if (response.status === 200) {
+                this.enrollmentMessage = response.data.message;
+                this.isSuccessMessage = true; // Set to true for success message
+                // Clear form fields
+                this.fullName = "";
+                this.contact_number = "";
+                this.age = "";
+                this.experience = "";
+                this.lessonDate = "";
 
-		},
-	}
+                setTimeout(() => {
+                    // Clear the success message after 2 seconds
+                    this.enrollmentMessage = "";
+                    this.isSuccessMessage = false; // Reset success message flag
+                }, 2000);
+            }
+        } catch (error) {
+            console.error("Error submit", error);
+            if (error.response && error.response.status === 400) {
+                this.errorMessage = error.response.data.message || "Submit failed";
+            } else {
+                this.errorMessage = "Error submit";
+            }
+            this.enrollmentMessage = ""; // Clear enrollmentMessage on error
+        }
+    },
+
+            async getFeed() {
+                const [g, n] = await Promise.all([axios.get("/getFeedback"), axios.get("/getData")]);
+                this.feed = g.data;
+                this.name = n.data;
+            },
+            getName(g) {
+                return this.name.find(n => n.id === g.id) || {};
+            },
+            openAddRoomModal() {
+                this.isAddRoomModalOpen = true; // Set to true to open the modal
+            },
+            closeAddRoomModal() {
+                this.isAddRoomModalOpen = false; // Set to false to close the modal
+            },
+        }
+    }
 </script>

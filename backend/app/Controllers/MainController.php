@@ -21,7 +21,7 @@ use App\Models\StaffModel;
 use App\Models\NotificationModel;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
-
+use App\Models\EnrollmentModel;
 
 
 class MainController extends ResourceController
@@ -33,11 +33,47 @@ class MainController extends ResourceController
     protected $orderitems;
     protected $invoice;
 protected $cartModel;
+
+
+public function enroll()
+{
+    $json = $this->request->getJSON();
+
+    $data = [
+        'id' => $json->id,
+        'fullname' => $json->fullName,
+        'contact_number' => $json->contact_number,
+        'age' => $json->age,
+        'enrollment_status' => 'pending',
+        'experience' => $json->experience,
+        'lesson_date' => $json->lessonDate,
+    ];
+
+    $enrollment = new EnrollmentModel();
+    $r = $enrollment->save($data);
+
+    if ($r) {
+        // Enrollment successful, return a success response with a message
+        return $this->respond(['message' => 'Enrollment successful'], 200);
+    } else {
+        // Enrollment failed, return an error response with a message
+        return $this->respond(['message' => 'Failed to enroll'], 500);
+    }
+}
+
+
+
+
+
+
+
+
+
     public function index()
     {
         //
     }
- 
+    
     public function deleteFeedback($feedId)
     {
         $feedbackModel = new FeedbackModel();
@@ -361,7 +397,19 @@ public function getStaff()
 
     return $this->respond($result, 200);
 }
+public function getenroll()
+{
+    $enrollmentModel = new EnrollmentModel();
+    
+    $result = $enrollmentModel
+        ->select('enrollment.*, user.*')
+        ->join('user', 'user.id = enrollment.id') // Assuming 'id' is the foreign key in the 'enrollment' table 
+        ->where('enrollment.enrollment_status !=', 'paid')
+        ->where('enrollment.enrollment_status !=', 'declined')
+        ->findAll();
 
+    return $this->respond($result, 200);
+}
     
 
     public function markAsPaid($booking_id)
@@ -390,6 +438,26 @@ public function getStaff()
             return $this->respond(['message' => 'Booking not found'], 404);
         }
     }   
+    public function markthisPaid($enroll_id)
+    {
+        $enrollmentModel = new EnrollmentModel();
+    
+        $enroll = $enrollmentModel->find($enroll_id);
+    
+        if ($enroll) {
+            // Update the enrollment status to 'paid'
+            $updatedEnroll = $enrollmentModel->update($enroll_id, ['enrollment_status' => 'paid']);
+    
+            if ($updatedEnroll) {
+                // Return the response
+                return $this->respond(['message' => 'Enrollment marked as paid successfully', 'enroll_id' => $enroll_id], 200);
+            } else {
+                return $this->respond(['message' => 'Failed to update enrollment status'], 500);
+            }
+        } else {
+            return $this->respond(['message' => 'Enrollment not found'], 404);
+        }
+    }
     public function booking()
     {
         $json = $this->request->getJSON();
@@ -1338,7 +1406,79 @@ public function deleteShop($shop_id = null)
             return $this->respond(['message' => 'Booking not found'], 404);
         }
     }
+
+    public function acceptEnrolling($enroll_id)
+    {
+        $enrollmentModel = new EnrollmentModel();
+        $notificationModel = new NotificationModel();
     
+        $enroll = $enrollmentModel->find($enroll_id);
+    
+        if ($enroll) {
+            // Check if the enrollment status is 'pending'
+            if ($enroll['enrollment_status'] === 'pending') {
+                // Update the enrollment status to 'accepted'
+                $updatedEnroll = $enrollmentModel->update($enroll_id, [
+                    'enrollment_status' => 'accepted',
+                    'message' => 'Enrollment accepted.'
+                ]);
+    
+                if ($updatedEnroll) {
+                    // Insert acceptance notification into the database
+                    $notificationData = [
+                        'id' => $enroll['id'],
+                        'message' => 'Your enrollment has been accepted.'
+                    ];
+                    $notificationModel->insert($notificationData);
+    
+                    // Return the response
+                    return $this->respond(['message' => 'Enrollment accepted successfully', 'enroll_id' => $enroll_id], 200);
+                } else {
+                    return $this->respond(['message' => 'Failed to accept enrollment'], 500);
+                }
+            } else {
+                return $this->respond(['message' => 'Cannot accept enrollment with the current status'], 400);
+            }
+        } else {
+            return $this->respond(['message' => 'Enrollment not found'], 404);
+        }
+    }
+    public function declineEnroll($enroll_id)
+    {
+        $enrollmentModel = new EnrollmentModel();
+        $notificationModel = new NotificationModel();
+    
+        $enroll = $enrollmentModel->find($enroll_id);
+    
+        if ($enroll) {
+            // Check if the enrollment status is 'pending'
+            if ($enroll['enrollment_status'] === 'pending') {
+                // Update the enrollment status to 'declined' and add a message
+                $updatedEnroll = $enrollmentModel->update($enroll_id, [
+                    'enrollment_status' => 'declined',
+                    'message' => 'Enrollment declined.'
+                ]);
+    
+                if ($updatedEnroll) {
+                    // Insert decline notification into the database
+                    $notificationData = [
+                        'id' => $enroll['id'],
+                        'message' => 'Your enrollment has been declined.'
+                    ];
+                    $notificationModel->insert($notificationData);
+    
+                    // Return the response
+                    return $this->respond(['message' => 'Enrollment declined successfully', 'enroll_id' => $enroll_id], 200);
+                } else {
+                    return $this->respond(['message' => 'Failed to decline enrollment'], 500);
+                }
+            } else {
+                return $this->respond(['message' => 'Cannot decline enrollment with the current status'], 400);
+            }
+        } else {
+            return $this->respond(['message' => 'Enrollment not found'], 404);
+        }
+    }
     
 }
 

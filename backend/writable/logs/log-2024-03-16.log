@@ -1,0 +1,517 @@
+CRITICAL - 2024-03-16 05:29:55 --> Undefined variable $userId
+in APPPATH\Controllers\MainController.php on line 45.
+ 1 APPPATH\Controllers\MainController.php(45): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $userId', 'C:\\Users\\PC\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php', 45)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->enroll()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-03-16 05:29:56 --> Undefined variable $userId
+in APPPATH\Controllers\MainController.php on line 45.
+ 1 APPPATH\Controllers\MainController.php(45): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $userId', 'C:\\Users\\PC\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php', 45)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->enroll()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-03-16 05:29:56 --> Undefined variable $userId
+in APPPATH\Controllers\MainController.php on line 45.
+ 1 APPPATH\Controllers\MainController.php(45): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $userId', 'C:\\Users\\PC\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php', 45)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->enroll()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-03-16 05:29:56 --> Undefined variable $userId
+in APPPATH\Controllers\MainController.php on line 45.
+ 1 APPPATH\Controllers\MainController.php(45): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $userId', 'C:\\Users\\PC\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php', 45)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->enroll()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-03-16 05:30:33 --> Undefined variable $userId
+in APPPATH\Controllers\MainController.php on line 45.
+ 1 APPPATH\Controllers\MainController.php(45): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $userId', 'C:\\Users\\PC\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php', 45)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->enroll()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-03-16 05:30:34 --> Undefined variable $userId
+in APPPATH\Controllers\MainController.php on line 45.
+ 1 APPPATH\Controllers\MainController.php(45): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $userId', 'C:\\Users\\PC\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php', 45)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->enroll()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-03-16 05:30:34 --> Undefined variable $userId
+in APPPATH\Controllers\MainController.php on line 45.
+ 1 APPPATH\Controllers\MainController.php(45): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $userId', 'C:\\Users\\PC\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php', 45)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->enroll()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-03-16 05:30:34 --> Undefined variable $userId
+in APPPATH\Controllers\MainController.php on line 45.
+ 1 APPPATH\Controllers\MainController.php(45): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $userId', 'C:\\Users\\PC\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php', 45)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->enroll()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-03-16 05:30:34 --> Undefined variable $userId
+in APPPATH\Controllers\MainController.php on line 45.
+ 1 APPPATH\Controllers\MainController.php(45): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $userId', 'C:\\Users\\PC\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php', 45)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->enroll()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-03-16 05:33:34 --> Undefined variable $userId
+in APPPATH\Controllers\MainController.php on line 45.
+ 1 APPPATH\Controllers\MainController.php(45): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $userId', 'C:\\Users\\PC\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php', 45)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->enroll()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-03-16 05:33:35 --> Undefined variable $userId
+in APPPATH\Controllers\MainController.php on line 45.
+ 1 APPPATH\Controllers\MainController.php(45): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $userId', 'C:\\Users\\PC\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php', 45)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->enroll()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-03-16 05:33:35 --> Undefined variable $userId
+in APPPATH\Controllers\MainController.php on line 45.
+ 1 APPPATH\Controllers\MainController.php(45): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $userId', 'C:\\Users\\PC\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php', 45)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->enroll()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-03-16 05:40:20 --> Undefined array key "email"
+in APPPATH\Controllers\MainController.php on line 45.
+ 1 APPPATH\Controllers\MainController.php(45): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "email"', 'C:\\Users\\PC\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php', 45)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->enroll()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-03-16 05:41:21 --> Undefined array key "email"
+in APPPATH\Controllers\MainController.php on line 45.
+ 1 APPPATH\Controllers\MainController.php(45): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "email"', 'C:\\Users\\PC\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php', 45)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->enroll()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-03-16 05:46:07 --> Undefined array key "email"
+in APPPATH\Controllers\MainController.php on line 45.
+ 1 APPPATH\Controllers\MainController.php(45): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "email"', 'C:\\Users\\PC\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php', 45)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->enroll()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-03-16 05:48:02 --> Undefined array key "email"
+in APPPATH\Controllers\MainController.php on line 45.
+ 1 APPPATH\Controllers\MainController.php(45): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "email"', 'C:\\Users\\PC\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php', 45)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->enroll()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-03-16 06:02:06 --> Undefined property: stdClass::$fullName
+in APPPATH\Controllers\MainController.php on line 54.
+ 1 APPPATH\Controllers\MainController.php(54): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$fullName', 'C:\\Users\\PC\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php', 54)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->enroll()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-03-16 06:02:14 --> Undefined property: stdClass::$fullName
+in APPPATH\Controllers\MainController.php on line 54.
+ 1 APPPATH\Controllers\MainController.php(54): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$fullName', 'C:\\Users\\PC\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php', 54)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->enroll()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-03-16 06:02:32 --> Undefined property: stdClass::$fullName
+in APPPATH\Controllers\MainController.php on line 54.
+ 1 APPPATH\Controllers\MainController.php(54): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$fullName', 'C:\\Users\\PC\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php', 54)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->enroll()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-03-16 06:02:37 --> Undefined property: stdClass::$fullName
+in APPPATH\Controllers\MainController.php on line 54.
+ 1 APPPATH\Controllers\MainController.php(54): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$fullName', 'C:\\Users\\PC\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php', 54)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->enroll()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-03-16 06:16:17 --> Undefined property: stdClass::$email
+in APPPATH\Controllers\MainController.php on line 45.
+ 1 APPPATH\Controllers\MainController.php(45): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$email', 'C:\\Users\\PC\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php', 45)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->enroll()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-03-16 06:16:55 --> Undefined property: stdClass::$email
+in APPPATH\Controllers\MainController.php on line 45.
+ 1 APPPATH\Controllers\MainController.php(45): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$email', 'C:\\Users\\PC\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php', 45)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->enroll()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-03-16 06:17:14 --> Undefined variable $user
+in APPPATH\Controllers\MainController.php on line 47.
+ 1 APPPATH\Controllers\MainController.php(47): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $user', 'C:\\Users\\PC\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php', 47)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->enroll()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-03-16 06:19:25 --> Undefined property: stdClass::$email
+in APPPATH\Controllers\MainController.php on line 45.
+ 1 APPPATH\Controllers\MainController.php(45): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$email', 'C:\\Users\\PC\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php', 45)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->enroll()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-03-16 06:19:42 --> Undefined property: stdClass::$email
+in APPPATH\Controllers\MainController.php on line 45.
+ 1 APPPATH\Controllers\MainController.php(45): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$email', 'C:\\Users\\PC\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php', 45)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->enroll()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-03-16 06:20:32 --> Undefined property: stdClass::$email
+in APPPATH\Controllers\MainController.php on line 48.
+ 1 APPPATH\Controllers\MainController.php(48): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$email', 'C:\\Users\\PC\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php', 48)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->enroll()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-03-16 06:22:11 --> Undefined property: stdClass::$email
+in APPPATH\Controllers\MainController.php on line 48.
+ 1 APPPATH\Controllers\MainController.php(48): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$email', 'C:\\Users\\PC\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php', 48)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->enroll()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-03-16 06:24:05 --> Undefined property: stdClass::$email
+in APPPATH\Controllers\MainController.php on line 48.
+ 1 APPPATH\Controllers\MainController.php(48): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$email', 'C:\\Users\\PC\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php', 48)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->enroll()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-03-16 06:24:13 --> Undefined property: stdClass::$email
+in APPPATH\Controllers\MainController.php on line 48.
+ 1 APPPATH\Controllers\MainController.php(48): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$email', 'C:\\Users\\PC\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php', 48)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->enroll()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-03-16 06:25:10 --> Undefined property: stdClass::$email
+in APPPATH\Controllers\MainController.php on line 48.
+ 1 APPPATH\Controllers\MainController.php(48): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$email', 'C:\\Users\\PC\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php', 48)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->enroll()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-03-16 06:25:21 --> Undefined property: stdClass::$email
+in APPPATH\Controllers\MainController.php on line 48.
+ 1 APPPATH\Controllers\MainController.php(48): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$email', 'C:\\Users\\PC\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php', 48)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->enroll()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-03-16 06:27:35 --> Undefined property: stdClass::$email
+in APPPATH\Controllers\MainController.php on line 48.
+ 1 APPPATH\Controllers\MainController.php(48): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$email', 'C:\\Users\\PC\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php', 48)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->enroll()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\public\\index.php')
+ERROR - 2024-03-16 06:31:22 --> mysqli_sql_exception: Not unique table/alias: 'user' in C:\Users\PC\laragon\www\capstone\backend\system\Database\MySQLi\Connection.php:306
+Stack trace:
+#0 C:\Users\PC\laragon\www\capstone\backend\system\Database\MySQLi\Connection.php(306): mysqli->query('SELECT `user`.`...', 0)
+#1 C:\Users\PC\laragon\www\capstone\backend\system\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `user`.`...')
+#2 C:\Users\PC\laragon\www\capstone\backend\system\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `user`.`...')
+#3 C:\Users\PC\laragon\www\capstone\backend\system\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT `user`.`...', Array, false)
+#4 C:\Users\PC\laragon\www\capstone\backend\system\Model.php(264): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\Users\PC\laragon\www\capstone\backend\system\BaseModel.php(662): CodeIgniter\Model->doFirst()
+#6 C:\Users\PC\laragon\www\capstone\backend\app\Controllers\MainController.php(51): CodeIgniter\BaseModel->first()
+#7 C:\Users\PC\laragon\www\capstone\backend\system\CodeIgniter.php(942): App\Controllers\MainController->enroll()
+#8 C:\Users\PC\laragon\www\capstone\backend\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+#9 C:\Users\PC\laragon\www\capstone\backend\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\Users\PC\laragon\www\capstone\backend\public\index.php(86): CodeIgniter\CodeIgniter->run()
+#11 C:\Users\PC\laragon\www\capstone\backend\system\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\lar...')
+#12 {main}
+CRITICAL - 2024-03-16 06:31:22 --> Not unique table/alias: 'user'
+in SYSTEMPATH\Database\BaseConnection.php on line 647.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT `user`.`id` as `id`
+FROM `user`
+JOIN `user` ON `user`.`id` = `enrollment`.`id`
+ LIMIT 1', [], false)
+ 2 SYSTEMPATH\Model.php(264): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH\BaseModel.php(662): CodeIgniter\Model->doFirst()
+ 4 APPPATH\Controllers\MainController.php(51): CodeIgniter\BaseModel->first()
+ 5 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->enroll()
+ 6 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 7 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\public\\index.php')
+ERROR - 2024-03-16 06:32:35 --> mysqli_sql_exception: Not unique table/alias: 'user' in C:\Users\PC\laragon\www\capstone\backend\system\Database\MySQLi\Connection.php:306
+Stack trace:
+#0 C:\Users\PC\laragon\www\capstone\backend\system\Database\MySQLi\Connection.php(306): mysqli->query('SELECT `user`.`...', 0)
+#1 C:\Users\PC\laragon\www\capstone\backend\system\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `user`.`...')
+#2 C:\Users\PC\laragon\www\capstone\backend\system\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `user`.`...')
+#3 C:\Users\PC\laragon\www\capstone\backend\system\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT `user`.`...', Array, false)
+#4 C:\Users\PC\laragon\www\capstone\backend\system\Model.php(264): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\Users\PC\laragon\www\capstone\backend\system\BaseModel.php(662): CodeIgniter\Model->doFirst()
+#6 C:\Users\PC\laragon\www\capstone\backend\app\Controllers\MainController.php(51): CodeIgniter\BaseModel->first()
+#7 C:\Users\PC\laragon\www\capstone\backend\system\CodeIgniter.php(942): App\Controllers\MainController->enroll()
+#8 C:\Users\PC\laragon\www\capstone\backend\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+#9 C:\Users\PC\laragon\www\capstone\backend\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\Users\PC\laragon\www\capstone\backend\public\index.php(86): CodeIgniter\CodeIgniter->run()
+#11 C:\Users\PC\laragon\www\capstone\backend\system\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\lar...')
+#12 {main}
+CRITICAL - 2024-03-16 06:32:35 --> Not unique table/alias: 'user'
+in SYSTEMPATH\Database\BaseConnection.php on line 647.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT `user`.`id` as `id`
+FROM `user`
+JOIN `user` ON `user`.`id` = `enrollment`.`id`
+ LIMIT 1', [], false)
+ 2 SYSTEMPATH\Model.php(264): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH\BaseModel.php(662): CodeIgniter\Model->doFirst()
+ 4 APPPATH\Controllers\MainController.php(51): CodeIgniter\BaseModel->first()
+ 5 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->enroll()
+ 6 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 7 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\public\\index.php')
+ERROR - 2024-03-16 06:33:58 --> mysqli_sql_exception: Unknown column 'enrollment.user_id' in 'on clause' in C:\Users\PC\laragon\www\capstone\backend\system\Database\MySQLi\Connection.php:306
+Stack trace:
+#0 C:\Users\PC\laragon\www\capstone\backend\system\Database\MySQLi\Connection.php(306): mysqli->query('SELECT `user`.`...', 0)
+#1 C:\Users\PC\laragon\www\capstone\backend\system\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `user`.`...')
+#2 C:\Users\PC\laragon\www\capstone\backend\system\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `user`.`...')
+#3 C:\Users\PC\laragon\www\capstone\backend\system\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT `user`.`...', Array, false)
+#4 C:\Users\PC\laragon\www\capstone\backend\system\Model.php(264): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\Users\PC\laragon\www\capstone\backend\system\BaseModel.php(662): CodeIgniter\Model->doFirst()
+#6 C:\Users\PC\laragon\www\capstone\backend\app\Controllers\MainController.php(49): CodeIgniter\BaseModel->first()
+#7 C:\Users\PC\laragon\www\capstone\backend\system\CodeIgniter.php(942): App\Controllers\MainController->enroll()
+#8 C:\Users\PC\laragon\www\capstone\backend\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+#9 C:\Users\PC\laragon\www\capstone\backend\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\Users\PC\laragon\www\capstone\backend\public\index.php(86): CodeIgniter\CodeIgniter->run()
+#11 C:\Users\PC\laragon\www\capstone\backend\system\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\lar...')
+#12 {main}
+CRITICAL - 2024-03-16 06:33:58 --> Unknown column 'enrollment.user_id' in 'on clause'
+in SYSTEMPATH\Database\BaseConnection.php on line 647.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT `user`.`id` as `id`
+FROM `enrollment`
+LEFT JOIN `user` ON `user`.`id` = `enrollment`.`user_id`
+ LIMIT 1', [], false)
+ 2 SYSTEMPATH\Model.php(264): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH\BaseModel.php(662): CodeIgniter\Model->doFirst()
+ 4 APPPATH\Controllers\MainController.php(49): CodeIgniter\BaseModel->first()
+ 5 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->enroll()
+ 6 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 7 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\public\\index.php')
+ERROR - 2024-03-16 06:34:11 --> mysqli_sql_exception: Unknown column 'enrollment.user_id' in 'on clause' in C:\Users\PC\laragon\www\capstone\backend\system\Database\MySQLi\Connection.php:306
+Stack trace:
+#0 C:\Users\PC\laragon\www\capstone\backend\system\Database\MySQLi\Connection.php(306): mysqli->query('SELECT `user`.`...', 0)
+#1 C:\Users\PC\laragon\www\capstone\backend\system\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `user`.`...')
+#2 C:\Users\PC\laragon\www\capstone\backend\system\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `user`.`...')
+#3 C:\Users\PC\laragon\www\capstone\backend\system\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT `user`.`...', Array, false)
+#4 C:\Users\PC\laragon\www\capstone\backend\system\Model.php(264): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\Users\PC\laragon\www\capstone\backend\system\BaseModel.php(662): CodeIgniter\Model->doFirst()
+#6 C:\Users\PC\laragon\www\capstone\backend\app\Controllers\MainController.php(49): CodeIgniter\BaseModel->first()
+#7 C:\Users\PC\laragon\www\capstone\backend\system\CodeIgniter.php(942): App\Controllers\MainController->enroll()
+#8 C:\Users\PC\laragon\www\capstone\backend\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+#9 C:\Users\PC\laragon\www\capstone\backend\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\Users\PC\laragon\www\capstone\backend\public\index.php(86): CodeIgniter\CodeIgniter->run()
+#11 C:\Users\PC\laragon\www\capstone\backend\system\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\lar...')
+#12 {main}
+CRITICAL - 2024-03-16 06:34:11 --> Unknown column 'enrollment.user_id' in 'on clause'
+in SYSTEMPATH\Database\BaseConnection.php on line 647.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT `user`.`id` as `id`
+FROM `enrollment`
+LEFT JOIN `user` ON `user`.`id` = `enrollment`.`user_id`
+ LIMIT 1', [], false)
+ 2 SYSTEMPATH\Model.php(264): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH\BaseModel.php(662): CodeIgniter\Model->doFirst()
+ 4 APPPATH\Controllers\MainController.php(49): CodeIgniter\BaseModel->first()
+ 5 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->enroll()
+ 6 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 7 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\public\\index.php')
+ERROR - 2024-03-16 06:39:08 --> mysqli_sql_exception: Unknown column 'enrollment.user_id' in 'on clause' in C:\Users\PC\laragon\www\capstone\backend\system\Database\MySQLi\Connection.php:306
+Stack trace:
+#0 C:\Users\PC\laragon\www\capstone\backend\system\Database\MySQLi\Connection.php(306): mysqli->query('SELECT `user`.`...', 0)
+#1 C:\Users\PC\laragon\www\capstone\backend\system\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `user`.`...')
+#2 C:\Users\PC\laragon\www\capstone\backend\system\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `user`.`...')
+#3 C:\Users\PC\laragon\www\capstone\backend\system\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT `user`.`...', Array, false)
+#4 C:\Users\PC\laragon\www\capstone\backend\system\Model.php(264): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\Users\PC\laragon\www\capstone\backend\system\BaseModel.php(662): CodeIgniter\Model->doFirst()
+#6 C:\Users\PC\laragon\www\capstone\backend\app\Controllers\MainController.php(49): CodeIgniter\BaseModel->first()
+#7 C:\Users\PC\laragon\www\capstone\backend\system\CodeIgniter.php(942): App\Controllers\MainController->enroll()
+#8 C:\Users\PC\laragon\www\capstone\backend\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+#9 C:\Users\PC\laragon\www\capstone\backend\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\Users\PC\laragon\www\capstone\backend\public\index.php(86): CodeIgniter\CodeIgniter->run()
+#11 C:\Users\PC\laragon\www\capstone\backend\system\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\lar...')
+#12 {main}
+CRITICAL - 2024-03-16 06:39:08 --> Unknown column 'enrollment.user_id' in 'on clause'
+in SYSTEMPATH\Database\BaseConnection.php on line 647.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT `user`.`id` as `id`
+FROM `enrollment`
+JOIN `user` ON `user`.`id` = `enrollment`.`user_id`
+ LIMIT 1', [], false)
+ 2 SYSTEMPATH\Model.php(264): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH\BaseModel.php(662): CodeIgniter\Model->doFirst()
+ 4 APPPATH\Controllers\MainController.php(49): CodeIgniter\BaseModel->first()
+ 5 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->enroll()
+ 6 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 7 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\public\\index.php')
+ERROR - 2024-03-16 06:39:22 --> mysqli_sql_exception: Unknown column 'enrollment.user_id' in 'on clause' in C:\Users\PC\laragon\www\capstone\backend\system\Database\MySQLi\Connection.php:306
+Stack trace:
+#0 C:\Users\PC\laragon\www\capstone\backend\system\Database\MySQLi\Connection.php(306): mysqli->query('SELECT `user`.`...', 0)
+#1 C:\Users\PC\laragon\www\capstone\backend\system\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `user`.`...')
+#2 C:\Users\PC\laragon\www\capstone\backend\system\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `user`.`...')
+#3 C:\Users\PC\laragon\www\capstone\backend\system\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT `user`.`...', Array, false)
+#4 C:\Users\PC\laragon\www\capstone\backend\system\Model.php(264): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\Users\PC\laragon\www\capstone\backend\system\BaseModel.php(662): CodeIgniter\Model->doFirst()
+#6 C:\Users\PC\laragon\www\capstone\backend\app\Controllers\MainController.php(49): CodeIgniter\BaseModel->first()
+#7 C:\Users\PC\laragon\www\capstone\backend\system\CodeIgniter.php(942): App\Controllers\MainController->enroll()
+#8 C:\Users\PC\laragon\www\capstone\backend\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+#9 C:\Users\PC\laragon\www\capstone\backend\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\Users\PC\laragon\www\capstone\backend\public\index.php(86): CodeIgniter\CodeIgniter->run()
+#11 C:\Users\PC\laragon\www\capstone\backend\system\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\lar...')
+#12 {main}
+CRITICAL - 2024-03-16 06:39:22 --> Unknown column 'enrollment.user_id' in 'on clause'
+in SYSTEMPATH\Database\BaseConnection.php on line 647.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT `user`.`id` as `id`
+FROM `enrollment`
+JOIN `user` ON `user`.`id` = `enrollment`.`user_id`
+ LIMIT 1', [], false)
+ 2 SYSTEMPATH\Model.php(264): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH\BaseModel.php(662): CodeIgniter\Model->doFirst()
+ 4 APPPATH\Controllers\MainController.php(49): CodeIgniter\BaseModel->first()
+ 5 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->enroll()
+ 6 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 7 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\public\\index.php')
+ERROR - 2024-03-16 06:39:22 --> mysqli_sql_exception: Unknown column 'enrollment.user_id' in 'on clause' in C:\Users\PC\laragon\www\capstone\backend\system\Database\MySQLi\Connection.php:306
+Stack trace:
+#0 C:\Users\PC\laragon\www\capstone\backend\system\Database\MySQLi\Connection.php(306): mysqli->query('SELECT `user`.`...', 0)
+#1 C:\Users\PC\laragon\www\capstone\backend\system\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `user`.`...')
+#2 C:\Users\PC\laragon\www\capstone\backend\system\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `user`.`...')
+#3 C:\Users\PC\laragon\www\capstone\backend\system\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT `user`.`...', Array, false)
+#4 C:\Users\PC\laragon\www\capstone\backend\system\Model.php(264): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\Users\PC\laragon\www\capstone\backend\system\BaseModel.php(662): CodeIgniter\Model->doFirst()
+#6 C:\Users\PC\laragon\www\capstone\backend\app\Controllers\MainController.php(49): CodeIgniter\BaseModel->first()
+#7 C:\Users\PC\laragon\www\capstone\backend\system\CodeIgniter.php(942): App\Controllers\MainController->enroll()
+#8 C:\Users\PC\laragon\www\capstone\backend\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+#9 C:\Users\PC\laragon\www\capstone\backend\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\Users\PC\laragon\www\capstone\backend\public\index.php(86): CodeIgniter\CodeIgniter->run()
+#11 C:\Users\PC\laragon\www\capstone\backend\system\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\lar...')
+#12 {main}
+CRITICAL - 2024-03-16 06:39:22 --> Unknown column 'enrollment.user_id' in 'on clause'
+in SYSTEMPATH\Database\BaseConnection.php on line 647.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT `user`.`id` as `id`
+FROM `enrollment`
+JOIN `user` ON `user`.`id` = `enrollment`.`user_id`
+ LIMIT 1', [], false)
+ 2 SYSTEMPATH\Model.php(264): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH\BaseModel.php(662): CodeIgniter\Model->doFirst()
+ 4 APPPATH\Controllers\MainController.php(49): CodeIgniter\BaseModel->first()
+ 5 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->enroll()
+ 6 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 7 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-03-16 06:45:25 --> Undefined property: stdClass::$email
+in APPPATH\Controllers\MainController.php on line 48.
+ 1 APPPATH\Controllers\MainController.php(48): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$email', 'C:\\Users\\PC\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php', 48)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->enroll()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-03-16 06:45:37 --> Undefined property: stdClass::$email
+in APPPATH\Controllers\MainController.php on line 48.
+ 1 APPPATH\Controllers\MainController.php(48): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$email', 'C:\\Users\\PC\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php', 48)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->enroll()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-03-16 06:48:52 --> Undefined property: stdClass::$email
+in APPPATH\Controllers\MainController.php on line 48.
+ 1 APPPATH\Controllers\MainController.php(48): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$email', 'C:\\Users\\PC\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php', 48)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->enroll()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-03-16 09:57:06 --> There is no data to update.
+in SYSTEMPATH\BaseModel.php on line 930.
+ 1 SYSTEMPATH\BaseModel.php(930): CodeIgniter\Database\Exceptions\DataException::forEmptyDataset('update')
+ 2 SYSTEMPATH\Model.php(776): CodeIgniter\BaseModel->update([...], [])
+ 3 APPPATH\Controllers\MainController.php(449): CodeIgniter\Model->update('11', [...])
+ 4 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->markthisPaid('11')
+ 5 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 6 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-03-16 14:06:58 --> Undefined array key "enroll_status"
+in APPPATH\Controllers\MainController.php on line 1418.
+ 1 APPPATH\Controllers\MainController.php(1418): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "enroll_status"', 'C:\\Users\\PC\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php', 1418)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->declineEnroll('8')
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-03-16 14:07:09 --> Undefined array key "enroll_status"
+in APPPATH\Controllers\MainController.php on line 1418.
+ 1 APPPATH\Controllers\MainController.php(1418): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "enroll_status"', 'C:\\Users\\PC\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php', 1418)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->declineEnroll('8')
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-03-16 14:08:00 --> Undefined array key "book_id"
+in APPPATH\Controllers\MainController.php on line 1420.
+ 1 APPPATH\Controllers\MainController.php(1420): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "book_id"', 'C:\\Users\\PC\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php', 1420)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->declineEnroll('8')
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\public\\index.php')

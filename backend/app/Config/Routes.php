@@ -28,6 +28,7 @@ $routes->post('updateCartQuantity', 'MainController::updateCartQuantity');
 $routes->get('/getFeedback','MainController::getFeedback');
 $routes->post('booking','MainController::booking');
 $routes->get('/getbook','MainController::getbook');
+$routes->get('/getenroll','MainController::getenroll');
 $routes->post('/submit-rating','MainController::submitRating');
 $routes->post('/checkout', 'MainController::checkout');
 $routes->get('/search/(:any)', 'MainController::search/$1');
@@ -37,7 +38,9 @@ $routes->post('updateQuantity', 'MainController::updateQuantity');
 $routes->get('api/auditHistory/(:num)', 'MainController::getAuditHistory/$1');
 $routes->post('/api/feedback/delete/(:num)', 'MainController::deleteFeedback/$1');
 $routes->post('/accept-booking/(:num)', 'MainController::acceptBooking/$1');
+$routes->post('/accept-enrolling/(:num)', 'MainController::acceptEnrolling/$1');
 $routes->post('/mark-as-paid/(:num)', 'MainController::markAsPaid/$1');
+$routes->post('/mark-this-paid/(:num)', 'MainController::markthisPaid/$1');
 $routes->get('/getInvoices/(:num)', 'MainController::getInvoices/$1');
 $routes->get('/getImage/(:segment)', 'MainController::getImage/$1');
 $routes->post('/saveShop', 'MainController::saveShop');
@@ -58,6 +61,7 @@ $routes->post('/api/mark-order-paid/(:num)', 'MainController::markOrderPaid/$1')
 $routes->post('/api/confirm-order/(:num)', 'MainController::confirmOrder/$1');
 $routes->post('/api/decline-booking/(:num)', 'MainController::declineBooking/$1');
 $routes->post('/api/decline-order/(:num)', 'MainController::declineOrder/$1');
+$routes->post('/api/decline-enroll/(:num)', 'MainController::declineEnroll/$1');
 $routes->get('getNotif', 'MainController::getNotifications');
 $routes->post( '/confirmRes/(:num)', 'MainController::confirmRes/$1');
 $routes->get('/getBookingHistory', 'MainController::getBookingHistory');
@@ -69,6 +73,7 @@ $routes->match(['post','get'],'/sendVerificationEmail', 'EmailController::sendVe
 $routes->match(['post','get'],'/resendVerificationEmail', 'EmailController::resendVerificationEmail');
 $routes->get('/verify','EmailController::verify_email');
 $routes->get('/rooms/total_pax/(:num)', 'MainController::getRoomByTotalPax/$1');
+$routes->post('enroll', 'MainController::enroll');
 
 
 $routes->group('api', ['namespace' => 'App\Controllers'], function ($routes) {
