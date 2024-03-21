@@ -120,12 +120,6 @@
           </div>
         </div>
       </div>
-
-
-
-
-
-
       <div class="column checkout-products-section">
   <h4>Checkout Products:</h4>
   <table class="table">

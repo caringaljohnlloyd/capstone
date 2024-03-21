@@ -18,6 +18,7 @@ use App\Models\OrderListModel;
 use App\Models\OrdersModel;
 use App\Models\AuditModel;
 use App\Models\StaffModel;
+use App\Models\DateModel;
 use App\Models\NotificationModel;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -46,7 +47,7 @@ public function enroll()
         'age' => $json->age,
         'enrollment_status' => 'pending',
         'experience' => $json->experience,
-        'lesson_date' => $json->lessonDate,
+        'lesson_date' => $json->lesson_date,
     ];
 
     $enrollment = new EnrollmentModel();
@@ -171,6 +172,12 @@ public function getStaff()
     {
         $invoice = new InvoiceModel();
         $data = $invoice->findAll();
+        return $this->respond($data, 200);
+    }
+    public function getAvailableDates()
+    {
+        $date = new DateModel();
+        $data = $date->findAll();
         return $this->respond($data, 200);
     }
     public function getManifest()

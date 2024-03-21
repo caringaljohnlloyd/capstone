@@ -36,13 +36,13 @@
 	<!-- Service Start -->
 	<div class="container-xxl py-5">
 		        <!-- Enrollment success/error message -->
-						<div class="row justify-content-center mt-3">
+						<!-- <div class="row justify-content-center mt-3">
             <div class="col-lg-8">
                 <div v-if="enrollmentMessage" class="alert" :class="{'alert-success': isSuccessMessage, 'alert-danger': !isSuccessMessage}">
                     {{ enrollmentMessage }}
                 </div>
             </div>
-        </div>
+        </div> -->
 		<div class="container">
 			<div class="text-center wow fadeInUp" data-wow-delay="0.1s">
 				<h6 class="section-title text-center text-primary text-uppercase">
@@ -176,7 +176,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Enrollment Form</h5>
-                <button type="button" class="close" @click="closeAddRoomModal">&times;</button>
+                <button type="button" class="close btn-danger" @click="closeAddRoomModal">&times;</button>
             </div>
             <div class="modal-body">
 							<form class="enrollment-form" @submit.prevent="save">
@@ -196,7 +196,14 @@
                         <label for="experience">Swimming Experience:</label>
                         <textarea class="form-control" id="experience" v-model="experience" rows="3" required></textarea>
                     </div>
-										<div class="form-group">
+                    <!-- <div class="form-group">
+    <label for="lesson_date">Select Lesson Date:</label>
+    <select class="form-control" v-model="lesson_date" required>
+        <option value="" disabled>Select a date</option>
+        <option v-for="date in date" :key="date.value" :value="date.value">{{ date.availableDates }}</option>
+    </select>
+</div> -->
+<div class="form-group">
     <label for="lesson_date">Select Lesson Date:</label>
     <select class="form-control" id="lesson_date" v-model="lessonDate" required>
         <option value="" disabled>Select a date</option>
@@ -208,12 +215,18 @@
 <br>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
+
             </div>
         </div>
     </div>
 </div>
 
     </div>
+    <Notification
+  :show="notification.show"
+  :type="notification.type"
+  :message="notification.message"
+/>
 </template>
 <style>
 	@import '@/assets/css/bootstrap.min.css'; @import '@/assets/css/style.css';
@@ -262,6 +275,7 @@
     import End from '@/components/End.vue';
     import feedbacks from '@/components/feedbacks.vue';
     import spinner from '@/components/spinner.vue';
+	import Notification from '@/components/Notification.vue';
 
     import axios from 'axios';
 
@@ -272,23 +286,38 @@
             Top,
             navbar,
             End,
-            feedbacks
+            feedbacks,
+            Notification
         },
 				data() {
     return {
+        availableDates: [], // add availableDates array
+
+        notification: {
+      show: false,
+      type: "", // "success" or "error"
+      message: "",
+    },
         feed: [],
         isAddRoomModalOpen: false, // Initialize as false
         fullName: '',
         contact_number: '',
         age: '',
         experience: '',
-        lessonDate: '', // Add lessonDate property
+        lesson_date: '', // Add lessonDate property
         enrollmentMessage: '',
         errorMessage: '', // Define errorMessage variable
         isSuccessMessage: false // Initialize isSuccessMessage
     };
 },
+created() {
+        this.fetchAvailableDates(); // Fetch available dates when the component is created
+    },
 methods: {
+    async fetchAvailableDates() {
+        const r = await axios.get("/getAvailableDates");
+				this.date = r.data;
+        },
     async save() {
         try {
             const id = sessionStorage.getItem("id");
@@ -298,7 +327,7 @@ methods: {
                 contact_number: this.contact_number,
                 age: this.age,
                 experience: this.experience,
-                lessonDate: this.lessonDate,
+                lesson_date: this.lesson_date,
             });
 
             if (response.status === 200) {
@@ -309,24 +338,42 @@ methods: {
                 this.contact_number = "";
                 this.age = "";
                 this.experience = "";
-                this.lessonDate = "";
+                this.lesson_date = "";
+                this.isAddRoomModalOpen = false;
+                this.showSuccessNotification("Enrolled Successfull, Wait for the Admins confirmation");
 
                 setTimeout(() => {
-                    // Clear the success message after 2 seconds
-                    this.enrollmentMessage = "";
-                    this.isSuccessMessage = false; // Reset success message flag
-                }, 2000);
-            }
-        } catch (error) {
-            console.error("Error submit", error);
-            if (error.response && error.response.status === 400) {
-                this.errorMessage = error.response.data.message || "Submit failed";
-            } else {
-                this.errorMessage = "Error submit";
-            }
-            this.enrollmentMessage = ""; // Clear enrollmentMessage on error
-        }
-    },
+        this.successMessage = "";
+      }, 2000);
+    } else {
+        this.showErrorNotification("Enrollment full");
+    }
+  } catch (error) {
+    console.error("Error adding to cart", error);
+  }
+},  showSuccessNotification(message) {
+    this.notification = {
+      show: true,
+      type: "success",
+      message: message,
+    };
+
+    setTimeout(() => {
+      this.notification.show = false;
+    }, 2000);
+  },
+  showErrorNotification(message) {
+    this.notification = {
+      show: true,
+      type: "error",
+      message: message,
+    };
+
+    setTimeout(() => {
+      this.notification.show = false;
+    }, 2000);
+  },
+
 
             async getFeed() {
                 const [g, n] = await Promise.all([axios.get("/getFeedback"), axios.get("/getData")]);
