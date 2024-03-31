@@ -22,6 +22,7 @@ use App\Models\NotificationModel;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use App\Models\EnrollmentModel;
+use App\Models\DateModel;
 
 
 class MainController extends ResourceController
@@ -46,7 +47,8 @@ public function enroll()
         'age' => $json->age,
         'enrollment_status' => 'pending',
         'experience' => $json->experience,
-        'lesson_date' => $json->lessonDate,
+       'lesson_date' => $json->lesson_date,
+
     ];
 
     $enrollment = new EnrollmentModel();
@@ -410,7 +412,26 @@ public function getenroll()
 
     return $this->respond($result, 200);
 }
+public function getDate()
+{
+    $dateSchedModel = new DateModel();
+    $dateModel = $dateSchedModel->select('swimming_date')->findAll();
     
+    // Convert dates to proper format
+    $dates = array_map(function($date) {
+        return date('Y-m-d', strtotime($date['swimming_date']));
+    }, $dateModel);
+
+    // Log the dates before returning
+    log_message('debug', 'Dates fetched from database: ' . print_r($dates, true));
+
+    return $this->respond($dates, 200);
+}
+
+
+
+
+
 
     public function markAsPaid($booking_id)
     {
@@ -888,16 +909,30 @@ public function confirmOrder($orderId)
                 return $this->respond(["message" => "Failed to save data: " . $e->getMessage()], 500);
             }
         }
-        
-        public function handleImageUpload($image, $imageName)
+    
+        public function saveDate()
         {
-            $uploadPath = 'C:/laragon/www/capstone/frontend/src/assets/img';
-
-            $image->move($uploadPath, $imageName);
-                        return  $imageName;
+            try {
+                $request = $this->request;
+                $data = [
+                    'swimming_date' => $request->getPost('swimming_date'),
+                ];
+        
+                $dateModel = new DateModel();
+                $dateModel->insert($data);
+        
+                // Return success response with a message
+                return $this->respond(["message" => "Date added successfully"], 200);
+            } catch (\Exception $e) {
+                // Return error response with an error message
+                return $this->respond(["message" => "Failed to add date: " . $e->getMessage()], 500);
+            }
         }
+        
+         
 
-        public function saveRoom()
+
+public function saveRoom()
 {
     $request = $this->request;
 
@@ -919,7 +954,7 @@ public function confirmOrder($orderId)
         $data['image'] = $this->handleRoomImageUpload($image, $imageName);
     }
 
-    $roomModel = new RoomModel(); // Assuming you have a RoomModel
+    $roomModel = new RoomModel();
 
     try {
         $roomModel->insert($data);

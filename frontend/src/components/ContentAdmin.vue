@@ -1,3 +1,4 @@
+
 <template>
       <Notification :show="notification.show" :type="notification.type" :message="notification.message" />
 
@@ -565,7 +566,94 @@
     </div>
   </div>
     </div>
+
+    <div class="row">
+        <!-- Table Date -->
+        <div class="col-12">
+          <div class="card card-default">
+            <div class="card-header">
+              <h2>Swimming Lesson Date Inventory</h2>
+              <button type="button" class="btn btn-primary" @click="openAddModal">Add Date</button>
+            </div>
+            <div class="card-body">
+              <table id="productsTable" class="table table-hover table-product" style="width:100%">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="date in dates" :key="date">
+                    <td>{{ date }}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <!-- Success Message -->
+              <div v-if="successMessage" class="alert alert-success" role="alert">
+                {{ successMessage }}
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+
+    <div class="row">
+  <!-- Table Date -->
+  <div class="col-12">
+    <div class="card card-default">
+      <div class="card-header">
+        <h2>Swimming Lesson Date Inventory</h2>
+        <button type="button" class="btn btn-primary" @click="openAddModal">Add Date</button>
+      </div>
+      <div class="card-body">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Select Date" ref="datepicker">
+
+        </div>
+        <!-- Success Message -->
+        <div v-if="successMessage" class="alert alert-success" role="alert">
+          {{ successMessage }}
+        </div>
+      </div>
+    </div>
   </div>
+</div>
+
+
+
+
+ 
+  <!-- Modal for Adding -->
+  <div class="col-12">
+    <div class="modal" :class="{ 'show': addModalVisible }">
+      <!-- Modal content for adding -->
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Add Date</h5>
+            <button type="button" class="close" @click="closeAddModal">&times;</button>
+          </div>
+          <!-- Add form -->
+          <form @submit.prevent="saveDate" enctype="multipart/form-data">
+            <div class="modal-body">
+              <div class="form-group">
+                <label for="swimming_date">Swimming Date</label>
+                <input type="date" class="form-control" placeholder="Date" v-model="swimming_date" required />
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" @click="closeAddModal">Close</button>
+              <button type="submit" class="btn btn-primary">Add</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div v-if="successMessage2" class="alert alert-success" role="alert">
+      {{ successMessage2 }}
+    </div>
+  </div>
+</div>
   <Notification
       :show="notification.show"
       :type="notification.type"
@@ -579,11 +667,17 @@
 
 <script>
 import axios from 'axios';
+import flatpickr from 'flatpickr';
+import 'flatpickr/dist/flatpickr.min.css';
+import 'bootstrap';
 import Notification from '@/components/Notification.vue';
 import SidebarAdmin from '@/components/SidebarAdmin.vue';
 import HeaderAdmin from '@/components/HeaderAdmin.vue';
 
+
+
 export default {
+
   name: 'inventory',
   components: {
     SidebarAdmin,
@@ -592,8 +686,10 @@ export default {
   },
   data() {
     return {
-
-
+      successMessage: null,
+      flatpickrInstance: null,
+      selectedDate: null,
+      dates: [], // date of swimming 
       orders: [],
       loading: false,
       editRoomModalVisible: false,
@@ -605,6 +701,10 @@ export default {
       enroll:[],
       infos: [],
       shop: [],
+      date: [],
+     
+      swimming_date:'',
+      successMessage2: '', 
       addModalVisible: false,
       prod_img: '',
       prod_name: '',
@@ -626,7 +726,7 @@ export default {
       price: '',
       bed: '',
       bath: '',
-      packs: '3', // Default to 3 packs
+      packs: '3', // Default to 3 packs 
       description: '',
       downpayment:'',
       room_img: '',
@@ -635,17 +735,30 @@ export default {
 
     };
   },
+  mounted() {
 
+    // Fetch dates from the server
+    this.getDate();
+  },
   created() {
     this.getInfo();
     this.getRoom();
     this.getbook();
     this.getenroll();
+    this.getDate();
     this.fetchOrdersForAllUsers();  
-
   },
 
-  methods: {
+
+    methods: {
+      openDatePicker() {
+      // Open the flatpickr calendar when the input field is clicked
+      this.flatpickrInstance.open();
+    },
+
+
+
+
     async declineOrder(orderId) {
             try {
                 const response = await axios.post(`/api/decline-order/${orderId}`);
@@ -906,6 +1019,63 @@ async saveRoomEdit() {
       const b = await axios.get("/getenroll");
       this.enroll = b.data;
     },
+
+    async getDate() {
+    try {
+        const response = await axios.get("/getDate");
+        
+        // Check if response status is OK
+        if (response && response.status === 200) {
+            // Check if response data is valid
+            if (response.data && Array.isArray(response.data)) {
+                // Assuming the dates are in the correct format
+                this.dates = response.data; 
+                this.initFlatpickr();
+            } else {
+                console.error('Error fetching dates: Response data is empty or not an array');
+            }
+        } else {
+            console.error('Error fetching dates: Invalid response status');
+        }
+    } catch (error) {
+        console.error('Error fetching dates:', error);
+        // Handle error if needed
+    }
+}
+,
+
+initFlatpickr() {
+    // Initialize flatpickr instance
+    this.flatpickrInstance = flatpickr(this.$refs.datepicker, {
+        dateFormat: 'Y-m-d',
+        enable: this.dates, // Enable dates from the 'dates' array
+        onClose: selectedDates => {
+            this.selectedDate = selectedDates[0];
+        },
+        onReady: (selectedDates, dateStr, instance) => {
+            // Add custom class to selected dates for styling
+            selectedDates.forEach(date => {
+                const dateElem = instance.days.querySelector(`[data-date="${date}"]`);
+                if (dateElem) {
+                    dateElem.classList.add('custom-selected-date');
+                }
+            });
+        }
+    });
+},
+
+
+
+
+
+
+
+
+
+
+
+
+
     navigateToAuditHistory(info) {
       const shopId = info.shop_id;
       this.$router.push({ name: 'auditHistory', params: { shopId } });
@@ -1041,6 +1211,39 @@ async saveRoomEdit() {
         console.error(error);
       }
     },
+
+    async saveDate() {
+      try {
+        const formData = new FormData();
+        formData.append('swimming_date', this.swimming_date);
+
+        const response = await axios.post('/saveDate', formData);
+
+        if (response.status === 200) {
+          this.successMessage2 = 'Date added successfully';
+          this.closeAddModal();
+          this.swimming_date = ''; // Clear the input field after successful addition
+          // Refresh the displayed dates after adding a new one
+          this.getDate();
+          // Automatically clear the success message after 3 seconds
+          setTimeout(() => {
+            this.successMessage2 = '';
+          }, 3000);
+        } else {
+          console.error('Failed to add date:', response.data);
+          this.successMessage2 = 'Failed to add date';
+        }
+      } catch (error) {
+        console.error('Error saving date:', error);
+        this.successMessage2 = 'Error saving date';
+      }
+    },
+    openAddModal() {
+      this.addModalVisible = true;
+    },
+    closeAddModal() {
+      this.addModalVisible = false;
+    },
     openEditModal(info) {
       this.editedInfo = { ...info };
       this.editModalVisible = true;
@@ -1085,9 +1288,10 @@ async saveRoomEdit() {
       this.editedInfo.newImage = file;
     },
   }
-
 };
 </script>
+
+
 
 
 <style scoped>
@@ -1106,6 +1310,9 @@ async saveRoomEdit() {
  * Copyright 2011-2021 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
+ /* Add custom style for selected dates */
+
+
 :root {
   --blue: #007bff;
   --indigo: #6610f2;

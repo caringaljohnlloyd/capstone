@@ -28,7 +28,9 @@
 							</ol>
 						</nav>
 					</div>
-				</div>
+				</div>	
+
+	<!-- Page Header End -->
 			</div>
 		</div>
 	</div>
@@ -77,7 +79,7 @@
 					</a>
 				</div>
 				<div class="col-lg-6 col-md-6 wow fadeInUp" data-wow-delay="0.2s">
-					<a class="service-item rounded" href="">
+					<a class="service-item rounded" href="/shop">
 						<div class="service-icon bg-transparent border rounded p-1">
 							<div class="w-100 h-100 border rounded d-flex align-items-center justify-content-center">
 								<i class="fa fa-utensils fa-2x text-primary">
@@ -100,7 +102,7 @@
 			<br>
 			<div class="row g-4">
 				<div class="col-lg-6 col-md-6 wow fadeInUp" data-wow-delay="0.4s">
-					<a class="service-item rounded" @click="openAddRoomModal">
+					<a class="service-item rounded" href="/swimminglesson">
     <div class="service-icon bg-transparent border rounded p-1">
         <div class="w-100 h-100 border rounded d-flex align-items-center justify-content-center">
             <i class="fa fa-swimmer fa-2x text-primary"></i>
@@ -170,51 +172,174 @@
 		<i class="bi bi-arrow-up">
 		</i>
 	</a>
-	<div class="col-12">
-		<div class="modal" v-if="isAddRoomModalOpen" tabindex="-1" role="dialog" style="display: block;">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Enrollment Form</h5>
-                <button type="button" class="close" @click="closeAddRoomModal">&times;</button>
-            </div>
-            <div class="modal-body">
-							<form class="enrollment-form" @submit.prevent="save">
-                    <div class="form-group">
-                        <label for="fullname">Full Name:</label>
-                        <input type="text" class="form-control" id="fullname" v-model="fullName" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="contact_number">Contact Number:</label>
-                        <input type="tel" class="form-control" id="contact_number" v-model="contact_number" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="age">Age:</label>
-                        <input type="number" class="form-control" id="age" v-model="age" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="experience">Swimming Experience:</label>
-                        <textarea class="form-control" id="experience" v-model="experience" rows="3" required></textarea>
-                    </div>
-										<div class="form-group">
-    <label for="lesson_date">Select Lesson Date:</label>
-    <select class="form-control" id="lesson_date" v-model="lessonDate" required>
-        <option value="" disabled>Select a date</option>
-        <option value="2024-03-17">March 17, 2024</option>
-        <option value="2024-03-18">March 18, 2024</option>
-        <!-- Add more options as needed -->
-    </select>
-</div>
-<br>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
 
-    </div>
+           
+
 </template>
+
+
+<script>
+import flatpickr from 'flatpickr';
+import 'flatpickr/dist/flatpickr.min.css';
+import 'bootstrap';
+    import Top from '@/components/Top.vue';
+    import navbar from '@/components/navbar.vue';
+    import End from '@/components/End.vue';
+    import feedbacks from '@/components/feedbacks.vue';
+    import spinner from '@/components/spinner.vue';
+
+    import axios from 'axios';
+
+    export default {
+        name: 'service',
+        components: {
+            spinner,
+            Top,
+            navbar,
+            End,
+            feedbacks
+        },
+				data() {
+    return {
+        enrollmentMessage: "",
+        successMessage: null,
+            flatpickrInstance: null,
+            selectedDate: null,
+            dates: [], // date of swimming 
+        feed: [],
+      
+        fullName: '',
+        contact_number: '',
+        age: '',
+        experience: '',
+        lessonDate: '', // Add lessonDate property
+        swimming_date: "", // Add swimming_date to data
+        enrollmentMessage: '',
+        errorMessage: '', // Define errorMessage variable
+        isSuccessMessage: false // Initialize isSuccessMessage
+    };
+},
+mounted() {
+    // Fetch dates from the server
+    this.getDate();
+},
+created() {
+    this.getDate();
+},
+methods: {
+    openDatePicker() {
+        // Open the flatpickr calendar when the input field is clicked
+        this.flatpickrInstance.open();
+    },
+    async getDate() {
+        try {
+            const response = await axios.get("/getDate");
+            if (response && response.status === 200 && Array.isArray(response.data)) {
+                this.dates = response.data; // Assuming the dates are in the correct format
+                this.initFlatpickr();
+            } else {
+                console.error('Error fetching dates: Response data is empty or not an array');
+            }
+        } catch (error) {
+            console.error('Error fetching dates:', error);
+            // Handle error if needed
+        }
+    },
+    initFlatpickr() {
+        // Check if this.dates is not null or undefined
+        if (this.dates) {
+            // Initialize flatpickr instance
+            this.flatpickrInstance = flatpickr(this.$refs.datepicker, {
+                dateFormat: 'Y-m-d',
+                enable: this.dates, // Enable dates from the 'dates' array
+                onClose: selectedDates => {
+                    this.selectedDate = selectedDates[0];
+                },
+                onReady: (selectedDates, dateStr, instance) => {
+                    // Add custom class to selected dates for styling
+                    selectedDates.forEach(date => {
+                        const dateElem = instance.days.querySelector(`[data-date="${date}"]`);
+                        if (dateElem) {
+                            dateElem.classList.add('custom-selected-date');
+                        }
+                    });
+                }
+            });
+        } else {
+            console.error('Dates array is null or undefined');
+        }
+    },
+    closeAddRoomModal() {
+        // Close modal
+        this.isAddRoomModalOpen = false;
+    },
+    async save() {
+        try {
+            const id = sessionStorage.getItem("id");
+            const response = await axios.post("enroll", {
+                id: id,
+                fullName: this.fullName,
+                contact_number: this.contact_number,
+                age: this.age,
+                experience: this.experience,
+                lesson_date: this.formatDate(this.selectedDate), // Use the modified formatDate function
+            });
+            if (response.status === 200) {
+    // Set success message and clear form fields
+    this.enrollmentMessage = "Successfully enrolled";
+    this.isSuccessMessage = true;
+    this.clearFormFields();
+
+    // Clear the success message after 2 seconds
+    setTimeout(() => {
+        this.enrollmentMessage = "";
+        this.isSuccessMessage = false;
+    }, 2000);
+}
+
+        } catch (error) {
+            console.error("Error submit", error);
+            if (error.response && error.response.status === 400) {
+                this.errorMessage = error.response.data.message || "Submit failed";
+            } else {
+                this.errorMessage = "Error submit";
+            }
+            this.enrollmentMessage = ""; // Clear enrollmentMessage on error
+        }
+    },
+    clearFormFields() {
+        // Clear form fields
+        this.fullName = "";
+        this.contact_number = "";
+        this.age = "";
+        this.experience = "";
+        this.selectedDate = ""; // Clear the selected date
+    },
+    formatDate(date) {
+        // Format the date to YYYY-MM-DD
+        return date.toISOString().split('T')[0];
+    },
+
+
+
+
+            async getFeed() {
+                const [g, n] = await Promise.all([axios.get("/getFeedback"), axios.get("/getData")]);
+                this.feed = g.data;
+                this.name = n.data;
+            },
+            getName(g) {
+                return this.name.find(n => n.id === g.id) || {};
+            },
+            openAddRoomModal() {
+                this.isAddRoomModalOpen = true; // Set to true to open the modal
+            },
+            closeAddRoomModal() {
+                this.isAddRoomModalOpen = false; // Set to false to close the modal
+            },
+        }
+    }
+</script>
 <style>
 	@import '@/assets/css/bootstrap.min.css'; @import '@/assets/css/style.css';
 	.service { background-image: url('~@/assets/img/pool4.jpg'); background-size:
@@ -256,92 +381,3 @@
         cursor: pointer;
     }
 </style>
-<script>
-    import Top from '@/components/Top.vue';
-    import navbar from '@/components/navbar.vue';
-    import End from '@/components/End.vue';
-    import feedbacks from '@/components/feedbacks.vue';
-    import spinner from '@/components/spinner.vue';
-
-    import axios from 'axios';
-
-    export default {
-        name: 'service',
-        components: {
-            spinner,
-            Top,
-            navbar,
-            End,
-            feedbacks
-        },
-				data() {
-    return {
-        feed: [],
-        isAddRoomModalOpen: false, // Initialize as false
-        fullName: '',
-        contact_number: '',
-        age: '',
-        experience: '',
-        lessonDate: '', // Add lessonDate property
-        enrollmentMessage: '',
-        errorMessage: '', // Define errorMessage variable
-        isSuccessMessage: false // Initialize isSuccessMessage
-    };
-},
-methods: {
-    async save() {
-        try {
-            const id = sessionStorage.getItem("id");
-            const response = await axios.post("enroll", {
-                id: id,
-                fullName: this.fullName,
-                contact_number: this.contact_number,
-                age: this.age,
-                experience: this.experience,
-                lessonDate: this.lessonDate,
-            });
-
-            if (response.status === 200) {
-                this.enrollmentMessage = response.data.message;
-                this.isSuccessMessage = true; // Set to true for success message
-                // Clear form fields
-                this.fullName = "";
-                this.contact_number = "";
-                this.age = "";
-                this.experience = "";
-                this.lessonDate = "";
-
-                setTimeout(() => {
-                    // Clear the success message after 2 seconds
-                    this.enrollmentMessage = "";
-                    this.isSuccessMessage = false; // Reset success message flag
-                }, 2000);
-            }
-        } catch (error) {
-            console.error("Error submit", error);
-            if (error.response && error.response.status === 400) {
-                this.errorMessage = error.response.data.message || "Submit failed";
-            } else {
-                this.errorMessage = "Error submit";
-            }
-            this.enrollmentMessage = ""; // Clear enrollmentMessage on error
-        }
-    },
-
-            async getFeed() {
-                const [g, n] = await Promise.all([axios.get("/getFeedback"), axios.get("/getData")]);
-                this.feed = g.data;
-                this.name = n.data;
-            },
-            getName(g) {
-                return this.name.find(n => n.id === g.id) || {};
-            },
-            openAddRoomModal() {
-                this.isAddRoomModalOpen = true; // Set to true to open the modal
-            },
-            closeAddRoomModal() {
-                this.isAddRoomModalOpen = false; // Set to false to close the modal
-            },
-        }
-    }
-</script>

@@ -30,7 +30,7 @@ import pos from '../views/Pos.vue'
 import packs3 from '@/components/packs.vue'
 import packs4 from '@/components/pack4.vue'
 import packs6 from '@/components/packs6.vue'
-
+import SwimmingLesson from '@/components/SwimmingLesson.vue'
 
 
 
@@ -61,7 +61,7 @@ const routes = [
 
   },
   {
-    path: '/rooms/total_pax/:packs?', 
+    path: '/rooms/total_pax/:packs?' , 
     name: 'RoomsWithTotalPax',
     component: Room,
     meta: { requiresAuth: true, role: 'user' }
@@ -88,6 +88,12 @@ const routes = [
 {
   path: '/table',
   component: Table,
+  meta: { requiresAuth: true, role: 'user' }
+
+},
+{
+  path: '/swimminglesson',
+  component: SwimmingLesson,
   meta: { requiresAuth: true, role: 'user' }
 
 },
