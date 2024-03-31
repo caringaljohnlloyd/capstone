@@ -38,13 +38,13 @@
 	<!-- Service Start -->
 	<div class="container-xxl py-5">
 		        <!-- Enrollment success/error message -->
-						<div class="row justify-content-center mt-3">
+						<!-- <div class="row justify-content-center mt-3">
             <div class="col-lg-8">
                 <div v-if="enrollmentMessage" class="alert" :class="{'alert-success': isSuccessMessage, 'alert-danger': !isSuccessMessage}">
                     {{ enrollmentMessage }}
                 </div>
             </div>
-        </div>
+        </div> -->
 		<div class="container">
 			<div class="text-center wow fadeInUp" data-wow-delay="0.1s">
 				<h6 class="section-title text-center text-primary text-uppercase">
@@ -172,9 +172,63 @@
 		<i class="bi bi-arrow-up">
 		</i>
 	</a>
+	<div class="col-12">
+		<div class="modal" v-if="isAddRoomModalOpen" tabindex="-1" role="dialog" style="display: block;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Enrollment Form</h5>
+                <button type="button" class="close btn-danger" @click="closeAddRoomModal">&times;</button>
+            </div>
+            <div class="modal-body">
+							<form class="enrollment-form" @submit.prevent="save">
+                    <div class="form-group">
+                        <label for="fullname">Full Name:</label>
+                        <input type="text" class="form-control" id="fullname" v-model="fullName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="contact_number">Contact Number:</label>
+                        <input type="tel" class="form-control" id="contact_number" v-model="contact_number" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="age">Age:</label>
+                        <input type="number" class="form-control" id="age" v-model="age" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="experience">Swimming Experience:</label>
+                        <textarea class="form-control" id="experience" v-model="experience" rows="3" required></textarea>
+                    </div>
+                    <!-- <div class="form-group">
+    <label for="lesson_date">Select Lesson Date:</label>
+    <select class="form-control" v-model="lesson_date" required>
+        <option value="" disabled>Select a date</option>
+        <option v-for="date in date" :key="date.value" :value="date.value">{{ date.availableDates }}</option>
+    </select>
+</div> -->
+<div class="form-group">
+    <label for="lesson_date">Select Lesson Date:</label>
+    <select class="form-control" id="lesson_date" v-model="lessonDate" required>
+        <option value="" disabled>Select a date</option>
+        <option value="2024-03-17">March 17, 2024</option>
+        <option value="2024-03-18">March 18, 2024</option>
+        <!-- Add more options as needed -->
+    </select>
+</div>
+<br>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
 
-           
+            </div>
+        </div>
+    </div>
+</div>
 
+    </div>
+    <Notification
+  :show="notification.show"
+  :type="notification.type"
+  :message="notification.message"
+/>
 </template>
 
 
@@ -381,3 +435,126 @@ methods: {
         cursor: pointer;
     }
 </style>
+<script>
+    import Top from '@/components/Top.vue';
+    import navbar from '@/components/navbar.vue';
+    import End from '@/components/End.vue';
+    import feedbacks from '@/components/feedbacks.vue';
+    import spinner from '@/components/spinner.vue';
+	import Notification from '@/components/Notification.vue';
+
+    import axios from 'axios';
+
+    export default {
+        name: 'service',
+        components: {
+            spinner,
+            Top,
+            navbar,
+            End,
+            feedbacks,
+            Notification
+        },
+				data() {
+    return {
+        availableDates: [], // add availableDates array
+
+        notification: {
+      show: false,
+      type: "", // "success" or "error"
+      message: "",
+    },
+        feed: [],
+        isAddRoomModalOpen: false, // Initialize as false
+        fullName: '',
+        contact_number: '',
+        age: '',
+        experience: '',
+        lesson_date: '', // Add lessonDate property
+        enrollmentMessage: '',
+        errorMessage: '', // Define errorMessage variable
+        isSuccessMessage: false // Initialize isSuccessMessage
+    };
+},
+created() {
+        this.fetchAvailableDates(); // Fetch available dates when the component is created
+    },
+methods: {
+    async fetchAvailableDates() {
+        const r = await axios.get("/getAvailableDates");
+				this.date = r.data;
+        },
+    async save() {
+        try {
+            const id = sessionStorage.getItem("id");
+            const response = await axios.post("enroll", {
+                id: id,
+                fullName: this.fullName,
+                contact_number: this.contact_number,
+                age: this.age,
+                experience: this.experience,
+                lesson_date: this.lesson_date,
+            });
+
+            if (response.status === 200) {
+                this.enrollmentMessage = response.data.message;
+                this.isSuccessMessage = true; // Set to true for success message
+                // Clear form fields
+                this.fullName = "";
+                this.contact_number = "";
+                this.age = "";
+                this.experience = "";
+                this.lesson_date = "";
+                this.isAddRoomModalOpen = false;
+                this.showSuccessNotification("Enrolled Successfull, Wait for the Admins confirmation");
+
+                setTimeout(() => {
+        this.successMessage = "";
+      }, 2000);
+    } else {
+        this.showErrorNotification("Enrollment full");
+    }
+  } catch (error) {
+    console.error("Error adding to cart", error);
+  }
+},  showSuccessNotification(message) {
+    this.notification = {
+      show: true,
+      type: "success",
+      message: message,
+    };
+
+    setTimeout(() => {
+      this.notification.show = false;
+    }, 2000);
+  },
+  showErrorNotification(message) {
+    this.notification = {
+      show: true,
+      type: "error",
+      message: message,
+    };
+
+    setTimeout(() => {
+      this.notification.show = false;
+    }, 2000);
+  },
+
+
+            async getFeed() {
+                const [g, n] = await Promise.all([axios.get("/getFeedback"), axios.get("/getData")]);
+                this.feed = g.data;
+                this.name = n.data;
+            },
+            getName(g) {
+                return this.name.find(n => n.id === g.id) || {};
+            },
+            openAddRoomModal() {
+                this.isAddRoomModalOpen = true; // Set to true to open the modal
+            },
+            closeAddRoomModal() {
+                this.isAddRoomModalOpen = false; // Set to false to close the modal
+            },
+        }
+    }
+</script>

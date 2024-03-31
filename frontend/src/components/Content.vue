@@ -196,38 +196,42 @@
         </div>
       </div>
       <div class="col-md-6">
-        <div class="video">
-          <!-- Button to trigger the modal -->
-          <button type="button" class="btn-play" data-bs-toggle="modal" data-bs-target="#videoModal">
-            <span></span>
-          </button>
-        </div>
-      </div>
+  <div class="video">
+    <!-- Button to trigger the modal with a video thumbnail -->
+    <button type="button" class="btn-play" data-bs-toggle="modal" data-bs-target="#videoModal">
+      <!-- Embed the video thumbnail or an icon -->
+      <!-- For example, you can use an image as a video thumbnail -->
+      <img src="@/assets/img/pool5.jpg" alt="Play Video">
+    </button>
+  </div>
+</div>
+
     </div>
   </div>
 
   <!-- Modal -->
   <div class="modal fade" id="videoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content rounded-0">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">
-            Eduardo's Resort Video
-          </h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <!-- Video player with controls -->
-          <video controls width="100%" height="auto">
-            <!-- Replace the direct URL with the actual URL of your video -->
-            <source src="'../assets/img/bestresortinmindoro.mp4'" type="video/mp4" />
+  <div class="modal-dialog">
+    <div class="modal-content rounded-0">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">
+          Eduardo's Resort Video
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Video player with controls -->
+        <video controls width="100%" height="auto">
+          <!-- Replace the direct URL with the actual URL of your video -->
+          <source src="@/assets/img/bestresortinmindoro.mp4" type="video/mp4" />
 
-            Your browser does not support the video tag.
-          </video>
-        </div>
+          Your browser does not support the video tag.
+        </video>
       </div>
     </div>
   </div>
+</div>
+
   <!-- Video Start -->
 
   <!-- Testimonial Start -->

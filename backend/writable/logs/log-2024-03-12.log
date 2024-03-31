@@ -1,0 +1,42 @@
+CRITICAL - 2024-03-12 12:33:04 --> Call to a member function isValid() on null
+in APPPATH\Controllers\MainController.php on line 847.
+ 1 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->saveRoom()
+ 2 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 3 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-03-12 12:35:45 --> Call to a member function isValid() on null
+in APPPATH\Controllers\MainController.php on line 847.
+ 1 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->saveRoom()
+ 2 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 3 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-03-12 12:39:30 --> Call to a member function isValid() on null
+in APPPATH\Controllers\MainController.php on line 847.
+ 1 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->saveRoom()
+ 2 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 3 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-03-12 12:42:41 --> Call to a member function isValid() on null
+in APPPATH\Controllers\MainController.php on line 847.
+ 1 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->saveRoom()
+ 2 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 3 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-03-12 12:47:08 --> Call to a member function isValid() on null
+in APPPATH\Controllers\MainController.php on line 848.
+ 1 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->saveRoom()
+ 2 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 3 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-03-12 12:51:21 --> Call to a member function isValid() on null
+in APPPATH\Controllers\MainController.php on line 848.
+ 1 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->saveRoom()
+ 2 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 3 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\public\\index.php')

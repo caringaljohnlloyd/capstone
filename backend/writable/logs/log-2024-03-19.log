@@ -1,0 +1,94 @@
+ERROR - 2024-03-19 02:58:50 --> mysqli_sql_exception: Table 'crud.enrollment' doesn't exist in C:\laragon\www\capstone\backend\system\Database\MySQLi\Connection.php:306
+Stack trace:
+#0 C:\laragon\www\capstone\backend\system\Database\MySQLi\Connection.php(306): mysqli->query('SELECT `enrollm...', 0)
+#1 C:\laragon\www\capstone\backend\system\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `enrollm...')
+#2 C:\laragon\www\capstone\backend\system\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `enrollm...')
+#3 C:\laragon\www\capstone\backend\system\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT `enrollm...', Array, false)
+#4 C:\laragon\www\capstone\backend\system\Model.php(237): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\laragon\www\capstone\backend\system\BaseModel.php(624): CodeIgniter\Model->doFindAll(0, 0)
+#6 C:\laragon\www\capstone\backend\app\Controllers\MainController.php(409): CodeIgniter\BaseModel->findAll()
+#7 C:\laragon\www\capstone\backend\system\CodeIgniter.php(942): App\Controllers\MainController->getenroll()
+#8 C:\laragon\www\capstone\backend\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+#9 C:\laragon\www\capstone\backend\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\laragon\www\capstone\backend\public\index.php(86): CodeIgniter\CodeIgniter->run()
+#11 C:\laragon\www\capstone\backend\system\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\...')
+#12 {main}
+CRITICAL - 2024-03-19 02:58:50 --> Table 'crud.enrollment' doesn't exist
+in SYSTEMPATH\Database\BaseConnection.php on line 647.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT `enrollment`.*, `user`.*
+FROM `enrollment`
+JOIN `user` ON `user`.`id` = `enrollment`.`id`
+WHERE `enrollment`.`enrollment_status` != :enrollment.enrollment_status:
+AND `enrollment`.`enrollment_status` != :enrollment.enrollment_status.1:', [...], false)
+ 2 SYSTEMPATH\Model.php(237): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH\BaseModel.php(624): CodeIgniter\Model->doFindAll(0, 0)
+ 4 APPPATH\Controllers\MainController.php(409): CodeIgniter\BaseModel->findAll()
+ 5 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->getenroll()
+ 6 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 7 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-03-19 04:07:11 --> Undefined property: stdClass::$lessonDate
+in APPPATH\Controllers\MainController.php on line 50.
+ 1 APPPATH\Controllers\MainController.php(50): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$lessonDate', 'C:\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php', 50)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->enroll()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-03-19 04:07:12 --> Undefined property: stdClass::$lessonDate
+in APPPATH\Controllers\MainController.php on line 50.
+ 1 APPPATH\Controllers\MainController.php(50): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$lessonDate', 'C:\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php', 50)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->enroll()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-03-19 04:07:13 --> Undefined property: stdClass::$lessonDate
+in APPPATH\Controllers\MainController.php on line 50.
+ 1 APPPATH\Controllers\MainController.php(50): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$lessonDate', 'C:\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php', 50)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->enroll()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-03-19 04:07:13 --> Undefined property: stdClass::$lessonDate
+in APPPATH\Controllers\MainController.php on line 50.
+ 1 APPPATH\Controllers\MainController.php(50): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$lessonDate', 'C:\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php', 50)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->enroll()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-03-19 04:07:24 --> Undefined property: stdClass::$lessonDate
+in APPPATH\Controllers\MainController.php on line 50.
+ 1 APPPATH\Controllers\MainController.php(50): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$lessonDate', 'C:\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php', 50)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->enroll()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-03-19 04:08:58 --> Undefined property: stdClass::$lessonDate
+in APPPATH\Controllers\MainController.php on line 50.
+ 1 APPPATH\Controllers\MainController.php(50): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$lessonDate', 'C:\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php', 50)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->enroll()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-03-19 04:09:59 --> Undefined property: stdClass::$lesson_date
+in APPPATH\Controllers\MainController.php on line 50.
+ 1 APPPATH\Controllers\MainController.php(50): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$lesson_date', 'C:\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php', 50)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->enroll()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\public\\index.php')
+CRITICAL - 2024-03-19 04:21:58 --> Undefined property: stdClass::$lesson_date
+in APPPATH\Controllers\MainController.php on line 50.
+ 1 APPPATH\Controllers\MainController.php(50): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$lesson_date', 'C:\\laragon\\www\\capstone\\backend\\app\\Controllers\\MainController.php', 50)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->enroll()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\public\\index.php')
