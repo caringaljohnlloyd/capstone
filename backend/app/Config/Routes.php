@@ -77,6 +77,7 @@ $routes->get('/verify','EmailController::verify_email');
 $routes->get('/rooms/total_pax/(:num)', 'MainController::getRoomByTotalPax/$1');
 $routes->post('enroll', 'MainController::enroll');
 $routes->get('/getAvailableDates','MainController::getAvailableDates');
+$routes->post('/api/event/bookings', 'MainController::store');
 
 
 $routes->group('api', ['namespace' => 'App\Controllers'], function ($routes) {

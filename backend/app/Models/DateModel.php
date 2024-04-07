@@ -6,12 +6,12 @@ use CodeIgniter\Model;
 
 class DateModel extends Model
 {
-    protected $table = 'enrollment_date';
-    protected $primaryKey = 'enrolldate_id';
+    protected $table = 'swimming_sched';
+    protected $primaryKey = 'id';
     protected $useAutoIncrement = true;
     protected $returnType = 'array';
     protected $useSoftDeletes = false;
-    protected $allowedFields = ['availableDates'];
+    protected $allowedFields = ['swimming_date'];
 
     // Dates
     protected $useTimestamps = true;

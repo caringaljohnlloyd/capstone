@@ -23,7 +23,7 @@ use App\Models\NotificationModel;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use App\Models\EnrollmentModel;
-
+use App\Models\EventModel;
 
 
 class MainController extends ResourceController
@@ -36,7 +36,30 @@ class MainController extends ResourceController
     protected $invoice;
 protected $cartModel;
 
+public function store()
+{
+    $json = $this->request->getJSON();
 
+    $data = [
+        'id' => $json->id,
+        'eventName' => $json->eventName,
+        'eventTheme' => $json->eventTheme,
+        'eventDate' => $json->eventDate,
+        'eventStatus' => 'pending',
+        
+    ];
+
+    $event = new EventModel();
+    $r = $event->save($data);
+
+    if ($r) {
+        // Enrollment successful, return a success response with a message
+        return $this->respond(['message' => 'Event Booking successful'], 200);
+    } else {
+        // Enrollment failed, return an error response with a message
+        return $this->respond(['message' => 'Failed to book'], 500);
+    }
+}
 public function enroll()
 {
     $json = $this->request->getJSON();
@@ -573,45 +596,59 @@ public function getDate()
     {
         $json = $this->request->getJSON();
         $email = $json->email;
-
+    
+        // Validate email format
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             return $this->respond(["error" => "Invalid email format"], 400);
         }
+    
+        // Check if email already exists
         $userModel = new UserModel();
-        $token = $this->verification(50);
         $exUser = $userModel->where('email', $email)->first();
-
         if ($exUser) {
             return $this->respond(["error" => "Email already exists"], 400);
+        }
+    
+        // Validate password format
+        $password = $json->password;
+        if (!preg_match('/[A-Za-z]/', $password) || !preg_match('/[0-9]/', $password) || !preg_match('/[^A-Za-z0-9]/', $password)) {
+            return $this->respond(["error" => "Password must contain at least one letter, one number, and one special character"], 400);
+        }
+    
+        // Generate verification token and expiry
+        $token = $this->verification(50);
+        $verificationToken = bin2hex(random_bytes(32));
+        $tokenExpiry = date('Y-m-d H:i:s', strtotime('+2 minutes'));
+    
+        // Prepare data to save
+        $data = [
+            'name' => $json->name,
+            'email' => $email,
+            'password' => password_hash($password, PASSWORD_BCRYPT),
+            'address' => $json->address, // Add address field
+            'number' => $json->number,   // Add number field
+            'token' => $token,
+            'status' => 'inactive',
+            'role' => 'user',
+            'ver_token' => $verificationToken,
+            'expiry' => $tokenExpiry,
+        ];
+    
+        // Save user data
+        $u = $userModel->save($data);
+    
+        // Send verification email
+        $emailController = new \App\Controllers\EmailController();
+        $emailController->sendVerificationEmail($data);
+    
+        // Respond based on the result of user registration
+        if ($u) {
+            return $this->respond(['msg' => 'Registered Successfully', 'token' => $token]);
         } else {
-            $password = $json->password;
-
-            if (!preg_match('/[A-Za-z]/', $password) || !preg_match('/[0-9]/', $password) || !preg_match('/[^A-Za-z0-9]/', $password)) {
-                return $this->respond(["error" => "Password must contain at least one letter, one number, and one special character"], 400);
-            }
-            $verificationToken = bin2hex(random_bytes(32));
-            $tokenExpiry = date('Y-m-d H:i:s', strtotime('+2 minutes'));
-            $data = [
-                'name' => $json->name,
-                'email' => $email,
-                'password' => password_hash($password, PASSWORD_BCRYPT),
-                'token' => $token,
-                'status' => 'inactive',
-                'role' => 'user',
-                'ver_token' => $verificationToken,
-                'expiry' => $tokenExpiry,
-            ];
-
-            $u = $userModel->save($data);
-            $emailController = new \App\Controllers\EmailController();
-            $emailController->sendVerificationEmail($data);
-            if ($u) {
-                return $this->respond(['msg' => 'Registered Successfully', 'token' => $token]);
-            } else {
-                return $this->respond(['msg' => 'Error occurred']);
-            }
+            return $this->respond(['msg' => 'Error occurred']);
         }
     }
+    
     
 
 
@@ -915,7 +952,13 @@ public function confirmOrder($orderId)
                 return $this->respond(["message" => "Failed to save data: " . $e->getMessage()], 500);
             }
         }
-    
+        public function handleImageUpload($image, $imageName)
+        {
+            $uploadPath = 'C:/laragon/www/capstone/frontend/src/assets/img';
+        
+            $image->move($uploadPath, $imageName);
+                        return  $imageName;
+        }
         public function saveDate()
         {
             try {

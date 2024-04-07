@@ -13,7 +13,59 @@
               <h1 class="display-3 text-white mb-4 animated slideInDown">
                 SAVING LIVES BUILDING COMPANIONS!
               </h1>
-              <a href="/room" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Our Rooms</a>
+              <button type="button" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft" @click="openEventBookingForm">Book an Event</button>
+           
+<!-- Event booking form -->
+<div v-if="eventBookingFormVisible" class="modal fade show" tabindex="-1" role="dialog" style="display: block;">
+  <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Event Booking Form</h5>
+        <button type="button" class="close" @click="closeEventBookingForm">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+<form @submit.prevent="submitEventBookingForm">
+
+  <div class="mb-3">
+    <h3>Name: {{ username }}</h3>
+    <h5>Email: {{ email }}</h5>
+    <h5>Address: {{ address }}</h5>
+    <h5>number: {{ number }}</h5>
+
+  </div>
+
+  <div class="mb-3 text-dark">
+    <label for="eventName" class="visually-hidden">Event Name</label>
+    <div class="input-group">
+      <input type="text" class="form-control"  placeholder="Event Name" v-model="eventName" required>
+    </div>
+  </div>
+  <div class="mb-3 text-dark">
+    <label for="eventTheme" class="visually-hidden">Event Theme</label>
+    <div class="input-group">
+      <input type="text" class="form-control"  placeholder="Event Theme" v-model="eventTheme" required>
+    </div>
+  </div>
+  <div class="mb-3 text-dark">
+            <label for="eventDate" class="visually-hidden">Event Date and Time</label>
+            <div class="input-group">
+              <input type="datetime-local" class="form-control" v-model="eventDate" required>
+            </div>
+          </div>
+
+  <!-- Submit button -->
+  <div class="text-center">
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </div>
+</form>
+
+      </div>
+    </div>
+  </div>
+</div>
+
             </div>
           </div>
         </div>
@@ -319,7 +371,11 @@
       </div>
     </div>
   </div>
-
+  <Notification
+  :show="notification.show"
+  :type="notification.type"
+  :message="notification.message"
+/>
   <!-- Team End -->
 </template>
 <style>
@@ -329,13 +385,26 @@
 <script>
 import axios from "axios";
 import insert from "@/components/insert.vue";
+import Notification from '@/components/Notification.vue';
+
 export default {
   name: "feedback",
   components: {
     insert,
+    Notification
+
   },
   data() {
     return {
+      notification: {
+        show: false,
+        type: "", // "success" or "error"
+        message: "",
+      },
+      eventBookingFormVisible: false,
+      eventName: "",
+      eventTheme: "",
+      eventDate:"",
       feed: [],
       feedbackSent: false,
       numberOfClients: 0,
@@ -364,6 +433,55 @@ export default {
 
   },
   methods: {
+    submitEventBookingForm() {
+  const id = sessionStorage.getItem("id");
+  axios.post('/api/event/bookings', {
+    eventName: this.eventName,
+    eventTheme: this.eventTheme,
+    eventDate: this.eventDate,
+    id: id,
+
+  })
+  .then(response => {
+    console.log('Event booking submitted successfully:', response.data);
+    this.eventName = '';
+    this.eventTheme = '';
+    this.eventDate = '';
+    this.id = "";
+
+    this.notification = {
+      show: true,
+      type: 'success',
+      message: 'Event booking submitted successfully'
+    };
+
+    setTimeout(() => {
+      this.notification.show = false;
+    }, 3000);
+    this.closeEventBookingForm();
+
+  })
+  
+  .catch(error => {
+    console.error('Error submitting event booking:', error);
+
+    this.notification = {
+      show: true,
+      type: 'error',
+      message: 'Failed to submit event booking. Please try again later.'
+    };
+
+    setTimeout(() => {
+      this.notification.show = false;
+    }, 3000);
+  });
+},
+    openEventBookingForm() {
+      this.eventBookingFormVisible = true;
+    },
+    closeEventBookingForm() {
+      this.eventBookingFormVisible = false;
+    },
     async getStaff() {
                 const response = await axios.get("/getStaff");
                 this.staff = response.data;
@@ -457,6 +575,23 @@ export default {
         const client = activeuser ? activeuser.name : "Customer";
         return ` ${client}`;
       },
+      address() {
+    const id = sessionStorage.getItem("id");
+    const activeuser = this.user.find(user => user.id === id);
+    return activeuser ? activeuser.address : "";
+  },
+
+  number() {
+    const id = sessionStorage.getItem("id");
+    const activeuser = this.user.find(user => user.id === id);
+    return activeuser ? activeuser.number : "";
+  },
+
+  email() {
+    const id = sessionStorage.getItem("id");
+    const activeuser = this.user.find(user => user.id === id);
+    return activeuser ? activeuser.email : "";
+  }
   }
 };
 </script>

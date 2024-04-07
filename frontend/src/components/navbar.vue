@@ -137,7 +137,7 @@
   <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">{{ selectedRooms.length > 1 ? 'Select a Room' : selectedRooms[0].room_name }}</h5>
+        <h5 class="modal-title">{{ selectedRooms.length > 1 ? 'Select Rooms' : selectedRooms[0].room_name }}</h5>
         <button type="button" class="close" @click="closeRoomModal">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -151,27 +151,24 @@
                 <h5 class="card-title">{{ room.room_name }}</h5>
                 <p class="card-text">{{ room.description }}</p>
                 <ul class="list-group list-group-flush">
+                  <li class="list-group-item">Number of Packs: {{ room.packs }}</li>
                   <li class="list-group-item">Price: Php.{{ room.price }} | 500 {{ room.downpayment }}</li>
                   <li class="list-group-item">Number of Beds: {{ room.bed }}</li>
                   <li class="list-group-item">Number of Baths: {{ room.bath }}</li>
                 </ul>
-                        <input type="checkbox" v-model="room.selected">
+                <input type="checkbox" v-model="room.selected">
               </div>
             </div>
           </div>
         </div>
       </div>
       <div class="text-center mt-3">
-    <button @click="bookSelectedRooms" class="btn btn-primary">Book Selected Rooms</button>
-    <!-- Button to book selected rooms -->
-  </div>
+        <button @click="bookSelectedRooms" class="btn btn-primary">Book Selected Rooms</button>
+        <!-- Button to book selected rooms -->
+      </div>
     </div>
   </div>
 </div>
-
-
-
-
 
                 <div class="nav-item dropdown">
                   <a

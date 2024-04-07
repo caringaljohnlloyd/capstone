@@ -31,6 +31,18 @@
             <label for="confirmpassword" class="form-label">Confirm Password</label>
           </div>
 
+          <!-- Address Input with Floating Label -->
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" name="address" v-model="address" required placeholder=" ">
+            <label for="address" class="form-label">Barangay/City/Province</label>
+          </div>
+
+          <!-- Number Input with Floating Label -->
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" name="number" v-model="number" required placeholder=" ">
+            <label for="number" class="form-label">Number</label>
+          </div>
+
           <!-- Password Match Feedback -->
           <div class="alert" :class="{ 'alert-danger': !isValid || !passwordsMatch || errorMessage, 'alert-success': passwordsMatch }" v-if="showMessage">{{ errorMessage || message }}</div>
 
@@ -50,52 +62,23 @@
   </div>
 </template>
 
-<style scoped>
-@import '@/assets/css/bootstrap.min.css';
-@import '@/assets/css/style.css';
-
-  .form-wrapper {
-    border-radius: 10px;
-    transition: box-shadow 0.3s ease-in-out;
-  }
-
-  .form-wrapper:hover {
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-  }
-
-
-  .alert-danger {
-    color: #dc3545;
-    border-color: #dc3545;
-    transition: opacity 0.3s ease-in-out;
-  }
-
-  .text-muted {
-    color: #6c757d;
-  }
-
- 
-
-
-</style>
-
 <script>
 import axios from 'axios';
 
 export default {
   data() {
-return {
-  name: "",
-  email: "",
-  password: "",
-  confirmpassword: "",
-  showMessage: false,
-  registered: false,
-  errorMessage: "", 
-
-};
-},
-
+    return {
+      name: "",
+      email: "",
+      password: "",
+      confirmpassword: "",
+      address: "", // Added address field
+      number: "", // Added number field
+      showMessage: false,
+      registered: false,
+      errorMessage: "", 
+    };
+  },
   computed: {
     passwordsMatch() {
       return this.password === this.confirmpassword;
@@ -108,10 +91,8 @@ return {
         return 'Passwords match!';
       } else {
         return 'Passwords do not match.';
-        
       }
     },
-    
   },
   methods: {
     checkMsg() {
@@ -130,11 +111,15 @@ return {
           email: this.email,
           password: this.password,
           confirmpassword: this.confirmpassword,
+          address: this.address, // Include address field
+          number: this.number,   // Include number field
         })
         this.name = "";
         this.email = "";
         this.password = "";
         this.confirmpassword = "";
+        this.address = ""; // Clear address field after registration
+        this.number = "";  // Clear number field after registration
         this.registered = true;
         this.showMessage = false;
         this.errorMessage = ""; 
@@ -142,17 +127,39 @@ return {
         this.$emit('data-saved');
         this.getInfo();
         
-          } catch (error) {
+      } catch (error) {
         if (error.response && error.response.data && error.response.data.error) {
           this.errorMessage = error.response.data.error;
           setTimeout(() => {
-						this.errorMessage = "";      
-					},
-					4000);
-          
+            this.errorMessage = "";      
+          }, 4000);
         }
-                }
-              }
-            }
-          };
+      }
+    }
+  }
+};
 </script>
+
+<style scoped>
+@import '@/assets/css/bootstrap.min.css';
+@import '@/assets/css/style.css';
+
+.form-wrapper {
+  border-radius: 10px;
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+.form-wrapper:hover {
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.alert-danger {
+  color: #dc3545;
+  border-color: #dc3545;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.text-muted {
+  color: #6c757d;
+}
+</style>

@@ -198,13 +198,7 @@
                         <label for="experience">Swimming Experience:</label>
                         <textarea class="form-control" id="experience" v-model="experience" rows="3" required></textarea>
                     </div>
-                    <!-- <div class="form-group">
-    <label for="lesson_date">Select Lesson Date:</label>
-    <select class="form-control" v-model="lesson_date" required>
-        <option value="" disabled>Select a date</option>
-        <option v-for="date in date" :key="date.value" :value="date.value">{{ date.availableDates }}</option>
-    </select>
-</div> -->
+                
 <div class="form-group">
     <label for="lesson_date">Select Lesson Date:</label>
     <select class="form-control" id="lesson_date" v-model="lessonDate" required>
@@ -241,6 +235,7 @@ import 'bootstrap';
     import End from '@/components/End.vue';
     import feedbacks from '@/components/feedbacks.vue';
     import spinner from '@/components/spinner.vue';
+	import Notification from '@/components/Notification.vue';
 
     import axios from 'axios';
 
@@ -251,10 +246,16 @@ import 'bootstrap';
             Top,
             navbar,
             End,
-            feedbacks
+            feedbacks,
+            Notification
         },
 				data() {
     return {
+        notification: {
+      show: false,
+      type: "", // "success" or "error"
+      message: "",
+    },
         enrollmentMessage: "",
         successMessage: null,
             flatpickrInstance: null,
@@ -435,7 +436,7 @@ methods: {
         cursor: pointer;
     }
 </style>
-<script>
+<!-- <script>
     import Top from '@/components/Top.vue';
     import navbar from '@/components/navbar.vue';
     import End from '@/components/End.vue';
@@ -557,4 +558,4 @@ methods: {
             },
         }
     }
-</script>
+</script> -->
