@@ -1,6 +1,9 @@
-
 <template>
-      <Notification :show="notification.show" :type="notification.type" :message="notification.message" />
+  <Notification
+    :show="notification.show"
+    :type="notification.type"
+    :message="notification.message"
+  />
 
   <div class="col-md-2">
     <SidebarAdmin />
@@ -17,11 +20,20 @@
           <div class="card card-default">
             <div class="card-header">
               <h2>Shop Inventory</h2>
-              <button type="button" class="btn btn-primary" @click="openAddModal">Add Item</button>
-
+              <button
+                type="button"
+                class="btn btn-primary"
+                @click="openAddModal"
+              >
+                Add Item
+              </button>
             </div>
             <div class="card-body">
-              <table id="productsTable" class="table table-hover table-product" style="width:100%">
+              <table
+                id="productsTable"
+                class="table table-hover table-product"
+                style="width: 100%"
+              >
                 <thead>
                   <tr>
                     <th>Product Image</th>
@@ -43,50 +55,98 @@
                     <td>{{ info.prod_price }}</td>
                     <td>{{ info.prod_quantity * info.prod_price }}</td>
                     <td>
-                      <button @click="openQuantityModal(info)">Add Quantity</button> |
-                      <router-link style="color: black;"
-                        :to="{ name: 'auditHistory', params: { shopId: info.shop_id } }">Audit History</router-link>
+                      <button @click="openQuantityModal(info)">
+                        Add Quantity
+                      </button>
                       |
-                      <button @click="openEditModal(info)">Edit</button> 
-
+                      <router-link
+                        style="color: black"
+                        :to="{
+                          name: 'auditHistory',
+                          params: { shopId: info.shop_id },
+                        }"
+                        >Audit History</router-link
+                      >
+                      |
+                      <button @click="openEditModal(info)">Edit</button>
                     </td>
                   </tr>
                 </tbody>
               </table>
               <!-- Quantity Modal -->
-              <div v-if="quantityModalVisible" class="modal" tabindex="-1" role="dialog" style="display: block;">
+              <div
+                v-if="quantityModalVisible"
+                class="modal"
+                tabindex="-1"
+                role="dialog"
+                style="display: block"
+              >
                 <div class="modal-dialog modal-dialog-centered" role="document">
                   <div class="modal-content">
                     <div class="modal-header">
                       <h5 class="modal-title">Add Quantity</h5>
-                      <button type="button" class="close" @click="closeQuantityModal" aria-label="Close">
+                      <button
+                        type="button"
+                        class="close"
+                        @click="closeQuantityModal"
+                        aria-label="Close"
+                      >
                         <span aria-hidden="true">&times;</span>
                       </button>
                     </div>
                     <div class="modal-body">
                       <!-- Form groups for modal body -->
                       <div class="form-group">
-                        <label for="productName" class="label">Product Name:</label>
+                        <label for="productName" class="label"
+                          >Product Name:</label
+                        >
                         <p id="productName">{{ selectedProduct.prod_name }}</p>
                       </div>
                       <div class="form-group">
-                        <label for="currentQuantity" class="label">Current Quantity:</label>
-                        <p id="currentQuantity">{{ selectedProduct.prod_quantity }}</p>
+                        <label for="currentQuantity" class="label"
+                          >Current Quantity:</label
+                        >
+                        <p id="currentQuantity">
+                          {{ selectedProduct.prod_quantity }}
+                        </p>
                       </div>
                       <div class="form-group">
-                        <label for="addQuantity" class="label">Add Quantity:</label>
-                        <input type="number" class="form-control" id="addQuantity" v-model="quantityToAdd" />
+                        <label for="addQuantity" class="label"
+                          >Add Quantity:</label
+                        >
+                        <input
+                          type="number"
+                          class="form-control"
+                          id="addQuantity"
+                          v-model="quantityToAdd"
+                        />
                       </div>
                     </div>
                     <div class="modal-footer">
-                      <button type="button" class="btn btn-primary" @click="addQuantity">Add</button>
-                      <button type="button" class="btn btn-secondary" @click="closeQuantityModal">Close</button>
+                      <button
+                        type="button"
+                        class="btn btn-primary"
+                        @click="addQuantity"
+                      >
+                        Add
+                      </button>
+                      <button
+                        type="button"
+                        class="btn btn-secondary"
+                        @click="closeQuantityModal"
+                      >
+                        Close
+                      </button>
                     </div>
                   </div>
                 </div>
               </div>
               <!-- Success Message -->
-              <div v-if="successMessage" class="alert alert-success" role="alert">
+              <div
+                v-if="successMessage"
+                class="alert alert-success"
+                role="alert"
+              >
                 {{ successMessage }}
               </div>
             </div>
@@ -94,9 +154,14 @@
         </div>
       </div>
 
-
       <!-- Edit Modal -->
-      <div v-if="editModalVisible" class="modal" tabindex="-1" role="dialog" style="display: block;">
+      <div
+        v-if="editModalVisible"
+        class="modal"
+        tabindex="-1"
+        role="dialog"
+        style="display: block"
+      >
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
             <div class="modal-header">
@@ -110,21 +175,44 @@
               <form @submit.prevent="saveEdit">
                 <div class="form-group">
                   <label for="edit_prod_name">Product Name</label>
-                  <input type="text" class="form-control" placeholder="Name" v-model="editedInfo.prod_name">
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Name"
+                    v-model="editedInfo.prod_name"
+                  />
                 </div>
                 <div class="form-group">
                   <label for="edit_prod_desc">Product Description</label>
-                  <input type="text" class="form-control" placeholder="Description" v-model="editedInfo.prod_desc">
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Description"
+                    v-model="editedInfo.prod_desc"
+                  />
                 </div>
                 <div class="form-group">
                   <label for="edit_prod_price">Product Price</label>
-                  <input type="number" class="form-control" placeholder="Price" v-model="editedInfo.prod_price">
+                  <input
+                    type="number"
+                    class="form-control"
+                    placeholder="Price"
+                    v-model="editedInfo.prod_price"
+                  />
                 </div>
                 <!-- Add other fields as needed -->
 
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" @click="closeEditModal">Close</button>
-                  <button type="submit" class="btn btn-primary">Save Changes</button>
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    @click="closeEditModal"
+                  >
+                    Close
+                  </button>
+                  <button type="submit" class="btn btn-primary">
+                    Save Changes
+                  </button>
                 </div>
               </form>
             </div>
@@ -135,43 +223,88 @@
         </div>
       </div>
       <!-- Modal for Adding -->
+      <!-- Modal for Adding -->
       <div class="col-12">
-        <div class="modal " :class="{ 'show': addModalVisible }">
+        <div class="modal" :class="{ show: addModalVisible }">
           <!-- Modal content for adding -->
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title">Add Product</h5>
-                <button type="button" class="close" @click="closeAddModal">&times;</button>
+                <button type="button" class="close" @click="closeAddModal">
+                  &times;
+                </button>
               </div>
               <!-- Add form -->
-              <form @submit.prevent="saveShop('add')" enctype="multipart/form-data">
-  <div class="modal-body">
-    <!-- Your form inputs -->
+              <form
+                @submit.prevent="saveShop('add')"
+                enctype="multipart/form-data"
+              >
+                <div class="modal-body">
+                  <!-- Your form inputs -->
+                  <div class="form-group">
+                    <label for="prod_image">Product Image</label>
+                    <input
+                      type="file"
+                      ref="imageInput"
+                      @change="handleImageUpload"
+                      class="form-control"
+                      required
+                    />
+                  </div>
 
-    <div class="form-group">
-      <label for="prod_name">Product Name</label>
-      <input type="text" class="form-control" placeholder="Name" v-model="prod_name" required />
-    </div>
-    <div class="form-group">
-      <label for="prod_quantity">Product Quantity</label>
-      <input type="number" class="form-control" placeholder="Quantity" v-model="prod_quantity" required />
-    </div>
-    <div class="form-group">
-      <label for="prod_desc">Product Description</label>
-      <input type="text" class="form-control" placeholder="Description" v-model="prod_desc" required />
-    </div>
-    <div class="form-group">
-      <label for="prod_price">Product Price</label>
-      <input type="number" class="form-control" placeholder="Price" v-model="prod_price" required />
-    </div>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" @click="closeAddModal">Close</button>
-    <button type="submit" class="btn btn-primary">Add</button>
-  </div>
-</form>
-
+                  <div class="form-group">
+                    <label for="prod_name">Product Name</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="Name"
+                      v-model="prod_name"
+                      required
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="prod_quantity">Product Quantity</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      placeholder="Quantity"
+                      v-model="prod_quantity"
+                      required
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="prod_desc">Product Description</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="Description"
+                      v-model="prod_desc"
+                      required
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="prod_price">Product Price</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      placeholder="Price"
+                      v-model="prod_price"
+                      required
+                    />
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    @click="closeAddModal"
+                  >
+                    Close
+                  </button>
+                  <button type="submit" class="btn btn-primary">Add</button>
+                </div>
+              </form>
             </div>
           </div>
         </div>
@@ -180,14 +313,18 @@
         </div>
       </div>
 
-
       <div class="row">
         <div class="col-12">
           <div class="card card-default">
             <div class="card-header">
               <h2 class="mdi mdi-desktop-mac">Rooms</h2>
-              <button type="button" class="btn btn-primary" @click="openAddRoomModal">Add Room</button>
-
+              <button
+                type="button"
+                class="btn btn-primary"
+                @click="openAddRoomModal"
+              >
+                Add Room
+              </button>
             </div>
             <div class="card-body pt-26">
               <table class="table">
@@ -217,10 +354,9 @@
                     <td>{{ room.packs }}</td>
                     <td>{{ room.description }}</td>
                     <td>{{ room.room_status }}</td>
-                    <td><button @click="openRoomEditModal(room)">Edit</button> 
-
+                    <td>
+                      <button @click="openRoomEditModal(room)">Edit</button>
                     </td>
-
                   </tr>
                 </tbody>
               </table>
@@ -231,134 +367,222 @@
           {{ successMessage }}
         </div>
       </div>
-           <!-- Edit Room Modal -->
-<div v-if="editRoomModalVisible" class="modal" tabindex="-1" role="dialog" style="display: block;">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Edit Room</h5>
-        <button type="button" class="close" @click="closeRoomEditModal">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <!-- Edit form for rooms -->
-        <form @submit.prevent="saveRoomEdit">
-  <div class="row">
-    <div class="col-md-6">
-      <div class="form-group">
-        <label for="room_name">Room Name</label>
-        <input type="text" class="form-control" placeholder="Name" v-model="editedRoom.room_name">
-      </div>
-      <div class="form-group">
-        <label for="price">Room Price</label>
-        <div class="input-group">
-         
-          <input type="number" class="form-control" placeholder="Price" v-model="editedRoom.price">
-        </div>
-      </div>
-      <!-- <div class="form-group">
+      <!-- Edit Room Modal -->
+      <div
+        v-if="editRoomModalVisible"
+        class="modal"
+        tabindex="-1"
+        role="dialog"
+        style="display: block"
+      >
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Edit Room</h5>
+              <button type="button" class="close" @click="closeRoomEditModal">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <!-- Edit form for rooms -->
+              <form @submit.prevent="saveRoomEdit">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="room_name">Room Name</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Name"
+                        v-model="editedRoom.room_name"
+                      />
+                    </div>
+                    <div class="form-group">
+                      <label for="price">Room Price</label>
+                      <div class="input-group">
+                        <input
+                          type="number"
+                          class="form-control"
+                          placeholder="Price"
+                          v-model="editedRoom.price"
+                        />
+                      </div>
+                    </div>
+                    <!-- <div class="form-group">
         <label for="downpayment">Room Downpayment</label>
         <div class="input-group">
          
           <input type="number" class="form-control" placeholder="Downpayment" v-model="editedRoom.downpayment">
         </div>
       </div> -->
-      <div class="form-group">
-        <label for="bed">Number of Beds</label>
-        <input type="number" class="form-control" placeholder="Beds" v-model="editedRoom.bed">
-      </div>
-    </div>
-    <div class="col-md-6">
-      <div class="form-group">
-        <label for="bath">Number of Baths</label>
-        <input type="number" class="form-control" placeholder="Baths" v-model="editedRoom.bath">
-      </div>
-      <div class="form-group">
-        <label for="description">Room Description</label>
-        <textarea class="form-control" placeholder="Description" v-model="editedRoom.description"></textarea>
-      </div>
-      <div class="form-group">
-        <label for="room_status">Room Status</label>
-        <select class="form-control" v-model="editedRoom.room_status">
-          <option value="Available">Available</option>
-          <option value="Booked">Booked</option>
-        </select>
-      </div>
-    </div>
-  </div>
+                    <div class="form-group">
+                      <label for="bed">Number of Beds</label>
+                      <input
+                        type="number"
+                        class="form-control"
+                        placeholder="Beds"
+                        v-model="editedRoom.bed"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="bath">Number of Baths</label>
+                      <input
+                        type="number"
+                        class="form-control"
+                        placeholder="Baths"
+                        v-model="editedRoom.bath"
+                      />
+                    </div>
+                    <div class="form-group">
+                      <label for="description">Room Description</label>
+                      <textarea
+                        class="form-control"
+                        placeholder="Description"
+                        v-model="editedRoom.description"
+                      ></textarea>
+                    </div>
+                    <div class="form-group">
+                      <label for="room_status">Room Status</label>
+                      <select
+                        class="form-control"
+                        v-model="editedRoom.room_status"
+                      >
+                        <option value="Available">Available</option>
+                        <option value="Booked">Booked</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
 
-  <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" @click="closeRoomEditModal">Close</button>
-    <button type="submit" class="btn btn-primary">Save Changes</button>
-  </div>
-</form>
-
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    @click="closeRoomEditModal"
+                  >
+                    Close
+                  </button>
+                  <button type="submit" class="btn btn-primary">
+                    Save Changes
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div v-if="successMessage" class="alert alert-success" role="alert">
+          {{ successMessage }}
+        </div>
       </div>
-    </div>
-  </div>
-  <div v-if="successMessage" class="alert alert-success" role="alert">
-    {{ successMessage }}
-  </div>
-</div>
 
       <div class="col-12">
-        <div class="modal" :class="{ 'show': addRoomModalVisible }">
+        <div class="modal" :class="{ show: addRoomModalVisible }">
           <div class="modal-dialog modal-lg">
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title">Add Room</h5>
-                <button type="button" class="close" @click="closeAddRoomModal">&times;</button>
+                <button type="button" class="close" @click="closeAddRoomModal">
+                  &times;
+                </button>
               </div>
               <form @submit.prevent="saveRoom">
                 <div class="modal-body">
                   <div class="form-group">
-    <label for="image">Room Images</label>
-    <input type="file" ref="roomImageInput" @change="handleRoomImageUpload" class="form-control-file" multiple required>
-</div>
-
+                    <label for="image">Room Images</label>
+                    <input
+                      type="file"
+                      ref="roomImageInput"
+                      @change="handleRoomImageUpload"
+                      class="form-control-file"
+                      multiple
+                      required
+                    />
+                  </div>
 
                   <div class="form-row">
                     <div class="form-group col-md-6">
                       <label for="room_name">Room Name</label>
-                      <input type="text" class="form-control" placeholder="Name" v-model="room_name" required>
+                      <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Name"
+                        v-model="room_name"
+                        required
+                      />
                     </div>
                     <div class="form-group col-md-6">
                       <label for="price">Room Price</label>
-                      <input type="number" class="form-control" placeholder="Price" v-model="price" required>
+                      <input
+                        type="number"
+                        class="form-control"
+                        placeholder="Price"
+                        v-model="price"
+                        required
+                      />
                     </div>
                     <div class="form-group col-md-6">
                       <label for="downpayment">Room Downpayment</label>
-                      <input type="number" class="form-control" placeholder="Downpayment" v-model="downpayment" required>
+                      <input
+                        type="number"
+                        class="form-control"
+                        placeholder="Downpayment"
+                        v-model="downpayment"
+                        required
+                      />
                     </div>
                     <div class="form-group col-md-6">
-      <label for="packs">Number of Pax</label>
-      <select class="form-control" v-model="packs">
-        <option value="3">3 Pax</option>
-        <option value="4">4 Pax</option>
-        <option value="6">6 Pax</option>
-      </select>
-    </div>
+                      <label for="packs">Number of Pax</label>
+                      <select class="form-control" v-model="packs">
+                        <option value="3">3 Pax</option>
+                        <option value="4">4 Pax</option>
+                        <option value="6">6 Pax</option>
+                      </select>
+                    </div>
                   </div>
 
                   <div class="form-row">
                     <div class="form-group col-md-6">
                       <label for="bed">Number of Beds</label>
-                      <input type="number" class="form-control" placeholder="Beds" v-model="bed" required>
+                      <input
+                        type="number"
+                        class="form-control"
+                        placeholder="Beds"
+                        v-model="bed"
+                        required
+                      />
                     </div>
                     <div class="form-group col-md-6">
                       <label for="bath">Number of Baths</label>
-                      <input type="number" class="form-control" placeholder="Baths" v-model="bath" required>
+                      <input
+                        type="number"
+                        class="form-control"
+                        placeholder="Baths"
+                        v-model="bath"
+                        required
+                      />
                     </div>
                   </div>
 
                   <div class="form-group">
                     <label for="description">Room Description</label>
-                    <textarea class="form-control" placeholder="Description" v-model="description" required></textarea>
+                    <textarea
+                      class="form-control"
+                      placeholder="Description"
+                      v-model="description"
+                      required
+                    ></textarea>
                   </div>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" @click="closeAddRoomModal">Close</button>
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    @click="closeAddRoomModal"
+                  >
+                    Close
+                  </button>
                   <button type="submit" class="btn btn-primary">Add</button>
                 </div>
               </form>
@@ -373,10 +597,13 @@
           <div class="card card-default">
             <div class="card-header">
               <h2>Booking Inventory</h2>
-
             </div>
             <div class="card-body">
-              <table id="productsTable" class="table table-hover table-product" style="width:100%">
+              <table
+                id="productsTable"
+                class="table table-hover table-product"
+                style="width: 100%"
+              >
                 <thead>
                   <tr>
                     <th>Booking Id</th>
@@ -391,7 +618,6 @@
                     <th>Booking Payment</th>
                     <th>Down Payment</th>
                     <th>Action</th>
-
                   </tr>
                 </thead>
                 <tbody>
@@ -406,37 +632,58 @@
                     <td>{{ book.room_name }}</td>
                     <td>{{ book.booking_status }}</td>
                     <td>{{ book.payment_method }}</td>
-                   <td>{{ book.downpayment }}</td>
+                    <td>{{ book.downpayment }}</td>
                     <td>
                       <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button
+                          class="btn btn-secondary dropdown-toggle"
+                          type="button"
+                          id="dropdownMenuButton"
+                          data-toggle="dropdown"
+                          aria-haspopup="true"
+                          aria-expanded="false"
+                        >
                           Actions
                         </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                          <a class="dropdown-item" @click="markAsPaid(book.book_id)">Paid</a>
-                          <a class="dropdown-item" @click="acceptBooking(book.book_id)">Confirm</a>
-                          <a class="dropdown-item" @click="declineBooking(book.book_id)">Decline Booking</a>
+                        <div
+                          class="dropdown-menu"
+                          aria-labelledby="dropdownMenuButton"
+                        >
+                          <a
+                            class="dropdown-item"
+                            @click="markAsPaid(book.book_id)"
+                            >Paid</a
+                          >
+                          <a
+                            class="dropdown-item"
+                            @click="acceptBooking(book.book_id)"
+                            >Confirm</a
+                          >
+                          <a
+                            class="dropdown-item"
+                            @click="declineBooking(book.book_id)"
+                            >Decline Booking</a
+                          >
                         </div>
                       </div>
                     </td>
-
                   </tr>
                 </tbody>
               </table>
               <!-- Quantity Modal -->
 
               <!-- Success Message -->
-              <div v-if="successMessage" class="alert alert-success" role="alert">
+              <div
+                v-if="successMessage"
+                class="alert alert-success"
+                role="alert"
+              >
                 {{ successMessage }}
               </div>
             </div>
           </div>
         </div>
-       
       </div>
-
-
 
       <div class="row">
         <!-- Table Product -->
@@ -444,10 +691,13 @@
           <div class="card card-default">
             <div class="card-header">
               <h2>Swimming Inventory</h2>
-
             </div>
             <div class="card-body">
-              <table id="productsTable" class="table table-hover table-product" style="width:100%">
+              <table
+                id="productsTable"
+                class="table table-hover table-product"
+                style="width: 100%"
+              >
                 <thead>
                   <tr>
                     <th>Enroll Id</th>
@@ -458,7 +708,6 @@
                     <th>Experience</th>
                     <th>Lesson Date</th>
                     <th>Action</th>
-
                   </tr>
                 </thead>
                 <tbody>
@@ -473,212 +722,280 @@
                     <td>{{ enroll.enrollment_status }}</td>
                     <td>
                       <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button
+                          class="btn btn-secondary dropdown-toggle"
+                          type="button"
+                          id="dropdownMenuButton"
+                          data-toggle="dropdown"
+                          aria-haspopup="true"
+                          aria-expanded="false"
+                        >
                           Actions
                         </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                          <a class="dropdown-item" @click="markthisPaid(enroll.enroll_id)">Paid</a>
-                          <a class="dropdown-item" @click="acceptenrolling(enroll.enroll_id)">Confirm</a>
-                          <a class="dropdown-item" @click="declineenrolling(enroll.enroll_id)">Decline Enroll</a>
+                        <div
+                          class="dropdown-menu"
+                          aria-labelledby="dropdownMenuButton"
+                        >
+                          <a
+                            class="dropdown-item"
+                            @click="markthisPaid(enroll.enroll_id)"
+                            >Paid</a
+                          >
+                          <a
+                            class="dropdown-item"
+                            @click="acceptenrolling(enroll.enroll_id)"
+                            >Confirm</a
+                          >
+                          <a
+                            class="dropdown-item"
+                            @click="declineenrolling(enroll.enroll_id)"
+                            >Decline Enroll</a
+                          >
                         </div>
                       </div>
                     </td>
-
                   </tr>
                 </tbody>
               </table>
               <!-- Quantity Modal -->
 
               <!-- Success Message -->
-              <div v-if="successMessage" class="alert alert-success" role="alert">
+              <div
+                v-if="successMessage"
+                class="alert alert-success"
+                role="alert"
+              >
                 {{ successMessage }}
               </div>
             </div>
           </div>
         </div>
-       
       </div>
-
-
 
       <div class="row">
-    <!-- Table Product -->
-    <div class="col-12">
-      <div class="card card-default">
-        <div class="card-header">
-          <h2>Orders Inventory</h2>
-        </div>
-        <div class="card-body">
-          <table id="ordersTable" class="table table-hover table-product" style="width:100%">
-            <!-- Table headers -->
-            <thead>
-              <tr>
-                <th>Order ID</th>
-                <th>User</th>
-                <th>Total Price</th>
-                <th>Shop</th>
-                <th>Quantity</th>
-                <th>status</th>                
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              <!-- Loop through orders and display rows -->
-              <tr v-for="order in orders" :key="order.order_id">
-                <td>{{ order.order_id }}</td>
-                <td>{{ order.user_name }}</td>
-                <td>{{ order.final_price }}</td>
-                <td>{{ order.prod_name }}</td>
-                <td>{{ order.quantity }}</td>
-                <td>{{ order.order_status }}</td>
-
-                <td>
-                  <div class="dropdown">
-                    <!-- Dropdown actions -->
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                      data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Actions
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                      <a class="dropdown-item" @click="markOrderPaid(order.order_id)">Mark as Paid</a>
-                      <a class="dropdown-item" @click="confirmOrder(order.order_id)">Confirm Order</a>
-                      <a class="dropdown-item" @click="declineOrder(order.order_id)">Decline Order</a>
-
-                    </div>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <!-- Loading Indicator -->
-          <div v-if="loading" class="text-center mt-3">
-            <div class="spinner-border" role="status">
-              <span class="sr-only">Loading...</span>
-            </div>
-          </div>
-          <!-- Success Message -->
-          <div v-if="successMessage" class="alert alert-success mt-3" role="alert">
-            {{ successMessage }}
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-    </div>
-
-    <div class="row">
-        <!-- Table Date -->
+        <!-- Table Product -->
         <div class="col-12">
           <div class="card card-default">
             <div class="card-header">
-              <h2>Swimming Lesson Date Inventory</h2>
-              <button type="button" class="btn btn-primary" @click="openAddModal">Add Date</button>
+              <h2>Orders Inventory</h2>
             </div>
             <div class="card-body">
-              <table id="productsTable" class="table table-hover table-product" style="width:100%">
+              <table
+                id="ordersTable"
+                class="table table-hover table-product"
+                style="width: 100%"
+              >
+                <!-- Table headers -->
                 <thead>
                   <tr>
-                    <th>Date</th>
+                    <th>Order ID</th>
+                    <th>User</th>
+                    <th>Total Price</th>
+                    <th>Shop</th>
+                    <th>Quantity</th>
+                    <th>status</th>
+                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="date in dates" :key="date">
-                    <td>{{ date }}</td>
+                  <!-- Loop through orders and display rows -->
+                  <tr v-for="order in orders" :key="order.order_id">
+                    <td>{{ order.order_id }}</td>
+                    <td>{{ order.user_name }}</td>
+                    <td>{{ order.final_price }}</td>
+                    <td>{{ order.prod_name }}</td>
+                    <td>{{ order.quantity }}</td>
+                    <td>{{ order.order_status }}</td>
+
+                    <td>
+                      <div class="dropdown">
+                        <!-- Dropdown actions -->
+                        <button
+                          class="btn btn-secondary dropdown-toggle"
+                          type="button"
+                          id="dropdownMenuButton"
+                          data-toggle="dropdown"
+                          aria-haspopup="true"
+                          aria-expanded="false"
+                        >
+                          Actions
+                        </button>
+                        <div
+                          class="dropdown-menu"
+                          aria-labelledby="dropdownMenuButton"
+                        >
+                          <a
+                            class="dropdown-item"
+                            @click="markOrderPaid(order.order_id)"
+                            >Mark as Paid</a
+                          >
+                          <a
+                            class="dropdown-item"
+                            @click="confirmOrder(order.order_id)"
+                            >Confirm Order</a
+                          >
+                          <a
+                            class="dropdown-item"
+                            @click="declineOrder(order.order_id)"
+                            >Decline Order</a
+                          >
+                        </div>
+                      </div>
+                    </td>
                   </tr>
                 </tbody>
               </table>
+              <!-- Loading Indicator -->
+              <div v-if="loading" class="text-center mt-3">
+                <div class="spinner-border" role="status">
+                  <span class="sr-only">Loading...</span>
+                </div>
+              </div>
               <!-- Success Message -->
-              <div v-if="successMessage" class="alert alert-success" role="alert">
+              <div
+                v-if="successMessage"
+                class="alert alert-success mt-3"
+                role="alert"
+              >
                 {{ successMessage }}
               </div>
             </div>
           </div>
         </div>
+      </div>
     </div>
 
     <div class="row">
-  <!-- Table Date -->
-  <div class="col-12">
-    <div class="card card-default">
-      <div class="card-header">
-        <h2>Swimming Lesson Date Inventory</h2>
-        <button type="button" class="btn btn-primary" @click="openAddModal">Add Date</button>
-      </div>
-      <div class="card-body">
-        <div class="input-group">
-          <input type="text" class="form-control" placeholder="Select Date" ref="datepicker">
-
-        </div>
-        <!-- Success Message -->
-        <div v-if="successMessage" class="alert alert-success" role="alert">
-          {{ successMessage }}
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
-
- 
-  <!-- Modal for Adding -->
-  <div class="col-12">
-    <div class="modal" :class="{ 'show': addModalVisible }">
-      <!-- Modal content for adding -->
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Add Date</h5>
-            <button type="button" class="close" @click="closeAddModal">&times;</button>
+      <!-- Table Date -->
+      <div class="col-12">
+        <div class="card card-default">
+          <div class="card-header">
+            <h2>Swimming Lesson Date Inventory</h2>
+            <button
+              type="button"
+              class="btn btn-primary"
+              @click="openAddDateModal"
+            >
+              Add Date
+            </button>
           </div>
-          <!-- Add form -->
-          <form @submit.prevent="saveDate" enctype="multipart/form-data">
-            <div class="modal-body">
-              <div class="form-group">
-                <label for="swimming_date">Swimming Date</label>
-                <input type="date" class="form-control" placeholder="Date" v-model="swimming_date" required />
-              </div>
+          <div class="card-body">
+            <table
+              id="productsTable"
+              class="table table-hover table-product"
+              style="width: 100%"
+            >
+              <thead>
+                <tr>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="date in dates" :key="date">
+                  <td>{{ date }}</td>
+                </tr>
+              </tbody>
+            </table>
+            <!-- Success Message -->
+            <div v-if="successMessage" class="alert alert-success" role="alert">
+              {{ successMessage }}
             </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" @click="closeAddModal">Close</button>
-              <button type="submit" class="btn btn-primary">Add</button>
-            </div>
-          </form>
+          </div>
         </div>
       </div>
     </div>
-    <div v-if="successMessage2" class="alert alert-success" role="alert">
-      {{ successMessage2 }}
+
+    <div class="row">
+      <!-- Table Date -->
+      <div class="col-12">
+        <div class="card card-default">
+          <div class="card-header">
+            <h2>Swimming Lesson Date Inventory</h2>
+            <button
+  type="button"
+  class="btn btn-primary"
+  @click="openAddDateModal"
+>
+  Add Date
+</button>
+          </div>
+          <div class="card-body">
+            <div class="input-group">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Select Date"
+                ref="datepicker"
+              />
+            </div>
+            <!-- Success Message -->
+            <div v-if="successMessage" class="alert alert-success" role="alert">
+              {{ successMessage }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+ <!-- Modal for Adding -->
+<div class="modal" :class="{ show: addDateModalVisible }">
+  <!-- Modal content for adding -->
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add Date</h5>
+        <button type="button" class="close" @click="closeAddDateModal">
+          &times;
+        </button>
+      </div>
+      <!-- Add form -->
+      <form @submit.prevent="saveDate" enctype="multipart/form-data">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="swimming_date">Swimming Date</label>
+            <input
+              type="date"
+              class="form-control"
+              placeholder="Date"
+              v-model="swimming_date"
+              required
+            />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            @click="closeAddDateModal"
+          >
+            Close
+          </button>
+          <button type="submit" class="btn btn-primary">Add</button>
+        </div>
+      </form>
     </div>
   </div>
 </div>
+  </div>
   <Notification
-      :show="notification.show"
-      :type="notification.type"
-      :message="notification.message"
-      class="bottom-right-notification"
-    />
-
-
-  
+    :show="notification.show"
+    :type="notification.type"
+    :message="notification.message"
+    class="bottom-right-notification"
+  />
 </template>
 
 <script>
-import axios from 'axios';
-import flatpickr from 'flatpickr';
-import 'flatpickr/dist/flatpickr.min.css';
-import 'bootstrap';
-import Notification from '@/components/Notification.vue';
-import SidebarAdmin from '@/components/SidebarAdmin.vue';
-import HeaderAdmin from '@/components/HeaderAdmin.vue';
-
-
+import axios from "axios";
+import flatpickr from "flatpickr";
+import "flatpickr/dist/flatpickr.min.css";
+import "bootstrap";
+import Notification from "@/components/Notification.vue";
+import SidebarAdmin from "@/components/SidebarAdmin.vue";
+import HeaderAdmin from "@/components/HeaderAdmin.vue";
 
 export default {
-
-  name: 'inventory',
+  name: "inventory",
   components: {
     SidebarAdmin,
     HeaderAdmin,
@@ -686,10 +1003,12 @@ export default {
   },
   data() {
     return {
+      addDateModalVisible: false,
+
       successMessage: null,
       flatpickrInstance: null,
       selectedDate: null,
-      dates: [], // date of swimming 
+      dates: [], // date of swimming
       orders: [],
       loading: false,
       editRoomModalVisible: false,
@@ -698,19 +1017,19 @@ export default {
       editedInfo: null,
       room: [],
       book: [],
-      enroll:[],
+      enroll: [],
       infos: [],
       shop: [],
       date: [],
-     
-      swimming_date:'',
-      successMessage2: '', 
+
+      swimming_date: "",
+      successMessage2: "",
       addModalVisible: false,
-      prod_img: '',
-      prod_name: '',
-      prod_quantity: '',
-      prod_desc: '',
-      prod_price: '',
+      prod_img: "",
+      prod_name: "",
+      prod_quantity: "",
+      prod_desc: "",
+      prod_price: "",
       addingItemId: null,
       quantityModalVisible: false,
       selectedProduct: null,
@@ -722,21 +1041,19 @@ export default {
         message: "",
       },
       addRoomModalVisible: false,
-      room_name: '',
-      price: '',
-      bed: '',
-      bath: '',
-      packs: '3', // Default to 3 packs 
-      description: '',
-      downpayment:'',
-      room_img: '',
+      room_name: "",
+      price: "",
+      bed: "",
+      bath: "",
+      packs: "3", // Default to 3 packs
+      description: "",
+      downpayment: "",
+      room_img: "",
       ConfirmationVisible: false,
-
 
     };
   },
   mounted() {
-
     // Fetch dates from the server
     this.getDate();
   },
@@ -746,108 +1063,113 @@ export default {
     this.getbook();
     this.getenroll();
     this.getDate();
-    this.fetchOrdersForAllUsers();  
+    this.fetchOrdersForAllUsers();
   },
 
-
-    methods: {
-      openDatePicker() {
+  methods: {
+    openAddDateModal() {
+      // Implement this method
+      this.addDateModalVisible = true;
+    },
+    closeAddDateModal() {
+      // Implement this method
+      this.addDateModalVisible = false;
+    },
+    openDatePicker() {
       // Open the flatpickr calendar when the input field is clicked
       this.flatpickrInstance.open();
     },
 
-
-
-
     async declineOrder(orderId) {
-            try {
-                const response = await axios.post(`/api/decline-order/${orderId}`);
+      try {
+        const response = await axios.post(`/api/decline-order/${orderId}`);
 
-                if (response.status === 200) {
-                    this.showSuccessNotification(`Order ${orderId} Declined`);
-                    this.fetchOrdersForAllUsers();  
-                    this.getInfo();
+        if (response.status === 200) {
+          this.showSuccessNotification(`Order ${orderId} Declined`);
+          this.fetchOrdersForAllUsers();
+          this.getInfo();
 
-                    this.$emit('data-saved');
-                } else {
-                    console.error('Failed to decline order:', response.data.message);
-                }
-            } catch (error) {
-                console.error('Error declining order:', error);
-            }
-        },
-    
+          this.$emit("data-saved");
+        } else {
+          console.error("Failed to decline order:", response.data.message);
+        }
+      } catch (error) {
+        console.error("Error declining order:", error);
+      }
+    },
+
     async declineBooking(booking_id) {
-  try {
-    const response = await axios.post(`/api/decline-booking/${booking_id}`);
+      try {
+        const response = await axios.post(`/api/decline-booking/${booking_id}`);
 
-    if (response.status === 200) {
-      this.showSuccessNotification(`Booking ${booking_id} Declined`);
-      this.getbook();
-      this.getRoom();
+        if (response.status === 200) {
+          this.showSuccessNotification(`Booking ${booking_id} Declined`);
+          this.getbook();
+          this.getRoom();
 
-      this.$emit('data-saved');
-    } else {
-      console.error('Failed to decline booking:', response.data.message);
-    }
-  } catch (error) {
-    console.error('Error declining booking:', error);
-  }
-},
-async declineenrolling(enroll_id) {
-  try {
-    const response = await axios.post(`/api/decline-enroll/${enroll_id}`);
+          this.$emit("data-saved");
+        } else {
+          console.error("Failed to decline booking:", response.data.message);
+        }
+      } catch (error) {
+        console.error("Error declining booking:", error);
+      }
+    },
+    async declineenrolling(enroll_id) {
+      try {
+        const response = await axios.post(`/api/decline-enroll/${enroll_id}`);
 
-    if (response.status === 200) {
-      this.showSuccessNotification(`Enrolling ${enroll_id} Declined`);
-      this.getenroll();
-   
+        if (response.status === 200) {
+          this.showSuccessNotification(`Enrolling ${enroll_id} Declined`);
+          this.getenroll();
 
-      this.$emit('data-saved');
-    } else {
-      console.error('Failed to decline enroll:', response.data.message);
-    }
-  } catch (error) {
-    console.error('Error declining enroll:', error);
-  }
-},
+          this.$emit("data-saved");
+        } else {
+          console.error("Failed to decline enroll:", response.data.message);
+        }
+      } catch (error) {
+        console.error("Error declining enroll:", error);
+      }
+    },
 
     fetchOrdersForAllUsers() {
-  this.loading = true;
-  axios.get(`/api/user-orders/`)
-    .then((response) => {
-      console.log(response.data);  // Add this line to log the response
-      this.orders = response.data.orders;
-      return this.orders.filter(order => order.order_status !== 'paid');
-    })
-    .catch((error) => {
-      console.error("Error fetching orders:", error);
-    })
-    .finally(() => {
-      this.loading = false;
-    });
-},
-
-markOrderPaid(orderId) {
-      axios.post(`/api/mark-order-paid/${orderId}`)
-        .then(response => {
-          console.log(response.data);
-          this.fetchOrdersForAllUsers(); 
+      this.loading = true;
+      axios
+        .get(`/api/user-orders/`)
+        .then((response) => {
+          console.log(response.data); // Add this line to log the response
+          this.orders = response.data.orders;
+          return this.orders.filter((order) => order.order_status !== "paid");
         })
-        .catch(error => {
-          console.error('Error marking order as paid:', error);
+        .catch((error) => {
+          console.error("Error fetching orders:", error);
+        })
+        .finally(() => {
+          this.loading = false;
+        });
+    },
+
+    markOrderPaid(orderId) {
+      axios
+        .post(`/api/mark-order-paid/${orderId}`)
+        .then((response) => {
+          console.log(response.data);
+          this.fetchOrdersForAllUsers();
+        })
+        .catch((error) => {
+          console.error("Error marking order as paid:", error);
         });
     },
 
     confirmOrder(orderId) {
-      axios.post(`/api/confirm-order/${orderId}`)
-        .then(response => {
+      axios
+        .post(`/api/confirm-order/${orderId}`)
+        .then((response) => {
           console.log(response.data);
-          this.fetchOrdersForAllUsers(); 
-
+          this.fetchOrdersForAllUsers();
         })
-        .catch(error => {
-          console.error('Error confirming order:', error);
+        .catch((error) => {
+          console.error("Error confirming order:", error);
         });
     },
     openRoomEditModal(room) {
@@ -860,47 +1182,43 @@ markOrderPaid(orderId) {
       this.editRoomModalVisible = false;
     },
 
-async saveRoomEdit() {
-  try {
-    const data = {
-      room_name: this.editedRoom.room_name,
-      price: this.editedRoom.price,
-      downpayment: this.editedRoom.downpayment,
-      bed: this.editedRoom.bed,
-      bath: this.editedRoom.bath,
-      description: this.editedRoom.description,
-      room_status: this.editedRoom.room_status, // Add room_status to the data object
-    };
+    async saveRoomEdit() {
+      try {
+        const data = {
+          room_name: this.editedRoom.room_name,
+          price: this.editedRoom.price,
+          downpayment: this.editedRoom.downpayment,
+          bed: this.editedRoom.bed,
+          bath: this.editedRoom.bath,
+          description: this.editedRoom.description,
+          room_status: this.editedRoom.room_status, // Add room_status to the data object
+        };
 
-    const apiUrl = `/updateRoom/${this.editedRoom.room_id}`;
-    const response = await axios.put(apiUrl, data);
+        const apiUrl = `/updateRoom/${this.editedRoom.room_id}`;
+        const response = await axios.put(apiUrl, data);
 
-    console.log('Room updated successfully:', response.data);
-    this.closeRoomEditModal();
-    this.showSuccessNotification("Room Updated Successfully");
-    this.getRoom();
-
-  } catch (error) {
-    console.error('Error updating room:', error);
-    this.showErrorNotification("Failed to update room");
-  }
-},
-
-
+        console.log("Room updated successfully:", response.data);
+        this.closeRoomEditModal();
+        this.showSuccessNotification("Room Updated Successfully");
+        this.getRoom();
+      } catch (error) {
+        console.error("Error updating room:", error);
+        this.showErrorNotification("Failed to update room");
+      }
+    },
 
     openAddRoomModal() {
       this.addRoomModalVisible = true;
     },
     closeAddRoomModal() {
       this.addRoomModalVisible = false;
-
     },
     handleRoomImageUpload() {
       const fileInput = this.$refs.roomImageInput;
       const file = fileInput.files[0];
 
       const formData = new FormData();
-      formData.append('image', file);
+      formData.append("image", file);
 
       this.room_img = formData;
     },
@@ -908,28 +1226,28 @@ async saveRoomEdit() {
       try {
         // Use FormData for room image uploads
         const data = this.room_img;
-        data.append('room_name', this.room_name);
-        data.append('price', this.price);
-        data.append('downpayment', this.downpayment);
-        data.append('packs', this.packs);
+        data.append("room_name", this.room_name);
+        data.append("price", this.price);
+        data.append("downpayment", this.downpayment);
+        data.append("packs", this.packs);
 
-        data.append('bed', this.bed);
-        data.append('bath', this.bath);
-        data.append('description', this.description);
+        data.append("bed", this.bed);
+        data.append("bath", this.bath);
+        data.append("description", this.description);
         this.showSuccessNotification("Room Added Successfully");
 
-        const ins = await axios.post('saveRoom', data);
+        const ins = await axios.post("saveRoom", data);
 
         this.closeAddRoomModal();
-        this.room_img = '';
-        this.room_name = '';
-        this.price = '';
-        this.downpayment = '';
-        this.packs = '';
+        this.room_img = "";
+        this.room_name = "";
+        this.price = "";
+        this.downpayment = "";
+        this.packs = "";
 
-        this.bed = '';
-        this.bath = '';
-        this.description = '';
+        this.bed = "";
+        this.bath = "";
+        this.description = "";
 
         this.getRoom();
         this.getbook();
@@ -946,12 +1264,12 @@ async saveRoomEdit() {
           this.showSuccessNotification(`Booking ${booking_id} Marked as Paid`);
           this.getbook();
 
-          this.$emit('data-saved');
+          this.$emit("data-saved");
         } else {
-          console.error('Failed to mark as paid:', response.data.message);
+          console.error("Failed to mark as paid:", response.data.message);
         }
       } catch (error) {
-        console.error('Error marking as paid:', error);
+        console.error("Error marking as paid:", error);
       }
     },
     async markthisPaid(enroll_id) {
@@ -959,15 +1277,17 @@ async saveRoomEdit() {
         const response = await axios.post(`/mark-this-paid/${enroll_id}`);
 
         if (response.status === 200) {
-          this.showSuccessNotification(`enrollment ${enroll_id} Marked this Paid`);
+          this.showSuccessNotification(
+            `enrollment ${enroll_id} Marked this Paid`
+          );
           this.getbook();
 
-          this.$emit('data-saved');
+          this.$emit("data-saved");
         } else {
-          console.error('Failed to mark this paid:', response.data.message);
+          console.error("Failed to mark this paid:", response.data.message);
         }
       } catch (error) {
-        console.error('Error marking this paid:', error);
+        console.error("Error marking this paid:", error);
       }
     },
 
@@ -979,12 +1299,12 @@ async saveRoomEdit() {
           const updatedBookingId = response.data.booking_id;
           this.showSuccessNotification(`Booking ${updatedBookingId} Accepted`);
           this.getbook();
-          this.$emit('data-saved');
+          this.$emit("data-saved");
         } else {
-          console.error('Failed to accept booking:', response.data.message);
+          console.error("Failed to accept booking:", response.data.message);
         }
       } catch (error) {
-        console.error('Error accepting booking:', error);
+        console.error("Error accepting booking:", error);
       }
     },
 
@@ -994,14 +1314,16 @@ async saveRoomEdit() {
 
         if (response.status === 200) {
           const updatedEnrollingId = response.data.enroll_id;
-          this.showSuccessNotification(`Enrolling ${updatedEnrollingId} Accepted`);
+          this.showSuccessNotification(
+            `Enrolling ${updatedEnrollingId} Accepted`
+          );
           this.getenroll();
-          this.$emit('data-saved');
+          this.$emit("data-saved");
         } else {
-          console.error('Failed to accept enrolling:', response.data.message);
+          console.error("Failed to accept enrolling:", response.data.message);
         }
       } catch (error) {
-        console.error('Error accepting enrolling:', error);
+        console.error("Error accepting enrolling:", error);
       }
     },
 
@@ -1013,7 +1335,6 @@ async saveRoomEdit() {
       const r = await axios.get("/getRoom");
       this.room = r.data;
       this.getbook();
-
     },
     async getenroll() {
       const b = await axios.get("/getenroll");
@@ -1021,64 +1342,50 @@ async saveRoomEdit() {
     },
 
     async getDate() {
-    try {
+      try {
         const response = await axios.get("/getDate");
-        
+
         // Check if response status is OK
         if (response && response.status === 200) {
-            // Check if response data is valid
-            if (response.data && Array.isArray(response.data)) {
-                // Assuming the dates are in the correct format
-                this.dates = response.data; 
-                this.initFlatpickr();
-            } else {
-                console.error('Error fetching dates: Response data is empty or not an array');
-            }
+          // Check if response data is valid
+          if (response.data && Array.isArray(response.data)) {
+            // Assuming the dates are in the correct format
+            this.dates = response.data;
+            this.initFlatpickr();
+          } else {
+            console.error(
+              "Error fetching dates: Response data is empty or not an array"
+            );
+          }
         } else {
-            console.error('Error fetching dates: Invalid response status');
+          console.error("Error fetching dates: Invalid response status");
         }
-    } catch (error) {
-        console.error('Error fetching dates:', error);
+      } catch (error) {
+        console.error("Error fetching dates:", error);
         // Handle error if needed
-    }
-}
-,
-
-initFlatpickr() {
-    // Initialize flatpickr instance
-    this.flatpickrInstance = flatpickr(this.$refs.datepicker, {
+      }
+    },
+    initFlatpickr() {
+      this.flatpickrInstance = flatpickr(this.$refs.datepicker, {
         dateFormat: 'Y-m-d',
-        enable: this.dates, // Enable dates from the 'dates' array
+        enable: this.dates,
         onClose: selectedDates => {
-            this.selectedDate = selectedDates[0];
+          this.selectedDate = selectedDates[0];
         },
         onReady: (selectedDates, dateStr, instance) => {
-            // Add custom class to selected dates for styling
-            selectedDates.forEach(date => {
-                const dateElem = instance.days.querySelector(`[data-date="${date}"]`);
-                if (dateElem) {
-                    dateElem.classList.add('custom-selected-date');
-                }
-            });
+          selectedDates.forEach(date => {
+            const dateElem = instance.days.querySelector(`[data-date="${date}"]`);
+            if (dateElem) {
+              dateElem.classList.add('custom-selected-date');
+            }
+          });
         }
-    });
-},
-
-
-
-
-
-
-
-
-
-
-
-
+      });
+    },
 
     navigateToAuditHistory(info) {
       const shopId = info.shop_id;
-      this.$router.push({ name: 'auditHistory', params: { shopId } });
+      this.$router.push({ name: "auditHistory", params: { shopId } });
     },
 
     async getAuditHistory(shopId) {
@@ -1086,7 +1393,7 @@ initFlatpickr() {
         const response = await axios.get(`/api/audit/history/${shopId}`);
         this.auditHistory = response.data;
       } catch (error) {
-        console.error('Error fetching audit history:', error);
+        console.error("Error fetching audit history:", error);
       }
     },
 
@@ -1100,23 +1407,26 @@ initFlatpickr() {
       this.selectedProduct = null;
       this.quantityToAdd = 0;
       this.quantityModalVisible = false;
-
     },
 
     async addQuantity() {
       const updatedProduct = { ...this.selectedProduct };
       updatedProduct.prod_quantity += parseInt(this.quantityToAdd);
-      const response = await axios.put(`/updateQuantity/${updatedProduct.shop_id}`, {
-        id: updatedProduct.id,
-        quantity: this.quantityToAdd,
-      });
-      const index = this.infos.findIndex((product) => product.id === updatedProduct.id);
+      const response = await axios.put(
+        `/updateQuantity/${updatedProduct.shop_id}`,
+        {
+          id: updatedProduct.id,
+          quantity: this.quantityToAdd,
+        }
+      );
+      const index = this.infos.findIndex(
+        (product) => product.id === updatedProduct.id
+      );
       this.infos[index] = updatedProduct;
       this.closeQuantityModal();
       this.showSuccessNotification("Quantity Updated Successfully");
       this.getInfo();
-      this.$emit('data-saved');
-
+      this.$emit("data-saved");
     },
 
     showSuccessNotification(message) {
@@ -1145,7 +1455,7 @@ initFlatpickr() {
 
     async getInfo() {
       try {
-        const inf = await axios.get('getDataShop');
+        const inf = await axios.get("getDataShop");
         this.infos = inf.data;
         this.shop = inf.data;
       } catch (error) {
@@ -1160,14 +1470,13 @@ initFlatpickr() {
     closeAddModal() {
       this.addModalVisible = false;
       this.showSuccessNotification("Product Added Successfully");
-
     },
     handleImageUpload() {
       const fileInput = this.$refs.imageInput;
       const file = fileInput.files[0];
 
       const formData = new FormData();
-      formData.append('prod_image', file);
+      formData.append("prod_image", file);
 
       this.prod_img = formData;
     },
@@ -1175,16 +1484,15 @@ initFlatpickr() {
     async saveShop(mode) {
       try {
         let data = {};
-        if (mode === 'add') {
+        if (mode === "add") {
           // Use FormData for image uploads
           if (this.prod_img instanceof FormData) {
             data = this.prod_img;
-            data.append('prod_name', this.prod_name);
-            data.append('prod_quantity', this.prod_quantity);
-            data.append('prod_desc', this.prod_desc);
-            data.append('prod_price', this.prod_price);
+            data.append("prod_name", this.prod_name);
+            data.append("prod_quantity", this.prod_quantity);
+            data.append("prod_desc", this.prod_desc);
+            data.append("prod_price", this.prod_price);
             this.showSuccessNotification("Product Added Successfully");
-
           } else {
             data = {
               prod_name: this.prod_name,
@@ -1195,17 +1503,16 @@ initFlatpickr() {
           }
         }
 
-        const ins = await axios.post('saveShop', data);
+        const ins = await axios.post("saveShop", data);
 
-        if (mode === 'add') {
+        if (mode === "add") {
           this.closeAddModal();
-          this.prod_img = '';
-          this.prod_name = '';
-          this.prod_quantity = '';
-          this.prod_desc = '';
-          this.prod_price = '';
+          this.prod_img = "";
+          this.prod_name = "";
+          this.prod_quantity = "";
+          this.prod_desc = "";
+          this.prod_price = "";
           this.getInfo();
-
         }
       } catch (error) {
         console.error(error);
@@ -1221,11 +1528,9 @@ initFlatpickr() {
 
         if (response.status === 200) {
           this.successMessage2 = 'Date added successfully';
-          this.closeAddModal();
-          this.swimming_date = ''; // Clear the input field after successful addition
-          // Refresh the displayed dates after adding a new one
+          this.closeAddDateModal();
+          this.swimming_date = '';
           this.getDate();
-          // Automatically clear the success message after 3 seconds
           setTimeout(() => {
             this.successMessage2 = '';
           }, 3000);
@@ -1260,26 +1565,22 @@ initFlatpickr() {
           prod_name: this.editedInfo.prod_name,
           prod_desc: this.editedInfo.prod_desc,
           prod_price: this.editedInfo.prod_price,
-
         };
 
         const apiUrl = `/updateShop/${this.editedInfo.shop_id}`;
         const response = await axios.put(apiUrl, data);
 
-        console.log('Product updated successfully:', response.data);
+        console.log("Product updated successfully:", response.data);
         this.closeEditModal();
         this.showSuccessNotification("Product Updated Successfully");
 
         this.getInfo();
 
-        this.$emit('data-saved');
-
+        this.$emit("data-saved");
       } catch (error) {
-        console.error('Error updating product:', error);
-
+        console.error("Error updating product:", error);
       }
     },
-
 
     handleEditImageUpload() {
       const fileInput = this.$refs.editImageInput;
@@ -1287,12 +1588,9 @@ initFlatpickr() {
 
       this.editedInfo.newImage = file;
     },
-  }
+  },
 };
 </script>
-
-
-
 
 <style scoped>
 /**
@@ -1310,8 +1608,7 @@ initFlatpickr() {
  * Copyright 2011-2021 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
- /* Add custom style for selected dates */
-
+/* Add custom style for selected dates */
 
 :root {
   --blue: #007bff;
@@ -1343,8 +1640,11 @@ initFlatpickr() {
   --breakpoint-lg: 992px;
   --breakpoint-xl: 1200px;
   --breakpoint-xxl: 1500px;
-  --font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
 }
 
 *,
@@ -1510,7 +1810,8 @@ pre,
 code,
 kbd,
 samp {
-  font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
   font-size: 1em;
 }
 
@@ -1586,7 +1887,7 @@ select {
   text-transform: none;
 }
 
-[role=button] {
+[role="button"] {
   cursor: pointer;
 }
 
@@ -1595,29 +1896,29 @@ select {
 }
 
 button,
-[type=button],
-[type=reset],
-[type=submit] {
+[type="button"],
+[type="reset"],
+[type="submit"] {
   -webkit-appearance: button;
 }
 
 button:not(:disabled),
-[type=button]:not(:disabled),
-[type=reset]:not(:disabled),
-[type=submit]:not(:disabled) {
+[type="button"]:not(:disabled),
+[type="reset"]:not(:disabled),
+[type="submit"]:not(:disabled) {
   cursor: pointer;
 }
 
 button::-moz-focus-inner,
-[type=button]::-moz-focus-inner,
-[type=reset]::-moz-focus-inner,
-[type=submit]::-moz-focus-inner {
+[type="button"]::-moz-focus-inner,
+[type="reset"]::-moz-focus-inner,
+[type="submit"]::-moz-focus-inner {
   padding: 0;
   border-style: none;
 }
 
-input[type=radio],
-input[type=checkbox] {
+input[type="radio"],
+input[type="checkbox"] {
   box-sizing: border-box;
   padding: 0;
 }
@@ -1650,17 +1951,17 @@ progress {
   vertical-align: baseline;
 }
 
-[type=number]::-webkit-inner-spin-button,
-[type=number]::-webkit-outer-spin-button {
+[type="number"]::-webkit-inner-spin-button,
+[type="number"]::-webkit-outer-spin-button {
   height: auto;
 }
 
-[type=search] {
+[type="search"] {
   outline-offset: -2px;
   -webkit-appearance: none;
 }
 
-[type=search]::-webkit-search-decoration {
+[type="search"]::-webkit-search-decoration {
   -webkit-appearance: none;
 }
 
@@ -1854,7 +2155,7 @@ code {
   word-wrap: break-word;
 }
 
-a>code {
+a > code {
   color: inherit;
 }
 
@@ -1903,7 +2204,6 @@ pre code {
 }
 
 @media (min-width: 576px) {
-
   .container-sm,
   .container {
     max-width: 540px;
@@ -1911,7 +2211,6 @@ pre code {
 }
 
 @media (min-width: 768px) {
-
   .container-md,
   .container-sm,
   .container {
@@ -1920,7 +2219,6 @@ pre code {
 }
 
 @media (min-width: 992px) {
-
   .container-lg,
   .container-md,
   .container-sm,
@@ -1930,7 +2228,6 @@ pre code {
 }
 
 @media (min-width: 1200px) {
-
   .container-xl,
   .container-lg,
   .container-md,
@@ -1952,8 +2249,8 @@ pre code {
   margin-left: 0;
 }
 
-.no-gutters>.col,
-.no-gutters>[class*=col-] {
+.no-gutters > .col,
+.no-gutters > [class*="col-"] {
   padding-right: 0;
   padding-left: 0;
 }
@@ -2054,32 +2351,32 @@ pre code {
   max-width: 100%;
 }
 
-.row-cols-1>* {
+.row-cols-1 > * {
   flex: 0 0 100%;
   max-width: 100%;
 }
 
-.row-cols-2>* {
+.row-cols-2 > * {
   flex: 0 0 50%;
   max-width: 50%;
 }
 
-.row-cols-3>* {
+.row-cols-3 > * {
   flex: 0 0 33.3333333333%;
   max-width: 33.3333333333%;
 }
 
-.row-cols-4>* {
+.row-cols-4 > * {
   flex: 0 0 25%;
   max-width: 25%;
 }
 
-.row-cols-5>* {
+.row-cols-5 > * {
   flex: 0 0 20%;
   max-width: 20%;
 }
 
-.row-cols-6>* {
+.row-cols-6 > * {
   flex: 0 0 16.6666666667%;
   max-width: 16.6666666667%;
 }
@@ -2261,32 +2558,32 @@ pre code {
     max-width: 100%;
   }
 
-  .row-cols-sm-1>* {
+  .row-cols-sm-1 > * {
     flex: 0 0 100%;
     max-width: 100%;
   }
 
-  .row-cols-sm-2>* {
+  .row-cols-sm-2 > * {
     flex: 0 0 50%;
     max-width: 50%;
   }
 
-  .row-cols-sm-3>* {
+  .row-cols-sm-3 > * {
     flex: 0 0 33.3333333333%;
     max-width: 33.3333333333%;
   }
 
-  .row-cols-sm-4>* {
+  .row-cols-sm-4 > * {
     flex: 0 0 25%;
     max-width: 25%;
   }
 
-  .row-cols-sm-5>* {
+  .row-cols-sm-5 > * {
     flex: 0 0 20%;
     max-width: 20%;
   }
 
-  .row-cols-sm-6>* {
+  .row-cols-sm-6 > * {
     flex: 0 0 16.6666666667%;
     max-width: 16.6666666667%;
   }
@@ -2473,32 +2770,32 @@ pre code {
     max-width: 100%;
   }
 
-  .row-cols-md-1>* {
+  .row-cols-md-1 > * {
     flex: 0 0 100%;
     max-width: 100%;
   }
 
-  .row-cols-md-2>* {
+  .row-cols-md-2 > * {
     flex: 0 0 50%;
     max-width: 50%;
   }
 
-  .row-cols-md-3>* {
+  .row-cols-md-3 > * {
     flex: 0 0 33.3333333333%;
     max-width: 33.3333333333%;
   }
 
-  .row-cols-md-4>* {
+  .row-cols-md-4 > * {
     flex: 0 0 25%;
     max-width: 25%;
   }
 
-  .row-cols-md-5>* {
+  .row-cols-md-5 > * {
     flex: 0 0 20%;
     max-width: 20%;
   }
 
-  .row-cols-md-6>* {
+  .row-cols-md-6 > * {
     flex: 0 0 16.6666666667%;
     max-width: 16.6666666667%;
   }
@@ -2685,32 +2982,32 @@ pre code {
     max-width: 100%;
   }
 
-  .row-cols-lg-1>* {
+  .row-cols-lg-1 > * {
     flex: 0 0 100%;
     max-width: 100%;
   }
 
-  .row-cols-lg-2>* {
+  .row-cols-lg-2 > * {
     flex: 0 0 50%;
     max-width: 50%;
   }
 
-  .row-cols-lg-3>* {
+  .row-cols-lg-3 > * {
     flex: 0 0 33.3333333333%;
     max-width: 33.3333333333%;
   }
 
-  .row-cols-lg-4>* {
+  .row-cols-lg-4 > * {
     flex: 0 0 25%;
     max-width: 25%;
   }
 
-  .row-cols-lg-5>* {
+  .row-cols-lg-5 > * {
     flex: 0 0 20%;
     max-width: 20%;
   }
 
-  .row-cols-lg-6>* {
+  .row-cols-lg-6 > * {
     flex: 0 0 16.6666666667%;
     max-width: 16.6666666667%;
   }
@@ -2897,32 +3194,32 @@ pre code {
     max-width: 100%;
   }
 
-  .row-cols-xl-1>* {
+  .row-cols-xl-1 > * {
     flex: 0 0 100%;
     max-width: 100%;
   }
 
-  .row-cols-xl-2>* {
+  .row-cols-xl-2 > * {
     flex: 0 0 50%;
     max-width: 50%;
   }
 
-  .row-cols-xl-3>* {
+  .row-cols-xl-3 > * {
     flex: 0 0 33.3333333333%;
     max-width: 33.3333333333%;
   }
 
-  .row-cols-xl-4>* {
+  .row-cols-xl-4 > * {
     flex: 0 0 25%;
     max-width: 25%;
   }
 
-  .row-cols-xl-5>* {
+  .row-cols-xl-5 > * {
     flex: 0 0 20%;
     max-width: 20%;
   }
 
-  .row-cols-xl-6>* {
+  .row-cols-xl-6 > * {
     flex: 0 0 16.6666666667%;
     max-width: 16.6666666667%;
   }
@@ -3109,32 +3406,32 @@ pre code {
     max-width: 100%;
   }
 
-  .row-cols-xxl-1>* {
+  .row-cols-xxl-1 > * {
     flex: 0 0 100%;
     max-width: 100%;
   }
 
-  .row-cols-xxl-2>* {
+  .row-cols-xxl-2 > * {
     flex: 0 0 50%;
     max-width: 50%;
   }
 
-  .row-cols-xxl-3>* {
+  .row-cols-xxl-3 > * {
     flex: 0 0 33.3333333333%;
     max-width: 33.3333333333%;
   }
 
-  .row-cols-xxl-4>* {
+  .row-cols-xxl-4 > * {
     flex: 0 0 25%;
     max-width: 25%;
   }
 
-  .row-cols-xxl-5>* {
+  .row-cols-xxl-5 > * {
     flex: 0 0 20%;
     max-width: 20%;
   }
 
-  .row-cols-xxl-6>* {
+  .row-cols-xxl-6 > * {
     flex: 0 0 16.6666666667%;
     max-width: 16.6666666667%;
   }
@@ -3332,7 +3629,7 @@ pre code {
   border-bottom: 2px solid #e5e9f2;
 }
 
-.table tbody+tbody {
+.table tbody + tbody {
   border-top: 2px solid #e5e9f2;
 }
 
@@ -3358,7 +3655,7 @@ pre code {
 .table-borderless th,
 .table-borderless td,
 .table-borderless thead th,
-.table-borderless tbody+tbody {
+.table-borderless tbody + tbody {
   border: 0;
 }
 
@@ -3372,15 +3669,15 @@ pre code {
 }
 
 .table-primary,
-.table-primary>th,
-.table-primary>td {
+.table-primary > th,
+.table-primary > td {
   background-color: #e4d6f6;
 }
 
 .table-primary th,
 .table-primary td,
 .table-primary thead th,
-.table-primary tbody+tbody {
+.table-primary tbody + tbody {
   border-color: #cdb3ef;
 }
 
@@ -3388,21 +3685,21 @@ pre code {
   background-color: #d6c1f1;
 }
 
-.table-hover .table-primary:hover>td,
-.table-hover .table-primary:hover>th {
+.table-hover .table-primary:hover > td,
+.table-hover .table-primary:hover > th {
   background-color: #d6c1f1;
 }
 
 .table-secondary,
-.table-secondary>th,
-.table-secondary>td {
+.table-secondary > th,
+.table-secondary > td {
   background-color: #fecee0;
 }
 
 .table-secondary th,
 .table-secondary td,
 .table-secondary thead th,
-.table-secondary tbody+tbody {
+.table-secondary tbody + tbody {
   border-color: #fea5c5;
 }
 
@@ -3410,21 +3707,21 @@ pre code {
   background-color: #fdb5d0;
 }
 
-.table-hover .table-secondary:hover>td,
-.table-hover .table-secondary:hover>th {
+.table-hover .table-secondary:hover > td,
+.table-hover .table-secondary:hover > th {
   background-color: #fdb5d0;
 }
 
 .table-success,
-.table-success>th,
-.table-success>td {
+.table-success > th,
+.table-success > td {
   background-color: #baf0df;
 }
 
 .table-success th,
 .table-success td,
 .table-success thead th,
-.table-success tbody+tbody {
+.table-success tbody + tbody {
   border-color: #80e4c4;
 }
 
@@ -3432,21 +3729,21 @@ pre code {
   background-color: #a5ebd5;
 }
 
-.table-hover .table-success:hover>td,
-.table-hover .table-success:hover>th {
+.table-hover .table-success:hover > td,
+.table-hover .table-success:hover > th {
   background-color: #a5ebd5;
 }
 
 .table-info,
-.table-info>th,
-.table-info>td {
+.table-info > th,
+.table-info > td {
   background-color: #b9eff6;
 }
 
 .table-info th,
 .table-info td,
 .table-info thead th,
-.table-info tbody+tbody {
+.table-info tbody + tbody {
   border-color: #7ce2ef;
 }
 
@@ -3454,21 +3751,21 @@ pre code {
   background-color: #a2eaf3;
 }
 
-.table-hover .table-info:hover>td,
-.table-hover .table-info:hover>th {
+.table-hover .table-info:hover > td,
+.table-hover .table-info:hover > th {
   background-color: #a2eaf3;
 }
 
 .table-warning,
-.table-warning>th,
-.table-warning>td {
+.table-warning > th,
+.table-warning > td {
   background-color: #ffeeb8;
 }
 
 .table-warning th,
 .table-warning td,
 .table-warning thead th,
-.table-warning tbody+tbody {
+.table-warning tbody + tbody {
   border-color: #fee07a;
 }
 
@@ -3476,21 +3773,21 @@ pre code {
   background-color: #ffe89f;
 }
 
-.table-hover .table-warning:hover>td,
-.table-hover .table-warning:hover>th {
+.table-hover .table-warning:hover > td,
+.table-hover .table-warning:hover > th {
   background-color: #ffe89f;
 }
 
 .table-danger,
-.table-danger>th,
-.table-danger>td {
+.table-danger > th,
+.table-danger > td {
   background-color: #ffcfd3;
 }
 
 .table-danger th,
 .table-danger td,
 .table-danger thead th,
-.table-danger tbody+tbody {
+.table-danger tbody + tbody {
   border-color: #fea6ad;
 }
 
@@ -3498,21 +3795,21 @@ pre code {
   background-color: #ffb6bc;
 }
 
-.table-hover .table-danger:hover>td,
-.table-hover .table-danger:hover>th {
+.table-hover .table-danger:hover > td,
+.table-hover .table-danger:hover > th {
   background-color: #ffb6bc;
 }
 
 .table-light,
-.table-light>th,
-.table-light>td {
+.table-light > th,
+.table-light > td {
   background-color: #fbfbfc;
 }
 
 .table-light th,
 .table-light td,
 .table-light thead th,
-.table-light tbody+tbody {
+.table-light tbody + tbody {
   border-color: #f7f8fa;
 }
 
@@ -3520,21 +3817,21 @@ pre code {
   background-color: #ececf1;
 }
 
-.table-hover .table-light:hover>td,
-.table-hover .table-light:hover>th {
+.table-hover .table-light:hover > td,
+.table-hover .table-light:hover > th {
   background-color: #ececf1;
 }
 
 .table-dark,
-.table-dark>th,
-.table-dark>td {
+.table-dark > th,
+.table-dark > td {
   background-color: #c5c6c9;
 }
 
 .table-dark th,
 .table-dark td,
 .table-dark thead th,
-.table-dark tbody+tbody {
+.table-dark tbody + tbody {
   border-color: #94959a;
 }
 
@@ -3542,21 +3839,21 @@ pre code {
   background-color: #b8b9bd;
 }
 
-.table-hover .table-dark:hover>td,
-.table-hover .table-dark:hover>th {
+.table-hover .table-dark:hover > td,
+.table-hover .table-dark:hover > th {
   background-color: #b8b9bd;
 }
 
 .table-info-dark,
-.table-info-dark>th,
-.table-info-dark>td {
+.table-info-dark > th,
+.table-info-dark > td {
   background-color: #d4e1fe;
 }
 
 .table-info-dark th,
 .table-info-dark td,
 .table-info-dark thead th,
-.table-info-dark tbody+tbody {
+.table-info-dark tbody + tbody {
   border-color: #aec7fc;
 }
 
@@ -3564,21 +3861,21 @@ pre code {
   background-color: #bbd0fd;
 }
 
-.table-hover .table-info-dark:hover>td,
-.table-hover .table-info-dark:hover>th {
+.table-hover .table-info-dark:hover > td,
+.table-hover .table-info-dark:hover > th {
   background-color: #bbd0fd;
 }
 
 .table-smoke,
-.table-smoke>th,
-.table-smoke>td {
+.table-smoke > th,
+.table-smoke > td {
   background-color: #dee0e4;
 }
 
 .table-smoke th,
 .table-smoke td,
 .table-smoke thead th,
-.table-smoke tbody+tbody {
+.table-smoke tbody + tbody {
   border-color: #c2c5cc;
 }
 
@@ -3586,14 +3883,14 @@ pre code {
   background-color: #d0d3d9;
 }
 
-.table-hover .table-smoke:hover>td,
-.table-hover .table-smoke:hover>th {
+.table-hover .table-smoke:hover > td,
+.table-hover .table-smoke:hover > th {
   background-color: #d0d3d9;
 }
 
 .table-active,
-.table-active>th,
-.table-active>td {
+.table-active > th,
+.table-active > td {
   background-color: rgba(0, 0, 0, 0.075);
 }
 
@@ -3601,8 +3898,8 @@ pre code {
   background-color: rgba(0, 0, 0, 0.075);
 }
 
-.table-hover .table-active:hover>td,
-.table-hover .table-active:hover>th {
+.table-hover .table-active:hover > td,
+.table-hover .table-active:hover > th {
   background-color: rgba(0, 0, 0, 0.075);
 }
 
@@ -3650,7 +3947,7 @@ pre code {
     -webkit-overflow-scrolling: touch;
   }
 
-  .table-responsive-sm>.table-bordered {
+  .table-responsive-sm > .table-bordered {
     border: 0;
   }
 }
@@ -3663,7 +3960,7 @@ pre code {
     -webkit-overflow-scrolling: touch;
   }
 
-  .table-responsive-md>.table-bordered {
+  .table-responsive-md > .table-bordered {
     border: 0;
   }
 }
@@ -3676,7 +3973,7 @@ pre code {
     -webkit-overflow-scrolling: touch;
   }
 
-  .table-responsive-lg>.table-bordered {
+  .table-responsive-lg > .table-bordered {
     border: 0;
   }
 }
@@ -3689,7 +3986,7 @@ pre code {
     -webkit-overflow-scrolling: touch;
   }
 
-  .table-responsive-xl>.table-bordered {
+  .table-responsive-xl > .table-bordered {
     border: 0;
   }
 }
@@ -3702,7 +3999,7 @@ pre code {
     -webkit-overflow-scrolling: touch;
   }
 
-  .table-responsive-xxl>.table-bordered {
+  .table-responsive-xxl > .table-bordered {
     border: 0;
   }
 }
@@ -3714,7 +4011,7 @@ pre code {
   -webkit-overflow-scrolling: touch;
 }
 
-.table-responsive>.table-bordered {
+.table-responsive > .table-bordered {
   border: 0;
 }
 
@@ -3769,10 +4066,10 @@ pre code {
   opacity: 1;
 }
 
-input[type=date].form-control,
-input[type=time].form-control,
-input[type=datetime-local].form-control,
-input[type=month].form-control {
+input[type="date"].form-control,
+input[type="time"].form-control,
+input[type="datetime-local"].form-control,
+input[type="month"].form-control {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -3876,8 +4173,8 @@ textarea.form-control {
   margin-left: -5px;
 }
 
-.form-row>.col,
-.form-row>[class*=col-] {
+.form-row > .col,
+.form-row > [class*="col-"] {
   padding-right: 5px;
   padding-left: 5px;
 }
@@ -3894,8 +4191,8 @@ textarea.form-control {
   margin-left: -1.25rem;
 }
 
-.form-check-input[disabled]~.form-check-label,
-.form-check-input:disabled~.form-check-label {
+.form-check-input[disabled] ~ .form-check-label,
+.form-check-input:disabled ~ .form-check-label {
   color: #6c757d;
 }
 
@@ -3941,15 +4238,15 @@ textarea.form-control {
   border-radius: 0.25rem;
 }
 
-.form-row>.col>.valid-tooltip,
-.form-row>[class*=col-]>.valid-tooltip {
+.form-row > .col > .valid-tooltip,
+.form-row > [class*="col-"] > .valid-tooltip {
   left: 5px;
 }
 
-.was-validated :valid~.valid-feedback,
-.was-validated :valid~.valid-tooltip,
-.is-valid~.valid-feedback,
-.is-valid~.valid-tooltip {
+.was-validated :valid ~ .valid-feedback,
+.was-validated :valid ~ .valid-tooltip,
+.is-valid ~ .valid-feedback,
+.is-valid ~ .valid-tooltip {
   display: block;
 }
 
@@ -3985,7 +4282,12 @@ textarea.form-control.is-valid {
 .custom-select.is-valid {
   border-color: #0acb8e;
   padding-right: calc(0.75em + 2.84rem) !important;
-  background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='4' height='5' viewBox='0 0 4 5'%3e%3cpath fill='%23343a40' d='M2 0L0 2h4zm0 5L0 3h4z'/%3e%3c/svg%3e") right 1rem center/8px 10px no-repeat, #ffffff url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'%3e%3cpath fill='%230acb8e' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e") center right 2rem/calc(0.75em + 0.56rem) calc(0.75em + 0.56rem) no-repeat;
+  background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='4' height='5' viewBox='0 0 4 5'%3e%3cpath fill='%23343a40' d='M2 0L0 2h4zm0 5L0 3h4z'/%3e%3c/svg%3e")
+      right 1rem center/8px 10px no-repeat,
+    #ffffff
+      url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'%3e%3cpath fill='%230acb8e' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e")
+      center right 2rem / calc(0.75em + 0.56rem) calc(0.75em + 0.56rem)
+      no-repeat;
 }
 
 .was-validated .custom-select:valid:focus,
@@ -3994,51 +4296,58 @@ textarea.form-control.is-valid {
   box-shadow: 0 0 0 0.2rem rgba(10, 203, 142, 0.25);
 }
 
-.was-validated .form-check-input:valid~.form-check-label,
-.form-check-input.is-valid~.form-check-label {
+.was-validated .form-check-input:valid ~ .form-check-label,
+.form-check-input.is-valid ~ .form-check-label {
   color: #0acb8e;
 }
 
-.was-validated .form-check-input:valid~.valid-feedback,
-.was-validated .form-check-input:valid~.valid-tooltip,
-.form-check-input.is-valid~.valid-feedback,
-.form-check-input.is-valid~.valid-tooltip {
+.was-validated .form-check-input:valid ~ .valid-feedback,
+.was-validated .form-check-input:valid ~ .valid-tooltip,
+.form-check-input.is-valid ~ .valid-feedback,
+.form-check-input.is-valid ~ .valid-tooltip {
   display: block;
 }
 
-.was-validated .custom-control-input:valid~.custom-control-label,
-.custom-control-input.is-valid~.custom-control-label {
+.was-validated .custom-control-input:valid ~ .custom-control-label,
+.custom-control-input.is-valid ~ .custom-control-label {
   color: #0acb8e;
 }
 
-.was-validated .custom-control-input:valid~.custom-control-label::before,
-.custom-control-input.is-valid~.custom-control-label::before {
+.was-validated .custom-control-input:valid ~ .custom-control-label::before,
+.custom-control-input.is-valid ~ .custom-control-label::before {
   border-color: #0acb8e;
 }
 
-.was-validated .custom-control-input:valid:checked~.custom-control-label::before,
-.custom-control-input.is-valid:checked~.custom-control-label::before {
+.was-validated
+  .custom-control-input:valid:checked
+  ~ .custom-control-label::before,
+.custom-control-input.is-valid:checked ~ .custom-control-label::before {
   border-color: #15f3ad;
   background-color: #15f3ad;
 }
 
-.was-validated .custom-control-input:valid:focus~.custom-control-label::before,
-.custom-control-input.is-valid:focus~.custom-control-label::before {
+.was-validated
+  .custom-control-input:valid:focus
+  ~ .custom-control-label::before,
+.custom-control-input.is-valid:focus ~ .custom-control-label::before {
   box-shadow: 0 0 0 0.2rem rgba(10, 203, 142, 0.25);
 }
 
-.was-validated .custom-control-input:valid:focus:not(:checked)~.custom-control-label::before,
-.custom-control-input.is-valid:focus:not(:checked)~.custom-control-label::before {
+.was-validated
+  .custom-control-input:valid:focus:not(:checked)
+  ~ .custom-control-label::before,
+.custom-control-input.is-valid:focus:not(:checked)
+  ~ .custom-control-label::before {
   border-color: #0acb8e;
 }
 
-.was-validated .custom-file-input:valid~.custom-file-label,
-.custom-file-input.is-valid~.custom-file-label {
+.was-validated .custom-file-input:valid ~ .custom-file-label,
+.custom-file-input.is-valid ~ .custom-file-label {
   border-color: #0acb8e;
 }
 
-.was-validated .custom-file-input:valid:focus~.custom-file-label,
-.custom-file-input.is-valid:focus~.custom-file-label {
+.was-validated .custom-file-input:valid:focus ~ .custom-file-label,
+.custom-file-input.is-valid:focus ~ .custom-file-label {
   border-color: #0acb8e;
   box-shadow: 0 0 0 0.2rem rgba(10, 203, 142, 0.25);
 }
@@ -4067,15 +4376,15 @@ textarea.form-control.is-valid {
   border-radius: 0.25rem;
 }
 
-.form-row>.col>.invalid-tooltip,
-.form-row>[class*=col-]>.invalid-tooltip {
+.form-row > .col > .invalid-tooltip,
+.form-row > [class*="col-"] > .invalid-tooltip {
   left: 5px;
 }
 
-.was-validated :invalid~.invalid-feedback,
-.was-validated :invalid~.invalid-tooltip,
-.is-invalid~.invalid-feedback,
-.is-invalid~.invalid-tooltip {
+.was-validated :invalid ~ .invalid-feedback,
+.was-validated :invalid ~ .invalid-tooltip,
+.is-invalid ~ .invalid-feedback,
+.is-invalid ~ .invalid-tooltip {
   display: block;
 }
 
@@ -4111,7 +4420,12 @@ textarea.form-control.is-invalid {
 .custom-select.is-invalid {
   border-color: #fe5461;
   padding-right: calc(0.75em + 2.84rem) !important;
-  background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='4' height='5' viewBox='0 0 4 5'%3e%3cpath fill='%23343a40' d='M2 0L0 2h4zm0 5L0 3h4z'/%3e%3c/svg%3e") right 1rem center/8px 10px no-repeat, #ffffff url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%23fe5461' viewBox='0 0 12 12'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23fe5461' stroke='none'/%3e%3c/svg%3e") center right 2rem/calc(0.75em + 0.56rem) calc(0.75em + 0.56rem) no-repeat;
+  background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='4' height='5' viewBox='0 0 4 5'%3e%3cpath fill='%23343a40' d='M2 0L0 2h4zm0 5L0 3h4z'/%3e%3c/svg%3e")
+      right 1rem center/8px 10px no-repeat,
+    #ffffff
+      url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%23fe5461' viewBox='0 0 12 12'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23fe5461' stroke='none'/%3e%3c/svg%3e")
+      center right 2rem / calc(0.75em + 0.56rem) calc(0.75em + 0.56rem)
+      no-repeat;
 }
 
 .was-validated .custom-select:invalid:focus,
@@ -4120,51 +4434,58 @@ textarea.form-control.is-invalid {
   box-shadow: 0 0 0 0.2rem rgba(254, 84, 97, 0.25);
 }
 
-.was-validated .form-check-input:invalid~.form-check-label,
-.form-check-input.is-invalid~.form-check-label {
+.was-validated .form-check-input:invalid ~ .form-check-label,
+.form-check-input.is-invalid ~ .form-check-label {
   color: #fe5461;
 }
 
-.was-validated .form-check-input:invalid~.invalid-feedback,
-.was-validated .form-check-input:invalid~.invalid-tooltip,
-.form-check-input.is-invalid~.invalid-feedback,
-.form-check-input.is-invalid~.invalid-tooltip {
+.was-validated .form-check-input:invalid ~ .invalid-feedback,
+.was-validated .form-check-input:invalid ~ .invalid-tooltip,
+.form-check-input.is-invalid ~ .invalid-feedback,
+.form-check-input.is-invalid ~ .invalid-tooltip {
   display: block;
 }
 
-.was-validated .custom-control-input:invalid~.custom-control-label,
-.custom-control-input.is-invalid~.custom-control-label {
+.was-validated .custom-control-input:invalid ~ .custom-control-label,
+.custom-control-input.is-invalid ~ .custom-control-label {
   color: #fe5461;
 }
 
-.was-validated .custom-control-input:invalid~.custom-control-label::before,
-.custom-control-input.is-invalid~.custom-control-label::before {
+.was-validated .custom-control-input:invalid ~ .custom-control-label::before,
+.custom-control-input.is-invalid ~ .custom-control-label::before {
   border-color: #fe5461;
 }
 
-.was-validated .custom-control-input:invalid:checked~.custom-control-label::before,
-.custom-control-input.is-invalid:checked~.custom-control-label::before {
+.was-validated
+  .custom-control-input:invalid:checked
+  ~ .custom-control-label::before,
+.custom-control-input.is-invalid:checked ~ .custom-control-label::before {
   border-color: #fe8790;
   background-color: #fe8790;
 }
 
-.was-validated .custom-control-input:invalid:focus~.custom-control-label::before,
-.custom-control-input.is-invalid:focus~.custom-control-label::before {
+.was-validated
+  .custom-control-input:invalid:focus
+  ~ .custom-control-label::before,
+.custom-control-input.is-invalid:focus ~ .custom-control-label::before {
   box-shadow: 0 0 0 0.2rem rgba(254, 84, 97, 0.25);
 }
 
-.was-validated .custom-control-input:invalid:focus:not(:checked)~.custom-control-label::before,
-.custom-control-input.is-invalid:focus:not(:checked)~.custom-control-label::before {
+.was-validated
+  .custom-control-input:invalid:focus:not(:checked)
+  ~ .custom-control-label::before,
+.custom-control-input.is-invalid:focus:not(:checked)
+  ~ .custom-control-label::before {
   border-color: #fe5461;
 }
 
-.was-validated .custom-file-input:invalid~.custom-file-label,
-.custom-file-input.is-invalid~.custom-file-label {
+.was-validated .custom-file-input:invalid ~ .custom-file-label,
+.custom-file-input.is-invalid ~ .custom-file-label {
   border-color: #fe5461;
 }
 
-.was-validated .custom-file-input:invalid:focus~.custom-file-label,
-.custom-file-input.is-invalid:focus~.custom-file-label {
+.was-validated .custom-file-input:invalid:focus ~ .custom-file-label,
+.custom-file-input.is-invalid:focus ~ .custom-file-label {
   border-color: #fe5461;
   box-shadow: 0 0 0 0.2rem rgba(254, 84, 97, 0.25);
 }
@@ -4251,7 +4572,8 @@ textarea.form-control.is-invalid {
   font-size: 0.9375rem;
   line-height: 1.5;
   border-radius: 0.25rem;
-  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -4314,7 +4636,7 @@ fieldset:disabled a.btn {
 
 .btn-primary:not(:disabled):not(.disabled):active,
 .btn-primary:not(:disabled):not(.disabled).active,
-.show>.btn-primary.dropdown-toggle {
+.show > .btn-primary.dropdown-toggle {
   color: #ffffff;
   background-color: #8243d7;
   border-color: #7b38d5;
@@ -4322,7 +4644,7 @@ fieldset:disabled a.btn {
 
 .btn-primary:not(:disabled):not(.disabled):active:focus,
 .btn-primary:not(:disabled):not(.disabled).active:focus,
-.show>.btn-primary.dropdown-toggle:focus {
+.show > .btn-primary.dropdown-toggle:focus {
   box-shadow: 0 0 0 0.2rem rgba(173, 131, 229, 0.5);
 }
 
@@ -4355,7 +4677,7 @@ fieldset:disabled a.btn {
 
 .btn-secondary:not(:disabled):not(.disabled):active,
 .btn-secondary:not(:disabled):not(.disabled).active,
-.show>.btn-secondary.dropdown-toggle {
+.show > .btn-secondary.dropdown-toggle {
   color: #ffffff;
   background-color: #fc1f70;
   border-color: #fc1268;
@@ -4363,7 +4685,7 @@ fieldset:disabled a.btn {
 
 .btn-secondary:not(:disabled):not(.disabled):active:focus,
 .btn-secondary:not(:disabled):not(.disabled).active:focus,
-.show>.btn-secondary.dropdown-toggle:focus {
+.show > .btn-secondary.dropdown-toggle:focus {
   box-shadow: 0 0 0 0.2rem rgba(253, 107, 161, 0.5);
 }
 
@@ -4396,7 +4718,7 @@ fieldset:disabled a.btn {
 
 .btn-success:not(:disabled):not(.disabled):active,
 .btn-success:not(:disabled):not(.disabled).active,
-.show>.btn-success.dropdown-toggle {
+.show > .btn-success.dropdown-toggle {
   color: #ffffff;
   background-color: #089a6c;
   border-color: #078e64;
@@ -4404,7 +4726,7 @@ fieldset:disabled a.btn {
 
 .btn-success:not(:disabled):not(.disabled):active:focus,
 .btn-success:not(:disabled):not(.disabled).active:focus,
-.show>.btn-success.dropdown-toggle:focus {
+.show > .btn-success.dropdown-toggle:focus {
   box-shadow: 0 0 0 0.2rem rgba(47, 211, 159, 0.5);
 }
 
@@ -4437,7 +4759,7 @@ fieldset:disabled a.btn {
 
 .btn-info:not(:disabled):not(.disabled):active,
 .btn-info:not(:disabled):not(.disabled).active,
-.show>.btn-info.dropdown-toggle {
+.show > .btn-info.dropdown-toggle {
   color: #ffffff;
   background-color: #039aae;
   border-color: #038fa1;
@@ -4445,7 +4767,7 @@ fieldset:disabled a.btn {
 
 .btn-info:not(:disabled):not(.disabled):active:focus,
 .btn-info:not(:disabled):not(.disabled).active:focus,
-.show>.btn-info.dropdown-toggle:focus {
+.show > .btn-info.dropdown-toggle:focus {
   box-shadow: 0 0 0 0.2rem rgba(42, 207, 229, 0.5);
 }
 
@@ -4478,7 +4800,7 @@ fieldset:disabled a.btn {
 
 .btn-warning:not(:disabled):not(.disabled):active,
 .btn-warning:not(:disabled):not(.disabled).active,
-.show>.btn-warning.dropdown-toggle {
+.show > .btn-warning.dropdown-toggle {
   color: #2f2f2f;
   background-color: #cb9d00;
   border-color: #be9300;
@@ -4486,7 +4808,7 @@ fieldset:disabled a.btn {
 
 .btn-warning:not(:disabled):not(.disabled):active:focus,
 .btn-warning:not(:disabled):not(.disabled).active:focus,
-.show>.btn-warning.dropdown-toggle:focus {
+.show > .btn-warning.dropdown-toggle:focus {
   box-shadow: 0 0 0 0.2rem rgba(223, 174, 7, 0.5);
 }
 
@@ -4519,7 +4841,7 @@ fieldset:disabled a.btn {
 
 .btn-danger:not(:disabled):not(.disabled):active,
 .btn-danger:not(:disabled):not(.disabled).active,
-.show>.btn-danger.dropdown-toggle {
+.show > .btn-danger.dropdown-toggle {
   color: #ffffff;
   background-color: #fe2132;
   border-color: #fe1526;
@@ -4527,7 +4849,7 @@ fieldset:disabled a.btn {
 
 .btn-danger:not(:disabled):not(.disabled):active:focus,
 .btn-danger:not(:disabled):not(.disabled).active:focus,
-.show>.btn-danger.dropdown-toggle:focus {
+.show > .btn-danger.dropdown-toggle:focus {
   box-shadow: 0 0 0 0.2rem rgba(254, 110, 121, 0.5);
 }
 
@@ -4560,7 +4882,7 @@ fieldset:disabled a.btn {
 
 .btn-light:not(:disabled):not(.disabled):active,
 .btn-light:not(:disabled):not(.disabled).active,
-.show>.btn-light.dropdown-toggle {
+.show > .btn-light.dropdown-toggle {
   color: #2f2f2f;
   background-color: #d1d4e1;
   border-color: #cacddc;
@@ -4568,7 +4890,7 @@ fieldset:disabled a.btn {
 
 .btn-light:not(:disabled):not(.disabled):active:focus,
 .btn-light:not(:disabled):not(.disabled).active:focus,
-.show>.btn-light.dropdown-toggle:focus {
+.show > .btn-light.dropdown-toggle:focus {
   box-shadow: 0 0 0 0.2rem rgba(211, 212, 215, 0.5);
 }
 
@@ -4601,7 +4923,7 @@ fieldset:disabled a.btn {
 
 .btn-dark:not(:disabled):not(.disabled):active,
 .btn-dark:not(:disabled):not(.disabled).active,
-.show>.btn-dark.dropdown-toggle {
+.show > .btn-dark.dropdown-toggle {
   color: #ffffff;
   background-color: #1a1c21;
   border-color: #15161a;
@@ -4609,7 +4931,7 @@ fieldset:disabled a.btn {
 
 .btn-dark:not(:disabled):not(.disabled):active:focus,
 .btn-dark:not(:disabled):not(.disabled).active:focus,
-.show>.btn-dark.dropdown-toggle:focus {
+.show > .btn-dark.dropdown-toggle:focus {
   box-shadow: 0 0 0 0.2rem rgba(80, 82, 90, 0.5);
 }
 
@@ -4642,7 +4964,7 @@ fieldset:disabled a.btn {
 
 .btn-info-dark:not(:disabled):not(.disabled):active,
 .btn-info-dark:not(:disabled):not(.disabled).active,
-.show>.btn-info-dark.dropdown-toggle {
+.show > .btn-info-dark.dropdown-toggle {
   color: #ffffff;
   background-color: #3371f8;
   border-color: #2668f8;
@@ -4650,7 +4972,7 @@ fieldset:disabled a.btn {
 
 .btn-info-dark:not(:disabled):not(.disabled):active:focus,
 .btn-info-dark:not(:disabled):not(.disabled).active:focus,
-.show>.btn-info-dark.dropdown-toggle:focus {
+.show > .btn-info-dark.dropdown-toggle:focus {
   box-shadow: 0 0 0 0.2rem rgba(123, 163, 251, 0.5);
 }
 
@@ -4683,7 +5005,7 @@ fieldset:disabled a.btn {
 
 .btn-smoke:not(:disabled):not(.disabled):active,
 .btn-smoke:not(:disabled):not(.disabled).active,
-.show>.btn-smoke.dropdown-toggle {
+.show > .btn-smoke.dropdown-toggle {
   color: #ffffff;
   background-color: #6f7685;
   border-color: #69707e;
@@ -4691,7 +5013,7 @@ fieldset:disabled a.btn {
 
 .btn-smoke:not(:disabled):not(.disabled):active:focus,
 .btn-smoke:not(:disabled):not(.disabled).active:focus,
-.show>.btn-smoke.dropdown-toggle:focus {
+.show > .btn-smoke.dropdown-toggle:focus {
   box-shadow: 0 0 0 0.2rem rgba(156, 161, 172, 0.5);
 }
 
@@ -4719,7 +5041,7 @@ fieldset:disabled a.btn {
 
 .btn-outline-primary:not(:disabled):not(.disabled):active,
 .btn-outline-primary:not(:disabled):not(.disabled).active,
-.show>.btn-outline-primary.dropdown-toggle {
+.show > .btn-outline-primary.dropdown-toggle {
   color: #ffffff;
   background-color: #9e6de0;
   border-color: #9e6de0;
@@ -4727,7 +5049,7 @@ fieldset:disabled a.btn {
 
 .btn-outline-primary:not(:disabled):not(.disabled):active:focus,
 .btn-outline-primary:not(:disabled):not(.disabled).active:focus,
-.show>.btn-outline-primary.dropdown-toggle:focus {
+.show > .btn-outline-primary.dropdown-toggle:focus {
   box-shadow: 0 0 0 0.2rem rgba(158, 109, 224, 0.5);
 }
 
@@ -4755,7 +5077,7 @@ fieldset:disabled a.btn {
 
 .btn-outline-secondary:not(:disabled):not(.disabled):active,
 .btn-outline-secondary:not(:disabled):not(.disabled).active,
-.show>.btn-outline-secondary.dropdown-toggle {
+.show > .btn-outline-secondary.dropdown-toggle {
   color: #ffffff;
   background-color: #fd5190;
   border-color: #fd5190;
@@ -4763,7 +5085,7 @@ fieldset:disabled a.btn {
 
 .btn-outline-secondary:not(:disabled):not(.disabled):active:focus,
 .btn-outline-secondary:not(:disabled):not(.disabled).active:focus,
-.show>.btn-outline-secondary.dropdown-toggle:focus {
+.show > .btn-outline-secondary.dropdown-toggle:focus {
   box-shadow: 0 0 0 0.2rem rgba(253, 81, 144, 0.5);
 }
 
@@ -4791,7 +5113,7 @@ fieldset:disabled a.btn {
 
 .btn-outline-success:not(:disabled):not(.disabled):active,
 .btn-outline-success:not(:disabled):not(.disabled).active,
-.show>.btn-outline-success.dropdown-toggle {
+.show > .btn-outline-success.dropdown-toggle {
   color: #ffffff;
   background-color: #0acb8e;
   border-color: #0acb8e;
@@ -4799,7 +5121,7 @@ fieldset:disabled a.btn {
 
 .btn-outline-success:not(:disabled):not(.disabled):active:focus,
 .btn-outline-success:not(:disabled):not(.disabled).active:focus,
-.show>.btn-outline-success.dropdown-toggle:focus {
+.show > .btn-outline-success.dropdown-toggle:focus {
   box-shadow: 0 0 0 0.2rem rgba(10, 203, 142, 0.5);
 }
 
@@ -4827,7 +5149,7 @@ fieldset:disabled a.btn {
 
 .btn-outline-info:not(:disabled):not(.disabled):active,
 .btn-outline-info:not(:disabled):not(.disabled).active,
-.show>.btn-outline-info.dropdown-toggle {
+.show > .btn-outline-info.dropdown-toggle {
   color: #ffffff;
   background-color: #04c7e0;
   border-color: #04c7e0;
@@ -4835,7 +5157,7 @@ fieldset:disabled a.btn {
 
 .btn-outline-info:not(:disabled):not(.disabled):active:focus,
 .btn-outline-info:not(:disabled):not(.disabled).active:focus,
-.show>.btn-outline-info.dropdown-toggle:focus {
+.show > .btn-outline-info.dropdown-toggle:focus {
   box-shadow: 0 0 0 0.2rem rgba(4, 199, 224, 0.5);
 }
 
@@ -4863,7 +5185,7 @@ fieldset:disabled a.btn {
 
 .btn-outline-warning:not(:disabled):not(.disabled):active,
 .btn-outline-warning:not(:disabled):not(.disabled).active,
-.show>.btn-outline-warning.dropdown-toggle {
+.show > .btn-outline-warning.dropdown-toggle {
   color: #2f2f2f;
   background-color: #fec400;
   border-color: #fec400;
@@ -4871,7 +5193,7 @@ fieldset:disabled a.btn {
 
 .btn-outline-warning:not(:disabled):not(.disabled):active:focus,
 .btn-outline-warning:not(:disabled):not(.disabled).active:focus,
-.show>.btn-outline-warning.dropdown-toggle:focus {
+.show > .btn-outline-warning.dropdown-toggle:focus {
   box-shadow: 0 0 0 0.2rem rgba(254, 196, 0, 0.5);
 }
 
@@ -4899,7 +5221,7 @@ fieldset:disabled a.btn {
 
 .btn-outline-danger:not(:disabled):not(.disabled):active,
 .btn-outline-danger:not(:disabled):not(.disabled).active,
-.show>.btn-outline-danger.dropdown-toggle {
+.show > .btn-outline-danger.dropdown-toggle {
   color: #ffffff;
   background-color: #fe5461;
   border-color: #fe5461;
@@ -4907,7 +5229,7 @@ fieldset:disabled a.btn {
 
 .btn-outline-danger:not(:disabled):not(.disabled):active:focus,
 .btn-outline-danger:not(:disabled):not(.disabled).active:focus,
-.show>.btn-outline-danger.dropdown-toggle:focus {
+.show > .btn-outline-danger.dropdown-toggle:focus {
   box-shadow: 0 0 0 0.2rem rgba(254, 84, 97, 0.5);
 }
 
@@ -4935,7 +5257,7 @@ fieldset:disabled a.btn {
 
 .btn-outline-light:not(:disabled):not(.disabled):active,
 .btn-outline-light:not(:disabled):not(.disabled).active,
-.show>.btn-outline-light.dropdown-toggle {
+.show > .btn-outline-light.dropdown-toggle {
   color: #2f2f2f;
   background-color: #f0f1f5;
   border-color: #f0f1f5;
@@ -4943,7 +5265,7 @@ fieldset:disabled a.btn {
 
 .btn-outline-light:not(:disabled):not(.disabled):active:focus,
 .btn-outline-light:not(:disabled):not(.disabled).active:focus,
-.show>.btn-outline-light.dropdown-toggle:focus {
+.show > .btn-outline-light.dropdown-toggle:focus {
   box-shadow: 0 0 0 0.2rem rgba(240, 241, 245, 0.5);
 }
 
@@ -4971,7 +5293,7 @@ fieldset:disabled a.btn {
 
 .btn-outline-dark:not(:disabled):not(.disabled):active,
 .btn-outline-dark:not(:disabled):not(.disabled).active,
-.show>.btn-outline-dark.dropdown-toggle {
+.show > .btn-outline-dark.dropdown-toggle {
   color: #ffffff;
   background-color: #31343d;
   border-color: #31343d;
@@ -4979,7 +5301,7 @@ fieldset:disabled a.btn {
 
 .btn-outline-dark:not(:disabled):not(.disabled):active:focus,
 .btn-outline-dark:not(:disabled):not(.disabled).active:focus,
-.show>.btn-outline-dark.dropdown-toggle:focus {
+.show > .btn-outline-dark.dropdown-toggle:focus {
   box-shadow: 0 0 0 0.2rem rgba(49, 52, 61, 0.5);
 }
 
@@ -5007,7 +5329,7 @@ fieldset:disabled a.btn {
 
 .btn-outline-info-dark:not(:disabled):not(.disabled):active,
 .btn-outline-info-dark:not(:disabled):not(.disabled).active,
-.show>.btn-outline-info-dark.dropdown-toggle {
+.show > .btn-outline-info-dark.dropdown-toggle {
   color: #ffffff;
   background-color: #6493fa;
   border-color: #6493fa;
@@ -5015,7 +5337,7 @@ fieldset:disabled a.btn {
 
 .btn-outline-info-dark:not(:disabled):not(.disabled):active:focus,
 .btn-outline-info-dark:not(:disabled):not(.disabled).active:focus,
-.show>.btn-outline-info-dark.dropdown-toggle:focus {
+.show > .btn-outline-info-dark.dropdown-toggle:focus {
   box-shadow: 0 0 0 0.2rem rgba(100, 147, 250, 0.5);
 }
 
@@ -5043,7 +5365,7 @@ fieldset:disabled a.btn {
 
 .btn-outline-smoke:not(:disabled):not(.disabled):active,
 .btn-outline-smoke:not(:disabled):not(.disabled).active,
-.show>.btn-outline-smoke.dropdown-toggle {
+.show > .btn-outline-smoke.dropdown-toggle {
   color: #ffffff;
   background-color: #8a909d;
   border-color: #8a909d;
@@ -5051,7 +5373,7 @@ fieldset:disabled a.btn {
 
 .btn-outline-smoke:not(:disabled):not(.disabled):active:focus,
 .btn-outline-smoke:not(:disabled):not(.disabled).active:focus,
-.show>.btn-outline-smoke.dropdown-toggle:focus {
+.show > .btn-outline-smoke.dropdown-toggle:focus {
   box-shadow: 0 0 0 0.2rem rgba(138, 144, 157, 0.5);
 }
 
@@ -5078,7 +5400,7 @@ fieldset:disabled a.btn {
 }
 
 .btn-lg,
-.btn-group-lg>.btn {
+.btn-group-lg > .btn {
   padding: 0.65rem 1.5rem;
   font-size: 1.171875rem;
   line-height: 1.5;
@@ -5086,7 +5408,7 @@ fieldset:disabled a.btn {
 }
 
 .btn-sm,
-.btn-group-sm>.btn {
+.btn-group-sm > .btn {
   padding: 0.125rem 0.625rem;
   font-size: 0.75rem;
   line-height: 1.5;
@@ -5098,13 +5420,13 @@ fieldset:disabled a.btn {
   width: 100%;
 }
 
-.btn-block+.btn-block {
+.btn-block + .btn-block {
   margin-top: 0.5rem;
 }
 
-input[type=submit].btn-block,
-input[type=reset].btn-block,
-input[type=button].btn-block {
+input[type="submit"].btn-block,
+input[type="reset"].btn-block,
+input[type="button"].btn-block {
   width: 100%;
 }
 
@@ -5341,10 +5663,10 @@ input[type=button].btn-block {
   vertical-align: 0;
 }
 
-.dropdown-menu[x-placement^=top],
-.dropdown-menu[x-placement^=right],
-.dropdown-menu[x-placement^=bottom],
-.dropdown-menu[x-placement^=left] {
+.dropdown-menu[x-placement^="top"],
+.dropdown-menu[x-placement^="right"],
+.dropdown-menu[x-placement^="bottom"],
+.dropdown-menu[x-placement^="left"] {
   right: auto;
   bottom: auto;
 }
@@ -5416,23 +5738,23 @@ input[type=button].btn-block {
   vertical-align: middle;
 }
 
-.btn-group>.btn,
-.btn-group-vertical>.btn {
+.btn-group > .btn,
+.btn-group-vertical > .btn {
   position: relative;
   flex: 1 1 auto;
 }
 
-.btn-group>.btn:hover,
-.btn-group-vertical>.btn:hover {
+.btn-group > .btn:hover,
+.btn-group-vertical > .btn:hover {
   z-index: 1;
 }
 
-.btn-group>.btn:focus,
-.btn-group>.btn:active,
-.btn-group>.btn.active,
-.btn-group-vertical>.btn:focus,
-.btn-group-vertical>.btn:active,
-.btn-group-vertical>.btn.active {
+.btn-group > .btn:focus,
+.btn-group > .btn:active,
+.btn-group > .btn.active,
+.btn-group-vertical > .btn:focus,
+.btn-group-vertical > .btn:active,
+.btn-group-vertical > .btn.active {
   z-index: 1;
 }
 
@@ -5446,19 +5768,19 @@ input[type=button].btn-block {
   width: auto;
 }
 
-.btn-group>.btn:not(:first-child),
-.btn-group>.btn-group:not(:first-child) {
+.btn-group > .btn:not(:first-child),
+.btn-group > .btn-group:not(:first-child) {
   margin-left: -1px;
 }
 
-.btn-group>.btn:not(:last-child):not(.dropdown-toggle),
-.btn-group>.btn-group:not(:last-child)>.btn {
+.btn-group > .btn:not(:last-child):not(.dropdown-toggle),
+.btn-group > .btn-group:not(:last-child) > .btn {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
 
-.btn-group>.btn:not(:first-child),
-.btn-group>.btn-group:not(:first-child)>.btn {
+.btn-group > .btn:not(:first-child),
+.btn-group > .btn-group:not(:first-child) > .btn {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
@@ -5478,14 +5800,14 @@ input[type=button].btn-block {
   margin-right: 0;
 }
 
-.btn-sm+.dropdown-toggle-split,
-.btn-group-sm>.btn+.dropdown-toggle-split {
+.btn-sm + .dropdown-toggle-split,
+.btn-group-sm > .btn + .dropdown-toggle-split {
   padding-right: 0.46875rem;
   padding-left: 0.46875rem;
 }
 
-.btn-lg+.dropdown-toggle-split,
-.btn-group-lg>.btn+.dropdown-toggle-split {
+.btn-lg + .dropdown-toggle-split,
+.btn-group-lg > .btn + .dropdown-toggle-split {
   padding-right: 1.125rem;
   padding-left: 1.125rem;
 }
@@ -5496,37 +5818,37 @@ input[type=button].btn-block {
   justify-content: center;
 }
 
-.btn-group-vertical>.btn,
-.btn-group-vertical>.btn-group {
+.btn-group-vertical > .btn,
+.btn-group-vertical > .btn-group {
   width: 100%;
 }
 
-.btn-group-vertical>.btn:not(:first-child),
-.btn-group-vertical>.btn-group:not(:first-child) {
+.btn-group-vertical > .btn:not(:first-child),
+.btn-group-vertical > .btn-group:not(:first-child) {
   margin-top: -1px;
 }
 
-.btn-group-vertical>.btn:not(:last-child):not(.dropdown-toggle),
-.btn-group-vertical>.btn-group:not(:last-child)>.btn {
+.btn-group-vertical > .btn:not(:last-child):not(.dropdown-toggle),
+.btn-group-vertical > .btn-group:not(:last-child) > .btn {
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
 }
 
-.btn-group-vertical>.btn:not(:first-child),
-.btn-group-vertical>.btn-group:not(:first-child)>.btn {
+.btn-group-vertical > .btn:not(:first-child),
+.btn-group-vertical > .btn-group:not(:first-child) > .btn {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
 
-.btn-group-toggle>.btn,
-.btn-group-toggle>.btn-group>.btn {
+.btn-group-toggle > .btn,
+.btn-group-toggle > .btn-group > .btn {
   margin-bottom: 0;
 }
 
-.btn-group-toggle>.btn input[type=radio],
-.btn-group-toggle>.btn input[type=checkbox],
-.btn-group-toggle>.btn-group>.btn input[type=radio],
-.btn-group-toggle>.btn-group>.btn input[type=checkbox] {
+.btn-group-toggle > .btn input[type="radio"],
+.btn-group-toggle > .btn input[type="checkbox"],
+.btn-group-toggle > .btn-group > .btn input[type="radio"],
+.btn-group-toggle > .btn-group > .btn input[type="checkbox"] {
   position: absolute;
   clip: rect(0, 0, 0, 0);
   pointer-events: none;
@@ -5540,10 +5862,10 @@ input[type=button].btn-block {
   width: 100%;
 }
 
-.input-group>.form-control,
-.input-group>.form-control-plaintext,
-.input-group>.custom-select,
-.input-group>.custom-file {
+.input-group > .form-control,
+.input-group > .form-control-plaintext,
+.input-group > .custom-select,
+.input-group > .custom-file {
   position: relative;
   flex: 1 1 auto;
   width: 1%;
@@ -5551,65 +5873,73 @@ input[type=button].btn-block {
   margin-bottom: 0;
 }
 
-.input-group>.form-control+.form-control,
-.input-group>.form-control+.custom-select,
-.input-group>.form-control+.custom-file,
-.input-group>.form-control-plaintext+.form-control,
-.input-group>.form-control-plaintext+.custom-select,
-.input-group>.form-control-plaintext+.custom-file,
-.input-group>.custom-select+.form-control,
-.input-group>.custom-select+.custom-select,
-.input-group>.custom-select+.custom-file,
-.input-group>.custom-file+.form-control,
-.input-group>.custom-file+.custom-select,
-.input-group>.custom-file+.custom-file {
+.input-group > .form-control + .form-control,
+.input-group > .form-control + .custom-select,
+.input-group > .form-control + .custom-file,
+.input-group > .form-control-plaintext + .form-control,
+.input-group > .form-control-plaintext + .custom-select,
+.input-group > .form-control-plaintext + .custom-file,
+.input-group > .custom-select + .form-control,
+.input-group > .custom-select + .custom-select,
+.input-group > .custom-select + .custom-file,
+.input-group > .custom-file + .form-control,
+.input-group > .custom-file + .custom-select,
+.input-group > .custom-file + .custom-file {
   margin-left: -1px;
 }
 
-.input-group>.form-control:focus,
-.input-group>.custom-select:focus,
-.input-group>.custom-file .custom-file-input:focus~.custom-file-label {
+.input-group > .form-control:focus,
+.input-group > .custom-select:focus,
+.input-group > .custom-file .custom-file-input:focus ~ .custom-file-label {
   z-index: 3;
 }
 
-.input-group>.custom-file .custom-file-input:focus {
+.input-group > .custom-file .custom-file-input:focus {
   z-index: 4;
 }
 
-.input-group>.form-control:not(:first-child),
-.input-group>.custom-select:not(:first-child) {
+.input-group > .form-control:not(:first-child),
+.input-group > .custom-select:not(:first-child) {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
 
-.input-group>.custom-file {
+.input-group > .custom-file {
   display: flex;
   align-items: center;
 }
 
-.input-group>.custom-file:not(:last-child) .custom-file-label,
-.input-group>.custom-file:not(:last-child) .custom-file-label::after {
+.input-group > .custom-file:not(:last-child) .custom-file-label,
+.input-group > .custom-file:not(:last-child) .custom-file-label::after {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
 
-.input-group>.custom-file:not(:first-child) .custom-file-label {
+.input-group > .custom-file:not(:first-child) .custom-file-label {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
 
-.input-group:not(.has-validation)>.form-control:not(:last-child),
-.input-group:not(.has-validation)>.custom-select:not(:last-child),
-.input-group:not(.has-validation)>.custom-file:not(:last-child) .custom-file-label,
-.input-group:not(.has-validation)>.custom-file:not(:last-child) .custom-file-label::after {
+.input-group:not(.has-validation) > .form-control:not(:last-child),
+.input-group:not(.has-validation) > .custom-select:not(:last-child),
+.input-group:not(.has-validation)
+  > .custom-file:not(:last-child)
+  .custom-file-label,
+.input-group:not(.has-validation)
+  > .custom-file:not(:last-child)
+  .custom-file-label::after {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
 
-.input-group.has-validation>.form-control:nth-last-child(n+3),
-.input-group.has-validation>.custom-select:nth-last-child(n+3),
-.input-group.has-validation>.custom-file:nth-last-child(n+3) .custom-file-label,
-.input-group.has-validation>.custom-file:nth-last-child(n+3) .custom-file-label::after {
+.input-group.has-validation > .form-control:nth-last-child(n + 3),
+.input-group.has-validation > .custom-select:nth-last-child(n + 3),
+.input-group.has-validation
+  > .custom-file:nth-last-child(n + 3)
+  .custom-file-label,
+.input-group.has-validation
+  > .custom-file:nth-last-child(n + 3)
+  .custom-file-label::after {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
@@ -5630,14 +5960,14 @@ input[type=button].btn-block {
   z-index: 3;
 }
 
-.input-group-prepend .btn+.btn,
-.input-group-prepend .btn+.input-group-text,
-.input-group-prepend .input-group-text+.input-group-text,
-.input-group-prepend .input-group-text+.btn,
-.input-group-append .btn+.btn,
-.input-group-append .btn+.input-group-text,
-.input-group-append .input-group-text+.input-group-text,
-.input-group-append .input-group-text+.btn {
+.input-group-prepend .btn + .btn,
+.input-group-prepend .btn + .input-group-text,
+.input-group-prepend .input-group-text + .input-group-text,
+.input-group-prepend .input-group-text + .btn,
+.input-group-append .btn + .btn,
+.input-group-append .btn + .input-group-text,
+.input-group-append .input-group-text + .input-group-text,
+.input-group-append .input-group-text + .btn {
   margin-left: -1px;
 }
 
@@ -5665,68 +5995,78 @@ input[type=button].btn-block {
   border-radius: 0.25rem;
 }
 
-.input-group-text input[type=radio],
-.input-group-text input[type=checkbox] {
+.input-group-text input[type="radio"],
+.input-group-text input[type="checkbox"] {
   margin-top: 0;
 }
 
-.input-group-lg>.form-control:not(textarea),
-.input-group-lg>.custom-select {
+.input-group-lg > .form-control:not(textarea),
+.input-group-lg > .custom-select {
   height: calc(1.5em + 1.3rem + 2px);
 }
 
-.input-group-lg>.form-control,
-.input-group-lg>.custom-select,
-.input-group-lg>.input-group-prepend>.input-group-text,
-.input-group-lg>.input-group-append>.input-group-text,
-.input-group-lg>.input-group-prepend>.btn,
-.input-group-lg>.input-group-append>.btn {
+.input-group-lg > .form-control,
+.input-group-lg > .custom-select,
+.input-group-lg > .input-group-prepend > .input-group-text,
+.input-group-lg > .input-group-append > .input-group-text,
+.input-group-lg > .input-group-prepend > .btn,
+.input-group-lg > .input-group-append > .btn {
   padding: 0.65rem 1.5rem;
   font-size: 1.171875rem;
   line-height: 1.5;
   border-radius: 0.3rem;
 }
 
-.input-group-sm>.form-control:not(textarea),
-.input-group-sm>.custom-select {
+.input-group-sm > .form-control:not(textarea),
+.input-group-sm > .custom-select {
   height: calc(1.5em + 0.25rem + 2px);
 }
 
-.input-group-sm>.form-control,
-.input-group-sm>.custom-select,
-.input-group-sm>.input-group-prepend>.input-group-text,
-.input-group-sm>.input-group-append>.input-group-text,
-.input-group-sm>.input-group-prepend>.btn,
-.input-group-sm>.input-group-append>.btn {
+.input-group-sm > .form-control,
+.input-group-sm > .custom-select,
+.input-group-sm > .input-group-prepend > .input-group-text,
+.input-group-sm > .input-group-append > .input-group-text,
+.input-group-sm > .input-group-prepend > .btn,
+.input-group-sm > .input-group-append > .btn {
   padding: 0.125rem 0.625rem;
   font-size: 0.75rem;
   line-height: 1.5;
   border-radius: 0.2rem;
 }
 
-.input-group-lg>.custom-select,
-.input-group-sm>.custom-select {
+.input-group-lg > .custom-select,
+.input-group-sm > .custom-select {
   padding-right: 2rem;
 }
 
-.input-group>.input-group-prepend>.btn,
-.input-group>.input-group-prepend>.input-group-text,
-.input-group:not(.has-validation)>.input-group-append:not(:last-child)>.btn,
-.input-group:not(.has-validation)>.input-group-append:not(:last-child)>.input-group-text,
-.input-group.has-validation>.input-group-append:nth-last-child(n+3)>.btn,
-.input-group.has-validation>.input-group-append:nth-last-child(n+3)>.input-group-text,
-.input-group>.input-group-append:last-child>.btn:not(:last-child):not(.dropdown-toggle),
-.input-group>.input-group-append:last-child>.input-group-text:not(:last-child) {
+.input-group > .input-group-prepend > .btn,
+.input-group > .input-group-prepend > .input-group-text,
+.input-group:not(.has-validation) > .input-group-append:not(:last-child) > .btn,
+.input-group:not(.has-validation)
+  > .input-group-append:not(:last-child)
+  > .input-group-text,
+.input-group.has-validation > .input-group-append:nth-last-child(n + 3) > .btn,
+.input-group.has-validation
+  > .input-group-append:nth-last-child(n + 3)
+  > .input-group-text,
+.input-group
+  > .input-group-append:last-child
+  > .btn:not(:last-child):not(.dropdown-toggle),
+.input-group
+  > .input-group-append:last-child
+  > .input-group-text:not(:last-child) {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
 
-.input-group>.input-group-append>.btn,
-.input-group>.input-group-append>.input-group-text,
-.input-group>.input-group-prepend:not(:first-child)>.btn,
-.input-group>.input-group-prepend:not(:first-child)>.input-group-text,
-.input-group>.input-group-prepend:first-child>.btn:not(:first-child),
-.input-group>.input-group-prepend:first-child>.input-group-text:not(:first-child) {
+.input-group > .input-group-append > .btn,
+.input-group > .input-group-append > .input-group-text,
+.input-group > .input-group-prepend:not(:first-child) > .btn,
+.input-group > .input-group-prepend:not(:first-child) > .input-group-text,
+.input-group > .input-group-prepend:first-child > .btn:not(:first-child),
+.input-group
+  > .input-group-prepend:first-child
+  > .input-group-text:not(:first-child) {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
@@ -5755,33 +6095,33 @@ input[type=button].btn-block {
   opacity: 0;
 }
 
-.custom-control-input:checked~.custom-control-label::before {
+.custom-control-input:checked ~ .custom-control-label::before {
   color: #ffffff;
   border-color: #9e6de0;
   background-color: #9e6de0;
 }
 
-.custom-control-input:focus~.custom-control-label::before {
+.custom-control-input:focus ~ .custom-control-label::before {
   box-shadow: 0 0 0 0.2rem transparent;
 }
 
-.custom-control-input:focus:not(:checked)~.custom-control-label::before {
+.custom-control-input:focus:not(:checked) ~ .custom-control-label::before {
   border-color: #e4d6f6;
 }
 
-.custom-control-input:not(:disabled):active~.custom-control-label::before {
+.custom-control-input:not(:disabled):active ~ .custom-control-label::before {
   color: #ffffff;
   background-color: white;
   border-color: white;
 }
 
-.custom-control-input[disabled]~.custom-control-label,
-.custom-control-input:disabled~.custom-control-label {
+.custom-control-input[disabled] ~ .custom-control-label,
+.custom-control-input:disabled ~ .custom-control-label {
   color: #6c757d;
 }
 
-.custom-control-input[disabled]~.custom-control-label::before,
-.custom-control-input:disabled~.custom-control-label::before {
+.custom-control-input[disabled] ~ .custom-control-label::before,
+.custom-control-input:disabled ~ .custom-control-label::before {
   background-color: #f0f1f5;
 }
 
@@ -5819,24 +6159,32 @@ input[type=button].btn-block {
   border-radius: 0.25rem;
 }
 
-.custom-checkbox .custom-control-input:checked~.custom-control-label::after {
+.custom-checkbox .custom-control-input:checked ~ .custom-control-label::after {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'%3e%3cpath fill='%23ffffff' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26l2.974 2.99L8 2.193z'/%3e%3c/svg%3e");
 }
 
-.custom-checkbox .custom-control-input:indeterminate~.custom-control-label::before {
+.custom-checkbox
+  .custom-control-input:indeterminate
+  ~ .custom-control-label::before {
   border-color: #9e6de0;
   background-color: #9e6de0;
 }
 
-.custom-checkbox .custom-control-input:indeterminate~.custom-control-label::after {
+.custom-checkbox
+  .custom-control-input:indeterminate
+  ~ .custom-control-label::after {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3e%3cpath stroke='%23ffffff' d='M0 2h4'/%3e%3c/svg%3e");
 }
 
-.custom-checkbox .custom-control-input:disabled:checked~.custom-control-label::before {
+.custom-checkbox
+  .custom-control-input:disabled:checked
+  ~ .custom-control-label::before {
   background-color: rgba(158, 109, 224, 0.5);
 }
 
-.custom-checkbox .custom-control-input:disabled:indeterminate~.custom-control-label::before {
+.custom-checkbox
+  .custom-control-input:disabled:indeterminate
+  ~ .custom-control-label::before {
   background-color: rgba(158, 109, 224, 0.5);
 }
 
@@ -5844,11 +6192,13 @@ input[type=button].btn-block {
   border-radius: 50%;
 }
 
-.custom-radio .custom-control-input:checked~.custom-control-label::after {
+.custom-radio .custom-control-input:checked ~ .custom-control-label::after {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23ffffff'/%3e%3c/svg%3e");
 }
 
-.custom-radio .custom-control-input:disabled:checked~.custom-control-label::before {
+.custom-radio
+  .custom-control-input:disabled:checked
+  ~ .custom-control-label::before {
   background-color: rgba(158, 109, 224, 0.5);
 }
 
@@ -5870,7 +6220,8 @@ input[type=button].btn-block {
   height: calc(1rem - 4px);
   background-color: #adb5bd;
   border-radius: 0.5rem;
-  transition: transform 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  transition: transform 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -5879,12 +6230,14 @@ input[type=button].btn-block {
   }
 }
 
-.custom-switch .custom-control-input:checked~.custom-control-label::after {
+.custom-switch .custom-control-input:checked ~ .custom-control-label::after {
   background-color: #ffffff;
   transform: translateX(0.75rem);
 }
 
-.custom-switch .custom-control-input:disabled:checked~.custom-control-label::before {
+.custom-switch
+  .custom-control-input:disabled:checked
+  ~ .custom-control-label::before {
   background-color: rgba(158, 109, 224, 0.5);
 }
 
@@ -5898,7 +6251,9 @@ input[type=button].btn-block {
   line-height: 1.5;
   color: #495057;
   vertical-align: middle;
-  background: #ffffff url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='4' height='5' viewBox='0 0 4 5'%3e%3cpath fill='%23343a40' d='M2 0L0 2h4zm0 5L0 3h4z'/%3e%3c/svg%3e") right 1rem center/8px 10px no-repeat;
+  background: #ffffff
+    url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='4' height='5' viewBox='0 0 4 5'%3e%3cpath fill='%23343a40' d='M2 0L0 2h4zm0 5L0 3h4z'/%3e%3c/svg%3e")
+    right 1rem center/8px 10px no-repeat;
   border: 1px solid #e5e9f2;
   border-radius: 0.25rem;
   -webkit-appearance: none;
@@ -5972,21 +6327,21 @@ input[type=button].btn-block {
   opacity: 0;
 }
 
-.custom-file-input:focus~.custom-file-label {
+.custom-file-input:focus ~ .custom-file-label {
   border-color: #e4d6f6;
   box-shadow: 0 0 0 0.2rem transparent;
 }
 
-.custom-file-input[disabled]~.custom-file-label,
-.custom-file-input:disabled~.custom-file-label {
+.custom-file-input[disabled] ~ .custom-file-label,
+.custom-file-input:disabled ~ .custom-file-label {
   background-color: #f0f1f5;
 }
 
-.custom-file-input:lang(en)~.custom-file-label::after {
+.custom-file-input:lang(en) ~ .custom-file-label::after {
   content: "Browse";
 }
 
-.custom-file-input~.custom-file-label[data-browse]::after {
+.custom-file-input ~ .custom-file-label[data-browse]::after {
   content: attr(data-browse);
 }
 
@@ -6061,8 +6416,10 @@ input[type=button].btn-block {
   background-color: #9e6de0;
   border: 0;
   border-radius: 1rem;
-  -webkit-transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-  transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  -webkit-transition: background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
   -webkit-appearance: none;
   appearance: none;
 }
@@ -6094,8 +6451,10 @@ input[type=button].btn-block {
   background-color: #9e6de0;
   border: 0;
   border-radius: 1rem;
-  -moz-transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-  transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  -moz-transition: background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
   -moz-appearance: none;
   appearance: none;
 }
@@ -6130,8 +6489,10 @@ input[type=button].btn-block {
   background-color: #9e6de0;
   border: 0;
   border-radius: 1rem;
-  -ms-transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-  transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  -ms-transition: background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
   appearance: none;
 }
 
@@ -6190,11 +6551,11 @@ input[type=button].btn-block {
 .custom-control-label::before,
 .custom-file-label,
 .custom-select {
-  transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
 }
 
 @media (prefers-reduced-motion: reduce) {
-
   .custom-control-label::before,
   .custom-file-label,
   .custom-select {
@@ -6266,29 +6627,29 @@ input[type=button].btn-block {
 }
 
 .nav-pills .nav-link.active,
-.nav-pills .show>.nav-link {
+.nav-pills .show > .nav-link {
   color: #ffffff;
   background-color: #9e6de0;
 }
 
-.nav-fill>.nav-link,
+.nav-fill > .nav-link,
 .nav-fill .nav-item {
   flex: 1 1 auto;
   text-align: center;
 }
 
-.nav-justified>.nav-link,
+.nav-justified > .nav-link,
 .nav-justified .nav-item {
   flex-basis: 0;
   flex-grow: 1;
   text-align: center;
 }
 
-.tab-content>.tab-pane {
+.tab-content > .tab-pane {
   display: none;
 }
 
-.tab-content>.active {
+.tab-content > .active {
   display: block;
 }
 
@@ -6387,13 +6748,12 @@ input[type=button].btn-block {
 }
 
 @media (max-width: 575.98px) {
-
-  .navbar-expand-sm>.container,
-  .navbar-expand-sm>.container-fluid,
-  .navbar-expand-sm>.container-sm,
-  .navbar-expand-sm>.container-md,
-  .navbar-expand-sm>.container-lg,
-  .navbar-expand-sm>.container-xl {
+  .navbar-expand-sm > .container,
+  .navbar-expand-sm > .container-fluid,
+  .navbar-expand-sm > .container-sm,
+  .navbar-expand-sm > .container-md,
+  .navbar-expand-sm > .container-lg,
+  .navbar-expand-sm > .container-xl {
     padding-right: 0;
     padding-left: 0;
   }
@@ -6418,12 +6778,12 @@ input[type=button].btn-block {
     padding-left: 0.5rem;
   }
 
-  .navbar-expand-sm>.container,
-  .navbar-expand-sm>.container-fluid,
-  .navbar-expand-sm>.container-sm,
-  .navbar-expand-sm>.container-md,
-  .navbar-expand-sm>.container-lg,
-  .navbar-expand-sm>.container-xl {
+  .navbar-expand-sm > .container,
+  .navbar-expand-sm > .container-fluid,
+  .navbar-expand-sm > .container-sm,
+  .navbar-expand-sm > .container-md,
+  .navbar-expand-sm > .container-lg,
+  .navbar-expand-sm > .container-xl {
     flex-wrap: nowrap;
   }
 
@@ -6442,13 +6802,12 @@ input[type=button].btn-block {
 }
 
 @media (max-width: 767.98px) {
-
-  .navbar-expand-md>.container,
-  .navbar-expand-md>.container-fluid,
-  .navbar-expand-md>.container-sm,
-  .navbar-expand-md>.container-md,
-  .navbar-expand-md>.container-lg,
-  .navbar-expand-md>.container-xl {
+  .navbar-expand-md > .container,
+  .navbar-expand-md > .container-fluid,
+  .navbar-expand-md > .container-sm,
+  .navbar-expand-md > .container-md,
+  .navbar-expand-md > .container-lg,
+  .navbar-expand-md > .container-xl {
     padding-right: 0;
     padding-left: 0;
   }
@@ -6473,12 +6832,12 @@ input[type=button].btn-block {
     padding-left: 0.5rem;
   }
 
-  .navbar-expand-md>.container,
-  .navbar-expand-md>.container-fluid,
-  .navbar-expand-md>.container-sm,
-  .navbar-expand-md>.container-md,
-  .navbar-expand-md>.container-lg,
-  .navbar-expand-md>.container-xl {
+  .navbar-expand-md > .container,
+  .navbar-expand-md > .container-fluid,
+  .navbar-expand-md > .container-sm,
+  .navbar-expand-md > .container-md,
+  .navbar-expand-md > .container-lg,
+  .navbar-expand-md > .container-xl {
     flex-wrap: nowrap;
   }
 
@@ -6497,13 +6856,12 @@ input[type=button].btn-block {
 }
 
 @media (max-width: 991.98px) {
-
-  .navbar-expand-lg>.container,
-  .navbar-expand-lg>.container-fluid,
-  .navbar-expand-lg>.container-sm,
-  .navbar-expand-lg>.container-md,
-  .navbar-expand-lg>.container-lg,
-  .navbar-expand-lg>.container-xl {
+  .navbar-expand-lg > .container,
+  .navbar-expand-lg > .container-fluid,
+  .navbar-expand-lg > .container-sm,
+  .navbar-expand-lg > .container-md,
+  .navbar-expand-lg > .container-lg,
+  .navbar-expand-lg > .container-xl {
     padding-right: 0;
     padding-left: 0;
   }
@@ -6528,12 +6886,12 @@ input[type=button].btn-block {
     padding-left: 0.5rem;
   }
 
-  .navbar-expand-lg>.container,
-  .navbar-expand-lg>.container-fluid,
-  .navbar-expand-lg>.container-sm,
-  .navbar-expand-lg>.container-md,
-  .navbar-expand-lg>.container-lg,
-  .navbar-expand-lg>.container-xl {
+  .navbar-expand-lg > .container,
+  .navbar-expand-lg > .container-fluid,
+  .navbar-expand-lg > .container-sm,
+  .navbar-expand-lg > .container-md,
+  .navbar-expand-lg > .container-lg,
+  .navbar-expand-lg > .container-xl {
     flex-wrap: nowrap;
   }
 
@@ -6552,13 +6910,12 @@ input[type=button].btn-block {
 }
 
 @media (max-width: 1199.98px) {
-
-  .navbar-expand-xl>.container,
-  .navbar-expand-xl>.container-fluid,
-  .navbar-expand-xl>.container-sm,
-  .navbar-expand-xl>.container-md,
-  .navbar-expand-xl>.container-lg,
-  .navbar-expand-xl>.container-xl {
+  .navbar-expand-xl > .container,
+  .navbar-expand-xl > .container-fluid,
+  .navbar-expand-xl > .container-sm,
+  .navbar-expand-xl > .container-md,
+  .navbar-expand-xl > .container-lg,
+  .navbar-expand-xl > .container-xl {
     padding-right: 0;
     padding-left: 0;
   }
@@ -6583,12 +6940,12 @@ input[type=button].btn-block {
     padding-left: 0.5rem;
   }
 
-  .navbar-expand-xl>.container,
-  .navbar-expand-xl>.container-fluid,
-  .navbar-expand-xl>.container-sm,
-  .navbar-expand-xl>.container-md,
-  .navbar-expand-xl>.container-lg,
-  .navbar-expand-xl>.container-xl {
+  .navbar-expand-xl > .container,
+  .navbar-expand-xl > .container-fluid,
+  .navbar-expand-xl > .container-sm,
+  .navbar-expand-xl > .container-md,
+  .navbar-expand-xl > .container-lg,
+  .navbar-expand-xl > .container-xl {
     flex-wrap: nowrap;
   }
 
@@ -6607,13 +6964,12 @@ input[type=button].btn-block {
 }
 
 @media (max-width: 1499.98px) {
-
-  .navbar-expand-xxl>.container,
-  .navbar-expand-xxl>.container-fluid,
-  .navbar-expand-xxl>.container-sm,
-  .navbar-expand-xxl>.container-md,
-  .navbar-expand-xxl>.container-lg,
-  .navbar-expand-xxl>.container-xl {
+  .navbar-expand-xxl > .container,
+  .navbar-expand-xxl > .container-fluid,
+  .navbar-expand-xxl > .container-sm,
+  .navbar-expand-xxl > .container-md,
+  .navbar-expand-xxl > .container-lg,
+  .navbar-expand-xxl > .container-xl {
     padding-right: 0;
     padding-left: 0;
   }
@@ -6638,12 +6994,12 @@ input[type=button].btn-block {
     padding-left: 0.5rem;
   }
 
-  .navbar-expand-xxl>.container,
-  .navbar-expand-xxl>.container-fluid,
-  .navbar-expand-xxl>.container-sm,
-  .navbar-expand-xxl>.container-md,
-  .navbar-expand-xxl>.container-lg,
-  .navbar-expand-xxl>.container-xl {
+  .navbar-expand-xxl > .container,
+  .navbar-expand-xxl > .container-fluid,
+  .navbar-expand-xxl > .container-sm,
+  .navbar-expand-xxl > .container-md,
+  .navbar-expand-xxl > .container-lg,
+  .navbar-expand-xxl > .container-xl {
     flex-wrap: nowrap;
   }
 
@@ -6666,12 +7022,12 @@ input[type=button].btn-block {
   justify-content: flex-start;
 }
 
-.navbar-expand>.container,
-.navbar-expand>.container-fluid,
-.navbar-expand>.container-sm,
-.navbar-expand>.container-md,
-.navbar-expand>.container-lg,
-.navbar-expand>.container-xl {
+.navbar-expand > .container,
+.navbar-expand > .container-fluid,
+.navbar-expand > .container-sm,
+.navbar-expand > .container-md,
+.navbar-expand > .container-lg,
+.navbar-expand > .container-xl {
   padding-right: 0;
   padding-left: 0;
 }
@@ -6689,12 +7045,12 @@ input[type=button].btn-block {
   padding-left: 0.5rem;
 }
 
-.navbar-expand>.container,
-.navbar-expand>.container-fluid,
-.navbar-expand>.container-sm,
-.navbar-expand>.container-md,
-.navbar-expand>.container-lg,
-.navbar-expand>.container-xl {
+.navbar-expand > .container,
+.navbar-expand > .container-fluid,
+.navbar-expand > .container-sm,
+.navbar-expand > .container-md,
+.navbar-expand > .container-lg,
+.navbar-expand > .container-xl {
   flex-wrap: nowrap;
 }
 
@@ -6733,8 +7089,8 @@ input[type=button].btn-block {
   color: rgba(0, 0, 0, 0.3);
 }
 
-.navbar-light .navbar-nav .show>.nav-link,
-.navbar-light .navbar-nav .active>.nav-link,
+.navbar-light .navbar-nav .show > .nav-link,
+.navbar-light .navbar-nav .active > .nav-link,
 .navbar-light .navbar-nav .nav-link.show,
 .navbar-light .navbar-nav .nav-link.active {
   color: rgba(0, 0, 0, 0.9);
@@ -6784,8 +7140,8 @@ input[type=button].btn-block {
   color: rgba(255, 255, 255, 0.25);
 }
 
-.navbar-dark .navbar-nav .show>.nav-link,
-.navbar-dark .navbar-nav .active>.nav-link,
+.navbar-dark .navbar-nav .show > .nav-link,
+.navbar-dark .navbar-nav .active > .nav-link,
 .navbar-dark .navbar-nav .nav-link.show,
 .navbar-dark .navbar-nav .nav-link.active {
   color: #ffffff;
@@ -6825,30 +7181,30 @@ input[type=button].btn-block {
   border-radius: 0.25rem;
 }
 
-.card>hr {
+.card > hr {
   margin-right: 0;
   margin-left: 0;
 }
 
-.card>.list-group {
+.card > .list-group {
   border-top: inherit;
   border-bottom: inherit;
 }
 
-.card>.list-group:first-child {
+.card > .list-group:first-child {
   border-top-width: 0;
   border-top-left-radius: calc(0.25rem - 1px);
   border-top-right-radius: calc(0.25rem - 1px);
 }
 
-.card>.list-group:last-child {
+.card > .list-group:last-child {
   border-bottom-width: 0;
   border-bottom-right-radius: calc(0.25rem - 1px);
   border-bottom-left-radius: calc(0.25rem - 1px);
 }
 
-.card>.card-header+.list-group,
-.card>.list-group+.card-footer {
+.card > .card-header + .list-group,
+.card > .list-group + .card-footer {
   border-top: 0;
 }
 
@@ -6875,7 +7231,7 @@ input[type=button].btn-block {
   text-decoration: none;
 }
 
-.card-link+.card-link {
+.card-link + .card-link {
   margin-left: 1.875rem;
 }
 
@@ -6961,7 +7317,7 @@ input[type=button].btn-block {
   }
 }
 
-.card-group>.card {
+.card-group > .card {
   margin-bottom: 15px;
 }
 
@@ -6971,43 +7327,43 @@ input[type=button].btn-block {
     flex-flow: row wrap;
   }
 
-  .card-group>.card {
+  .card-group > .card {
     flex: 1 0 0%;
     margin-bottom: 0;
   }
 
-  .card-group>.card+.card {
+  .card-group > .card + .card {
     margin-left: 0;
     border-left: 0;
   }
 
-  .card-group>.card:not(:last-child) {
+  .card-group > .card:not(:last-child) {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
   }
 
-  .card-group>.card:not(:last-child) .card-img-top,
-  .card-group>.card:not(:last-child) .card-header {
+  .card-group > .card:not(:last-child) .card-img-top,
+  .card-group > .card:not(:last-child) .card-header {
     border-top-right-radius: 0;
   }
 
-  .card-group>.card:not(:last-child) .card-img-bottom,
-  .card-group>.card:not(:last-child) .card-footer {
+  .card-group > .card:not(:last-child) .card-img-bottom,
+  .card-group > .card:not(:last-child) .card-footer {
     border-bottom-right-radius: 0;
   }
 
-  .card-group>.card:not(:first-child) {
+  .card-group > .card:not(:first-child) {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
   }
 
-  .card-group>.card:not(:first-child) .card-img-top,
-  .card-group>.card:not(:first-child) .card-header {
+  .card-group > .card:not(:first-child) .card-img-top,
+  .card-group > .card:not(:first-child) .card-header {
     border-top-left-radius: 0;
   }
 
-  .card-group>.card:not(:first-child) .card-img-bottom,
-  .card-group>.card:not(:first-child) .card-footer {
+  .card-group > .card:not(:first-child) .card-img-bottom,
+  .card-group > .card:not(:first-child) .card-footer {
     border-bottom-left-radius: 0;
   }
 }
@@ -7036,22 +7392,22 @@ input[type=button].btn-block {
   overflow-anchor: none;
 }
 
-.accordion>.card {
+.accordion > .card {
   overflow: hidden;
 }
 
-.accordion>.card:not(:last-of-type) {
+.accordion > .card:not(:last-of-type) {
   border-bottom: 0;
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
 }
 
-.accordion>.card:not(:first-of-type) {
+.accordion > .card:not(:first-of-type) {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
 
-.accordion>.card>.card-header {
+.accordion > .card > .card-header {
   border-radius: 0;
   margin-bottom: -1px;
 }
@@ -7066,22 +7422,22 @@ input[type=button].btn-block {
   border-radius: 0.25rem;
 }
 
-.breadcrumb-item+.breadcrumb-item {
+.breadcrumb-item + .breadcrumb-item {
   padding-left: 0.5rem;
 }
 
-.breadcrumb-item+.breadcrumb-item::before {
+.breadcrumb-item + .breadcrumb-item::before {
   float: left;
   padding-right: 0.5rem;
   color: #6c757d;
   content: "/";
 }
 
-.breadcrumb-item+.breadcrumb-item:hover::before {
+.breadcrumb-item + .breadcrumb-item:hover::before {
   text-decoration: underline;
 }
 
-.breadcrumb-item+.breadcrumb-item:hover::before {
+.breadcrumb-item + .breadcrumb-item:hover::before {
   text-decoration: none;
 }
 
@@ -7189,7 +7545,8 @@ input[type=button].btn-block {
   white-space: nowrap;
   vertical-align: baseline;
   border-radius: 0.25rem;
-  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -7625,7 +7982,16 @@ a.badge-smoke.focus {
 }
 
 .progress-bar-striped {
-  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.15) 25%,
+    transparent 25%,
+    transparent 50%,
+    rgba(255, 255, 255, 0.15) 50%,
+    rgba(255, 255, 255, 0.15) 75%,
+    transparent 75%,
+    transparent
+  );
   background-size: 1rem 1rem;
 }
 
@@ -7709,11 +8075,11 @@ a.badge-smoke.focus {
   border-color: #9e6de0;
 }
 
-.list-group-item+.list-group-item {
+.list-group-item + .list-group-item {
   border-top-width: 0;
 }
 
-.list-group-item+.list-group-item.active {
+.list-group-item + .list-group-item.active {
   margin-top: -1px;
   border-top-width: 1px;
 }
@@ -7722,26 +8088,26 @@ a.badge-smoke.focus {
   flex-direction: row;
 }
 
-.list-group-horizontal>.list-group-item:first-child {
+.list-group-horizontal > .list-group-item:first-child {
   border-bottom-left-radius: 0.25rem;
   border-top-right-radius: 0;
 }
 
-.list-group-horizontal>.list-group-item:last-child {
+.list-group-horizontal > .list-group-item:last-child {
   border-top-right-radius: 0.25rem;
   border-bottom-left-radius: 0;
 }
 
-.list-group-horizontal>.list-group-item.active {
+.list-group-horizontal > .list-group-item.active {
   margin-top: 0;
 }
 
-.list-group-horizontal>.list-group-item+.list-group-item {
+.list-group-horizontal > .list-group-item + .list-group-item {
   border-top-width: 1px;
   border-left-width: 0;
 }
 
-.list-group-horizontal>.list-group-item+.list-group-item.active {
+.list-group-horizontal > .list-group-item + .list-group-item.active {
   margin-left: -1px;
   border-left-width: 1px;
 }
@@ -7751,26 +8117,26 @@ a.badge-smoke.focus {
     flex-direction: row;
   }
 
-  .list-group-horizontal-sm>.list-group-item:first-child {
+  .list-group-horizontal-sm > .list-group-item:first-child {
     border-bottom-left-radius: 0.25rem;
     border-top-right-radius: 0;
   }
 
-  .list-group-horizontal-sm>.list-group-item:last-child {
+  .list-group-horizontal-sm > .list-group-item:last-child {
     border-top-right-radius: 0.25rem;
     border-bottom-left-radius: 0;
   }
 
-  .list-group-horizontal-sm>.list-group-item.active {
+  .list-group-horizontal-sm > .list-group-item.active {
     margin-top: 0;
   }
 
-  .list-group-horizontal-sm>.list-group-item+.list-group-item {
+  .list-group-horizontal-sm > .list-group-item + .list-group-item {
     border-top-width: 1px;
     border-left-width: 0;
   }
 
-  .list-group-horizontal-sm>.list-group-item+.list-group-item.active {
+  .list-group-horizontal-sm > .list-group-item + .list-group-item.active {
     margin-left: -1px;
     border-left-width: 1px;
   }
@@ -7781,26 +8147,26 @@ a.badge-smoke.focus {
     flex-direction: row;
   }
 
-  .list-group-horizontal-md>.list-group-item:first-child {
+  .list-group-horizontal-md > .list-group-item:first-child {
     border-bottom-left-radius: 0.25rem;
     border-top-right-radius: 0;
   }
 
-  .list-group-horizontal-md>.list-group-item:last-child {
+  .list-group-horizontal-md > .list-group-item:last-child {
     border-top-right-radius: 0.25rem;
     border-bottom-left-radius: 0;
   }
 
-  .list-group-horizontal-md>.list-group-item.active {
+  .list-group-horizontal-md > .list-group-item.active {
     margin-top: 0;
   }
 
-  .list-group-horizontal-md>.list-group-item+.list-group-item {
+  .list-group-horizontal-md > .list-group-item + .list-group-item {
     border-top-width: 1px;
     border-left-width: 0;
   }
 
-  .list-group-horizontal-md>.list-group-item+.list-group-item.active {
+  .list-group-horizontal-md > .list-group-item + .list-group-item.active {
     margin-left: -1px;
     border-left-width: 1px;
   }
@@ -7811,26 +8177,26 @@ a.badge-smoke.focus {
     flex-direction: row;
   }
 
-  .list-group-horizontal-lg>.list-group-item:first-child {
+  .list-group-horizontal-lg > .list-group-item:first-child {
     border-bottom-left-radius: 0.25rem;
     border-top-right-radius: 0;
   }
 
-  .list-group-horizontal-lg>.list-group-item:last-child {
+  .list-group-horizontal-lg > .list-group-item:last-child {
     border-top-right-radius: 0.25rem;
     border-bottom-left-radius: 0;
   }
 
-  .list-group-horizontal-lg>.list-group-item.active {
+  .list-group-horizontal-lg > .list-group-item.active {
     margin-top: 0;
   }
 
-  .list-group-horizontal-lg>.list-group-item+.list-group-item {
+  .list-group-horizontal-lg > .list-group-item + .list-group-item {
     border-top-width: 1px;
     border-left-width: 0;
   }
 
-  .list-group-horizontal-lg>.list-group-item+.list-group-item.active {
+  .list-group-horizontal-lg > .list-group-item + .list-group-item.active {
     margin-left: -1px;
     border-left-width: 1px;
   }
@@ -7841,26 +8207,26 @@ a.badge-smoke.focus {
     flex-direction: row;
   }
 
-  .list-group-horizontal-xl>.list-group-item:first-child {
+  .list-group-horizontal-xl > .list-group-item:first-child {
     border-bottom-left-radius: 0.25rem;
     border-top-right-radius: 0;
   }
 
-  .list-group-horizontal-xl>.list-group-item:last-child {
+  .list-group-horizontal-xl > .list-group-item:last-child {
     border-top-right-radius: 0.25rem;
     border-bottom-left-radius: 0;
   }
 
-  .list-group-horizontal-xl>.list-group-item.active {
+  .list-group-horizontal-xl > .list-group-item.active {
     margin-top: 0;
   }
 
-  .list-group-horizontal-xl>.list-group-item+.list-group-item {
+  .list-group-horizontal-xl > .list-group-item + .list-group-item {
     border-top-width: 1px;
     border-left-width: 0;
   }
 
-  .list-group-horizontal-xl>.list-group-item+.list-group-item.active {
+  .list-group-horizontal-xl > .list-group-item + .list-group-item.active {
     margin-left: -1px;
     border-left-width: 1px;
   }
@@ -7871,26 +8237,26 @@ a.badge-smoke.focus {
     flex-direction: row;
   }
 
-  .list-group-horizontal-xxl>.list-group-item:first-child {
+  .list-group-horizontal-xxl > .list-group-item:first-child {
     border-bottom-left-radius: 0.25rem;
     border-top-right-radius: 0;
   }
 
-  .list-group-horizontal-xxl>.list-group-item:last-child {
+  .list-group-horizontal-xxl > .list-group-item:last-child {
     border-top-right-radius: 0.25rem;
     border-bottom-left-radius: 0;
   }
 
-  .list-group-horizontal-xxl>.list-group-item.active {
+  .list-group-horizontal-xxl > .list-group-item.active {
     margin-top: 0;
   }
 
-  .list-group-horizontal-xxl>.list-group-item+.list-group-item {
+  .list-group-horizontal-xxl > .list-group-item + .list-group-item {
     border-top-width: 1px;
     border-left-width: 0;
   }
 
-  .list-group-horizontal-xxl>.list-group-item+.list-group-item.active {
+  .list-group-horizontal-xxl > .list-group-item + .list-group-item.active {
     margin-left: -1px;
     border-left-width: 1px;
   }
@@ -7900,11 +8266,11 @@ a.badge-smoke.focus {
   border-radius: 0;
 }
 
-.list-group-flush>.list-group-item {
+.list-group-flush > .list-group-item {
   border-width: 0 0 1px;
 }
 
-.list-group-flush>.list-group-item:last-child {
+.list-group-flush > .list-group-item:last-child {
   border-bottom-width: 0;
 }
 
@@ -8316,7 +8682,7 @@ a.close.disabled {
   border-bottom-left-radius: calc(0.3rem - 1px);
 }
 
-.modal-footer>* {
+.modal-footer > * {
   margin: 0.25rem;
 }
 
@@ -8359,7 +8725,6 @@ a.close.disabled {
 }
 
 @media (min-width: 992px) {
-
   .modal-lg,
   .modal-xl {
     max-width: 800px;
@@ -8415,72 +8780,72 @@ a.close.disabled {
 }
 
 .bs-tooltip-top,
-.bs-tooltip-auto[x-placement^=top] {
+.bs-tooltip-auto[x-placement^="top"] {
   padding: 0.4rem 0;
 }
 
 .bs-tooltip-top .arrow,
-.bs-tooltip-auto[x-placement^=top] .arrow {
+.bs-tooltip-auto[x-placement^="top"] .arrow {
   bottom: 0;
 }
 
 .bs-tooltip-top .arrow::before,
-.bs-tooltip-auto[x-placement^=top] .arrow::before {
+.bs-tooltip-auto[x-placement^="top"] .arrow::before {
   top: 0;
   border-width: 0.4rem 0.4rem 0;
   border-top-color: #000;
 }
 
 .bs-tooltip-right,
-.bs-tooltip-auto[x-placement^=right] {
+.bs-tooltip-auto[x-placement^="right"] {
   padding: 0 0.4rem;
 }
 
 .bs-tooltip-right .arrow,
-.bs-tooltip-auto[x-placement^=right] .arrow {
+.bs-tooltip-auto[x-placement^="right"] .arrow {
   left: 0;
   width: 0.4rem;
   height: 0.8rem;
 }
 
 .bs-tooltip-right .arrow::before,
-.bs-tooltip-auto[x-placement^=right] .arrow::before {
+.bs-tooltip-auto[x-placement^="right"] .arrow::before {
   right: 0;
   border-width: 0.4rem 0.4rem 0.4rem 0;
   border-right-color: #000;
 }
 
 .bs-tooltip-bottom,
-.bs-tooltip-auto[x-placement^=bottom] {
+.bs-tooltip-auto[x-placement^="bottom"] {
   padding: 0.4rem 0;
 }
 
 .bs-tooltip-bottom .arrow,
-.bs-tooltip-auto[x-placement^=bottom] .arrow {
+.bs-tooltip-auto[x-placement^="bottom"] .arrow {
   top: 0;
 }
 
 .bs-tooltip-bottom .arrow::before,
-.bs-tooltip-auto[x-placement^=bottom] .arrow::before {
+.bs-tooltip-auto[x-placement^="bottom"] .arrow::before {
   bottom: 0;
   border-width: 0 0.4rem 0.4rem;
   border-bottom-color: #000;
 }
 
 .bs-tooltip-left,
-.bs-tooltip-auto[x-placement^=left] {
+.bs-tooltip-auto[x-placement^="left"] {
   padding: 0 0.4rem;
 }
 
 .bs-tooltip-left .arrow,
-.bs-tooltip-auto[x-placement^=left] .arrow {
+.bs-tooltip-auto[x-placement^="left"] .arrow {
   right: 0;
   width: 0.4rem;
   height: 0.8rem;
 }
 
 .bs-tooltip-left .arrow::before,
-.bs-tooltip-auto[x-placement^=left] .arrow::before {
+.bs-tooltip-auto[x-placement^="left"] .arrow::before {
   left: 0;
   border-width: 0.4rem 0 0.4rem 0.4rem;
   border-left-color: #000;
@@ -8542,82 +8907,82 @@ a.close.disabled {
 }
 
 .bs-popover-top,
-.bs-popover-auto[x-placement^=top] {
+.bs-popover-auto[x-placement^="top"] {
   margin-bottom: 0.5rem;
 }
 
-.bs-popover-top>.arrow,
-.bs-popover-auto[x-placement^=top]>.arrow {
+.bs-popover-top > .arrow,
+.bs-popover-auto[x-placement^="top"] > .arrow {
   bottom: calc(-0.5rem - 1px);
 }
 
-.bs-popover-top>.arrow::before,
-.bs-popover-auto[x-placement^=top]>.arrow::before {
+.bs-popover-top > .arrow::before,
+.bs-popover-auto[x-placement^="top"] > .arrow::before {
   bottom: 0;
   border-width: 0.5rem 0.5rem 0;
   border-top-color: #1d1f26;
 }
 
-.bs-popover-top>.arrow::after,
-.bs-popover-auto[x-placement^=top]>.arrow::after {
+.bs-popover-top > .arrow::after,
+.bs-popover-auto[x-placement^="top"] > .arrow::after {
   bottom: 1px;
   border-width: 0.5rem 0.5rem 0;
   border-top-color: #1d1f26;
 }
 
 .bs-popover-right,
-.bs-popover-auto[x-placement^=right] {
+.bs-popover-auto[x-placement^="right"] {
   margin-left: 0.5rem;
 }
 
-.bs-popover-right>.arrow,
-.bs-popover-auto[x-placement^=right]>.arrow {
+.bs-popover-right > .arrow,
+.bs-popover-auto[x-placement^="right"] > .arrow {
   left: calc(-0.5rem - 1px);
   width: 0.5rem;
   height: 1rem;
   margin: 0.3rem 0;
 }
 
-.bs-popover-right>.arrow::before,
-.bs-popover-auto[x-placement^=right]>.arrow::before {
+.bs-popover-right > .arrow::before,
+.bs-popover-auto[x-placement^="right"] > .arrow::before {
   left: 0;
   border-width: 0.5rem 0.5rem 0.5rem 0;
   border-right-color: #1d1f26;
 }
 
-.bs-popover-right>.arrow::after,
-.bs-popover-auto[x-placement^=right]>.arrow::after {
+.bs-popover-right > .arrow::after,
+.bs-popover-auto[x-placement^="right"] > .arrow::after {
   left: 1px;
   border-width: 0.5rem 0.5rem 0.5rem 0;
   border-right-color: #1d1f26;
 }
 
 .bs-popover-bottom,
-.bs-popover-auto[x-placement^=bottom] {
+.bs-popover-auto[x-placement^="bottom"] {
   margin-top: 0.5rem;
 }
 
-.bs-popover-bottom>.arrow,
-.bs-popover-auto[x-placement^=bottom]>.arrow {
+.bs-popover-bottom > .arrow,
+.bs-popover-auto[x-placement^="bottom"] > .arrow {
   top: calc(-0.5rem - 1px);
 }
 
-.bs-popover-bottom>.arrow::before,
-.bs-popover-auto[x-placement^=bottom]>.arrow::before {
+.bs-popover-bottom > .arrow::before,
+.bs-popover-auto[x-placement^="bottom"] > .arrow::before {
   top: 0;
   border-width: 0 0.5rem 0.5rem 0.5rem;
   border-bottom-color: #1d1f26;
 }
 
-.bs-popover-bottom>.arrow::after,
-.bs-popover-auto[x-placement^=bottom]>.arrow::after {
+.bs-popover-bottom > .arrow::after,
+.bs-popover-auto[x-placement^="bottom"] > .arrow::after {
   top: 1px;
   border-width: 0 0.5rem 0.5rem 0.5rem;
   border-bottom-color: #1d1f26;
 }
 
 .bs-popover-bottom .popover-header::before,
-.bs-popover-auto[x-placement^=bottom] .popover-header::before {
+.bs-popover-auto[x-placement^="bottom"] .popover-header::before {
   position: absolute;
   top: 0;
   left: 50%;
@@ -8629,27 +8994,27 @@ a.close.disabled {
 }
 
 .bs-popover-left,
-.bs-popover-auto[x-placement^=left] {
+.bs-popover-auto[x-placement^="left"] {
   margin-right: 0.5rem;
 }
 
-.bs-popover-left>.arrow,
-.bs-popover-auto[x-placement^=left]>.arrow {
+.bs-popover-left > .arrow,
+.bs-popover-auto[x-placement^="left"] > .arrow {
   right: calc(-0.5rem - 1px);
   width: 0.5rem;
   height: 1rem;
   margin: 0.3rem 0;
 }
 
-.bs-popover-left>.arrow::before,
-.bs-popover-auto[x-placement^=left]>.arrow::before {
+.bs-popover-left > .arrow::before,
+.bs-popover-auto[x-placement^="left"] > .arrow::before {
   right: 0;
   border-width: 0.5rem 0 0.5rem 0.5rem;
   border-left-color: #1d1f26;
 }
 
-.bs-popover-left>.arrow::after,
-.bs-popover-auto[x-placement^=left]>.arrow::after {
+.bs-popover-left > .arrow::after,
+.bs-popover-auto[x-placement^="left"] > .arrow::after {
   right: 1px;
   border-width: 0.5rem 0 0.5rem 0.5rem;
   border-left-color: #1d1f26;
@@ -8749,7 +9114,6 @@ a.close.disabled {
 }
 
 @media (prefers-reduced-motion: reduce) {
-
   .carousel-fade .active.carousel-item-left,
   .carousel-fade .active.carousel-item-right {
     transition: none;
@@ -8776,7 +9140,6 @@ a.close.disabled {
 }
 
 @media (prefers-reduced-motion: reduce) {
-
   .carousel-control-prev,
   .carousel-control-next {
     transition: none;
@@ -8940,7 +9303,6 @@ a.close.disabled {
 }
 
 @media (prefers-reduced-motion: reduce) {
-
   .spinner-border,
   .spinner-grow {
     -webkit-animation-duration: 1.5s;
@@ -14524,7 +14886,8 @@ button.bg-smoke:focus {
 }
 
 .text-monospace {
-  font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
+  font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace !important;
 }
 
 .text-justify {
@@ -14803,7 +15166,6 @@ a.text-smoke:focus {
 }
 
 @media print {
-
   *,
   *::before,
   *::after {
@@ -14887,7 +15249,7 @@ a.text-smoke:focus {
   .table-dark th,
   .table-dark td,
   .table-dark thead th,
-  .table-dark tbody+tbody {
+  .table-dark tbody + tbody {
     border-color: #e5e9f2;
   }
 
@@ -15057,7 +15419,6 @@ a {
 }
 
 @media (prefers-reduced-motion: reduce) {
-
   button,
   a {
     transition: none;
@@ -15595,14 +15956,14 @@ button {
   right: 25px;
 }
 
-.accordion .card-header h2 .btn[aria-expanded=false]:after,
-.accordion .card-header h2 a[aria-expanded=false]:after {
+.accordion .card-header h2 .btn[aria-expanded="false"]:after,
+.accordion .card-header h2 a[aria-expanded="false"]:after {
   content: "\f415";
   font-family: "Material Design Icons";
 }
 
-.accordion .card-header h2 .btn[aria-expanded=true]:after,
-.accordion .card-header h2 a[aria-expanded=true]:after {
+.accordion .card-header h2 .btn[aria-expanded="true"]:after,
+.accordion .card-header h2 a[aria-expanded="true"]:after {
   content: "\f374";
   font-family: "Material Design Icons";
 }
@@ -15623,8 +15984,8 @@ button {
   color: #31343d;
 }
 
-.accordion-shadow .card-header .btn[aria-expanded=true]:after,
-.accordion-shadow .card-header a[aria-expanded=true]:after {
+.accordion-shadow .card-header .btn[aria-expanded="true"]:after,
+.accordion-shadow .card-header a[aria-expanded="true"]:after {
   color: #9e6de0;
 }
 
@@ -15647,8 +16008,8 @@ button {
   border-bottom: 1px solid #e5e9f2;
 }
 
-.accordion-header-border-bottom .card-header .btn[aria-expanded=true]:after,
-.accordion-header-border-bottom .card-header a[aria-expanded=true]:after {
+.accordion-header-border-bottom .card-header .btn[aria-expanded="true"]:after,
+.accordion-header-border-bottom .card-header a[aria-expanded="true"]:after {
   color: #9e6de0;
 }
 
@@ -16057,7 +16418,6 @@ code {
 }
 
 @media (min-width: 992px) {
-
   .navbar .sidebar-offcanvas-toggle,
   .navbar .sidebar-toggle {
     padding: 0 1.44rem 0 1.75rem;
@@ -16332,7 +16692,7 @@ code {
   align-items: center;
 }
 
-.navbar .navbar-right .navbar-nav .user-menu .dropdown-toggle>span {
+.navbar .navbar-right .navbar-nav .user-menu .dropdown-toggle > span {
   color: #2f2f2f;
   padding: 0 0.5rem;
   font-size: 1rem;
@@ -16340,7 +16700,7 @@ code {
 }
 
 @media (min-width: 992px) {
-  .navbar .navbar-right .navbar-nav .user-menu .dropdown-toggle>span {
+  .navbar .navbar-right .navbar-nav .user-menu .dropdown-toggle > span {
     text-overflow: ellipsis;
     max-width: 70px;
     overflow: hidden;
@@ -16348,13 +16708,13 @@ code {
 }
 
 @media (min-width: 1200px) {
-  .navbar .navbar-right .navbar-nav .user-menu .dropdown-toggle>span {
+  .navbar .navbar-right .navbar-nav .user-menu .dropdown-toggle > span {
     max-width: 120px;
   }
 }
 
 @media (min-width: 1500px) {
-  .navbar .navbar-right .navbar-nav .user-menu .dropdown-toggle>span {
+  .navbar .navbar-right .navbar-nav .user-menu .dropdown-toggle > span {
     max-width: 200px;
   }
 }
@@ -16420,13 +16780,13 @@ code {
   }
 }
 
-.navbar .dropdown-menu>li a {
+.navbar .dropdown-menu > li a {
   color: #8a909d;
   font-size: 0.88rem;
   padding: 0.25rem 1.25rem;
 }
 
-.navbar .dropdown-menu>li a>i {
+.navbar .dropdown-menu > li a > i {
   margin-right: 0.625rem;
   font-size: 1.25rem;
 }
@@ -16441,7 +16801,7 @@ code {
   margin-top: 0.625rem;
 }
 
-.navbar .dropdown-menu li.dropdown-footer>a {
+.navbar .dropdown-menu li.dropdown-footer > a {
   padding: 0.94rem 1.25rem;
 }
 
@@ -16497,7 +16857,12 @@ code {
   color: #bfc7d9;
 }
 
-.navbar.navbar-dark .navbar-right .navbar-nav .user-menu .dropdown-toggle>span {
+.navbar.navbar-dark
+  .navbar-right
+  .navbar-nav
+  .user-menu
+  .dropdown-toggle
+  > span {
   color: #bfc7d9;
 }
 
@@ -16546,11 +16911,20 @@ code {
   color: #8a909d;
 }
 
-.navbar.navbar-light .navbar-right .navbar-nav .notifications-menu .dropdown-toggle {
+.navbar.navbar-light
+  .navbar-right
+  .navbar-nav
+  .notifications-menu
+  .dropdown-toggle {
   border-color: #e5e9f2;
 }
 
-.navbar.navbar-light .navbar-right .navbar-nav .user-menu .dropdown-toggle>span {
+.navbar.navbar-light
+  .navbar-right
+  .navbar-nav
+  .user-menu
+  .dropdown-toggle
+  > span {
   color: #31343d;
 }
 
@@ -16578,7 +16952,12 @@ code {
   color: #ffffff;
 }
 
-.navbar.navbar-primary .navbar-right .navbar-nav .user-menu .dropdown-toggle>span {
+.navbar.navbar-primary
+  .navbar-right
+  .navbar-nav
+  .user-menu
+  .dropdown-toggle
+  > span {
   color: #ffffff;
 }
 
@@ -16671,7 +17050,8 @@ code {
   top: 59px;
   left: -204px;
   border-radius: 5px;
-  box-shadow: 0px 1px 2px 0px rgba(28, 29, 36, 0.1), inset 0px -1px 0px 0px rgba(229, 230, 235, 0.1);
+  box-shadow: 0px 1px 2px 0px rgba(28, 29, 36, 0.1),
+    inset 0px -1px 0px 0px rgba(229, 230, 235, 0.1);
   background-color: #ffffff;
 }
 
@@ -16700,57 +17080,79 @@ label {
 }
 
 /* Contextual Style */
-.checkbox-secondary .custom-control-input:checked~.custom-control-label::before {
+.checkbox-secondary
+  .custom-control-input:checked
+  ~ .custom-control-label::before {
   color: #ffffff;
   background-color: #fd5190;
   border-color: #fd5190;
 }
 
-.checkbox-success .custom-control-input:checked~.custom-control-label::before {
+.checkbox-success
+  .custom-control-input:checked
+  ~ .custom-control-label::before {
   color: #ffffff;
   background-color: #0acb8e;
   border-color: #0acb8e;
 }
 
-.checkbox-danger .custom-control-input:checked~.custom-control-label::before {
+.checkbox-danger .custom-control-input:checked ~ .custom-control-label::before {
   color: #ffffff;
   background-color: #fe5461;
   border-color: #fe5461;
 }
 
-.checkbox-warning .custom-control-input:checked~.custom-control-label::before {
+.checkbox-warning
+  .custom-control-input:checked
+  ~ .custom-control-label::before {
   color: #ffffff;
   background-color: #fec400;
   border-color: #fec400;
 }
 
-.checkbox-info .custom-control-input:checked~.custom-control-label::before {
+.checkbox-info .custom-control-input:checked ~ .custom-control-label::before {
   color: #ffffff;
   background-color: #04c7e0;
   border-color: #04c7e0;
 }
 
-.checkbox-light .custom-control-input:checked~.custom-control-label::before {
+.checkbox-light .custom-control-input:checked ~ .custom-control-label::before {
   color: #ffffff;
   background-color: #f0f1f5;
   border-color: #f0f1f5;
 }
 
-.checkbox-dark .custom-control-input:checked~.custom-control-label::before {
+.checkbox-dark .custom-control-input:checked ~ .custom-control-label::before {
   color: #ffffff;
   background-color: #31343d;
   border-color: #31343d;
 }
 
 /* Checkbox Ouline */
-.checkbox-outline-primary .custom-control-input:checked~.custom-control-label::after,
-.checkbox-outline-secondary .custom-control-input:checked~.custom-control-label::after,
-.checkbox-outline-success .custom-control-input:checked~.custom-control-label::after,
-.checkbox-outline-danger .custom-control-input:checked~.custom-control-label::after,
-.checkbox-outline-warning .custom-control-input:checked~.custom-control-label::after,
-.checkbox-outline-info .custom-control-input:checked~.custom-control-label::after,
-.checkbox-outline-light .custom-control-input:checked~.custom-control-label::after,
-.checkbox-outline-dark .custom-control-input:checked~.custom-control-label::after {
+.checkbox-outline-primary
+  .custom-control-input:checked
+  ~ .custom-control-label::after,
+.checkbox-outline-secondary
+  .custom-control-input:checked
+  ~ .custom-control-label::after,
+.checkbox-outline-success
+  .custom-control-input:checked
+  ~ .custom-control-label::after,
+.checkbox-outline-danger
+  .custom-control-input:checked
+  ~ .custom-control-label::after,
+.checkbox-outline-warning
+  .custom-control-input:checked
+  ~ .custom-control-label::after,
+.checkbox-outline-info
+  .custom-control-input:checked
+  ~ .custom-control-label::after,
+.checkbox-outline-light
+  .custom-control-input:checked
+  ~ .custom-control-label::after,
+.checkbox-outline-dark
+  .custom-control-input:checked
+  ~ .custom-control-label::after {
   left: -18px;
   top: 6px;
   width: 5px;
@@ -16761,112 +17163,156 @@ label {
   transform: rotate(45deg);
 }
 
-.checkbox-outline-primary .custom-control-input:checked~.custom-control-label::before {
+.checkbox-outline-primary
+  .custom-control-input:checked
+  ~ .custom-control-label::before {
   color: #31343d !important;
   background-color: transparent;
 }
 
-.checkbox-outline-secondary .custom-control-input:checked~.custom-control-label::before {
+.checkbox-outline-secondary
+  .custom-control-input:checked
+  ~ .custom-control-label::before {
   background-color: transparent;
   border-color: #fd5190;
 }
 
-.checkbox-outline-secondary .custom-control-input:checked~.custom-control-label::after {
+.checkbox-outline-secondary
+  .custom-control-input:checked
+  ~ .custom-control-label::after {
   border-color: #fd5190;
 }
 
-.checkbox-outline-success .custom-control-input:checked~.custom-control-label::before {
+.checkbox-outline-success
+  .custom-control-input:checked
+  ~ .custom-control-label::before {
   background-color: transparent;
   border-color: #0acb8e;
 }
 
-.checkbox-outline-success .custom-control-input:checked~.custom-control-label::after {
+.checkbox-outline-success
+  .custom-control-input:checked
+  ~ .custom-control-label::after {
   border-color: #0acb8e;
 }
 
-.checkbox-outline-danger .custom-control-input:checked~.custom-control-label::before {
+.checkbox-outline-danger
+  .custom-control-input:checked
+  ~ .custom-control-label::before {
   background-color: transparent;
   border-color: #fe5461;
 }
 
-.checkbox-outline-danger .custom-control-input:checked~.custom-control-label::after {
+.checkbox-outline-danger
+  .custom-control-input:checked
+  ~ .custom-control-label::after {
   border-color: #fe5461;
 }
 
-.checkbox-outline-warning .custom-control-input:checked~.custom-control-label::before {
+.checkbox-outline-warning
+  .custom-control-input:checked
+  ~ .custom-control-label::before {
   background-color: transparent;
   border-color: #fec400;
 }
 
-.checkbox-outline-warning .custom-control-input:checked~.custom-control-label::after {
+.checkbox-outline-warning
+  .custom-control-input:checked
+  ~ .custom-control-label::after {
   border-color: #fec400;
 }
 
-.checkbox-outline-info .custom-control-input:checked~.custom-control-label::before {
+.checkbox-outline-info
+  .custom-control-input:checked
+  ~ .custom-control-label::before {
   background-color: transparent;
   border-color: #04c7e0;
 }
 
-.checkbox-outline-info .custom-control-input:checked~.custom-control-label::after {
+.checkbox-outline-info
+  .custom-control-input:checked
+  ~ .custom-control-label::after {
   border-color: #04c7e0;
 }
 
-.checkbox-outline-light .custom-control-input:checked~.custom-control-label::before {
+.checkbox-outline-light
+  .custom-control-input:checked
+  ~ .custom-control-label::before {
   background-color: transparent;
   border-color: #f0f1f5;
 }
 
-.checkbox-outline-light .custom-control-input:checked~.custom-control-label::after {
+.checkbox-outline-light
+  .custom-control-input:checked
+  ~ .custom-control-label::after {
   border-color: #f0f1f5;
 }
 
-.checkbox-outline-dark .custom-control-input:checked~.custom-control-label::before {
+.checkbox-outline-dark
+  .custom-control-input:checked
+  ~ .custom-control-label::before {
   background-color: transparent;
   border-color: #31343d;
 }
 
-.checkbox-outline-dark .custom-control-input:checked~.custom-control-label::after {
+.checkbox-outline-dark
+  .custom-control-input:checked
+  ~ .custom-control-label::after {
   border-color: #31343d;
 }
 
 /* Checkbox */
-.radio-secondary .custom-control-input:checked~.custom-control-label::before {
+.radio-secondary .custom-control-input:checked ~ .custom-control-label::before {
   border-color: #fd5190;
   background-color: #fd5190;
 }
 
-.radio-success .custom-control-input:checked~.custom-control-label::before {
+.radio-success .custom-control-input:checked ~ .custom-control-label::before {
   border-color: #0acb8e;
   background-color: #0acb8e;
 }
 
-.radio-danger .custom-control-input:checked~.custom-control-label::before {
+.radio-danger .custom-control-input:checked ~ .custom-control-label::before {
   border-color: #fe5461;
   background-color: #fe5461;
 }
 
-.radio-info .custom-control-input:checked~.custom-control-label::before {
+.radio-info .custom-control-input:checked ~ .custom-control-label::before {
   border-color: #04c7e0;
   background-color: #04c7e0;
 }
 
-.radio-light .custom-control-input:checked~.custom-control-label::before {
+.radio-light .custom-control-input:checked ~ .custom-control-label::before {
   border-color: #f0f1f5;
   background-color: #f0f1f5;
 }
 
-.radio-dark .custom-control-input:checked~.custom-control-label::before {
+.radio-dark .custom-control-input:checked ~ .custom-control-label::before {
   border-color: #31343d;
   background-color: #31343d;
 }
 
-.radio-outline-primary .custom-control-input:checked~.custom-control-label::after,
-.radio-outline-secondary .custom-control-input:checked~.custom-control-label::after,
-.radio-outline-success .custom-control-input:checked~.custom-control-label::after,
-.radio-outline-danger .custom-control-input:checked~.custom-control-label::after,
-.radio-outline-info .custom-control-input:checked~.custom-control-label::after,
-.radio-outline-light .custom-control-input:checked~.custom-control-label::after,
-.radio-outline-dark .custom-control-input:checked~.custom-control-label::after {
+.radio-outline-primary
+  .custom-control-input:checked
+  ~ .custom-control-label::after,
+.radio-outline-secondary
+  .custom-control-input:checked
+  ~ .custom-control-label::after,
+.radio-outline-success
+  .custom-control-input:checked
+  ~ .custom-control-label::after,
+.radio-outline-danger
+  .custom-control-input:checked
+  ~ .custom-control-label::after,
+.radio-outline-info
+  .custom-control-input:checked
+  ~ .custom-control-label::after,
+.radio-outline-light
+  .custom-control-input:checked
+  ~ .custom-control-label::after,
+.radio-outline-dark
+  .custom-control-input:checked
+  ~ .custom-control-label::after {
   left: -19px;
   top: 8px;
   width: 6px;
@@ -16875,66 +17321,94 @@ label {
   background: #31343d;
 }
 
-.radio-outline-primary .custom-control-input:checked~.custom-control-label::before {
+.radio-outline-primary
+  .custom-control-input:checked
+  ~ .custom-control-label::before {
   border-color: #9e6de0;
   background-color: #ffffff;
 }
 
-.radio-outline-primary .custom-control-input:checked~.custom-control-label::after {
+.radio-outline-primary
+  .custom-control-input:checked
+  ~ .custom-control-label::after {
   background: #9e6de0;
 }
 
-.radio-outline-secondary .custom-control-input:checked~.custom-control-label::before {
+.radio-outline-secondary
+  .custom-control-input:checked
+  ~ .custom-control-label::before {
   border-color: #fd5190;
   background-color: #ffffff;
 }
 
-.radio-outline-secondary .custom-control-input:checked~.custom-control-label::after {
+.radio-outline-secondary
+  .custom-control-input:checked
+  ~ .custom-control-label::after {
   background: #fd5190;
 }
 
-.radio-outline-success .custom-control-input:checked~.custom-control-label::before {
+.radio-outline-success
+  .custom-control-input:checked
+  ~ .custom-control-label::before {
   border-color: #0acb8e;
   background-color: #ffffff;
 }
 
-.radio-outline-success .custom-control-input:checked~.custom-control-label::after {
+.radio-outline-success
+  .custom-control-input:checked
+  ~ .custom-control-label::after {
   background: #0acb8e;
 }
 
-.radio-outline-danger .custom-control-input:checked~.custom-control-label::before {
+.radio-outline-danger
+  .custom-control-input:checked
+  ~ .custom-control-label::before {
   border-color: #fe5461;
   background-color: #ffffff;
 }
 
-.radio-outline-danger .custom-control-input:checked~.custom-control-label::after {
+.radio-outline-danger
+  .custom-control-input:checked
+  ~ .custom-control-label::after {
   background: #fe5461;
 }
 
-.radio-outline-info .custom-control-input:checked~.custom-control-label::before {
+.radio-outline-info
+  .custom-control-input:checked
+  ~ .custom-control-label::before {
   border-color: #04c7e0;
   background-color: #ffffff;
 }
 
-.radio-outline-info .custom-control-input:checked~.custom-control-label::after {
+.radio-outline-info
+  .custom-control-input:checked
+  ~ .custom-control-label::after {
   background: #04c7e0;
 }
 
-.radio-outline-light .custom-control-input:checked~.custom-control-label::before {
+.radio-outline-light
+  .custom-control-input:checked
+  ~ .custom-control-label::before {
   border-color: #f0f1f5;
   background-color: #ffffff;
 }
 
-.radio-outline-light .custom-control-input:checked~.custom-control-label::after {
+.radio-outline-light
+  .custom-control-input:checked
+  ~ .custom-control-label::after {
   background: #f0f1f5;
 }
 
-.radio-outline-dark .custom-control-input:checked~.custom-control-label::before {
+.radio-outline-dark
+  .custom-control-input:checked
+  ~ .custom-control-label::before {
   border-color: #31343d;
   background-color: #ffffff;
 }
 
-.radio-outline-dark .custom-control-input:checked~.custom-control-label::after {
+.radio-outline-dark
+  .custom-control-input:checked
+  ~ .custom-control-label::after {
   background: #31343d;
 }
 
@@ -16945,28 +17419,36 @@ label {
   height: 40px;
 }
 
-.select2-container--default.select2-container--focus .select2-selection--multiple {
+.select2-container--default.select2-container--focus
+  .select2-selection--multiple {
   border-color: rgba(158, 109, 224, 0.3);
 }
 
-.select2-container--default .select2-selection--multiple .select2-selection__choice {
+.select2-container--default
+  .select2-selection--multiple
+  .select2-selection__choice {
   border-color: #9e6de0;
   background-color: rgba(158, 109, 224, 0.2);
   color: #9e6de0;
 }
 
-.select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+.select2-container--default
+  .select2-selection--multiple
+  .select2-selection__choice__remove {
   color: #9e6de0;
   padding-right: 0.31rem;
   margin-right: 0.31rem;
   border-right: 1px solid #9e6de0;
 }
 
-.select2-container--default .select2-selection--single .select2-selection__rendered {
+.select2-container--default
+  .select2-selection--single
+  .select2-selection__rendered {
   line-height: 38px;
 }
 
-.select2-container--default .select2-results__option--highlighted[aria-selected] {
+.select2-container--default
+  .select2-results__option--highlighted[aria-selected] {
   background-color: #9e6de0;
 }
 
@@ -17139,7 +17621,7 @@ label {
 }
 
 /*===== SIDEBAR NAVIGATION =====*/
-.sidebar .nav>li>a:after {
+.sidebar .nav > li > a:after {
   content: "";
   clear: both;
   display: table;
@@ -17195,11 +17677,11 @@ label {
   margin-top: 1rem;
 }
 
-.sidebar .sidebar-inner>li {
+.sidebar .sidebar-inner > li {
   position: relative;
 }
 
-.sidebar .sidebar-inner>li>a {
+.sidebar .sidebar-inner > li > a {
   padding: 1rem 1.5rem;
   line-height: 20px;
   color: #bfc7d9;
@@ -17211,7 +17693,7 @@ label {
   white-space: nowrap;
 }
 
-.sidebar .sidebar-inner>li.active>a {
+.sidebar .sidebar-inner > li.active > a {
   position: relative;
   z-index: 10;
   color: #ffffff;
@@ -17274,7 +17756,7 @@ label {
 }
 
 /*  Nav menus Icon Styles */
-.sidebar .nav>li>a i {
+.sidebar .nav > li > a i {
   float: left;
   margin-right: 0.94rem;
   width: 20px;
@@ -17284,7 +17766,7 @@ label {
 }
 
 /* Caret styles */
-.sidebar li>a .caret {
+.sidebar li > a .caret {
   width: 20px;
   height: 20px;
   line-height: 20px;
@@ -17293,7 +17775,7 @@ label {
   border: none;
 }
 
-.sidebar li>a .caret:before {
+.sidebar li > a .caret:before {
   content: "\f142";
   display: block;
   text-align: center;
@@ -17301,7 +17783,7 @@ label {
   opacity: 0.5;
 }
 
-.sidebar li>a .caret:before {
+.sidebar li > a .caret:before {
   font-family: "Material Design Icons" !important;
   font-weight: 400;
   font-style: normal;
@@ -17309,24 +17791,24 @@ label {
   text-rendering: auto;
 }
 
-.sidebar li.active>a .caret:before,
-.sidebar li.expand>a .caret:before,
-.sidebar li.expanding>a .caret:before {
+.sidebar li.active > a .caret:before,
+.sidebar li.expand > a .caret:before,
+.sidebar li.expanding > a .caret:before {
   transform: rotate(0);
 }
 
-.sidebar li.active.expand>a .caret:before,
-.sidebar li.expand>a .caret:before,
-.sidebar li.expanding>a .caret:before {
+.sidebar li.active.expand > a .caret:before,
+.sidebar li.expand > a .caret:before,
+.sidebar li.expanding > a .caret:before {
   transform: rotate(90deg);
 }
 
-.sidebar li.active>a .caret:before {
+.sidebar li.active > a .caret:before {
   opacity: 1;
 }
 
-.sidebar li.closed>a .caret:before,
-.sidebar li.closing>a .caret:before {
+.sidebar li.closed > a .caret:before,
+.sidebar li.closing > a .caret:before {
   transform: rotate(0);
 }
 
@@ -17338,7 +17820,7 @@ label {
   position: relative;
 }
 
-.sidebar .sub-menu>.active .sidenav-item-link {
+.sidebar .sub-menu > .active .sidenav-item-link {
   color: #ffffff;
 }
 
@@ -17354,7 +17836,7 @@ label {
   border-color: #ffffff;
 }
 
-.sidebar .sub-menu>li>a {
+.sidebar .sub-menu > li > a {
   padding: 0.625rem 1.875rem 0.625rem 0.94rem;
   display: block;
   text-decoration: none;
@@ -17364,16 +17846,16 @@ label {
   color: #bfc7d9;
 }
 
-.sidebar .sub-menu>li .sub-menu {
+.sidebar .sub-menu > li .sub-menu {
   padding-left: 2.18rem;
 }
 
-.sidebar .sub-menu>li .sub-menu>li>a {
+.sidebar .sub-menu > li .sub-menu > li > a {
   position: relative;
   padding-left: 0;
 }
 
-.sidebar .sub-menu>li .sub-menu>li>a::after {
+.sidebar .sub-menu > li .sub-menu > li > a::after {
   position: absolute;
   content: "";
   top: 20px;
@@ -17382,7 +17864,7 @@ label {
   width: 10px;
 }
 
-.sidebar .has-sub.active.expand>.sub-menu {
+.sidebar .has-sub.active.expand > .sub-menu {
   display: none;
 }
 
@@ -17473,41 +17955,46 @@ label {
   padding-bottom: 0;
 }
 
-.sidebar-minified .left-sidebar .nav>li>a>.caret,
-.sidebar-minified .left-sidebar .nav>li>a>span {
+.sidebar-minified .left-sidebar .nav > li > a > .caret,
+.sidebar-minified .left-sidebar .nav > li > a > span {
   opacity: 1;
 }
 
 @media (min-width: 768px) {
-
-  .sidebar-minified .left-sidebar .nav>li>a>.caret,
-  .sidebar-minified .left-sidebar .nav>li>a>span {
+  .sidebar-minified .left-sidebar .nav > li > a > .caret,
+  .sidebar-minified .left-sidebar .nav > li > a > span {
     opacity: 0;
   }
 }
 
-.sidebar-minified .left-sidebar .nav>li>a>.caret {
+.sidebar-minified .left-sidebar .nav > li > a > .caret {
   right: 15px;
 }
 
-.sidebar-minified .left-sidebar .nav li.has-sub .collapse>.sub-menu {
+.sidebar-minified .left-sidebar .nav li.has-sub .collapse > .sub-menu {
   left: 0;
   top: 0;
   width: 100%;
   margin: 0;
 }
 
-.sidebar-minified .left-sidebar .nav li.has-sub.expand .collapse>.sub-menu {
+.sidebar-minified .left-sidebar .nav li.has-sub.expand .collapse > .sub-menu {
   height: 0;
 }
 
-.sidebar-minified .left-sidebar .nav li.has-sub.expand .collapse>.sub-menu li {
+.sidebar-minified
+  .left-sidebar
+  .nav
+  li.has-sub.expand
+  .collapse
+  > .sub-menu
+  li {
   visibility: hidden;
   opacity: 0;
 }
 
 @media (max-width: 767.98px) {
-  .sidebar-minified .left-sidebar .nav li.has-sub.expand .collapse>.sub-menu {
+  .sidebar-minified .left-sidebar .nav li.has-sub.expand .collapse > .sub-menu {
     transition: opacity 0.3s ease-in-out;
     display: block !important;
     opacity: 1;
@@ -17516,7 +18003,7 @@ label {
 }
 
 @media (max-width: 767.98px) and (prefers-reduced-motion: reduce) {
-  .sidebar-minified .left-sidebar .nav li.has-sub.expand .collapse>.sub-menu {
+  .sidebar-minified .left-sidebar .nav li.has-sub.expand .collapse > .sub-menu {
     transition: none;
   }
 }
@@ -17564,7 +18051,12 @@ label {
   }
 }
 
-.sidebar-minified .left-sidebar:hover .nav li.has-sub.expand .collapse>.sub-menu {
+.sidebar-minified
+  .left-sidebar:hover
+  .nav
+  li.has-sub.expand
+  .collapse
+  > .sub-menu {
   transition: opacity 0.3s ease-in-out;
   height: -webkit-min-content;
   height: -moz-min-content;
@@ -17572,34 +18064,50 @@ label {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .sidebar-minified .left-sidebar:hover .nav li.has-sub.expand .collapse>.sub-menu {
+  .sidebar-minified
+    .left-sidebar:hover
+    .nav
+    li.has-sub.expand
+    .collapse
+    > .sub-menu {
     transition: none;
   }
 }
 
-.sidebar-minified .left-sidebar:hover .nav li.has-sub.expand .collapse>.sub-menu li {
+.sidebar-minified
+  .left-sidebar:hover
+  .nav
+  li.has-sub.expand
+  .collapse
+  > .sub-menu
+  li {
   opacity: 1;
   visibility: visible;
   transition: opacity 0.3s ease-out 0.25s;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .sidebar-minified .left-sidebar:hover .nav li.has-sub.expand .collapse>.sub-menu li {
+  .sidebar-minified
+    .left-sidebar:hover
+    .nav
+    li.has-sub.expand
+    .collapse
+    > .sub-menu
+    li {
     transition: none;
   }
 }
 
-.sidebar-minified .left-sidebar:hover .nav>li>a>.caret,
-.sidebar-minified .left-sidebar:hover .nav>li>a>span {
+.sidebar-minified .left-sidebar:hover .nav > li > a > .caret,
+.sidebar-minified .left-sidebar:hover .nav > li > a > span {
   opacity: 1;
   transition: opacity 0.3s ease-in;
   transition-delay: 0.15s;
 }
 
 @media (prefers-reduced-motion: reduce) {
-
-  .sidebar-minified .left-sidebar:hover .nav>li>a>.caret,
-  .sidebar-minified .left-sidebar:hover .nav>li>a>span {
+  .sidebar-minified .left-sidebar:hover .nav > li > a > .caret,
+  .sidebar-minified .left-sidebar:hover .nav > li > a > span {
     transition: none;
   }
 }
@@ -17754,32 +18262,32 @@ label {
   padding-top: 0.625rem;
 }
 
-.sidebar-minified-out .sidebar .nav>li>a span {
+.sidebar-minified-out .sidebar .nav > li > a span {
   transition: opacity 0.3s ease-in-out 0.3s;
   visibility: visible;
   opacity: 1;
 }
 
-.sidebar-minified-out .sidebar li>a .caret {
+.sidebar-minified-out .sidebar li > a .caret {
   transition: opacity 0.3s ease-in-out 0.3s;
   visibility: visible;
   opacity: 1;
 }
 
-.sidebar-minified-out .nav li.has-sub.expand .collapse>.sub-menu {
+.sidebar-minified-out .nav li.has-sub.expand .collapse > .sub-menu {
   height: -webkit-min-content;
   height: -moz-min-content;
   height: min-content;
 }
 
-.sidebar-minified-out .nav li.has-sub.expand .collapse>.sub-menu li {
+.sidebar-minified-out .nav li.has-sub.expand .collapse > .sub-menu li {
   opacity: 1;
   visibility: visible;
   transition: opacity 0.3s ease-out 0.25s;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .sidebar-minified-out .nav li.has-sub.expand .collapse>.sub-menu li {
+  .sidebar-minified-out .nav li.has-sub.expand .collapse > .sub-menu li {
     transition: none;
   }
 }
@@ -17828,7 +18336,6 @@ label {
 
 /* Sidebar Fixed And Offcanvas */
 @media (min-width: 768px) {
-
   .sidebar-fixed-offcanvas .left-sidebar,
   .sidebar-fixed .left-sidebar {
     position: fixed;
@@ -17852,7 +18359,6 @@ label {
 }
 
 @media (min-width: 768px) {
-
   .sidebar-fixed-offcanvas .page-wrapper,
   .sidebar-fixed .page-wrapper {
     padding-left: 15.6rem;
@@ -17860,7 +18366,6 @@ label {
 }
 
 @media (min-width: 768px) {
-
   .sidebar-fixed-offcanvas .main-header,
   .sidebar-fixed .main-header {
     padding-left: 15.6rem;
@@ -17868,7 +18373,6 @@ label {
 }
 
 @media (min-width: 768px) {
-
   .sidebar-fixed-offcanvas.navbar-static .main-header,
   .sidebar-fixed.navbar-static .main-header {
     padding-left: 0;
@@ -17972,7 +18476,6 @@ label {
 }
 
 @media (min-width: 768px) {
-
   .sidebar-static .sidebar.sidebar-with-footer .slimScrollDiv,
   .sidebar-static-offcanvas .sidebar.sidebar-with-footer .slimScrollDiv {
     height: auto !important;
@@ -17980,7 +18483,6 @@ label {
 }
 
 @media (min-width: 768px) {
-
   .sidebar-static.navbar-fixed .main-header,
   .sidebar-static-offcanvas.navbar-fixed .main-header {
     padding-left: 15.6rem;
@@ -18239,15 +18741,15 @@ label {
   color: #31343d;
 }
 
-.left-sidebar.sidebar-light .sidebar .sub-menu>li>a {
+.left-sidebar.sidebar-light .sidebar .sub-menu > li > a {
   color: #646a77;
 }
 
-.left-sidebar.sidebar-light .sidebar .sidebar-inner>li>a {
+.left-sidebar.sidebar-light .sidebar .sidebar-inner > li > a {
   color: #646a77;
 }
 
-.left-sidebar.sidebar-light .sidebar .sidebar-inner>li.active>a {
+.left-sidebar.sidebar-light .sidebar .sidebar-inner > li.active > a {
   background-color: #9e6de0;
   color: #ffffff;
 }
@@ -18256,7 +18758,11 @@ label {
   color: #646a77;
 }
 
-.left-sidebar.sidebar-light .sidebar .sub-menu .has-sub.active .sidenav-item-link {
+.left-sidebar.sidebar-light
+  .sidebar
+  .sub-menu
+  .has-sub.active
+  .sidenav-item-link {
   color: #1d1f26;
 }
 
@@ -18268,11 +18774,11 @@ label {
   border-color: #1d1f26;
 }
 
-.left-sidebar.sidebar-light .sidebar .sub-menu>li .sub-menu>li>a::after {
+.left-sidebar.sidebar-light .sidebar .sub-menu > li .sub-menu > li > a::after {
   border-color: #646a77;
 }
 
-.left-sidebar.sidebar-light .sidebar .sub-menu>.active .sidenav-item-link {
+.left-sidebar.sidebar-light .sidebar .sub-menu > .active .sidenav-item-link {
   color: #1d1f26;
 }
 
@@ -18298,15 +18804,15 @@ label {
   color: #31343d;
 }
 
-.left-sidebar.sidebar-primary .sidebar .sub-menu>li>a {
+.left-sidebar.sidebar-primary .sidebar .sub-menu > li > a {
   color: #646a77;
 }
 
-.left-sidebar.sidebar-primary .sidebar .sidebar-inner>li>a {
+.left-sidebar.sidebar-primary .sidebar .sidebar-inner > li > a {
   color: #646a77;
 }
 
-.left-sidebar.sidebar-primary .sidebar .sidebar-inner>li.active>a {
+.left-sidebar.sidebar-primary .sidebar .sidebar-inner > li.active > a {
   background-color: #ffffff;
   color: #ffffff;
 }
@@ -18315,7 +18821,11 @@ label {
   color: #646a77;
 }
 
-.left-sidebar.sidebar-primary .sidebar .sub-menu .has-sub.active .sidenav-item-link {
+.left-sidebar.sidebar-primary
+  .sidebar
+  .sub-menu
+  .has-sub.active
+  .sidenav-item-link {
   color: #1d1f26;
 }
 
@@ -18327,11 +18837,17 @@ label {
   border-color: #1d1f26;
 }
 
-.left-sidebar.sidebar-primary .sidebar .sub-menu>li .sub-menu>li>a::after {
+.left-sidebar.sidebar-primary
+  .sidebar
+  .sub-menu
+  > li
+  .sub-menu
+  > li
+  > a::after {
   border-color: #646a77;
 }
 
-.left-sidebar.sidebar-primary .sidebar .sub-menu>.active .sidenav-item-link {
+.left-sidebar.sidebar-primary .sidebar .sub-menu > .active .sidenav-item-link {
   color: #1d1f26;
 }
 
@@ -18382,12 +18898,21 @@ label {
   color: #ffffff;
 }
 
-.table.table-hover tbody tr:hover .custom-control-input:checked~.custom-control-label::before {
+.table.table-hover
+  tbody
+  tr:hover
+  .custom-control-input:checked
+  ~ .custom-control-label::before {
   background-color: #ffffff;
   color: #9e6de0;
 }
 
-.table.table-hover tbody tr:hover .custom-checkbox .custom-control-input:checked~.custom-control-label::after {
+.table.table-hover
+  tbody
+  tr:hover
+  .custom-checkbox
+  .custom-control-input:checked
+  ~ .custom-control-label::after {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='#9e6de0' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26 2.974 7.25 8 2.193z'/%3e%3c/svg%3e");
 }
 
@@ -18439,7 +18964,8 @@ label {
   color: #31343d;
   transition: -webkit-text-decoration 0.3s ease-in-out;
   transition: text-decoration 0.3s ease-in-out;
-  transition: text-decoration 0.3s ease-in-out, -webkit-text-decoration 0.3s ease-in-out;
+  transition: text-decoration 0.3s ease-in-out,
+    -webkit-text-decoration 0.3s ease-in-out;
 }
 
 .table-thead-border tr td a:hover {
@@ -18465,7 +18991,6 @@ table.dataTable thead .sorting {
 }
 
 @media (min-width: 1200px) {
-
   table.dataTable thead .sorting_asc,
   table.dataTable thead .sorting_desc,
   table.dataTable thead .sorting {
@@ -18545,7 +19070,6 @@ table.dataTable thead .sorting {
 }
 
 @media (min-width: 576px) {
-
   .dataTables_paginate.paging_simple_numbers .paginate_button.previous,
   .dataTables_paginate.paging_simple_numbers .paginate_button.next {
     display: inline-block;
@@ -18877,12 +19401,12 @@ table.dataTable thead .sorting {
   border-radius: 0px;
 }
 
-.ladda-button[data-style=contract-overlay][data-loading] {
+.ladda-button[data-style="contract-overlay"][data-loading] {
   z-index: 100;
   width: 45px;
 }
 
-.ladda-button[data-style=contract][data-loading] {
+.ladda-button[data-style="contract"][data-loading] {
   width: 45px;
 }
 
@@ -18950,7 +19474,8 @@ table.dataTable thead .sorting {
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
   border-radius: 5px;
-  box-shadow: 0px 1px 2px 0px rgba(28, 29, 36, 0.1), inset 0px -1px 0px 0px rgba(229, 230, 235, 0.1);
+  box-shadow: 0px 1px 2px 0px rgba(28, 29, 36, 0.1),
+    inset 0px -1px 0px 0px rgba(229, 230, 235, 0.1);
 }
 
 .date-range.date-range-lg .date-holder {
@@ -19418,7 +19943,7 @@ table.dataTable thead .sorting {
   color: #ffffff;
 }
 
-.breadcrumb-item+.breadcrumb-item::before {
+.breadcrumb-item + .breadcrumb-item::before {
   content: "\f142";
   font-family: "Material Design Icons";
 }
@@ -19446,7 +19971,7 @@ table.dataTable thead .sorting {
   color: #31343d;
 }
 
-.email-options ul li a:hover>i {
+.email-options ul li a:hover > i {
   color: #9e6de0;
 }
 
@@ -19454,7 +19979,7 @@ table.dataTable thead .sorting {
   color: #31343d;
 }
 
-.email-options ul li.active a>i {
+.email-options ul li.active a > i {
   color: #9e6de0;
 }
 
@@ -19641,7 +20166,7 @@ table.dataTable thead .sorting {
   padding: 12px 17px;
 }
 
-.email-compose .file-upload>input {
+.email-compose .file-upload > input {
   display: none;
 }
 
@@ -19892,7 +20417,6 @@ table.dataTable thead .sorting {
 }
 
 @media (min-width: 992px) {
-
   .pagination-seperated-rounded .page-item:first-child .page-link,
   .pagination-seperated-rounded .page-item:last-child .page-link {
     border-radius: 6.25rem;
@@ -20026,7 +20550,6 @@ table.dataTable thead .sorting {
 }
 
 @-webkit-keyframes sk-bounce {
-
   0%,
   100% {
     -webkit-transform: scale(0);
@@ -20038,7 +20561,6 @@ table.dataTable thead .sorting {
 }
 
 @keyframes sk-bounce {
-
   0%,
   100% {
     transform: scale(0);
@@ -20059,7 +20581,7 @@ table.dataTable thead .sorting {
   font-size: 0.625rem;
 }
 
-.sk-wave>div {
+.sk-wave > div {
   background-color: #333;
   height: 100%;
   width: 6px;
@@ -20089,7 +20611,6 @@ table.dataTable thead .sorting {
 }
 
 @-webkit-keyframes sk-stretchdelay {
-
   0%,
   40%,
   100% {
@@ -20102,7 +20623,6 @@ table.dataTable thead .sorting {
 }
 
 @keyframes sk-stretchdelay {
-
   0%,
   40%,
   100% {
@@ -20150,7 +20670,8 @@ table.dataTable thead .sorting {
   }
 
   75% {
-    -webkit-transform: translateX(0px) translateY(42px) rotate(-270deg) scale(0.5);
+    -webkit-transform: translateX(0px) translateY(42px) rotate(-270deg)
+      scale(0.5);
   }
 
   100% {
@@ -20176,7 +20697,8 @@ table.dataTable thead .sorting {
 
   75% {
     transform: translateX(0px) translateY(42px) rotate(-270deg) scale(0.5);
-    -webkit-transform: translateX(0px) translateY(42px) rotate(-270deg) scale(0.5);
+    -webkit-transform: translateX(0px) translateY(42px) rotate(-270deg)
+      scale(0.5);
   }
 
   100% {
@@ -20261,7 +20783,6 @@ table.dataTable thead .sorting {
 }
 
 @-webkit-keyframes sk-bounce {
-
   0%,
   100% {
     -webkit-transform: scale(0);
@@ -20273,7 +20794,6 @@ table.dataTable thead .sorting {
 }
 
 @keyframes sk-bounce {
-
   0%,
   100% {
     transform: scale(0);
@@ -20293,7 +20813,7 @@ table.dataTable thead .sorting {
   text-align: center;
 }
 
-.sk-three-bounce>div {
+.sk-three-bounce > div {
   width: 18px;
   height: 18px;
   background-color: #333;
@@ -20314,7 +20834,6 @@ table.dataTable thead .sorting {
 }
 
 @-webkit-keyframes sk-bouncedelay {
-
   0%,
   80%,
   100% {
@@ -20327,7 +20846,6 @@ table.dataTable thead .sorting {
 }
 
 @keyframes sk-bouncedelay {
-
   0%,
   80%,
   100% {
@@ -20466,7 +20984,6 @@ table.dataTable thead .sorting {
 }
 
 @-webkit-keyframes sk-circleBounceDelay {
-
   0%,
   80%,
   100% {
@@ -20479,7 +20996,6 @@ table.dataTable thead .sorting {
 }
 
 @keyframes sk-circleBounceDelay {
-
   0%,
   80%,
   100% {
@@ -20552,7 +21068,6 @@ table.dataTable thead .sorting {
 }
 
 @-webkit-keyframes sk-cubeGridScaleDelay {
-
   0%,
   70%,
   100% {
@@ -20565,7 +21080,6 @@ table.dataTable thead .sorting {
 }
 
 @keyframes sk-cubeGridScaleDelay {
-
   0%,
   70%,
   100% {
@@ -20704,7 +21218,6 @@ table.dataTable thead .sorting {
 }
 
 @-webkit-keyframes sk-circleFadeDelay {
-
   0%,
   39%,
   100% {
@@ -20717,7 +21230,6 @@ table.dataTable thead .sorting {
 }
 
 @keyframes sk-circleFadeDelay {
-
   0%,
   39%,
   100% {
@@ -20786,7 +21298,6 @@ table.dataTable thead .sorting {
 }
 
 @-webkit-keyframes sk-foldCubeAngle {
-
   0%,
   10% {
     transform: perspective(140px) rotateX(-180deg);
@@ -20807,7 +21318,6 @@ table.dataTable thead .sorting {
 }
 
 @keyframes sk-foldCubeAngle {
-
   0%,
   10% {
     transform: perspective(140px) rotateX(-180deg);
@@ -20828,8 +21338,8 @@ table.dataTable thead .sorting {
 }
 
 /*===== SWITCHES =====*/
-input[type=checkbox],
-input[type=radio] {
+input[type="checkbox"],
+input[type="radio"] {
   box-sizing: border-box;
   padding: 0;
 }
@@ -20877,71 +21387,71 @@ input[type=radio] {
   transition: left 0.3s ease-out;
 }
 
-.switch .switch-input:checked~.switch-handle {
+.switch .switch-input:checked ~ .switch-handle {
   left: 28px;
 }
 
 /* Switch context properties */
-.switch-primary>.switch-input:checked~.switch-label {
+.switch-primary > .switch-input:checked ~ .switch-label {
   background-color: #9e6de0 !important;
   border-color: #9e6de0;
 }
 
-.switch-primary>.switch-input:checked~.switch-handle {
+.switch-primary > .switch-input:checked ~ .switch-handle {
   border-color: transparent;
 }
 
-.switch-secondary>.switch-input:checked~.switch-label {
+.switch-secondary > .switch-input:checked ~ .switch-label {
   background-color: #fd5190 !important;
   border-color: #fd5190;
 }
 
-.switch-secondary>.switch-input:checked~.switch-handle {
+.switch-secondary > .switch-input:checked ~ .switch-handle {
   border-color: transparent;
 }
 
-.switch-success>.switch-input:checked~.switch-label {
+.switch-success > .switch-input:checked ~ .switch-label {
   background-color: #0acb8e !important;
   border-color: #0acb8e;
 }
 
-.switch-success>.switch-input:checked~.switch-handle {
+.switch-success > .switch-input:checked ~ .switch-handle {
   border-color: transparent;
 }
 
-.switch-info>.switch-input:checked~.switch-label {
+.switch-info > .switch-input:checked ~ .switch-label {
   background-color: #04c7e0 !important;
   border-color: #04c7e0;
 }
 
-.switch-info>.switch-input:checked~.switch-handle {
+.switch-info > .switch-input:checked ~ .switch-handle {
   border-color: transparent;
 }
 
-.switch-warning>.switch-input:checked~.switch-label {
+.switch-warning > .switch-input:checked ~ .switch-label {
   background-color: #fec400 !important;
   border-color: #fec400;
 }
 
-.switch-warning>.switch-input:checked~.switch-handle {
+.switch-warning > .switch-input:checked ~ .switch-handle {
   border-color: transparent;
 }
 
-.switch-danger>.switch-input:checked~.switch-label {
+.switch-danger > .switch-input:checked ~ .switch-label {
   background-color: #fe5461 !important;
   border-color: #fe5461;
 }
 
-.switch-danger>.switch-input:checked~.switch-handle {
+.switch-danger > .switch-input:checked ~ .switch-handle {
   border-color: transparent;
 }
 
-.switch-dark>.switch-input:checked~.switch-label {
+.switch-dark > .switch-input:checked ~ .switch-label {
   background-color: #31343d !important;
   border-color: #31343d;
 }
 
-.switch-dark>.switch-input:checked~.switch-handle {
+.switch-dark > .switch-input:checked ~ .switch-handle {
   border-color: transparent;
 }
 
@@ -20952,192 +21462,192 @@ input[type=radio] {
 }
 
 /* Switch Outline */
-.switch-outline-primary>.switch-input:checked~.switch-label {
+.switch-outline-primary > .switch-input:checked ~ .switch-label {
   background-color: #ffffff !important;
   border-color: #9e6de0;
 }
 
-.switch-outline-primary .switch-input:checked~.switch-label:after {
+.switch-outline-primary .switch-input:checked ~ .switch-label:after {
   color: #9e6de0;
 }
 
-.switch-outline-primary>.switch-input:checked~.switch-handle {
+.switch-outline-primary > .switch-input:checked ~ .switch-handle {
   border-color: #9e6de0;
 }
 
-.switch-outline-secondary>.switch-input:checked~.switch-label {
+.switch-outline-secondary > .switch-input:checked ~ .switch-label {
   background-color: #ffffff !important;
   border-color: #fd5190;
 }
 
-.switch-outline-secondary .switch-input:checked~.switch-label:after {
+.switch-outline-secondary .switch-input:checked ~ .switch-label:after {
   color: #fd5190;
 }
 
-.switch-outline-secondary>.switch-input:checked~.switch-handle {
+.switch-outline-secondary > .switch-input:checked ~ .switch-handle {
   border-color: #fd5190;
 }
 
-.switch-outline-success>.switch-input:checked~.switch-label {
+.switch-outline-success > .switch-input:checked ~ .switch-label {
   background-color: #ffffff !important;
   border-color: #0acb8e;
 }
 
-.switch-outline-success .switch-input:checked~.switch-label:after {
+.switch-outline-success .switch-input:checked ~ .switch-label:after {
   color: #0acb8e;
 }
 
-.switch-outline-success>.switch-input:checked~.switch-handle {
+.switch-outline-success > .switch-input:checked ~ .switch-handle {
   border-color: #0acb8e;
 }
 
-.switch-outline-info>.switch-input:checked~.switch-label {
+.switch-outline-info > .switch-input:checked ~ .switch-label {
   background-color: #ffffff !important;
   border-color: #04c7e0;
 }
 
-.switch-outline-info .switch-input:checked~.switch-label:after {
+.switch-outline-info .switch-input:checked ~ .switch-label:after {
   color: #04c7e0;
 }
 
-.switch-outline-info>.switch-input:checked~.switch-handle {
+.switch-outline-info > .switch-input:checked ~ .switch-handle {
   border-color: #04c7e0;
 }
 
-.switch-outline-warning>.switch-input:checked~.switch-label {
+.switch-outline-warning > .switch-input:checked ~ .switch-label {
   background-color: #ffffff !important;
   border-color: #fec400;
 }
 
-.switch-outline-warning>.switch-input:checked~.switch-label:after {
+.switch-outline-warning > .switch-input:checked ~ .switch-label:after {
   color: #fec400;
 }
 
-.switch-outline-warning>.switch-input:checked~.switch-handle {
+.switch-outline-warning > .switch-input:checked ~ .switch-handle {
   border-color: #fec400;
 }
 
-.switch-outline-danger>.switch-input:checked~.switch-label {
+.switch-outline-danger > .switch-input:checked ~ .switch-label {
   background-color: #ffffff !important;
   border-color: #fe5461;
 }
 
-.switch-outline-danger>.switch-input:checked~.switch-label:after {
+.switch-outline-danger > .switch-input:checked ~ .switch-label:after {
   color: #fe5461;
 }
 
-.switch-outline-danger>.switch-input:checked~.switch-handle {
+.switch-outline-danger > .switch-input:checked ~ .switch-handle {
   border-color: #fe5461;
 }
 
-.switch-outline-dark>.switch-input:checked~.switch-label {
+.switch-outline-dark > .switch-input:checked ~ .switch-label {
   background-color: #ffffff !important;
   border-color: #31343d;
 }
 
-.switch-outline-dark>.switch-input:checked~.switch-label:after {
+.switch-outline-dark > .switch-input:checked ~ .switch-label:after {
   color: #31343d;
 }
 
-.switch-outline-dark>.switch-input:checked~.switch-handle {
+.switch-outline-dark > .switch-input:checked ~ .switch-handle {
   border-color: #31343d;
 }
 
 /* Switch Outline Alternative */
-.switch-outline-alt-primary>.switch-input:checked~.switch-label {
+.switch-outline-alt-primary > .switch-input:checked ~ .switch-label {
   background-color: #ffffff !important;
   border-color: #9e6de0;
 }
 
-.switch-outline-alt-primary .switch-input:checked~.switch-label:after {
+.switch-outline-alt-primary .switch-input:checked ~ .switch-label:after {
   color: #9e6de0;
 }
 
-.switch-outline-alt-primary>.switch-input:checked~.switch-handle {
+.switch-outline-alt-primary > .switch-input:checked ~ .switch-handle {
   background-color: #9e6de0;
   border-color: #9e6de0;
 }
 
-.switch-outline-alt-secondary>.switch-input:checked~.switch-label {
+.switch-outline-alt-secondary > .switch-input:checked ~ .switch-label {
   background-color: #ffffff !important;
   border-color: #fd5190;
 }
 
-.switch-outline-alt-secondary>.switch-input:checked~.switch-label:after {
+.switch-outline-alt-secondary > .switch-input:checked ~ .switch-label:after {
   color: #fd5190;
 }
 
-.switch-outline-alt-secondary>.switch-input:checked~.switch-handle {
+.switch-outline-alt-secondary > .switch-input:checked ~ .switch-handle {
   background-color: #fd5190;
   border-color: #fd5190;
 }
 
-.switch-outline-alt-success>.switch-input:checked~.switch-label {
+.switch-outline-alt-success > .switch-input:checked ~ .switch-label {
   background-color: #ffffff !important;
   border-color: #0acb8e;
 }
 
-.switch-outline-alt-success>.switch-input:checked~.switch-label:after {
+.switch-outline-alt-success > .switch-input:checked ~ .switch-label:after {
   color: #0acb8e;
 }
 
-.switch-outline-alt-success>.switch-input:checked~.switch-handle {
+.switch-outline-alt-success > .switch-input:checked ~ .switch-handle {
   background-color: #0acb8e;
   border-color: #0acb8e;
 }
 
-.switch-outline-alt-info>.switch-input:checked~.switch-label {
+.switch-outline-alt-info > .switch-input:checked ~ .switch-label {
   background-color: #ffffff !important;
   border-color: #04c7e0;
 }
 
-.switch-outline-alt-info>.switch-input:checked~.switch-label:after {
+.switch-outline-alt-info > .switch-input:checked ~ .switch-label:after {
   color: #04c7e0;
 }
 
-.switch-outline-alt-info>.switch-input:checked~.switch-handle {
+.switch-outline-alt-info > .switch-input:checked ~ .switch-handle {
   background-color: #04c7e0;
   border-color: #04c7e0;
 }
 
-.switch-outline-alt-warning>.switch-input:checked~.switch-label {
+.switch-outline-alt-warning > .switch-input:checked ~ .switch-label {
   background-color: #ffffff !important;
   border-color: #fec400;
 }
 
-.switch-outline-alt-warning>.switch-input:checked~.switch-label:after {
+.switch-outline-alt-warning > .switch-input:checked ~ .switch-label:after {
   color: #fec400;
 }
 
-.switch-outline-alt-warning>.switch-input:checked~.switch-handle {
+.switch-outline-alt-warning > .switch-input:checked ~ .switch-handle {
   background-color: #fec400;
   border-color: #fec400;
 }
 
-.switch-outline-alt-danger>.switch-input:checked~.switch-label {
+.switch-outline-alt-danger > .switch-input:checked ~ .switch-label {
   background-color: #ffffff !important;
   border-color: #fe5461;
 }
 
-.switch-outline-alt-danger>.switch-input:checked~.switch-label:after {
+.switch-outline-alt-danger > .switch-input:checked ~ .switch-label:after {
   color: #fe5461;
 }
 
-.switch-outline-alt-danger>.switch-input:checked~.switch-handle {
+.switch-outline-alt-danger > .switch-input:checked ~ .switch-handle {
   background-color: #fe5461;
   border-color: #fe5461;
 }
 
-.switch-outline-alt-dark>.switch-input:checked~.switch-label {
+.switch-outline-alt-dark > .switch-input:checked ~ .switch-label {
   background-color: #ffffff !important;
   border-color: #31343d;
 }
 
-.switch-outline-alt-dark>.switch-input:checked~.switch-label:after {
+.switch-outline-alt-dark > .switch-input:checked ~ .switch-label:after {
   color: #31343d;
 }
 
-.switch-outline-alt-dark>.switch-input:checked~.switch-handle {
+.switch-outline-alt-dark > .switch-input:checked ~ .switch-handle {
   background-color: #31343d;
   border-color: #31343d;
 }
@@ -21216,15 +21726,15 @@ input[type=radio] {
   opacity: 0;
 }
 
-.switch.switch-text .switch-input:checked~.switch-label:before {
+.switch.switch-text .switch-input:checked ~ .switch-label:before {
   opacity: 0;
 }
 
-.switch.switch-text .switch-input:checked~.switch-label:after {
+.switch.switch-text .switch-input:checked ~ .switch-label:after {
   opacity: 1;
 }
 
-.switch.switch-text .switch-input:checked~.switch-handle {
+.switch.switch-text .switch-input:checked ~ .switch-handle {
   left: 28px;
 }
 
@@ -21256,15 +21766,15 @@ input[type=radio] {
   opacity: 0;
 }
 
-.switch.switch-icon .switch-input:checked~.switch-label:before {
+.switch.switch-icon .switch-input:checked ~ .switch-label:before {
   opacity: 0;
 }
 
-.switch.switch-icon .switch-input:checked~.switch-label:after {
+.switch.switch-icon .switch-input:checked ~ .switch-label:after {
   opacity: 1;
 }
 
-.switch.switch-icon .switch-input:checked~.switch-handle {
+.switch.switch-icon .switch-input:checked ~ .switch-handle {
   left: 28px;
 }
 
@@ -21395,7 +21905,7 @@ div.copied {
   position: relative;
 }
 
-.todo-single-item>span {
+.todo-single-item > span {
   margin-left: 1.56rem;
   line-height: 1.2;
   position: relative;
@@ -21403,14 +21913,14 @@ div.copied {
   color: #000;
 }
 
-.todo-single-item>span.badge {
+.todo-single-item > span.badge {
   color: #ffffff;
   transition: all 0.3s ease-in;
   display: inline-table;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .todo-single-item>span.badge {
+  .todo-single-item > span.badge {
     transition: none;
   }
 }
@@ -21458,12 +21968,12 @@ div.copied {
   box-shadow: 0px 2px 8px rgba(49, 52, 61, 0.2);
 }
 
-.todo-single-item.finished>span {
+.todo-single-item.finished > span {
   color: #8a909d;
   text-decoration: line-through;
 }
 
-.todo-single-item.finished>span.badge {
+.todo-single-item.finished > span.badge {
   text-decoration: none;
   background-color: #cfd0d8;
   color: #8a909d;
@@ -21518,11 +22028,11 @@ div.copied {
   opacity: 1;
 }
 
-#toast-container>div {
+#toast-container > div {
   box-shadow: none;
 }
 
-#toast-container>div:hover {
+#toast-container > div:hover {
   box-shadow: none;
 }
 
@@ -21819,7 +22329,7 @@ div.copied {
 }
 
 /*===== RTL =====*/
-html[dir=rtl] .sidebar li>a .caret:before {
+html[dir="rtl"] .sidebar li > a .caret:before {
   content: "\f141";
 }
 
@@ -21844,7 +22354,6 @@ html[dir=rtl] .sidebar li>a .caret:before {
 
 .modal {
   display: none;
-
 }
 
 .modal.show {

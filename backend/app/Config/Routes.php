@@ -28,6 +28,8 @@ $routes->post('updateCartQuantity', 'MainController::updateCartQuantity');
 $routes->get('/getFeedback','MainController::getFeedback');
 $routes->post('booking','MainController::booking');
 $routes->get('/getbook','MainController::getbook');
+$routes->get('/getBooking/(:num)', 'MainController::getBooking/$1');
+
 $routes->get('/getenroll','MainController::getenroll');
 $routes->get('/getDate','MainController::getDate');
 $routes->post('/submit-rating','MainController::submitRating');

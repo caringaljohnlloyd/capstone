@@ -98,6 +98,7 @@ export default {
         if (response.data.message === 'Login successful') {
           sessionStorage.setItem("token", response.data.token);
           sessionStorage.setItem("id", response.data.id);
+          sessionStorage.setItem("book_id", response.data.book_id);
 
           if (response.data.role === 'admin') {
             console.log('Redirecting to admin panel');

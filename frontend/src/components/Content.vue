@@ -1,76 +1,77 @@
 <template>
   <!-- Carousel Start -->
-  <div class="container-fluid p-0 mb-5">
-    <div id="header-carousel" class="carousel slide" data-bs-ride="carousel">
-      <div class="carousel-inner">
-        <div class="carousel-item active">
-          <img :src="require('../assets/img/pool4.jpg')" class="w-100" alt="Image" />
-          <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
-            <div class="p-3" style="max-width: 700px">
-              <h6 class="section-title text-white text-uppercase mb-3 animated slideInDown">
-                Your Escape to Paradise
-              </h6>
-              <h1 class="display-3 text-white mb-4 animated slideInDown">
-                SAVING LIVES BUILDING COMPANIONS!
-              </h1>
-              <button type="button" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft" @click="openEventBookingForm">Book an Event</button>
+  <div class="container-xxl py-5">
+  <div class="row justify-content-center">
+     <div class="col-md-15">
+      <div id="header-carousel" class="carousel slide mt-n5" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img :src="require('../assets/img/pool4.jpg')" class="w-100" alt="Image" style="height: 600px; object-fit: cover;" />
+            <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
+              <div class="p-3" style="max-width: 700px">
+                <h6 class="section-title text-white text-uppercase mb-3 animated slideInDown">
+                  Your Escape to Paradise
+                </h6>
+                <h1 class="display-3 text-white mb-4 animated slideInDown">
+                  SAVING LIVES BUILDING COMPANIONS!
+                </h1>
+                <button type="button" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft" @click="openEventBookingForm">Book an Event</button>
            
-<!-- Event booking form -->
-<div v-if="eventBookingFormVisible" class="modal fade show" tabindex="-1" role="dialog" style="display: block;">
-  <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Event Booking Form</h5>
-        <button type="button" class="close" @click="closeEventBookingForm">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-<form @submit.prevent="submitEventBookingForm">
-
-  <div class="mb-3">
-    <h3>Name: {{ username }}</h3>
-    <h5>Email: {{ email }}</h5>
-    <h5>Address: {{ address }}</h5>
-    <h5>number: {{ number }}</h5>
-
-  </div>
-
-  <div class="mb-3 text-dark">
-    <label for="eventName" class="visually-hidden">Event Name</label>
-    <div class="input-group">
-      <input type="text" class="form-control"  placeholder="Event Name" v-model="eventName" required>
-    </div>
-  </div>
-  <div class="mb-3 text-dark">
-    <label for="eventTheme" class="visually-hidden">Event Theme</label>
-    <div class="input-group">
-      <input type="text" class="form-control"  placeholder="Event Theme" v-model="eventTheme" required>
-    </div>
-  </div>
-  <div class="mb-3 text-dark">
-            <label for="eventDate" class="visually-hidden">Event Date and Time</label>
-            <div class="input-group">
-              <input type="datetime-local" class="form-control" v-model="eventDate" required>
+           <!-- Event booking form -->
+           <div v-if="eventBookingFormVisible" class="modal fade show" tabindex="-1" role="dialog" style="display: block;">
+             <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+               <div class="modal-content">
+                 <div class="modal-header">
+                   <h5 class="modal-title">Event Booking Form</h5>
+                   <button type="button" class="close" @click="closeEventBookingForm">
+                     <span aria-hidden="true">&times;</span>
+                   </button>
+                 </div>
+                 <div class="modal-body">
+           <form @submit.prevent="submitEventBookingForm">
+           
+             <div class="mb-3">
+               <h3>Name: {{ username }}</h3>
+               <h5>Email: {{ email }}</h5>
+               <h5>Address: {{ address }}</h5>
+               <h5>number: {{ number }}</h5>
+           
+             </div>
+           
+             <div class="mb-3 text-dark">
+               <label for="eventName" class="visually-hidden">Event Name</label>
+               <div class="input-group">
+                 <input type="text" class="form-control"  placeholder="Event Name" v-model="eventName" required>
+               </div>
+             </div>
+             <div class="mb-3 text-dark">
+               <label for="eventTheme" class="visually-hidden">Event Theme</label>
+               <div class="input-group">
+                 <input type="text" class="form-control"  placeholder="Event Theme" v-model="eventTheme" required>
+               </div>
+             </div>
+             <div class="mb-3 text-dark">
+             <label for="eventDate" class="visually-hidden">Event Date and Time</label>
+             <div class="input-group">
+               <input type="datetime-local" class="form-control" v-model="eventDate" :min="minDate" :max="maxDate" required>
+             </div>
+           </div>
+           
+           
+             <!-- Submit button -->
+             <div class="text-center">
+               <button type="submit" class="btn btn-primary">Submit</button>
+             </div>
+           </form>
+           
+                 </div>
+               </div>
+             </div>
+           </div>              </div>
             </div>
           </div>
-
-  <!-- Submit button -->
-  <div class="text-center">
-    <button type="submit" class="btn btn-primary">Submit</button>
-  </div>
-</form>
-
-      </div>
-    </div>
-  </div>
-</div>
-
-            </div>
-          </div>
-        </div>
         <div class="carousel-item">
-          <img :src="require('../assets/img/eagleview.jpg')" class="w-100" alt="Image" />
+          <img :src="require('../assets/img/eagleview.jpg')" class="w-100" alt="Image" style="height: 600px; object-fit: cover;"  />
           <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
             <div class="p-3" style="max-width: 700px">
               <h6 class="section-title text-white text-uppercase mb-3 animated slideInDown">
@@ -79,8 +80,59 @@
               <h1 class="display-3 text-white mb-4 animated slideInDown">
                 Enjoy, Relax & Have Fun in the Cool & Therapeutic Waters
               </h1>
-              <a href="/room" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Our Rooms</a>
-              <a href="/booking" class="btn btn-light py-md-3 px-md-5 animated slideInRight">Book A Room</a>
+              <button type="button" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft" @click="openEventBookingForm">Book an Event</button>
+           
+           <!-- Event booking form -->
+           <div v-if="eventBookingFormVisible" class="modal fade show" tabindex="-1" role="dialog" style="display: block;">
+             <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+               <div class="modal-content">
+                 <div class="modal-header">
+                   <h5 class="modal-title">Event Booking Form</h5>
+                   <button type="button" class="close" @click="closeEventBookingForm">
+                     <span aria-hidden="true">&times;</span>
+                   </button>
+                 </div>
+                 <div class="modal-body">
+           <form @submit.prevent="submitEventBookingForm">
+           
+             <div class="mb-3">
+               <h3>Name: {{ username }}</h3>
+               <h5>Email: {{ email }}</h5>
+               <h5>Address: {{ address }}</h5>
+               <h5>number: {{ number }}</h5>
+           
+             </div>
+           
+             <div class="mb-3 text-dark">
+               <label for="eventName" class="visually-hidden">Event Name</label>
+               <div class="input-group">
+                 <input type="text" class="form-control"  placeholder="Event Name" v-model="eventName" required>
+               </div>
+             </div>
+             <div class="mb-3 text-dark">
+               <label for="eventTheme" class="visually-hidden">Event Theme</label>
+               <div class="input-group">
+                 <input type="text" class="form-control"  placeholder="Event Theme" v-model="eventTheme" required>
+               </div>
+             </div>
+             <div class="mb-3 text-dark">
+             <label for="eventDate" class="visually-hidden">Event Date and Time</label>
+             <div class="input-group">
+               <input type="datetime-local" class="form-control" v-model="eventDate" :min="minDate" :max="maxDate" required>
+             </div>
+           </div>
+           
+           
+             <!-- Submit button -->
+             <div class="text-center">
+               <button type="submit" class="btn btn-primary">Submit</button>
+             </div>
+           </form>
+           
+                 </div>
+               </div>
+             </div>
+           </div>
             </div>
           </div>
         </div>
@@ -95,6 +147,9 @@
       </button>
     </div>
   </div>
+</div>
+  </div>
+
   <!-- Carousel End -->
 
   <!-- About Start -->
@@ -591,7 +646,23 @@ export default {
     const id = sessionStorage.getItem("id");
     const activeuser = this.user.find(user => user.id === id);
     return activeuser ? activeuser.email : "";
-  }
+  },
+  minDate() {
+    const today = new Date();
+    const minDate = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);// Bukas
+    return minDate.toISOString().slice(0, -8); // Format bilang YYYY-MM-DDTHH:MM
+  },
+  // maxDate() {
+  //   const oneWeekFromNow = new Date();
+  //   const oneWeekLater = new Date(oneWeekFromNow.getTime() + 7 * 24 * 60 * 60 * 1000); // Isang linggo mula ngayon
+  //   return oneWeekLater.toISOString().slice(0, -8); // Format bilang YYYY-MM-DDTHH:MM
+  // },
+  // isBookingAllowed() {
+  //   const oneWeekFromNow = new Date();
+  //   const oneWeekLater = new Date(oneWeekFromNow.getTime() + 7 * 24 * 60 * 60 * 1000); // Isang linggo mula ngayon
+  //   const bookingDate = new Date(this.eventDate);
+  //   return bookingDate >= oneWeekFromNow && bookingDate <= oneWeekLater;
+  // }
   }
 };
 </script>
