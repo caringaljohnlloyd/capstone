@@ -84,13 +84,18 @@
                   >Shop</router-link
                 >
 
-                <button
-                  type="button"
-                  class="btn btn-link"
-                  @click="showPackSelectionModal"
-                >
-                  Select Packs
-                </button>
+                <div class="dropdown">
+  <button class="btn btn-link dropdown-toggle" type="button" id="reservationDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Make a Reservation
+  </button>
+  <div class="dropdown-menu" aria-labelledby="reservationDropdown">
+    <a class="dropdown-item" href="#" @click="showPackSelectionModal">Select Packs</a>
+    <a class="dropdown-item" href="#" @click="showCottageModal">Cottage Reservation</a>
+    <a class="dropdown-item" href="#" @click="showTableModal">Table Reservation</a>
+
+  </div>
+</div>
+
 
                 <div
                   class="modal"
@@ -169,6 +174,151 @@
     </div>
   </div>
 </div>
+
+<div v-if="cottageModalVisible" class="modal fade show" tabindex="-1" role="dialog" style="display: block;">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Select Cottage</h5>
+        <button type="button" class="close" @click="closeCottageModal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+<div v-for="cottage in cottages" :key="cottage.cottage_id" class="col-md-6 mb-4">
+    <div class="card h-100">
+      <img :src="require('@/assets/img/' + cottage.cottage_image)" class="card-img-top" :alt="cottage.cottage_name">
+      <div class="card-body">
+        <h5 class="card-title">{{ cottage.cottage_name }}</h5>
+        <p class="card-text">{{ cottage.cottage_description }}</p>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">Price: Php.{{ cottage.cottage_price }}</li>
+        </ul>
+        <button type="button" class="btn btn-primary" @click="openTimeSelectionModal(cottage)">Select Time</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Time Selection Modal -->
+<div v-if="timeSelectionModalVisible" class="modal fade show" tabindex="-1" role="dialog" style="display: block;">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Select Time for {{ selectedCottage.cottage_name }}</h5>
+        <button type="button" class="close" @click="closeTimeSelectionModal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form @submit.prevent="bookCottage">
+        <div class="modal-body">
+          <input type="datetime-local" v-model="selectedTime" class="form-control" :min="minDate" required>
+          <label for="selectedTimeout">selectedTimeout</label>
+          <input type="datetime-local" v-model="selectedTimeout" class="form-control" required readonly>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary">Book Cottage</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div v-if="tableModalVisible" class="modal fade show" tabindex="-1" role="dialog" style="display: block;">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document"> <!-- Adjusted modal size -->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Select Table</h5>
+        <button type="button" class="close" @click="closeTableModal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+  <div v-for="table in tables" :key="table.id" class="col-md-6 mb-4">
+    <div class="card h-100">
+      <div class="card-body">
+        <h5 class="card-title">{{ table.table_name }}</h5>
+        <p class="card-text">Description: {{ table.table_description }}</p>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">Price: Php{{ table.table_price }}</li>
+        </ul>
+        <button @click="openMenuModal(table)" class="btn btn-primary">Select Menu & Time</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+      </div>
+      
+    </div>
+  </div>
+</div>
+<div v-if="menuModalVisible" class="modal fade show" tabindex="-1" role="dialog" style="display: block;">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Select Menu & Time for {{ currentTable.table_name }}</h5>
+        <button type="button" class="close" @click="closeMenuModal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <!-- Input fields for menu selection and time booking -->
+          <div class="modal-body">
+  <section id="menu" class="menu section-bg">
+    <div class="container" data-aos="fade-up">
+
+      <div class="section-title">
+        <h2>Menu</h2>
+        <p>Check Our Tasty Menu</p>
+      </div>
+
+      <div class="row" data-aos="fade-up" data-aos-delay="100">
+        <div class="col-lg-12 d-flex justify-content-center">
+          <ul id="menu-filters">
+            <li @click="filterMenu('*')" class="filter-active">All</li>
+            <li @click="filterMenu('starters')">Starters</li>
+            <li @click="filterMenu('salads')">Salads</li>
+            <li @click="filterMenu('specialty')">Specialty</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="row menu-container" data-aos="fade-up" data-aos-delay="200">
+        <div v-for="item in filteredMenuItems" :class="'col-lg-6 menu-item filter-' + item.item_category">
+          <img :src="'assets/img/menu/' + item.item_image" class="menu-img" :alt="item.item_name">
+          <div class="menu-content">
+            <a @click.prevent="selectMenuItem(item)">{{ item.item_name }}</a><span>${{ item.item_price }}</span>
+          </div>
+          <div class="menu-ingredients">
+            {{ item.item_description }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+
+          <div class="form-group">
+            <label for="timeSelection">Time</label>
+            <input type="time" id="timeSelection" class="form-control" v-model="selectedTime">
+          </div>
+          <button type="button" class="btn btn-primary" @click="bookMenuAndTime">Book</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 
                 <div class="nav-item dropdown">
                   <a
@@ -264,17 +414,24 @@
     ></a>
   </div>
   <router-view />
+  <Notification
+  :show="notification.show"
+  :type="notification.type"
+  :message="notification.message"
+/>
 </template>
 
 <script>
 import Top from "@/components/Top.vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import axios from "axios";
+import Notification from '@/components/Notification.vue';
 
 export default {
   components: {
     Top,
     FontAwesomeIcon,
+    Notification
   },
   data() {
     return {
@@ -288,13 +445,161 @@ export default {
       packs: 3,
       roomModalVisible: false,
       selectedRooms: [], // Change from selectedRoom to selectedRooms
-      
+      cottageModalVisible: false,
+    tableModalVisible: false,
+    tables: [], // Data array to store table data
+    menus: [], // you might need to fetch this data from your backend
+    menuModalVisible: false,
+    currentTable: null,
+    filteredMenuItems: [],
+    currentFilter: '*',
+    selectedMenuItem: null,
+    menuItems: [], // Initialized as an empty array
+    cottages: [],  
+    cottageModalVisible: false, 
+    timeSelectionModalVisible: false,
+    selectedCottage: null,
+    selectedTime: '',
+    selectedTimeout: '',
+    minDate: new Date().toISOString().slice(0, 16), 
+    notification: {
+      show: false,
+      type: "", 
+      message: "",
+    },
     };
   },
   methods: {
+    async bookCottage() {
+  this.notification.show = false; 
+  try {
+    const id = sessionStorage.getItem("id");
+    const response = await axios.post("cottagebooking", {
+      id: id,
+      selectedTime: this.selectedTime,
+      selectedTimeout: this.selectedTimeout,
+      cottage_id: this.selectedCottage.cottage_id,
+    });
+
+    if (response.status === 200) {
+      this.notification = {
+        show: true,
+        type: 'success',
+        message: response.data.message || 'Booking successful!'
+      };
+      this.selectedTime = "";
+      this.selectedTimeout = "";
+      setTimeout(() => this.notification.show = false, 2000); 
+    }
+  } catch (error) {
+    console.error("Error booking", error);
+    let message = "Error booking";
+    if (error.response && error.response.status === 400) {
+      message = error.response.data.message || "Booking failed";
+    }
+    this.notification = {
+      show: true,
+      type: 'error',
+      message: message
+    };
+    setTimeout(() => this.notification.show = false, 2000); 
+  }
+},
+
+
+    calculateCheckoutTime() {
+        if (this.selectedTime) {
+          let checkinDate = new Date(this.selectedTime);
+          let timezoneOffset = checkinDate.getTimezoneOffset();
+          checkinDate.setHours(checkinDate.getHours() + 6);
+          checkinDate.setMinutes(checkinDate.getMinutes() - timezoneOffset);
+          let checkoutTimeString = checkinDate.toISOString().slice(0, 16);
+          this.selectedTimeout = checkoutTimeString;
+        }
+      },
+      openTimeSelectionModal(cottage) {
+    this.selectedCottage = cottage;
+    this.timeSelectionModalVisible = true;
+    this.cottageModalVisible = false;
+  },
+
+
+  closeTimeSelectionModal() {
+    this.timeSelectionModalVisible = false;
+  },
+    fetchCottages() {
+    axios.get('/getCottage')
+      .then(response => {
+        this.cottages = response.data;  // Assuming the response data is the array of cottages
+      })
+      .catch(error => {
+        console.error('Error fetching cottages:', error);
+        alert('Failed to load cottages. Please try again.'); // Inform the user in case of an error
+      });
+  },
+    fetchMenuItems() {
+  axios.get('/getItem')
+    .then(response => {
+      this.menuItems = response.data;
+      this.filterMenu(this.currentFilter); // Ensure this only runs after data is fetched
+    })
+    .catch(error => {
+      console.error('Failed to load menu items', error);
+      this.menuItems = []; // Ensure menuItems is set to an empty array on error
+    });
+},
+filterMenu(item_category) {
+  this.currentFilter = item_category;
+  if (this.menuItems && this.menuItems.length > 0) {
+    this.filteredMenuItems = this.menuItems.filter(item => item_category === '*' || item.item_category === item_category);
+  } else {
+    // Possibly handle the empty or undefined case, e.g., by setting filteredMenuItems to an empty array
+    this.filteredMenuItems = [];
+  }
+},
+
+  selectMenuItem(item) {
+    this.selectedMenuItem = item;
+  },
+    openMenuModal(table) {
+    this.currentTable = table;
+    this.menuModalVisible = true;
+  },
+  closeMenuModal() {
+    this.menuModalVisible = false;
+  },
+  bookMenuAndTime() {
+    console.log(`Booking ${this.selectedMenu} for ${this.currentTable.table_name} at ${this.selectedTime}`);
+    this.closeMenuModal();
+  },
+  showCottageModal() {
+  this.fetchCottages();
+  this.cottageModalVisible = true;
+},
+    closeCottageModal() {
+      this.cottageModalVisible = false;
+    },
+    showTableModal() {
+      this.tableModalVisible = true;
+      this.fetchTables(); // Fetch tables when the modal is about to show
+
+    },
+    closeTableModal() {
+      this.tableModalVisible = false;
+    },
     // Method to close the room modal
     closeRoomModal() {
       this.roomModalVisible = false;
+    },
+    fetchTables() {
+      axios.get('/getTable') // Using the Axios instance to make a GET request
+        .then(response => {
+          this.tables = response.data; // Assign response data to tables data property
+        })
+        .catch(error => {
+          console.error('Error fetching tables:', error);
+          alert('Failed to load tables. Please try again.'); // Inform the user in case of an error
+        });
     },
     // Method to book the selected room
     bookSelectedRooms() {
@@ -383,6 +688,12 @@ export default {
       }
     },
   },
+  created() {
+  this.fetchMenuItems();  // Initially fetch all menu items
+  this.filterMenu('*');  // Apply initial filter
+  this.fetchCottages();  // Fetch cottages when the component is created
+
+},
   mounted() {
     this.fetchNotifications(); // Fetch notifications when the component is mounted
     document.addEventListener("click", this.closeDataList);
@@ -390,6 +701,11 @@ export default {
   beforeUnmount() {
     document.removeEventListener("click", this.closeDataList);
   },
+  watch: {
+      selectedTime(newValue) {
+        this.calculateCheckoutTime();
+      },
+    },
 };
 </script>
 <style>

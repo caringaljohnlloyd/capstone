@@ -80,6 +80,20 @@ $routes->get('/rooms/total_pax/(:num)', 'MainController::getRoomByTotalPax/$1');
 $routes->post('enroll', 'MainController::enroll');
 $routes->get('/getAvailableDates','MainController::getAvailableDates');
 $routes->post('/api/event/bookings', 'MainController::store');
+$routes->get('/getTable', 'MainController::getTable');
+$routes->get('/getItem', 'MainController::getItem');
+$routes->get('/getCottage', 'MainController::getCottage');
+$routes->post('/cottagebooking','MainController::cottageBooking');
+$routes->get('/getOrders', 'MainController::getOrders');
+$routes->get('sales-report/daily', 'MainController::showDailyReport');
+$routes->get('sales-report/monthly', 'MainController::monthlySalesReport');
+$routes->get('sales-report/yearly', 'MainController::yearlySalesReport');
+$routes->get('generateAllReports', 'MainController::generateAllReports');
+
+// $routes->get('/report/daily', 'MainController::dailySalesReport');
+// $routes->get('/report/monthly', 'MainController::monthlySalesReport');
+// $routes->get('/report/yearly', 'MainController::yearlySalesReport');
+$routes->get('/report/combined-sales', 'MainController::combinedSalesReport');
 
 
 $routes->group('api', ['namespace' => 'App\Controllers'], function ($routes) {

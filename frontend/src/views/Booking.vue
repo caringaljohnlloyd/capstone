@@ -311,7 +311,6 @@
     }
   },
 
-
       generatePDF() {
   //   // Create a new PDF document
     const doc = new jsPDF();
@@ -328,17 +327,21 @@
     // Save the PDF as a downloadable file
     doc.save('booking_information.pdf');
   },
-      calculateCheckoutTime() {
-        if (this.checkin) {
-          // Create a Date object from the checkin string
-          let checkinDate = new Date(this.checkin);
-          let timezoneOffset = checkinDate.getTimezoneOffset();
-          checkinDate.setHours(checkinDate.getHours() + 6);
-          checkinDate.setMinutes(checkinDate.getMinutes() - timezoneOffset);
-          let checkoutTimeString = checkinDate.toISOString().slice(0, 16);
-          this.checkout = checkoutTimeString;
-        }
-      },
+    calculateCheckoutTime() {
+  if (this.checkin) {
+    // Create a Date object from the checkin string
+    let checkinDate = new Date(this.checkin);
+
+    // Add 21 hours directly to the checkin date
+    checkinDate.setHours(checkinDate.getHours() + 29);
+
+    // Format the checkout time string in the 'YYYY-MM-DDTHH:MM' format
+    let checkoutTimeString = checkinDate.toISOString().slice(0, 16);
+
+    // Update the checkout data property
+    this.checkout = checkoutTimeString;
+  }
+},
 
       async save() {
         try {

@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Models\CottageBookingModel;
 use App\Models\RoomModel;
 use CodeIgniter\RestFul\ResourceController;
 use CodeIgniter\API\ResponseTrait;
@@ -24,6 +25,9 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use App\Models\EnrollmentModel;
 use App\Models\EventModel;
+use App\Models\TableModel;
+use App\Models\MenuModel;
+use App\Models\CottageModel;
 
 
 class MainController extends ResourceController
@@ -36,23 +40,140 @@ class MainController extends ResourceController
     protected $invoice;
     protected $cartModel;
     protected $cart;
+    protected $table;
+    protected $cottage;
+    protected $ordersModel;
+    protected $db;
+    public function __construct()
+    {
+        $this->db = \Config\Database::connect();
+    }
+    public function generateAllReports()
+    {
+        $dailyReports = $this->showDailyReport();
+        $monthlyReports = $this->monthlySalesReport();
+        $yearlyReports = $this->yearlySalesReport();
 
-            public function saveDate()
-        {
-            try {
-                $request = $this->request;
-                $data = [
-                    'swimming_date' => $request->getPost('swimming_date'),
-                ];
+        $allReports = [
+            'dailySales' => $dailyReports,
+            'monthlySales' => $monthlyReports,
+            'yearlySales' => $yearlyReports
+        ];
 
-                $dateModel = new DateModel();
-                $dateModel->insert($data);
+        return $this->response->setJSON($allReports);
+    }
 
-                return $this->respond(["message" => "Date added successfully"], 200);
-            } catch (\Exception $e) {
-                return $this->respond(["message" => "Failed to add date: " . $e->getMessage()], 500);
-            }
+
+
+    public function showDailyReport()
+    {
+        $builder = $this->db->table('orders');
+        $builder->select('DATE(orders.created_at) as date, SUM(orders.total_price) as total_sales');
+        $builder->where('orders.order_status', 'paid');
+        $builder->groupBy('DATE(orders.created_at)');
+        $builder->orderBy('DATE(orders.created_at)', 'DESC');
+        $query = $builder->get();
+
+        log_message('info', 'Executed Query: ' . $this->db->getLastQuery());
+
+        if (!$query) {
+            return ['error' => 'Failed to fetch data.'];
         }
+
+        $result = $query->getResultArray();
+        return $result ? $result : ['error' => 'No sales data found.'];
+    }
+
+
+
+    public function monthlySalesReport()
+    {
+        $builder = $this->db->table('orders');
+        $builder->select('YEAR(created_at) as year, MONTH(created_at) as month, SUM(total_price) as total_sales');
+        $builder->where('order_status', 'paid');
+        $builder->groupBy('YEAR(created_at), MONTH(created_at)');
+        $builder->orderBy('YEAR(created_at) DESC, MONTH(created_at) DESC');
+
+        $query = $builder->get();
+
+        if (!$query) {
+            return ['error' => 'Database error.'];
+        }
+
+        $result = $query->getResultArray();
+        return $result ?: ['error' => 'No data found.'];
+    }
+
+
+    public function yearlySalesReport() {
+        $builder = $this->db->table('orders');
+        $builder->select('YEAR(created_at) as year, SUM(total_price) as total_sales');
+        $builder->where('order_status', 'paid');
+        $builder->groupBy('YEAR(created_at)');
+        $query = $builder->get();
+    
+        if (!$query) {
+            return ['error' => 'Failed to fetch data.'];
+        }
+    
+        return $query->getResultArray();
+    }
+    
+    
+
+    public function getOrders()
+    {
+        $orders = new OrdersModel();
+        $data = $orders->findAll();
+        return $this->respond($data, 200);
+    }
+
+    public function cottageBooking()
+    {
+        $json = $this->request->getJSON();
+
+        if (!$json || !isset($json->cottage_id) || !isset($json->selectedTime) || !isset($json->selectedTimeout) || !isset($json->id)) {
+            return $this->fail('Missing required parameters', 400);
+        }
+
+        $bookingModel = new CottageBookingModel();
+
+        $cottageModel = new CottageModel();
+        $cottage = $cottageModel->find($json->cottage_id);
+        if (!$cottage) {
+            return $this->failNotFound('Cottage not found');
+        }
+
+        $data = [
+            'id' => $json->id,
+            'selectedTime' => $json->selectedTime,
+            'selectedTimeout' => $json->selectedTimeout,
+            'cottage_id' => $json->cottage_id,
+        ];
+
+        if ($bookingModel->save($data) === false) {
+            return $this->respond(['message' => 'Booking failed'], 500);
+        }
+
+        return $this->respond(['message' => 'Booked successfully'], 200);
+    }
+
+    public function saveDate()
+    {
+        try {
+            $request = $this->request;
+            $data = [
+                'swimming_date' => $request->getPost('swimming_date'),
+            ];
+
+            $dateModel = new DateModel();
+            $dateModel->insert($data);
+
+            return $this->respond(["message" => "Date added successfully"], 200);
+        } catch (\Exception $e) {
+            return $this->respond(["message" => "Failed to add date: " . $e->getMessage()], 500);
+        }
+    }
     public function store()
     {
         $json = $this->request->getJSON();
@@ -236,10 +357,27 @@ class MainController extends ResourceController
     public function getCart($id)
     {
         $cart = new CartModel();
-        $data = $cart->where('id', $id)->where('cart_status !=', 'checked_out')->findAll();
+        $data = $cart->where('id', $id)->findAll();
         return $this->respond($data, 200);
     }
-    
+    public function getTable()
+    {
+        $table = new TableModel();
+        $data = $table->findAll();
+        return $this->respond($data, 200);
+    }
+    public function getItem()
+    {
+        $item = new MenuModel();
+        $data = $item->findAll();
+        return $this->respond($data, 200);
+    }
+    public function getCottage()
+    {
+        $cottage = new CottageModel();
+        $data = $cottage->findAll();
+        return $this->respond($data, 200);
+    }
     public function getPool()
     {
         $pool = new PoolModel();
@@ -247,11 +385,11 @@ class MainController extends ResourceController
         return $this->respond($data, 200);
     }
     public function getShop()
-{
-    $shop = new ShopModel();
-    $data = $shop->where('prod_quantity >', 0)->findAll(); 
-    return $this->respond($data, 200);
-}
+    {
+        $shop = new ShopModel();
+        $data = $shop->where('prod_quantity >', 0)->findAll();
+        return $this->respond($data, 200);
+    }
 
     public function getFeedback()
     {
@@ -437,14 +575,14 @@ class MainController extends ResourceController
     {
         $main = new BookingModel();
         $data = $main->find($id);
-    
+
         if ($data) {
             return $this->respond($data, 200);
         } else {
             return $this->failNotFound('Booking not found.');
         }
     }
-    
+
 
     public function getBook()
     {
@@ -546,11 +684,11 @@ class MainController extends ResourceController
         $room_id = $json->room_id;
         $this->room = new RoomModel();
         $booked = $this->room->where(['room_id' => $room_id])->first();
-    
+
         $expiration = $json->checkout;
-    
-        $qrCodeData = $json->id; 
-    
+
+        $qrCodeData = $json->id;
+
         $data = [
             'id' => $json->id,
             'checkin' => $json->checkin,
@@ -560,16 +698,16 @@ class MainController extends ResourceController
             'booking_status' => 'pending',
             'payment_method' => $json->payment_method,
             'downpayment' => $json->downpayment,
-            'booking_qr' => $qrCodeData, 
+            'booking_qr' => $qrCodeData,
             'expiration' => $expiration
         ];
-    
+
         $booking = new BookingModel();
         $r = $booking->save($data);
-    
+
         if ($r) {
             $bookedr = $this->room->update($booked['room_id'], ['room_status' => 'pending']);
-    
+
             if ($bookedr) {
                 return $this->respond(['message' => 'Booked successfully', 'booking' => $r, 'expiration' => $expiration, 'booking_qr' => $qrCodeData], 200);
             } else {
@@ -579,7 +717,7 @@ class MainController extends ResourceController
             return $this->respond(['message' => 'Booking failed'], 500);
         }
     }
-    
+
 
     public function getDataShop()
     {
@@ -758,31 +896,31 @@ class MainController extends ResourceController
     {
         $cart = new CartModel();
         $json = $this->request->getJSON();
-    
+
         $shop_id = $json->shop_id;
         $user = $json->id;
         $quantity = $json->quantity;
         $shopModel = new ShopModel();
         $product = $shopModel->find($shop_id);
-    
+
         if (!$product) {
             return $this->respond(['message' => 'Product not found'], 404);
         }
-    
+
         if ($product['prod_quantity'] < $quantity) {
             return $this->respond(['message' => 'Insufficient stock quantity'], 400);
         }
-    
+
         $existing = $cart->where(['id' => $user, 'shop_id' => $shop_id])->first();
-    
+
         if ($existing) {
             $existing['quantity'] += $quantity;
             $updateResult = $cart->update($existing['cart_id'], $existing);
-    
+
             if ($updateResult) {
                 // $newQuantity = $product['prod_quantity'] - $quantity;
                 // $shopModel->update($shop_id, ['prod_quantity' => $newQuantity]);
-    
+
                 return $this->respond(['message' => 'Item quantity updated in the cart'], 200);
             } else {
                 return $this->respond(['message' => 'Failed to update item quantity in the cart'], 500);
@@ -792,15 +930,14 @@ class MainController extends ResourceController
                 'id' => $user,
                 'shop_id' => $shop_id,
                 'quantity' => $quantity,
-                'cart_status' => 'in cart', // Idagdag ang status ng cart dito
             ];
-    
+
             $addcart = $cart->save($data);
-    
+
             if ($addcart) {
                 // $newQuantity = $product['prod_quantity'] - $quantity;
                 // $shopModel->update($shop_id, ['prod_quantity' => $newQuantity]);
-    
+
                 return $this->respond(['message' => 'Item added to cart successfully'], 200);
             } else {
                 return $this->respond(['message' => 'Failed to add item to cart'], 500);
@@ -832,64 +969,61 @@ class MainController extends ResourceController
         }
     }
 
-public function checkout()
-{
-    $this->invoice = new InvoiceModel();
-    $this->orderitems = new OrderListModel();
-    $this->orders = new OrderSModel();
-    $this->cart = new CartModel(); // Idagdag ang CartModel
+    public function checkout()
+    {
+        $this->invoice = new InvoiceModel();
+        $this->orderitems = new OrderListModel();
+        $this->orders = new OrderSModel();
 
-    $json = $this->request->getJSON();
-    $id = $json->id;
+        $json = $this->request->getJSON();
+        $id = $json->id;
 
-    foreach ($json->items as $item) {
-        $shopModel = new ShopModel();
-        $product = $shopModel->find($item->shop_id);
+        foreach ($json->items as $item) {
+            $shopModel = new ShopModel();
+            $product = $shopModel->find($item->shop_id);
 
-        if (!$product || $product['prod_quantity'] < $item->quantity) {
-            return $this->respond(['message' => 'Insufficient stock for one or more items'], 400);
+            if (!$product || $product['prod_quantity'] < $item->quantity) {
+                return $this->respond(['message' => 'Insufficient stock for one or more items'], 400);
+            }
         }
-    }
 
-    $order = [
-        'id' => $id,
-        'order_status' => 'pending',
-        'total_price' => $json->total_price,
-        'order_payment_method' => $json->order_payment_method
-    ];
-
-    $this->orders->save($order);
-
-    $order_id = $this->orders->insertID();
-
-    foreach ($json->items as $item) {
-        $orderitem = [
+        $order = [
             'id' => $id,
-            'shop_id' => $item->shop_id,
-            'quantity' => $item->quantity,
-            'final_price' => $item->total_price,
+            'order_status' => 'pending',
+            'total_price' => $json->total_price,
+            'order_payment_method' => $json->order_payment_method
+        ];
+
+        $this->orders->save($order);
+
+        $order_id = $this->orders->insertID();
+
+        foreach ($json->items as $item) {
+            $orderitem = [
+                'id' => $id,
+                'shop_id' => $item->shop_id,
+                'quantity' => $item->quantity,
+                'final_price' => $item->total_price,
+                'order_id' => $order_id,
+            ];
+
+            $this->orderitems->save($orderitem);
+        }
+
+        $inv = [
+            'id' => $id,
             'order_id' => $order_id,
         ];
 
-        $this->orderitems->save($orderitem);
+        $this->invoice->save($inv);
+
+
+        if ($this->orders->affectedRows() > 0 && $this->orderitems->affectedRows() > 0 && $this->invoice->affectedRows() > 0) {
+            return $this->respond(['message' => 'Checkout successful'], 200);
+        } else {
+            return $this->respond(['message' => 'Checkout failed'], 500);
+        }
     }
-
-    $inv = [
-        'id' => $id,
-        'order_id' => $order_id,
-    ];
-
-    $this->invoice->save($inv);
-
-    // Update cart_status to 'checked_out' for items in the cart
-    $this->cart->where('id', $id)->set(['cart_status' => 'checked_out'])->update();
-
-    if ($this->orders->affectedRows() > 0 && $this->orderitems->affectedRows() > 0 && $this->invoice->affectedRows() > 0) {
-        return $this->respond(['message' => 'Checkout successful'], 200);
-    } else {
-        return $this->respond(['message' => 'Checkout failed'], 500);
-    }
-}
 
 
     public function markOrderPaid($orderId)
@@ -933,55 +1067,55 @@ public function checkout()
     {
         $ordersModel = new OrdersModel();
         $notificationModel = new NotificationModel();
-    
+
         $order = $ordersModel->find($orderId);
-    
+
         if ($order && $order['order_status'] === 'pending') {
             // Update the order status to 'declined'
             $ordersModel->update($orderId, ['order_status' => 'declined']);
-    
+
             // Insert decline notification into the database
             $notificationData = [
                 'id' => $order['id'],
                 'message' => 'Your order has been declined.'
             ];
             $notificationModel->insert($notificationData);
-    
+
             // Optional: You can perform additional actions specific to declining orders here
-    
+
             return $this->response->setJSON(['message' => 'Order declined successfully']);
         } else {
             return $this->response->setJSON(['message' => 'Invalid order or order is not pending'], 400);
         }
     }
-    
+
 
 
     public function confirmOrder($orderId)
     {
         $ordersModel = new OrdersModel();
         $notificationModel = new NotificationModel();
-    
+
         // Find the order
         $order = $ordersModel->find($orderId);
-    
+
         if ($order && $order['order_status'] === 'pending') {
             // Update the order status to 'accepted'
-            $ordersModel->update($orderId, ['order_status' => 'accepted']);
-    
+            $ordersModel->update($orderId, ['order_status' => 'confirmed']);
+
             // Insert accept notification into the database
             $notificationData = [
                 'id' => $order['id'],
                 'message' => 'Your order has been accepted.'
             ];
             $notificationModel->insert($notificationData);
-    
+
             return $this->response->setJSON(['message' => 'Order accepted successfully']);
         } else {
             return $this->response->setJSON(['message' => 'Invalid order or order is not pending'], 400);
         }
     }
-    
+
 
     public function saveShop()
     {

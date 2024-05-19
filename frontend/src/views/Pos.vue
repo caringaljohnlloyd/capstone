@@ -537,7 +537,7 @@ export default {
             id: id,
             quantity: quantity,
           });
-
+          this.getCart();
           this.showSuccessNotification("Product added to cart successfully");
 
           setTimeout(() => {
