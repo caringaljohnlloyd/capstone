@@ -889,7 +889,6 @@ class MainController extends ResourceController
     public function logout()
     {
         session()->destroy();
-
         return $this->response->setStatusCode(200)->setJSON(['message' => 'Logout successful']);
     }
     public function Cart()

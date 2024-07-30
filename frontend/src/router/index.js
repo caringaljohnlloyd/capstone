@@ -14,11 +14,15 @@ import Booking from '../views/Booking.vue'
 import Team from '../views/Team.vue'
 import Testimonial from '../views/Testimonial.vue'
 import Admin from '../views/Admin.vue'
+import Admin2 from '../views/Admin2.vue'
 import Analytics from '../views/Analytics.vue'
+import Analytics2 from '../views/Analytics2.vue'
 import Chat from '../views/Chat.vue'
 import Contacts from '../views/Contacts.vue'
 import TeamAdmin from '../views/TeamAdmin.vue'
+import TeamAdmin2 from '../views/TeamAdmin2.vue'
 import monitorusers from '../views/Calendar.vue'
+import monitorusers2 from '../views/Calendar2.vue'
 import Email_inbox from '../views/Email_inbox.vue'
 import ForgotPassword from '../views/ForgotPassword.vue'
 import UpdatePassword from '../views/UpdatePassword.vue'
@@ -27,6 +31,7 @@ import AuditHistory from '@/views/AuditHistory.vue';
 import Invoice from '@/components/Invoice.vue';
 import Home from '../views/Home.vue'
 import pos from '../views/Pos.vue'
+import pos2 from '../views/Pos2.vue'
 import packs3 from '@/components/packs.vue'
 import packs4 from '@/components/pack4.vue'
 import packs6 from '@/components/packs6.vue'
@@ -152,9 +157,21 @@ const routes = [
 
 },
 {
+  path: '/admin2',
+  component: Admin2,
+  meta: { requiresAuth: true, role: 'admin2' }
+
+},
+{
   path: '/analytics',
   component: Analytics,
   meta: { requiresAuth: true, role: 'admin' }
+
+},
+{
+  path: '/analytics2',
+  component: Analytics2,
+  meta: { requiresAuth: true, role: 'admin2' }
 
 },
 {
@@ -176,14 +193,32 @@ const routes = [
 
 },
 {
+  path: '/teamadmin2',
+  component: TeamAdmin2,
+  meta: { requiresAuth: true, role: 'admin' }
+
+},
+{
   path: '/monitorusers',
   component: monitorusers,
   meta: { requiresAuth: true, role: 'admin' }
 
 },
 {
+  path: '/monitorusers2',
+  component: monitorusers2,
+  meta: { requiresAuth: true, role: 'admin' }
+
+},
+{
   path: '/pos',
   component: pos,
+  meta: { requiresAuth: true, role: 'admin' }
+
+},
+{
+  path: '/pos2',
+  component: pos2,
   meta: { requiresAuth: true, role: 'admin' }
 
 },
@@ -258,4 +293,6 @@ function checkAdminRole() {
 }
 
 export default router
+
+
 
