@@ -42,6 +42,7 @@
               </div>
             </div>
           </div>
+          
           <nav class="navbar navbar-expand-lg bg-dark navbar-dark p-3 p-lg-0">
             <a href="/user" class="navbar-brand d-block d-lg-none">
               <h1 class="m-0 text-primary text-uppercase">Eduardo's</h1>
@@ -54,6 +55,7 @@
             >
               <span class="navbar-toggler-icon"></span>
             </button>
+
             <div
               class="collapse navbar-collapse justify-content-between"
               id="navbarCollapse"

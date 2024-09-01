@@ -1,33 +1,52 @@
 <template>
-  <div>
-    <div class="sidebar">
-      <img :src="require('../assets/images/logo1.png.png')" alt="Mono" class="logo" />
-      <router-link to="/admin2">
-        <i class="fa-solid fa-chart-simple"></i><span>Business Dashboard</span>
-      </router-link>
-      <router-link to="/analytics2">
-        <i class="fa-solid fa-chart-line"></i><span>Analytics Board</span>
-      </router-link>
-      <router-link to="/teamadmin2">
-        <i class="fa-solid fa-people-group"></i><span>Team</span>
-      </router-link>
-      <router-link to="/monitorusers2">
-        <i class="fas fa-user"></i><span>Users</span>
-      </router-link>
-      <router-link to="/pos2">
-        <i class="fa-solid fa-table-columns"></i><span>POS</span>
-      </router-link>
-    </div>
+  <Notification
+  :show="notification.show"
+  :type="notification.type"
+  :message="notification.message"
+/>
 
-    <div class="main-content">
-      <div class="header">
-        <h1>EDUARDO'S ADMIN</h1>
-        <button @click="logout" class="btn btn-primary logout-logo-btn">
-          <i class="fas fa-power-off logout-icon"></i>
-          Logout
-        </button>
-      </div>
-      <div class="card card-big">
+<div class="main-content">
+
+  <div class="sidebar" :class="{ 'collapsed': isSidebarCollapsed }">
+
+<img :src="require('../assets/images/logo1.png.png')" alt="Mono" class="logo">
+<router-link to="/admin2">
+  <i class="fa-solid fa-chart-simple"></i><span>Business Dashboard</span>
+</router-link>
+<router-link to="/analytics2">
+  <i class="fa-solid fa-chart-line"></i><span>Analytics Board</span>
+</router-link>
+<router-link to="/teamadmin2">
+  <i class="fa-solid fa-people-group"></i><span>Team</span>
+</router-link>
+<router-link to="/monitorusers2">
+  <i class="fas fa-user"></i><span>Users</span>
+</router-link>
+<router-link to="/pos2">
+  <i class="fa-solid fa-table-columns"></i><span>POS</span>
+</router-link>
+</div>
+
+    <div class="header">
+      <h1 class="h1-main">EDUARDO'S ADMIN</h1>
+
+      <!-- Navbar Toggler -->
+      <button
+        class="navbar-toggler"
+        type="button"
+        @click="toggleSidebar"
+      >
+      <i class="fa-solid fa-bars" style="padding: 5px; margin:5px; width: 40px;"></i>
+      </button>
+
+      <!-- Logout Button -->
+      <button @click="logout" class="btn btn-custom logout-logo-btn">
+        <i class="fas fa-power-off logout-icon"></i>
+        Logout
+      </button>
+    </div>
+      
+      <div class="card-main">
 
         <div class="content">
           <div class="container-fluid">
@@ -36,18 +55,18 @@
 
   
                     
-                        <div>
-                          <section>
+              
+                          <section class="card-main">
                             <h2>Sales Report</h2>
                             <button class="btn-custom" @click="printSalesReport">Print Sales Report</button>
-                            <div>
+                            <div class="card-main">
                               <button class="btn-custom" @click="updateChart('daily')">Daily</button>
                               <button class="btn-custom" @click="updateChart('monthly')">Monthly</button>
                               <button class="btn-custom" @click="updateChart('yearly')">Yearly</button>
                             </div>
-                            <canvas ref="combinedCanvas"></canvas>
+                            <canvas class="card-main" ref="combinedCanvas"></canvas>
                           </section>
-                        </div>
+                   
                 
           
                 <div class="card-wrapper">
@@ -165,7 +184,7 @@
         </div>
       </div>
     </div>
-  </div>
+
 </template>
 
 
@@ -178,11 +197,17 @@ export default {
 
   data() {
     return {
+      isSidebarCollapsed: false,
       successMessage: '', 
       loading: '',
       name: [],
       feed: [],
       book: [],
+      notification: {
+      show: false,
+      type: "",
+      message: "",
+    },
       numberOfClients: 0,
       numberOfItems: 0,
       numberOfbooking: 0,
@@ -221,6 +246,9 @@ export default {
     this.fetchCombinedSalesData();
   },
   methods: {
+    toggleSidebar() {
+      this.isSidebarCollapsed = !this.isSidebarCollapsed;
+    },
     async logout() {
       try {
         const response = await axios.post("/logout");
@@ -1146,5 +1174,149 @@ menu.no-scroll {
   .card-default, .card-body, .card-header , th , tr , td , table{
     width: auto;
   }
+}
+
+/* Sidebar styles */
+.sidebar {
+  width: 93px;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #0F172B;
+  color: #fff;
+  padding: 20px;
+  overflow-y: auto;
+
+
+}
+
+.sidebar img.logo {
+  width: 50px;
+  height: auto;
+  display: block;
+  transition: width 0.5s; /* Smooth transition for the logo size */
+}
+
+.sidebar:hover img.logo {
+  width: 100px;
+}
+
+
+.sidebar a,
+.sidebar router-link {
+  display: flex;
+  align-items: center;
+  color: #fff;
+  padding: 10px;
+  text-decoration: none;
+  margin: 5px 0;
+}
+
+.sidebar a:hover,
+.sidebar router-link:hover {
+  background-color: #FEA116;
+  transition: background-color 0.5s; 
+}
+
+
+.main-content {
+  margin-left: 93px; 
+  padding: 0;
+  transition: margin-left 0.5s; /* Smooth transition for the margin */
+  overflow-y: auto; /* Enable scrolling if the content is too long */
+  height: calc(100vh - 60px); 
+}
+.header {
+  background-color: #0F172B;
+  color: white;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  top: 0;
+  z-index: 1;
+  transition: 0.5s;
+  position: relative;
+}
+.card-main {
+  background-color: #f4f4f4;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow for better visibility */
+  transition: 0.5s;
+}
+.sidebar:hover ~ .card-main {
+  margin-left: 200px;
+  
+}
+.sidebar:hover ~ .header {
+  margin-left: 50px;
+}
+/* Navbar Toggler for Small Screens */
+.navbar-toggler {
+  display: none;
+  background-color: #FEA116;
+  border: none;
+  color:white;
+  cursor: pointer;
+  border-radius: 5px;
+ padding: 0;
+ margin:0;
+  position: absolute;
+  right: 20px;
+  align-items: center;
+}
+.navbar-toggler-icon{
+  padding: 0;
+  margin: 0;
+}
+.sidebar.collapsed + .navbar-toggler {
+  display: block;
+  transition: 0.3s;
+}
+
+@media (max-width: 768px) { 
+  .header {
+    display: flex;
+    align-items: center; /* Vertically center items */
+    position: relative; /* Ensure positioning context */
+  }
+  
+  /* Adjust header padding for smaller screens */
+
+  .sidebar {
+    width: 100%; /* Full width on small screens */
+    height: auto; /* Height auto adjusts */
+    position: fixed; 
+    overflow: hidden; /* Hide overflow on small screens */
+    transform: translateY(-100%); /* Hide sidebar by default on small screens */
+  
+  }
+
+  .sidebar.collapsed {
+    transform: translateY(0); /* Show sidebar when toggled */
+    position: relative; 
+    transition: 0.2s;
+  }
+  .main-content {
+    margin-left: 0;
+    height: auto;
+
+  }
+
+  .navbar-toggler {
+    display: block;
+    top: 10px;
+  } 
+  .header h1 {
+    margin-bottom: 50px; /* Adjust spacing for smaller screens */
+  }
+
+  .logout-logo-btn {
+    position: absolute;
+    bottom: 10px; /* Ensure it stays at the bottom */
+    right: 20px; /* Align to the right side */
+  }
+  
 }
 </style>

@@ -4,40 +4,52 @@
   :type="notification.type"
   :message="notification.message"
 />
-<div>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Dashboard</title>
 
-  <div class="sidebar">
-    <img :src="require('../assets/images/logo1.png.png')" alt="Mono" class="logo">
-    <router-link to="/admin2">
-      <i class="fa-solid fa-chart-simple"></i><span>Business Dashboard</span>
-    </router-link>
-    <router-link to="/analytics2">
-      <i class="fa-solid fa-chart-line"></i><span>Analytics Board</span>
-    </router-link>
-    <router-link to="/teamadmin2">
-      <i class="fa-solid fa-people-group"></i><span>Team</span>
-    </router-link>
-    <router-link to="/monitorusers2">
-      <i class="fas fa-user"></i><span>Users</span>
-    </router-link>
-    <router-link to="/pos2">
-      <i class="fa-solid fa-table-columns"></i><span>POS</span>
-    </router-link>
-  </div>
+<div class="main-content">
 
-  <div class="main-content">
+  <div class="sidebar" :class="{ 'collapsed': isSidebarCollapsed }">
+
+<img :src="require('../assets/images/logo1.png.png')" alt="Mono" class="logo">
+<router-link to="/admin2">
+  <i class="fa-solid fa-chart-simple"></i><span>Business Dashboard</span>
+</router-link>
+<router-link to="/analytics2">
+  <i class="fa-solid fa-chart-line"></i><span>Analytics Board</span>
+</router-link>
+<router-link to="/teamadmin2">
+  <i class="fa-solid fa-people-group"></i><span>Team</span>
+</router-link>
+<router-link to="/monitorusers2">
+  <i class="fas fa-user"></i><span>Users</span>
+</router-link>
+<router-link to="/pos2">
+  <i class="fa-solid fa-table-columns"></i><span>POS</span>
+</router-link>
+</div>
+
     <div class="header">
-      <h1>EDUARDO'S ADMIN</h1>
+      <h1 class="h1-main">EDUARDO'S ADMIN</h1>
+
+      <!-- Navbar Toggler -->
+      <button
+        class="navbar-toggler"
+        type="button"
+        @click="toggleSidebar"
+      >
+      <i class="fa-solid fa-bars" style="padding: 5px; margin:5px; width: 40px;"></i>
+      </button>
+
+      <!-- Logout Button -->
       <button @click="logout" class="btn btn-custom logout-logo-btn">
         <i class="fas fa-power-off logout-icon"></i>
         Logout
       </button>
     </div>
 
-    <div class="card">
+
+
+
+    <div class="card-main">
       <div class="content">
         
         <div class="row">
@@ -808,8 +820,8 @@
               </tbody>
             </table>
             <!-- Success Message -->
-            <div v-if="successMessage" class="alert alert-success" role="alert">
-              {{ successMessage }}
+            <div v-if="successMessageDate" class="alert alert-success" role="alert">
+              {{ successMessageDate }}
             </div>
           </div>
         </div>
@@ -832,8 +844,8 @@
             <input type="text" class="form-control" placeholder="Select Date" ref="datepicker" />
           </div>
           <!-- Success Message -->
-          <div v-if="successMessage" class="alert alert-success" role="alert">
-            {{ successMessage }}
+          <div v-if="successMessageDate" class="alert alert-success" role="alert">
+            {{ successMessageDate }}
           </div>
         </div>
       </div>
@@ -876,7 +888,7 @@
     />
   </div>
 </div>
-</div>
+
 
 </template>
 
@@ -895,8 +907,9 @@ components: {
 },
 data() {
   return {
+    isSidebarCollapsed: false,
     addDateModalVisible: false,
-    successMessage: '',
+    successMessageDate: null,
     successMessage: null,
     flatpickrInstance: null,
     selectedDate: null,
@@ -963,6 +976,7 @@ mounted() {
   
   this.getDate();
 },
+
 created() {
   this.getInfo();
   this.getRoom();
@@ -973,15 +987,18 @@ created() {
 },
 
 methods: {
+  toggleSidebar() {
+      this.isSidebarCollapsed = !this.isSidebarCollapsed;
+    },
   isActive(route) {
       return this.$route.path === route;
     },
   openAddDateModal() {
-    // Implement this method
     this.addDateModalVisible = true;
   },
+
   closeAddDateModal() {
-    // Implement this method
+
     this.addDateModalVisible = false;
   },
   openDatePicker() {
@@ -1342,48 +1359,52 @@ methods: {
     const b = await axios.get("/getenroll");
     this.enroll = b.data;
   },
-
-  async getDate() {
+  async saveDate() {
     try {
-      const response = await axios.get("/getDate");
-
-      // Check if response status is OK
-      if (response && response.status === 200) {
-        // Check if response data is valid
-        if (response.data && Array.isArray(response.data)) {
-          // Assuming the dates are in the correct format
-          this.dates = response.data;
-          this.initFlatpickr();
-        } else {
-          console.error(
-            "Error fetching dates: Response data is empty or not an array"
-          );
-        }
-      } else {
-        console.error("Error fetching dates: Invalid response status");
-      }
-    } catch (error) {
-      console.error("Error fetching dates:", error);
-      // Handle error if needed
-    }
-  },
-  initFlatpickr() {
-    this.flatpickrInstance = flatpickr(this.$refs.datepicker, {
-      dateFormat: 'Y-m-d',
-      enable: this.dates,
-      onClose: selectedDates => {
-        this.selectedDate = selectedDates[0];
-      },
-      onReady: (selectedDates, dateStr, instance) => {
-        selectedDates.forEach(date => {
-          const dateElem = instance.days.querySelector(`[data-date="${date}"]`);
-          if (dateElem) {
-            dateElem.classList.add('custom-selected-date');
-          }
+        const response = await axios.post("http://localhost:8080/saveDate", {
+            swimming_date: this.swimming_date,
         });
+        this.successMessageDate = response.data.message;
+        this.dates.push(this.swimming_date); // Assuming you want to add it to the dates list
+        this.closeAddDateModal(); // Close the modal
+    } catch (error) {
+        console.error("Error saving date:", error);
+        // Check if error response exists
+        const errorMessage = error.response ? error.response.data.message : "Unknown error occurred.";
+        this.successMessageDate = "Failed to save date: " + errorMessage;
+    }
+},
+
+
+
+
+    async getDate() {
+      try {
+        const response = await axios.get("/getDate");
+        if (response && response.status === 200) {
+          if (response.data && Array.isArray(response.data)) {
+            this.dates = response.data;
+            this.initFlatpickr();
+          } else {
+            console.error("Error fetching dates: Response data is empty or not an array");
+          }
+        } else {
+          console.error("Error fetching dates: Invalid response status");
+        }
+      } catch (error) {
+        console.error("Error fetching dates:", error);
       }
-    });
-  },
+    },
+    initFlatpickr() {
+      this.flatpickrInstance = flatpickr(this.$refs.datepicker, {
+        dateFormat: 'Y-m-d',
+        enable: this.dates,
+        onClose: selectedDates => {
+          this.selectedDate = selectedDates[0];
+        },
+      });
+    },
+  
 
   navigateToAuditHistory(info) {
     const shopId = info.shop_id;
@@ -1521,31 +1542,6 @@ methods: {
     }
   },
 
-  async saveDate() {
-    try {
-      const formData = new FormData();
-      formData.append('swimming_date', this.swimming_date);
-
-      const response = await axios.post('/saveDate', formData);
-
-      if (response.status === 200) {
-        this.successMessage2 = 'Date added successfully';
-        this.closeAddDateModal();
-        this.swimming_date = '';
-        this.getDate();
-        setTimeout(() => {
-          this.successMessage2 = '';
-        }, 3000);
-      } else {
-        console.error('Failed to add date:', response.data);
-        this.successMessage2 = 'Failed to add date';
-      }
-    } catch (error) {
-      console.error('Error saving date:', error);
-      this.successMessage2 = 'Error saving date';
-    }
-  },
-
   openEditModal(info) {
     this.editedInfo = { ...info };
     this.editModalVisible = true;
@@ -1592,7 +1588,7 @@ methods: {
 
 
 <style scoped>
-/* Existing styles */
+
 h1 {
   color: white;
   text-align: left;
@@ -1608,6 +1604,7 @@ span{
   padding: 0;
   margin: 0;
 }
+
 /* Sidebar styles */
 .sidebar {
   width: 93px;
@@ -1651,6 +1648,7 @@ span{
   width: 200px;
 }
 
+
 /* Make sidebar responsive */
 @media (max-width: 768px) {
   .sidebar {
@@ -1680,9 +1678,6 @@ span{
   transition: margin-left 0.5s; /* Smooth transition for the margin */
 }
 
-.sidebar:hover ~ .main-content {
-  margin-left: 200px; /* Adjust margin when sidebar is expanded */
-}
 
 /* Adjust main content for smaller screens */
 @media (max-width: 768px) {
@@ -1691,52 +1686,36 @@ span{
   }
 }
 
-.header {
-  background-color: #0F172B;
-  color: white;
-  padding: 10px 20px; /* Adjust padding for space */
-  display: flex;
-  justify-content: space-between; /* Distribute space between header elements */
-  align-items: center; /* Vertically center items */
-  position: sticky;
-  top: 0;
-  z-index: 1; /* Ensure the header stays on top of other content */
-  margin-left: 0; /* Remove left margin */
-}
 
-@media (max-width: 768px) {
-  .header {
-    flex-direction: column; /* Stack header items vertically on small screens */
-    align-items: flex-start; /* Align items to the start on small screens */
-  }
-}
 
 
 .logout-logo-btn {
-  background-color: #FEA116; /* Background color for the logout button */
-  border: none; /* Remove default border */
-  padding: 10px 15px; /* Add some padding */
-  color: white; /* Text color */
-  cursor: pointer; /* Pointer cursor on hover */
-  border-radius: 5px; /* Rounded corners */
-  font-size: 14px; /* Adjust font size */
+  background-color: #FEA116;
+  border: none;
+  padding: 10px 15px;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 14px;
   display: flex;
   align-items: center;
+  position: absolute;
+  bottom: 10px; /* Position at the bottom */
+  right: 20px; /* Align to the right */
 }
 
 .logout-logo-btn i {
   margin-right: 5px; /* Space between icon and text */
 }
 
-.card {
+.card-main {
   background-color: #f4f4f4;
   padding: 20px;
-  margin: 20px 0;
+  margin: 20px; /* Add margin around the card */
   border-radius: 8px;
-  margin-left: 20px;
-  margin-right: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow for better visibility */
+  transition: 0.5s;
 }
-
 .table-responsive {
   width: 100%;
   overflow-x: auto;
@@ -1759,9 +1738,6 @@ span{
   font-size: 17px; 
   
 }
-
-
-
 
 .modal {
   display: flex;
@@ -1955,4 +1931,147 @@ padding: 10px;
 }
 
 
+/* Sidebar styles */
+.sidebar {
+  width: 93px;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #0F172B;
+  color: #fff;
+  padding: 20px;
+  overflow-y: auto;
+
+
+}
+
+.sidebar img.logo {
+  width: 50px;
+  height: auto;
+  display: block;
+  transition: width 0.5s; /* Smooth transition for the logo size */
+}
+
+.sidebar:hover img.logo {
+  width: 100px;
+}
+
+
+.sidebar a,
+.sidebar router-link {
+  display: flex;
+  align-items: center;
+  color: #fff;
+  padding: 10px;
+  text-decoration: none;
+  margin: 5px 0;
+}
+
+.sidebar a:hover,
+.sidebar router-link:hover {
+  background-color: #FEA116;
+  transition: background-color 0.5s; 
+}
+
+
+.main-content {
+  margin-left: 93px; 
+  padding: 0;
+  transition: margin-left 0.5s; /* Smooth transition for the margin */
+  overflow-y: auto; /* Enable scrolling if the content is too long */
+  height: calc(100vh - 60px); 
+}
+.header {
+  background-color: #0F172B;
+  color: white;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  top: 0;
+  z-index: 1;
+  transition: 0.5s;
+  position: relative;
+}
+.card-main {
+  background-color: #f4f4f4;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow for better visibility */
+  transition: 0.5s;
+}
+.sidebar:hover ~ .card-main {
+  margin-left: 200px;
+  
+}
+.sidebar:hover ~ .header {
+  margin-left: 50px;
+}
+/* Navbar Toggler for Small Screens */
+.navbar-toggler {
+  display: none;
+  background-color: #FEA116;
+  border: none;
+  color:white;
+  cursor: pointer;
+  border-radius: 5px;
+ padding: 0;
+ margin:0;
+  position: absolute;
+  right: 20px;
+  align-items: center;
+}
+.navbar-toggler-icon{
+  padding: 0;
+  margin: 0;
+}
+.sidebar.collapsed + .navbar-toggler {
+  display: block;
+  transition: 0.3s;
+}
+
+@media (max-width: 768px) { 
+  .header {
+    display: flex;
+    align-items: center; /* Vertically center items */
+    position: relative; /* Ensure positioning context */
+  }
+  
+  /* Adjust header padding for smaller screens */
+
+  .sidebar {
+    width: 100%; /* Full width on small screens */
+    height: auto; /* Height auto adjusts */
+    position: fixed; 
+    overflow: hidden; /* Hide overflow on small screens */
+    transform: translateY(-100%); /* Hide sidebar by default on small screens */
+  
+  }
+
+  .sidebar.collapsed {
+    transform: translateY(0); /* Show sidebar when toggled */
+    position: relative; 
+    transition: 0.2s;
+  }
+  .main-content {
+    margin-left: 0;
+    height: auto;
+
+  }
+
+  .navbar-toggler {
+    display: block;
+    top: 10px;
+  } 
+  .header h1 {
+    margin-bottom: 50px; /* Adjust spacing for smaller screens */
+  }
+
+  .logout-logo-btn {
+    position: absolute;
+    bottom: 10px; /* Ensure it stays at the bottom */
+    right: 20px; /* Align to the right side */
+  }
+  
+}
 </style>

@@ -14,7 +14,7 @@ class DateModel extends Model
     protected $allowedFields = ['swimming_date'];
 
     // Dates
-    protected $useTimestamps = true;
+    protected $useTimestamps = false;
     protected $dateFormat = 'datetime';
     protected $createdField = 'created_at';
     protected $updatedField = '';
