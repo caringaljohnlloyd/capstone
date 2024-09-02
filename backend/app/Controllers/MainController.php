@@ -209,19 +209,44 @@ public function deleteMenuItem($id)
     public function saveDate()
     {
         try {
-            $request = $this->request;
+            // Get the request data as an array
+            $request = $this->request->getJSON(true);
+    
+            // Check if swimming_date is provided
+            if (!isset($request['swimming_date'])) {
+                return $this->respond(["message" => "swimming_date is required"], 400);
+            }
+    
+            // Prepare the data for insertion
             $data = [
-                'swimming_date' => $request->getPost('swimming_date'),
+                'swimming_date' => $request['swimming_date'],
             ];
-
+    
+            // Log the data to see what is being inserted
+            log_message('debug', 'Data to insert: ' . print_r($data, true));
+    
+            // Create a new instance of the DateModel
             $dateModel = new DateModel();
-            $dateModel->insert($data);
-
-            return $this->respond(["message" => "Date added successfully"], 200);
+    
+            // Attempt to insert the data
+            if ($dateModel->insert($data)) {
+                return $this->respond(["message" => "Date added successfully"], 200);
+            } else {
+                // Log validation errors if the insert fails
+                log_message('error', 'Failed to insert data: ' . print_r($dateModel->errors(), true));
+                return $this->respond(["message" => "Failed to add date: " . json_encode($dateModel->errors())], 500);
+            }
         } catch (\Exception $e) {
+            log_message('error', 'Exception occurred: ' . $e->getMessage());
             return $this->respond(["message" => "Failed to add date: " . $e->getMessage()], 500);
         }
     }
+    
+    
+    
+    
+    
+    
     public function store()
     {
         $json = $this->request->getJSON();
@@ -661,18 +686,23 @@ public function deleteMenuItem($id)
     }
     public function getDate()
     {
-        $dateSchedModel = new DateModel();
-        $dateModel = $dateSchedModel->select('swimming_date')->findAll();
-
-        // Convert dates to proper format
-        $dates = array_map(function ($date) {
-            return date('Y-m-d', strtotime($date['swimming_date']));
-        }, $dateModel);
-
-        // Log the dates before returning
-        log_message('debug', 'Dates fetched from database: ' . print_r($dates, true));
-
-        return $this->respond($dates, 200);
+        try {
+            $dateSchedModel = new DateModel();
+            $dateModel = $dateSchedModel->select('swimming_date')->findAll();
+    
+            // Convert dates to proper format
+            $dates = array_map(function ($date) {
+                return date('Y-m-d', strtotime($date['swimming_date']));
+            }, $dateModel);
+    
+            // Log the dates before returning
+            log_message('debug', 'Dates fetched from database: ' . print_r($dates, true));
+    
+            return $this->respond($dates, 200);
+        } catch (\Exception $e) {
+            log_message('error', 'Failed to fetch dates: ' . $e->getMessage());
+            return $this->respond(["message" => "Failed to fetch dates"], 500);
+        }
     }
 
 
