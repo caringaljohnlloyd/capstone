@@ -553,6 +553,135 @@
       </div>
     </div>
   </div>
+ <!-- Menu Table -->
+ <div class="row">
+ <div class="col-12">
+      <div class="card card-default">
+        <div class="card-header">
+          <h2>Menu Management</h2>
+          <button
+            type="button"
+            class="btn btn-primary"
+            @click="openAddModal"
+          >
+            Add Menu Item
+          </button>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table
+              class="table table-hover table-product"
+              style="width: 100%"
+            >
+              <thead>
+                <tr>
+                  <th>Item ID</th>
+                  <th>Item Name</th>
+                  <th>Category</th>
+                  <th>Description</th>
+                  <th>Price</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(item, index) in menuItems" :key="item.menu_id">
+                  <td>{{ item.item_id }}</td>
+                  <td>{{ item.item_name }}</td>
+                  <td>{{ item.item_category }}</td>
+                  <td>{{ item.item_description }}</td>
+                  <td>{{ item.item_price }}</td>
+                  <td>
+                    <button @click="openEditModal(item)">Edit</button>
+                    <button @click="deleteItem(item.menu_id)">Delete</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+    <!-- Add Modal -->
+    <div v-if="addModalVisible" class="modal fade show" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Add Menu Item</h5>
+            <button type="button" class="close" @click="closeAddModal">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form @submit.prevent="addMenuItem">
+              <div class="form-group">
+                <label for="itemName">Item Name</label>
+                <input type="text" id="itemName" class="form-control" v-model="newItem.item_name" required />
+              </div>
+              <div class="form-group">
+                <label for="itemCategory">Category</label>
+                <input type="text" id="itemCategory" class="form-control" v-model="newItem.item_category" required />
+              </div>
+              <div class="form-group">
+                <label for="itemDescription">Description</label>
+                <textarea id="itemDescription" class="form-control" v-model="newItem.item_description" required></textarea>
+              </div>
+              <div class="form-group">
+                <label for="itemPrice">Price</label>
+                <input type="number" id="itemPrice" class="form-control" v-model="newItem.item_price" required />
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" @click="closeAddModal">Close</button>
+                <button type="submit" class="btn btn-primary">Add Item</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Edit Modal -->
+    <div v-if="editModalVisible" class="modal fade show" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Edit Menu Item</h5>
+            <button type="button" class="close" @click="closeEditModal">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form @submit.prevent="updateMenuItem">
+              <div class="form-group">
+                <label for="editItemName">Item Name</label>
+                <input type="text" id="editItemName" class="form-control" v-model="currentItem.item_name" required />
+              </div>
+              <div class="form-group">
+                <label for="editItemCategory">Category</label>
+                <input type="text" id="editItemCategory" class="form-control" v-model="currentItem.item_category" required />
+              </div>
+              <div class="form-group">
+                <label for="editItemDescription">Description</label>
+                <textarea id="editItemDescription" class="form-control" v-model="currentItem.item_description" required></textarea>
+              </div>
+              <div class="form-group">
+                <label for="editItemPrice">Price</label>
+                <input type="number" id="editItemPrice" class="form-control" v-model="currentItem.item_price" required />
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" @click="closeEditModal">Close</button>
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Success Message -->
+    <div v-if="successMessage" class="alert alert-success" role="alert">
+      {{ successMessage }}
+    </div>
 
     <div class="row">
       <!-- Table Product -->
@@ -895,6 +1024,17 @@ components: {
 },
 data() {
   return {
+    menuItems: [],
+      addModalVisible: false,
+      editModalVisible: false,
+      newItem: {
+        item_name: '',
+        item_category: '',
+        item_description: '',
+        item_price: ''
+      },
+      currentItem: {},
+      successMessage: '',
     addDateModalVisible: false,
     successMessage: '',
     successMessage: null,
@@ -946,6 +1086,8 @@ data() {
   };
 },
 mounted() {
+  this.fetchMenuItems();
+
   this.initializeDropdowns();
   },
   beforeDestroy() {
@@ -973,6 +1115,56 @@ created() {
 },
 
 methods: {
+  async fetchMenuItems() {
+      try {
+        const response = await axios.get('/api/menu');
+        this.menuItems = response.data;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    openAddModal() {
+      this.addModalVisible = true;
+    },
+    closeAddModal() {
+      this.addModalVisible = false;
+    },
+    async addMenuItem() {
+      try {
+        await axios.post('/api/menu', this.newItem);
+        this.successMessage = 'Item added successfully!';
+        this.closeAddModal();
+        this.fetchMenuItems();
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    openEditModal(item) {
+      this.currentItem = { ...item };
+      this.editModalVisible = true;
+    },
+    closeEditModal() {
+      this.editModalVisible = false;
+    },
+    async updateMenuItem() {
+      try {
+        await axios.put(`/api/menu/${this.currentItem.menu_id}`, this.currentItem);
+        this.successMessage = 'Item updated successfully!';
+        this.closeEditModal();
+        this.fetchMenuItems();
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async deleteItem(itemId) {
+      try {
+        await axios.delete(`/api/menu/${itemId}`);
+        this.successMessage = 'Item deleted successfully!';
+        this.fetchMenuItems();
+      } catch (error) {
+        console.error(error);
+      }
+    },
   isActive(route) {
       return this.$route.path === route;
     },

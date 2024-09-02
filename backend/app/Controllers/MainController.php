@@ -28,6 +28,7 @@ use App\Models\EventModel;
 use App\Models\TableModel;
 use App\Models\MenuModel;
 use App\Models\CottageModel;
+use App\Models\ReservationModel;
 
 
 class MainController extends ResourceController
@@ -44,10 +45,55 @@ class MainController extends ResourceController
     protected $cottage;
     protected $ordersModel;
     protected $db;
+    protected $menuModel;
+
+    
     public function __construct()
     {
         $this->db = \Config\Database::connect();
+        $this->menuModel = new MenuModel(); 
+
     }
+    public function fetchMenuItems()
+{
+    try {
+        $menuItems = $this->menuModel->findAll();
+        return $this->response->setJSON($menuItems);
+    } catch (\Exception $e) {
+        return $this->response->setJSON(['error' => $e->getMessage()]);
+    }
+}
+
+public function addMenuItem()
+{
+    $input = $this->request->getPost();
+    if ($this->menuModel->save($input)) {
+        return $this->response->setJSON(['status' => 'success', 'message' => 'Item added successfully!']);
+    } else {
+        return $this->response->setJSON(['status' => 'error', 'message' => 'Failed to add item']);
+    }
+}
+
+public function updateMenuItem($id)
+{
+    $input = $this->request->getRawInput();
+    $input['menu_id'] = $id;
+    if ($this->menuModel->save($input)) {
+        return $this->response->setJSON(['status' => 'success', 'message' => 'Item updated successfully!']);
+    } else {
+        return $this->response->setJSON(['status' => 'error', 'message' => 'Failed to update item']);
+    }
+}
+
+public function deleteMenuItem($id)
+{
+    if ($this->menuModel->delete($id)) {
+        return $this->response->setJSON(['status' => 'success', 'message' => 'Item deleted successfully!']);
+    } else {
+        return $this->response->setJSON(['status' => 'error', 'message' => 'Failed to delete item']);
+    }
+}
+
     public function generateAllReports()
     {
         $dailyReports = $this->showDailyReport();
@@ -127,37 +173,39 @@ class MainController extends ResourceController
         $data = $orders->findAll();
         return $this->respond($data, 200);
     }
-
     public function cottageBooking()
     {
-        $json = $this->request->getJSON();
-
-        if (!$json || !isset($json->cottage_id) || !isset($json->selectedTime) || !isset($json->selectedTimeout) || !isset($json->id)) {
+        $json = $this->request->getJSON(true); // true to get as associative array
+    
+        if (!$json || !isset($json['cottage_id']) || !isset($json['selectedTime']) || !isset($json['selectedTimeout']) || !isset($json['user_id'])) {
             return $this->fail('Missing required parameters', 400);
         }
-
+    
         $bookingModel = new CottageBookingModel();
-
         $cottageModel = new CottageModel();
-        $cottage = $cottageModel->find($json->cottage_id);
+    
+        $cottage = $cottageModel->find($json['cottage_id']);
         if (!$cottage) {
             return $this->failNotFound('Cottage not found');
         }
-
+    
         $data = [
-            'id' => $json->id,
-            'selectedTime' => $json->selectedTime,
-            'selectedTimeout' => $json->selectedTimeout,
-            'cottage_id' => $json->cottage_id,
+            'user_id' => $json['user_id'],
+            'selectedTime' => $json['selectedTime'],
+            'selectedTimeout' => $json['selectedTimeout'],
+            'cottage_id' => $json['cottage_id'],
         ];
-
+    
         if ($bookingModel->save($data) === false) {
-            return $this->respond(['message' => 'Booking failed'], 500);
+            return $this->respond(['message' => 'Booking failed', 'errors' => $bookingModel->errors()], 500);
         }
-
+    
         return $this->respond(['message' => 'Booked successfully'], 200);
     }
-
+    
+    
+    
+    
     public function saveDate()
     {
         try {

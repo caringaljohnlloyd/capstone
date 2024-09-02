@@ -932,8 +932,7 @@
     </div>
   </div>
 
-  <div class="row">
-    <!-- Table Date -->
+  <!-- <div class="row">
     <div class="col-12">
       <div class="card card-default">
         <div class="card-header">
@@ -955,14 +954,13 @@ Add Date
               ref="datepicker"
             />
           </div>
-          <!-- Success Message -->
           <div v-if="successMessage" class="alert alert-success" role="alert">
             {{ successMessage }}
           </div>
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 
 <!-- Modal for Adding -->
 <div class="modal" :class="{ show: addDateModalVisible }">
@@ -1031,6 +1029,7 @@ components: {
 },
 data() {
   return {
+   
     addDateModalVisible: false,
 
     successMessage: null,
@@ -1083,6 +1082,7 @@ data() {
   };
 },
 mounted() {
+
   // Fetch dates from the server
   this.getDate();
 },
@@ -1096,6 +1096,8 @@ created() {
 },
 
 methods: {
+ 
+    //hanggang dito
   openAddDateModal() {
     // Implement this method
     this.addDateModalVisible = true;
@@ -1771,7 +1773,9 @@ border-bottom: 1px solid #ddd;
 }
 
 
-
+.modal.show {
+  display: block;
+}
 
 
 

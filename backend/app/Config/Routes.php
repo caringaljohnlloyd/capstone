@@ -83,7 +83,7 @@ $routes->post('/api/event/bookings', 'MainController::store');
 $routes->get('/getTable', 'MainController::getTable');
 $routes->get('/getItem', 'MainController::getItem');
 $routes->get('/getCottage', 'MainController::getCottage');
-$routes->post('/cottagebooking','MainController::cottageBooking');
+$routes->post('cottageBooking','MainController::cottageBooking');
 $routes->get('/getOrders', 'MainController::getOrders');
 $routes->get('sales-report/daily', 'MainController::showDailyReport');
 $routes->get('sales-report/monthly', 'MainController::monthlySalesReport');
@@ -104,6 +104,12 @@ $routes->group('api', ['namespace' => 'App\Controllers'], function ($routes) {
 });
 
 
+$routes->group('api', function($routes) {
+    $routes->get('menu', 'MainController::fetchMenuItems');
+    $routes->post('menu', 'MainController::addMenuItem');
+    $routes->put('menu/(:num)', 'MainController::updateMenuItem/$1');
+    $routes->delete('menu/(:num)', 'MainController::deleteMenuItem/$1');
+});
 
 
 
