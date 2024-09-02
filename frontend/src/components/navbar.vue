@@ -44,7 +44,7 @@
           </div>
           
           <nav class="navbar navbar-expand-lg bg-dark navbar-dark p-3 p-lg-0">
-            <a href="/user" class="navbar-brand d-block d-lg-none">
+  <a href="/user" class="navbar-brand d-block d-lg-none">
     <h1 class="m-0 text-primary text-uppercase">Eduardo's</h1>
   </a>
   <button
@@ -54,41 +54,6 @@
     data-bs-target="#navbarCollapse"
   >
     <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div
-              class="collapse navbar-collapse justify-content-between"
-              id="navbarCollapse"
-            >
-              <div class="navbar-nav mr-auto py-0">
-                <router-link
-                  to="/user"
-                  class="nav-item nav-link"
-                  :class="{ active: $route.path === '/user' }"
-                  >Home</router-link
-                >
-                <router-link
-                  to="/about"
-                  class="nav-item nav-link"
-                  :class="{ active: $route.path === '/about' }"
-                  >About</router-link
-                >
-                <router-link
-                  to="/service"
-                  class="nav-item nav-link"
-                  :class="{ active: $route.path === '/service' }"
-                  >Services</router-link
-                >
-                <router-link
-                  to="/shop"
-                  class="nav-item nav-link"
-                  :class="{ active: $route.path === '/shop' }"
-                  >Shop</router-link
-                >
-
-                <div class="dropdown">
-  <button class="btn btn-link dropdown-toggle" type="button" id="reservationDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Make a Reservation
   </button>
   <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
     <div class="navbar-nav mr-auto py-0">
