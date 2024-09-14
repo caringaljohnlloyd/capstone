@@ -51,8 +51,10 @@
 				<div v-for="shop in shop" class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
 					<div class="room-item shadow rounded overflow-hidden">
 						<div class="position-relative">
-							<img class="img-fluid menu" style="width: 200%; max-width: 500px; height: 330px;"
-							:src="require('@/assets/img/' + shop.prod_img)" alt="" />
+              <img class="img-fluid menu" style="width: 200%; max-width: 500px; height: 330px;"
+     :src="`http://localhost:8080/uploads/${shop.prod_img}`" alt="" />
+
+
 							<small class="position-absolute start-0 top-100 translate-middle-y bg-primary text-white rounded py-1 px-3 ms-4">
 								Php. {{ shop.prod_price }}
 							</small>
@@ -134,58 +136,49 @@
 	width: 100%; height: 338px; }
 </style>
 <script>
-	import Top from '@/components/Top.vue';
-	import navbar from '@/components/navbar.vue';
-	import feedbacks from '@/components/feedbacks.vue';
-	import End from '@/components/End.vue';
-	import StarRating from '@/components/StarRating.vue';
-	import spinner from '@/components/spinner.vue';
-	import Notification from '@/components/Notification.vue';
+import Top from '@/components/Top.vue';
+import navbar from '@/components/navbar.vue';
+import feedbacks from '@/components/feedbacks.vue';
+import End from '@/components/End.vue';
+import StarRating from '@/components/StarRating.vue';
+import spinner from '@/components/spinner.vue';
+import Notification from '@/components/Notification.vue';
 
-	import axios from 'axios'
+import axios from 'axios';
 
-	export default {
-		name:
-		'shop',
-		components: {
-			Notification,
-spinner,
-			Top,
-			navbar,
-			End,
-			feedbacks,
-			StarRating
-		},
-		data() {
-			return {
-				feed: [],
-				shop: [],
-				name: [], 
-				quantity: 1,
-				selectedQuantity: 1, // default quantity
-				notification: {
-      show: false,
-      type: "", // "success" or "error"
-      message: "",
-    },
-			}
-		},
-		mounted() {
-			this.getFeed();
-			this.getShop();
-		},
-		methods: {
-			updateRating(shop_id, rating) {
-      this.submitRatingToBackend(shop_id, rating);
-    },
-	updateQuantity(amount) {
-    // Update quantity based on the plus or minus button clicked
-    this.quantity += amount;
-    // Ensure quantity is at least 1
-    if (this.quantity < 1) {
-      this.quantity = 1;
+export default {
+  name: 'Shop',
+  components: {
+    Notification,
+    spinner,
+    Top,
+    navbar,
+    End,
+    feedbacks,
+    StarRating
+  },
+  data() {
+    return {
+      feed: [],
+      shop: [],
+      name: [], 
+      quantity: 1,
+      selectedQuantity: 1, // default quantity
+      notification: {
+        show: false,
+        type: "", // "success" or "error"
+        message: "",
+      },
     }
   },
+  mounted() {
+    this.getFeed();
+    this.getShop();
+  },
+  methods: {
+    updateRating(shop_id, rating) {
+      this.submitRatingToBackend(shop_id, rating);
+    },
     async submitRatingToBackend(shop_id, rating) {
       try {
         const response = await axios.post("/submit-rating", { shop_id, rating });
@@ -193,95 +186,72 @@ spinner,
       } catch (error) {
         console.error(error);
       }
-	},
-			async getFeed() {
-				const[g, n] = await Promise.all([axios.get("/getFeedback"), axios.get("/getData")]);
-				this.feed = g.data;
-				this.name = n.data;
-			},
-			getName(g) {
-				return this.name.find(n => n.id === g.id) || {};
-			},
-			async getRoom() {
-				const r = await axios.get("/getRoom");
-				this.room = r.data;
-			},
-			async getShop() {
-				const s = await axios.get("/getShop");
-				this.shop = s.data;
-			},
-			updateQuantity(product, increment) {
-    product.selectedQuantity = (product.selectedQuantity || 0) + increment;
+    },
+    async getFeed() {
+      const [g, n] = await Promise.all([axios.get("/getFeedback"), axios.get("/getData")]);
+      this.feed = g.data;
+      this.name = n.data;
+    },
+    async getShop() {
+      const s = await axios.get("/getShop");
+      this.shop = s.data;
+    },
+    async addCart(shop_id) {
+      // Check if the user is logged in
+      const id = sessionStorage.getItem("id");
+      if (!id) {
+        // Redirect to login if user is not logged in
+        this.$router.push({ name: 'LoginForm' });
+        return;
+      }
 
-    if (product.selectedQuantity < 0) {
-      product.selectedQuantity = 0;
-    }
-  },
+      try {
+        const product = this.shop.find(item => item.shop_id === shop_id);
+        const quantity = this.selectedQuantity; 
 
-  async addCart(shop_id, quantity) {
-  try {
-    const id = sessionStorage.getItem("id");
-    const product = this.shop.find(item => item.shop_id === shop_id);
-	const quantity = this.selectedQuantity; 
+        if (product.prod_quantity >= quantity) {
+          const response = await axios.post("getCart", {
+            shop_id: shop_id,
+            id: id,
+            quantity: quantity, 
+          });
 
-    if (product.prod_quantity >= quantity) {
-      const response = await axios.post("getCart", {
-        shop_id: shop_id,
-        id: id,
-        quantity: quantity, 
-      });
+          this.showSuccessNotification("Product added to cart successfully");
 
-	  this.showSuccessNotification("Product added to cart successfully");
-
+          // Clear success message after 2 seconds
+          setTimeout(() => {
+            this.successMessage = "";
+          }, 2000);
+        } else {
+          this.showErrorNotification("Product is out of stock");
+        }
+      } catch (error) {
+        console.error("Error adding to cart", error);
+        this.showErrorNotification("Failed to add product to cart");
+      }
+    },
+    showSuccessNotification(message) {
+      this.notification = {
+        show: true,
+        type: "success",
+        message: message,
+      };
 
       setTimeout(() => {
-        this.successMessage = "";
+        this.notification.show = false;
       }, 2000);
-    } else {
-        this.showErrorNotification("Product is out of stock");
+    },
+    showErrorNotification(message) {
+      this.notification = {
+        show: true,
+        type: "error",
+        message: message,
+      };
+
+      setTimeout(() => {
+        this.notification.show = false;
+      }, 2000);
     }
-  } catch (error) {
-    console.error("Error adding to cart", error);
   }
-},  showSuccessNotification(message) {
-    this.notification = {
-      show: true,
-      type: "success",
-      message: message,
-    };
-
-    setTimeout(() => {
-      this.notification.show = false;
-    }, 2000);
-  },
-  showErrorNotification(message) {
-    this.notification = {
-      show: true,
-      type: "error",
-      message: message,
-    };
-
-    setTimeout(() => {
-      this.notification.show = false;
-    }, 2000);
-  },
-async checkout() {
-        const confirmed = window.confirm("Proceed to checkout?");
-        if (confirmed) {
-            try {
-                const response = await axios.post("/checkout", {
-                    id: sessionStorage.getItem("id"),
-                    cart: this.cart,
-                    payment_method: 'your_payment_method',
-                });
-
-                console.log(response.data);
-
-            } catch (error) {
-                console.error("Error during checkout:", error);
-            }
-        }
-	}
-		}
-	};
+};
 </script>

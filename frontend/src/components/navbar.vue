@@ -44,79 +44,79 @@
           </div>
           
           <nav class="navbar navbar-expand-lg bg-dark navbar-dark p-3 p-lg-0">
-  <a href="/user" class="navbar-brand d-block d-lg-none">
-    <h1 class="m-0 text-primary text-uppercase">Eduardo's</h1>
-  </a>
-  <button
-    type="button"
-    class="navbar-toggler"
-    data-bs-toggle="collapse"
-    data-bs-target="#navbarCollapse"
-  >
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
-    <div class="navbar-nav mr-auto py-0">
-      <router-link to="/user" class="nav-item nav-link" :class="{ active: $route.path === '/user' }">Home</router-link>
-      <router-link to="/about" class="nav-item nav-link" :class="{ active: $route.path === '/about' }">About</router-link>
-      <router-link to="/service" class="nav-item nav-link" :class="{ active: $route.path === '/service' }">Services</router-link>
-      <router-link to="/shop" class="nav-item nav-link" :class="{ active: $route.path === '/shop' }">Shop</router-link>
+    <a href="/user" class="navbar-brand d-block d-lg-none">
+      <h1 class="m-0 text-primary text-uppercase">Eduardo's</h1>
+    </a>
+    <button
+      type="button"
+      class="navbar-toggler"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarCollapse"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+      <div class="navbar-nav mr-auto py-0">
+        <router-link to="/user" class="nav-item nav-link" :class="{ active: $route.path === '/user' }">Home</router-link>
+        <router-link to="/about" class="nav-item nav-link" :class="{ active: $route.path === '/about' }">About</router-link>
+        <router-link to="/service" class="nav-item nav-link" :class="{ active: $route.path === '/service' }">Services</router-link>
+        <router-link to="/shop" class="nav-item nav-link" :class="{ active: $route.path === '/shop' }">Shop</router-link>
 
-      <!-- Dropdown for Reservations -->
-      <div class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="reservationDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Make a Reservation
-        </a>
-        <div class="dropdown-menu" aria-labelledby="reservationDropdown">
-          <a class="dropdown-item" href="#" @click="showPackSelectionModal">Select Packs</a>
-          <a class="dropdown-item" href="#" @click="showCottageModal">Cottage Reservation</a>
-          <a class="dropdown-item" href="#" @click="showTableModal">Table Reservation</a>
+        <!-- Dropdown for Reservations -->
+        <div class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="reservationDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Make a Reservation
+          </a>
+          <div class="dropdown-menu" aria-labelledby="reservationDropdown">
+            <a class="dropdown-item" href="#" @click="showPackSelectionModal">Select Packs</a>
+            <a class="dropdown-item" href="#" @click="showCottageModal">Cottage Reservation</a>
+            <a class="dropdown-item" href="#" @click="showTableModal">Table Reservation</a>
+          </div>
         </div>
+
+        <!-- Dropdown for Pages -->
+        <div class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Pages
+          </a>
+          <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+            <router-link to="/team" class="dropdown-item">Our Team</router-link>
+            <router-link to="/testimonial" class="dropdown-item">Testimonial</router-link>
+          </div>
+        </div>
+
+        <router-link to="/contact" class="nav-item nav-link" :class="{ active: $route.path === '/contact' }">Contact</router-link>
       </div>
 
-      <!-- Dropdown for Pages -->
-      <div class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Pages
-        </a>
-        <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-          <router-link to="/team" class="dropdown-item">Our Team</router-link>
-          <router-link to="/testimonial" class="dropdown-item">Testimonial</router-link>
+      <div class="d-flex align-items-center">
+        <!-- Notifications -->
+        <div class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="notificationDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-bell"></i>
+            <span class="badge rounded-pill badge-notification bg-danger small-badge">{{ notifications.length }}</span>
+          </a>
+          <div class="dropdown-menu dropdown-menu-end bg-light m-0" aria-labelledby="notificationDropdown">
+            <template v-if="notifications.length">
+              <a v-for="(notification, index) in notifications" :key="index" class="dropdown-item" :href="notification.link">{{ notification.message }}</a>
+            </template>
+            <template v-else>
+              <p class="dropdown-item">No new notifications</p>
+            </template>
+          </div>
         </div>
-      </div>
 
-      <router-link to="/contact" class="nav-item nav-link" :class="{ active: $route.path === '/contact' }">Contact</router-link>
+        <!-- Shopping Cart -->
+        <router-link to="/shopcart" class="nav-link text-primary me-3">
+          <i class="fa fa-shopping-cart"></i>
+        </router-link>
+
+        <!-- Auth Button -->
+        <button @click="authAction" class="btn btn-primary logout-logo-btn">
+          <i :class="authIcon"></i> {{ authButtonText }}
+        </button>
+      </div>
     </div>
-
-    <div class="d-flex align-items-center">
-      <!-- Notifications -->
-      <div class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="notificationDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <i class="fas fa-bell"></i>
-          <span class="badge rounded-pill badge-notification bg-danger small-badge">{{ notifications.length }}</span>
-        </a>
-        <div class="dropdown-menu dropdown-menu-end bg-light m-0" aria-labelledby="notificationDropdown">
-          <template v-if="notifications.length">
-            <a v-for="(notification, index) in notifications" :key="index" class="dropdown-item" :href="notification.link">{{ notification.message }}</a>
-          </template>
-          <template v-else>
-            <p class="dropdown-item">No new notifications</p>
-          </template>
-        </div>
-      </div>
-
-      <!-- Shopping Cart -->
-      <router-link to="/shopcart" class="nav-link text-primary me-3">
-        <i class="fa fa-shopping-cart"></i>
-      </router-link>
-
-      <!-- Logout Button -->
-      <button @click="logout" class="btn btn-primary logout-logo-btn">
-        <i class="fas fa-power-off logout-icon"></i> Logout
-      </button>
-    </div>
-  </div>
-</nav>
+  </nav>
 
 <!-- Modals -->
 <!-- Pack Selection Modal -->
@@ -156,8 +156,9 @@
         <div class="row">
           <div v-for="room in selectedRooms" :key="room.room_id" class="col-md-6 mb-4">
             <div class="card h-100">
-              <img class="card-img-top" :src="require(`@/assets/img/${room.image}`)" alt="Room Image">
-              <div class="card-body">
+              <img class="img-fluid menu" style="width: 200%; max-width: 500px; height: 330px;"
+              :src="`http://localhost:8080/uploads/${room.image}`" alt="" />
+                            <div class="card-body">
                 <h5 class="card-title">{{ room.room_name }}</h5>
                 <p class="card-text">{{ room.description }}</p>
                 <ul class="list-group list-group-flush">
@@ -232,7 +233,6 @@
     </div>
   </div>
 </div>
-
 <!-- Table Modal -->
 <div v-if="tableModalVisible" class="modal fade show" tabindex="-1" role="dialog" style="display: block;">
   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -245,7 +245,7 @@
       </div>
       <div class="modal-body">
         <div class="row">
-          <div v-for="table in tables" :key="table.id" class="col-md-6 mb-4">
+          <div v-for="table in tables" :key="table.table_id" class="col-md-6 mb-4">
             <div class="card h-100">
               <div class="card-body">
                 <h5 class="card-title">{{ table.table_name }}</h5>
@@ -274,7 +274,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <form>
+        <form @submit.prevent="bookTableWithMenu">
           <section id="menu" class="menu section-bg">
             <div class="container" data-aos="fade-up">
               <div class="section-title">
@@ -284,23 +284,20 @@
               <div class="row" data-aos="fade-up" data-aos-delay="100">
                 <div class="col-lg-12 d-flex justify-content-center">
                   <ul id="menu-filters" class="row list-unstyled">
-                    <li class="col-md-4 col-lg-3 mb-2" @click="filterMenu('*')" :class="{ 'filter-active': currentFilter === '*' }">All</li>
-                    <li class="col-md-4 col-lg-3 mb-2" @click="filterMenu('breakfast')" :class="{ 'filter-active': currentFilter === 'breakfast' }">Breakfast</li>
-                    <li class="col-md-4 col-lg-3 mb-2" @click="filterMenu('rice')" :class="{ 'filter-active': currentFilter === 'rice' }">Rice</li>
-                    <li class="col-md-4 col-lg-3 mb-2" @click="filterMenu('noodles')" :class="{ 'filter-active': currentFilter === 'noodles' }">Noodles</li>
-                    <li class="col-md-4 col-lg-3 mb-2" @click="filterMenu('asian curry')" :class="{ 'filter-active': currentFilter === 'asian curry' }">Asian Curry</li>
-                    <li class="col-md-4 col-lg-3 mb-2" @click="filterMenu('soup')" :class="{ 'filter-active': currentFilter === 'soup' }">Soup</li>
-                    <li class="col-md-4 col-lg-3 mb-2" @click="filterMenu('refreshments')" :class="{ 'filter-active': currentFilter === 'refreshments' }">Refreshments</li>
-                    <li class="col-md-4 col-lg-3 mb-2" @click="filterMenu('sizzling')" :class="{ 'filter-active': currentFilter === 'sizzling' }">Sizzling</li>
-                    <li class="col-md-4 col-lg-3 mb-2" @click="filterMenu('filipino style')" :class="{ 'filter-active': currentFilter === 'filipino style' }">Filipino Style</li>
-                    <li class="col-md-4 col-lg-3 mb-2" @click="filterMenu('vegetables')" :class="{ 'filter-active': currentFilter === 'vegetables' }">Vegetables</li>
+                    <li v-for="category in menuCategories" :key="category" class="col-md-4 col-lg-3 mb-2" @click="filterMenu(category)" :class="{ 'filter-active': currentFilter === category }">
+                      {{ category }}
+                    </li>
                   </ul>
                 </div>
               </div>
               <div class="row menu-container" data-aos="fade-up" data-aos-delay="200">
-                <div v-for="item in filteredMenuItems" :key="item.item_id" class="col-lg-6 menu-item filter-{{ item.item_category }}">
+                <div v-for="item in filteredMenuItems" :key="item.menu_id" class="col-lg-6 menu-item" :class="`filter-${item.item_category}`">
                   <div class="menu-content">
-                    <a @click.prevent="selectMenuItem(item)">{{ item.item_name }}</a><span>${{ item.item_price }}</span>
+                    <input type="checkbox" :id="'item-' + item.menu_id" :value="item.menu_id" v-model="selectedItems[item.menu_id]">
+                    <label :for="'item-' + item.menu_id">
+                      {{ item.item_name }} - ${{ item.item_price }}
+                    </label>
+                    <input type="number" v-model.number="itemQuantities[item.menu_id]" min="1" :disabled="!selectedItems[item.menu_id]" class="ml-2" placeholder="Qty">
                   </div>
                   <div class="menu-ingredients">
                     {{ item.item_description }}
@@ -310,16 +307,24 @@
             </div>
           </section>
           <div class="form-group">
-            <label for="timeSelection">Time</label>
-            <input type="time" id="timeSelection" class="form-control" v-model="selectedTime">
+            <label for="dateTimeSelection">Date & Time</label>
+            <input type="datetime-local" id="dateTimeSelection" class="form-control" v-model="selectedDateTime" required :min="minDateTime">
           </div>
-          <button type="button" class="btn btn-primary" @click="bookMenuAndTime">Book</button>
+          <button type="submit" class="btn btn-primary">Book Table with Menu</button>
         </form>
       </div>
     </div>
   </div>
 </div>
 
+
+
+
+
+
+    
+    <!-- Notification Component -->
+    <Notification v-if="notification.show" :type="notification.type" :message="notification.message" />
 
 
 
@@ -372,6 +377,7 @@ export default {
   },
   data() {
     return {
+      errors: {}, // To store validation error messages
       query: "",
       data: [],
       showData: false,
@@ -381,297 +387,443 @@ export default {
       packSelectionModalVisible: false,
       packs: 3,
       roomModalVisible: false,
-      selectedRooms: [], // Change from selectedRoom to selectedRooms
+      selectedRooms: [],
       cottageModalVisible: false,
-    tableModalVisible: false,
-    tables: [], // Data array to store table data
-    menus: [], // you might need to fetch this data from your backend
-    menuModalVisible: false,
-    currentTable: null,
-    filteredMenuItems: [],
-    currentFilter: '*',
-    selectedMenuItem: null,
-    menuItems: [], // Initialized as an empty array
-    cottages: [],  
-    cottageModalVisible: false, 
-    timeSelectionModalVisible: false,
-    selectedCottage: null,
-    selectedTime: '',
-    selectedTimeout: '',
-    minDate: new Date().toISOString().slice(0, 16), 
-    notification: {
-      show: false,
-      type: "", 
-      message: "",
-    },
+      tableModalVisible: false,
+      tables: [],
+      menus: [],
+      menuModalVisible: false,
+      currentTable: null,
+      filteredMenuItems: [],
+      currentFilter: '*',
+      selectedMenuItem: null,
+      menuItems: [],
+      cottages: [],
+      timeSelectionModalVisible: false,
+      selectedCottage: null,
+      selectedTime: '',
+      selectedTimeout: '',
+      minDate: new Date().toISOString().slice(0, 16),
+      selectedDateTime: "", // To hold the combined date and time
+      itemQuantities: {}, // Track quantities by item IDs
+      selectedItems: {}, // Track selected items by their IDs
+      minDateTime: this.getMinDateTime(), // Minimum date-time for selection
+      notification: {
+        show: false,
+        type: "",
+        message: "",
+      },
+      menuCategories: ['All', 'breakfast', 'rice', 'noodles', 'asian curry', 'soup', 'refreshments', 'sizzling', 'filipino style', 'vegetables']
     };
+
+  },
+  computed: {
+    isAuthenticated() {
+      return !!sessionStorage.getItem("token");
+    },
+    authButtonText() {
+      return this.isAuthenticated ? 'Logout' : 'Login';
+    },
+    authIcon() {
+      return this.isAuthenticated ? 'fas fa-power-off logout-icon' : 'fas fa-sign-in-alt login-icon';
+    }
+  },
+  created() {
+    // Initialize data and fetch items
+    this.fetchMenuItems();
+    this.filterMenu('*');
+    this.fetchCottages();
   },
   methods: {
-
-    async reserveTable() {
-    try {
-      const userId = sessionStorage.getItem("id");
-      const tableId = this.currentTable ? this.currentTable.table_id : null;
-      const reservationTime = new Date(this.selectedTime).toISOString();
-
-      if (!userId || !tableId || !this.selectedTime) {
-        throw new Error("Missing required parameters. Please ensure all fields are filled.");
+    authAction() {
+      if (this.isAuthenticated) {
+        this.logout();
+      } else {
+        this.$router.push('/login');
       }
+    },
+    // Method to check if the user is authenticated
+    checkAuth() {
+      const userId = sessionStorage.getItem("id");
+      if (!userId) {
+        this.$router.push({ name: 'LoginForm' });
+        return false;
+      }
+      return true;
+    },
 
-      const response = await axios.post("/reserveTable", {
+    getMinDateTime() {
+      const now = new Date();
+      now.setMinutes(now.getMinutes() - now.getMinutes() % 15); 
+      return now.toISOString().slice(0, 16); 
+    },
+
+    // Toggle item selection
+    selectMenuItem(item) {
+            console.log("Item selected:", item); // Log item to verify structure
+            if (item && item.menu_id) {
+                this.$set(this.selectedItems, item.menu_id, !this.selectedItems[item.menu_id]);
+            } else {
+                console.error("Item or menu_id is undefined");
+            }
+        },
+        async bookTableWithMenu() {
+    if (!this.checkAuth()) return;
+
+    if (!this.selectedDateTime) {
+        this.showNotification('error', 'Please select date and time.');
+        return;
+    }
+
+    // Initialize reservationDateTime
+    const reservationDateTime = new Date(this.selectedDateTime);
+
+    // Ensure the selected date and time is in the future
+    if (reservationDateTime <= new Date()) {
+        this.showNotification('error', 'The selected date and time must be in the future.');
+        return;
+    }
+
+    // Convert to ISO 8601 format manually
+    const reservationTimeISO = reservationDateTime.toISOString().replace(/(\.\d{3})(\d+)(Z)$/, '$1$3'); // Optional: remove milliseconds
+
+    // Ensure at least one menu item is selected
+    const selectedItemIds = Object.keys(this.selectedItems).filter(itemId => this.selectedItems[itemId]);
+    if (selectedItemIds.length === 0) {
+        this.showNotification('error', 'Please select at least one menu item.');
+        return;
+    }
+
+    // Prepare the order items payload
+    const orderItems = selectedItemIds.map(itemId => ({
+        menu_id: parseInt(itemId, 10), // Ensure menu_id is an integer
+        quantity: parseInt(this.itemQuantities[itemId] || 1, 10) // Ensure quantity is an integer
+    }));
+
+    // Extract userId and tableId
+    const userId = parseInt(sessionStorage.getItem("id"), 10); // Ensure userId is an integer
+    const tableId = this.currentTable ? parseInt(this.currentTable.table_id, 10) : null; // Ensure tableId is an integer
+
+    // Check for missing required parameters
+    if (!userId || !tableId || !this.selectedDateTime) {
+        this.showNotification('error', 'Missing required parameters. Please ensure all fields are filled.');
+        return;
+    }
+
+    // Log the payload for debugging
+    console.log('Payload being sent:', {
         user_id: userId,
         table_id: tableId,
-        reservation_time: reservationTime,
-      });
+        reservation_time: reservationTimeISO,
+        order_items: orderItems
+    });
 
-      if (response.status === 200) {
+    try {
+        // Send the request to the server to create the reservation
+        const createResponse = await axios.post("/reservations", {
+            user_id: userId,
+            table_id: tableId,
+            reservation_time: reservationTimeISO,
+            order_items: orderItems
+        }, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (createResponse.status === 200) {
+            // Handle successful response
+            this.showNotification('success', createResponse.data.message || 'Table reservation with menu successful!');
+            this.errors = {}; // Clear errors on successful request
+            this.resetForm(); // Reset the form
+            console.log('Reservation ID:', createResponse.data.reservation_id);
+        }
+    } catch (error) {
+        console.error("Error reserving table with menu", error);
+        if (error.response) {
+            console.error('Server responded with:', error.response.data);
+            this.errors = error.response.data.errors || {}; // Set errors from server response
+            this.showNotification('error', error.response.data.message || "Reservation failed");
+        }
+    }
+},
+        showNotification(type, message) {
+            this.notification = { show: true, type, message };
+            setTimeout(() => this.notification.show = false, 2000);
+        },
+        resetForm() {
+            this.selectedDateTime = "";
+            this.selectedItems = {};
+            this.itemQuantities = {};
+            this.closeMenuModal();
+        },
+        checkAuth() {
+            // Add your authentication check logic here
+            return true;
+        },
+        closeMenuModal() {
+            // Logic to close the menu modal
+        },
+
+    async bookCottage() {
+      if (!this.checkAuth()) return; // Check authentication before proceeding
+
+      this.notification.show = false;
+      try {
+        const userId = sessionStorage.getItem("id");
+        const cottageId = this.selectedCottage ? this.selectedCottage.cottage_id : null;
+
+        console.log('User ID:', userId);
+        console.log('Cottage ID:', cottageId);
+        console.log('Selected Time:', this.selectedTime);
+        console.log('Selected Timeout:', this.selectedTimeout);
+
+        if (!userId || !cottageId || !this.selectedTime || !this.selectedTimeout) {
+          throw new Error("Missing required parameters. Please ensure all fields are filled.");
+        }
+
+        const selectedTimeISO = new Date(this.selectedTime).toISOString();
+        const selectedTimeoutISO = new Date(this.selectedTimeout).toISOString();
+
+        const response = await axios.post("cottageBooking", {
+          user_id: userId,
+          selectedTime: selectedTimeISO,
+          selectedTimeout: selectedTimeoutISO,
+          cottage_id: cottageId,
+        });
+
+        if (response.status === 200) {
+          this.notification = {
+            show: true,
+            type: 'success',
+            message: response.data.message || 'Booking successful!'
+          };
+          this.selectedTime = "";
+          this.selectedTimeout = "";
+          setTimeout(() => this.notification.show = false, 2000);
+        }
+      } catch (error) {
+        console.error("Error booking", error);
         this.notification = {
           show: true,
-          type: 'success',
-          message: response.data.message || 'Table reservation successful!'
+          type: 'error',
+          message: error.response?.data?.message || "Booking failed"
         };
-        this.selectedTime = ""; // Clear selected time
-        this.closeMenuModal(); // Close the modal after successful reservation
         setTimeout(() => this.notification.show = false, 2000);
       }
-    } catch (error) {
-      console.error("Error reserving table", error);
-      this.notification = {
-        show: true,
-        type: 'error',
-        message: error.response?.data?.message || "Table reservation failed"
-      };
-      setTimeout(() => this.notification.show = false, 2000);
-    }
-  },
-  selectMenuItem(item) {
-    this.selectedMenuItem = item;
-    console.log(`Selected Menu Item: ${item.item_name}`); // For debugging
-  },
-
-  bookMenuAndTime() {
-    if (this.selectedMenuItem) {
-      console.log(`Booking ${this.selectedMenuItem.item_name} for ${this.currentTable.table_name} at ${this.selectedTime}`);
-      this.reserveTable(); // Call reserveTable instead
-    } else {
-      alert("Please select a menu item.");
-    }
-  },
-    async bookCottage() {
-  this.notification.show = false;
-  try {
-    // Retrieve the cottage ID and user ID from sessionStorage
-    const userId = sessionStorage.getItem("id");
-    const cottageId = this.selectedCottage ? this.selectedCottage.cottage_id : null;
-
-    // Log values for debugging
-    console.log('User ID:', userId);
-    console.log('Cottage ID:', cottageId);
-    console.log('Selected Time:', this.selectedTime);
-    console.log('Selected Timeout:', this.selectedTimeout);
-
-    // Ensure all required parameters are present
-    if (!userId || !cottageId || !this.selectedTime || !this.selectedTimeout) {
-      throw new Error("Missing required parameters. Please ensure all fields are filled.");
-    }
-
-    // Format time if needed (e.g., ISO string)
-    const selectedTimeISO = new Date(this.selectedTime).toISOString();
-    const selectedTimeoutISO = new Date(this.selectedTimeout).toISOString();
-
-    // Make the POST request with the required parameters
-    const response = await axios.post("cottageBooking", {
-      user_id: userId,          // Corrected key
-      selectedTime: selectedTimeISO,
-      selectedTimeout: selectedTimeoutISO,
-      cottage_id: cottageId,   // Corrected key
-    });
-
-    // Handle successful response
-    if (response.status === 200) {
-      this.notification = {
-        show: true,
-        type: 'success',
-        message: response.data.message || 'Booking successful!'
-      };
-      // Reset selected time and timeout
-      this.selectedTime = "";
-      this.selectedTimeout = "";
-      // Hide notification after 2 seconds
-      setTimeout(() => this.notification.show = false, 2000);
-    }
-  } catch (error) {
-    console.error("Error booking", error);
-    if (error.response) {
-      console.log("Detailed Error Response: ", error.response.data);
-    } else {
-      console.log("Error details: ", error.message);
-    }
-    // Display error notification
-    this.notification = {
-      show: true,
-      type: 'error',
-      message: error.response?.data?.message || "Booking failed" // Corrected path
-    };
-    // Hide notification after 2 seconds
-    setTimeout(() => this.notification.show = false, 2000);
-  }
-},
-
-
+    },
 
     calculateCheckoutTime() {
-        if (this.selectedTime) {
-          let checkinDate = new Date(this.selectedTime);
-          let timezoneOffset = checkinDate.getTimezoneOffset();
-          checkinDate.setHours(checkinDate.getHours() + 6);
-          checkinDate.setMinutes(checkinDate.getMinutes() - timezoneOffset);
-          let checkoutTimeString = checkinDate.toISOString().slice(0, 16);
-          this.selectedTimeout = checkoutTimeString;
-        }
-      },
-      openTimeSelectionModal(cottage) {
-    this.selectedCottage = cottage;
-    this.timeSelectionModalVisible = true;
-    this.cottageModalVisible = false;
-  },
+      if (this.selectedTime) {
+        let checkinDate = new Date(this.selectedTime);
+        let timezoneOffset = checkinDate.getTimezoneOffset();
+        checkinDate.setHours(checkinDate.getHours() + 6);
+        checkinDate.setMinutes(checkinDate.getMinutes() - timezoneOffset);
+        let checkoutTimeString = checkinDate.toISOString().slice(0, 16);
+        this.selectedTimeout = checkoutTimeString;
+      }
+    },
 
+    openTimeSelectionModal(cottage) {
+      this.selectedCottage = cottage;
+      this.timeSelectionModalVisible = true;
+      this.cottageModalVisible = false;
+    },
 
-  closeTimeSelectionModal() {
-    this.timeSelectionModalVisible = false;
-  },
+    closeTimeSelectionModal() {
+      this.timeSelectionModalVisible = false;
+    },
+
     fetchCottages() {
-    axios.get('/getCottage')
-      .then(response => {
-        this.cottages = response.data;  // Assuming the response data is the array of cottages
-      })
-      .catch(error => {
-        console.error('Error fetching cottages:', error);
-        alert('Failed to load cottages. Please try again.'); // Inform the user in case of an error
-      });
-  },
-    fetchMenuItems() {
-  axios.get('/getItem')
-    .then(response => {
-      this.menuItems = response.data;
-      this.filterMenu(this.currentFilter); // Ensure this only runs after data is fetched
-    })
-    .catch(error => {
-      console.error('Failed to load menu items', error);
-      this.menuItems = []; // Ensure menuItems is set to an empty array on error
-    });
-},
-filterMenu(item_category) {
-  this.currentFilter = item_category;
-  if (this.menuItems && this.menuItems.length > 0) {
-    this.filteredMenuItems = this.menuItems.filter(item => item_category === '*' || item.item_category === item_category);
-  } else {
-    // Possibly handle the empty or undefined case, e.g., by setting filteredMenuItems to an empty array
-    this.filteredMenuItems = [];
-  }
-},
+      axios.get('/getCottage')
+        .then(response => {
+          this.cottages = response.data;
+        })
+        .catch(error => {
+          console.error('Error fetching cottages:', error);
+          alert('Failed to load cottages. Please try again.');
+        });
+    },
 
-  selectMenuItem(item) {
-    this.selectedMenuItem = item;
-  },
+    fetchMenuItems() {
+      axios.get('/getItem')
+        .then(response => {
+          this.menuItems = response.data;
+          this.filterMenu(this.currentFilter);
+        })
+        .catch(error => {
+          console.error('Failed to load menu items', error);
+          this.menuItems = [];
+        });
+    },
+
+    filterMenu(item_category) {
+      this.currentFilter = item_category;
+      if (this.menuItems && this.menuItems.length > 0) {
+        this.filteredMenuItems = this.menuItems.filter(item => item_category === '*' || item.item_category === item_category);
+      } else {
+        this.filteredMenuItems = [];
+      }
+    },
+
+    selectMenuItem(item) {
+      this.selectedMenuItem = item;
+    },
+
     openMenuModal(table) {
-    this.currentTable = table;
-    this.menuModalVisible = true;
-  },
-  closeMenuModal() {
-    this.menuModalVisible = false;
-  },
-  bookMenuAndTime() {
-    console.log(`Booking ${this.selectedMenu} for ${this.currentTable.table_name} at ${this.selectedTime}`);
-    this.closeMenuModal();
-  },
-  showCottageModal() {
-  this.fetchCottages();
-  this.cottageModalVisible = true;
-},
+      this.currentTable = table;
+      this.menuModalVisible = true;
+    },
+
+    closeMenuModal() {
+      this.menuModalVisible = false;
+    },
+
+    bookMenuAndTime() {
+      console.log(`Booking ${this.selectedMenu} for ${this.currentTable.table_name} at ${this.selectedTime}`);
+      this.closeMenuModal();
+    },
+
+    showCottageModal() {
+      this.fetchCottages();
+      this.cottageModalVisible = true;
+    },
+
     closeCottageModal() {
       this.cottageModalVisible = false;
     },
+
     showTableModal() {
       this.tableModalVisible = true;
-      this.fetchTables(); // Fetch tables when the modal is about to show
-
+      this.fetchTables();
     },
+
     closeTableModal() {
       this.tableModalVisible = false;
     },
-    // Method to close the room modal
+
     closeRoomModal() {
       this.roomModalVisible = false;
     },
+
     fetchTables() {
-      axios.get('/getTable') // Using the Axios instance to make a GET request
+      axios.get('/getTable')
         .then(response => {
-          this.tables = response.data; // Assign response data to tables data property
+          this.tables = response.data;
         })
         .catch(error => {
           console.error('Error fetching tables:', error);
-          alert('Failed to load tables. Please try again.'); // Inform the user in case of an error
+          alert('Failed to load tables. Please try again.');
         });
     },
-    // Method to book the selected room
-    bookSelectedRooms() {
-    const selectedRoomIds = this.selectedRooms
-      .filter(room => room.selected)
-      .map(room => room.room_id);
 
-    if (selectedRoomIds.length > 0) {
-      // Redirect to booking page for each selected room
-      selectedRoomIds.forEach(roomId => {
-        this.$router.push({ name: "booking", params: { id: roomId } });
-      });
-    } else {
-      // Show an alert or message indicating that no rooms are selected
-      alert("Please select at least one room to book.");
-    }
-  },
+    bookSelectedRooms() {
+      const selectedRoomIds = this.selectedRooms
+        .filter(room => room.selected)
+        .map(room => room.room_id);
+
+      if (selectedRoomIds.length > 0) {
+        selectedRoomIds.forEach(roomId => {
+          this.$router.push({ name: "booking", params: { id: roomId } });
+        });
+      } else {
+        alert("Please select at least one room to book.");
+      }
+    },
+
     showPackSelectionModal() {
       this.packSelectionModalVisible = true;
     },
+
     closePackSelectionModal() {
       this.packSelectionModalVisible = false;
     },
 
     async savePackSelectionAndRedirect() {
-  this.closePackSelectionModal();
+      this.closePackSelectionModal();
 
-  axios
-    .get(`/rooms/total_pax/${this.packs}`)
-    .then((response) => {
-      console.log(response.data);
+      axios
+        .get(`/rooms/total_pax/${this.packs}`)
+        .then((response) => {
+          console.log(response.data);
 
-      const roomDetails = response.data;
+          const roomDetails = response.data;
 
-      if (roomDetails && roomDetails.length > 0) {
-        this.selectedRooms = roomDetails; // Change selectedRoom to selectedRooms
-        this.roomModalVisible = true; 
-      }
-    })
-    .catch((error) => {
-      console.error("Error fetching rooms:", error);
-    });
-},
+          if (roomDetails && roomDetails.length > 0) {
+            this.selectedRooms = roomDetails;
+            this.roomModalVisible = true; 
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching rooms:", error);
+        });
+    },
 
     async logout() {
-      try {
-        const response = await axios.post("/logout");
+  try {
+    // Send logout request to the backend
+    const response = await axios.post("/logout");
 
-        if (response.status === 200) {
-          console.log("Logout successful");
+    if (response.status === 200) {
+      console.log("Logout successful");
 
-          sessionStorage.removeItem("token");
+      // Clear session storage data
+      sessionStorage.removeItem("token");
+      sessionStorage.removeItem("id");
 
-          this.$router.push("/");
-        }
-      } catch (error) {
-        console.error("Error during logout", error);
-      }
-    },
+      // Clear local storage data (if used)
+      localStorage.clear();
+
+      // Clear all component state related to the user
+      this.userInfo = {}; // Clear any user-specific data in the component state
+      this.user = []; // Clear user data array
+      this.notifications = []; // Clear notifications if applicable
+      this.eventName = ""; // Clear event-related data
+      this.eventTheme = "";
+      this.eventDate = "";
+      this.manifest = ""; // Clear manifest-related data
+      this.hasBooking = false; // Reset booking status
+      this.feed = []; // Clear feedback data
+
+      // Optionally, clear cookies if any exist
+      document.cookie.split(";").forEach((cookie) => {
+        document.cookie = cookie
+          .replace(/^ +/, "")
+          .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+      });
+
+      // Show a success message
+      this.notification = {
+        show: true,
+        type: 'success',
+        message: 'You have been logged out successfully.'
+      };
+
+      // Reload the page after a short delay to allow the notification to be seen
+      setTimeout(() => {
+        window.location.reload(); // Reloads the current page
+      }, 1000); // Adjust the delay as needed (1 second here)
+    } else {
+      throw new Error("Logout failed");
+    }
+  } catch (error) {
+    console.error("Error during logout", error);
+
+    // Optionally, display an error message to the user
+    this.notification = {
+      show: true,
+      type: 'error',
+      message: 'Logout failed. Please try again.'
+    };
+
+    // Hide the notification after a short delay
+    setTimeout(() => {
+      this.notification.show = false;
+    }, 2000); // Hide after 2 seconds
+  }
+},
+
+
     async getData() {
       try {
         const response = await axios.get(`/search/${this.query}`);
@@ -683,15 +835,17 @@ filterMenu(item_category) {
         console.error(error);
       }
     },
+
     async fetchNotifications() {
       const id = sessionStorage.getItem("id");
       try {
-        const response = await axios.get(`/getNotif/${id}`); // Replace with your actual endpoint
+        const response = await axios.get(`/getNotif/${id}`);
         this.notifications = response.data;
       } catch (error) {
         console.error("Error fetching notifications:", error);
       }
     },
+
     closeDataList(event) {
       const appElement = this.$refs.appRef;
       if (appElement && !appElement.contains(event.target)) {
@@ -702,25 +856,25 @@ filterMenu(item_category) {
     },
   },
   created() {
-  this.fetchMenuItems();  // Initially fetch all menu items
-  this.filterMenu('*');  // Apply initial filter
-  this.fetchCottages();  // Fetch cottages when the component is created
-
-},
+    this.fetchMenuItems();
+    this.filterMenu('*');
+    this.fetchCottages();
+  },
   mounted() {
-    this.fetchNotifications(); // Fetch notifications when the component is mounted
+    this.fetchNotifications();
     document.addEventListener("click", this.closeDataList);
   },
   beforeUnmount() {
     document.removeEventListener("click", this.closeDataList);
   },
   watch: {
-      selectedTime(newValue) {
-        this.calculateCheckoutTime();
-      },
+    selectedTime(newValue) {
+      this.calculateCheckoutTime();
     },
+  },
 };
 </script>
+
 <style>
 @import "@/assets/css/bootstrap.min.css";
 @import "@/assets/css/style.css";
@@ -735,6 +889,19 @@ filterMenu(item_category) {
     max-width: 90vw;
   }
 }
+.menu-item input[type="number"] {
+  width: 60px;
+  margin-left: 10px;
+}
+
+.menu-item input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+.menu-item label {
+  cursor: pointer;
+}
+
 
 @media (min-width: 768px) { /* Medium devices (tablets) */
   .modal-dialog {

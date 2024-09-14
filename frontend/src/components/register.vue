@@ -47,7 +47,10 @@
           <div class="alert" :class="{ 'alert-danger': !isValid || !passwordsMatch || errorMessage, 'alert-success': passwordsMatch }" v-if="showMessage">{{ errorMessage || message }}</div>
 
           <!-- Success Message -->
-          <div class="alert alert-success" v-if="registered">Successfully registered!</div>
+          <div class="alert alert-success" v-if="registered && !emailSent">Successfully registered! Please check your email for authentication.</div>
+
+          <!-- Email Sent Message -->
+          <div class="alert alert-info" v-if="emailSent">Please check your email for authentication instructions.</div>
 
           <!-- Submit Button with Hover Effect -->
           <button type="submit" class="btn btn-primary mx-auto w-100 mb-3" :disabled="!passwordsMatch">Sign up</button>
@@ -62,6 +65,7 @@
   </div>
 </template>
 
+
 <script>
 import axios from 'axios';
 
@@ -72,10 +76,11 @@ export default {
       email: "",
       password: "",
       confirmpassword: "",
-      address: "", // Added address field
-      number: "", // Added number field
+      address: "",
+      number: "",
       showMessage: false,
       registered: false,
+      emailSent: false, // New state to track if email has been sent
       errorMessage: "", 
     };
   },
@@ -111,21 +116,29 @@ export default {
           email: this.email,
           password: this.password,
           confirmpassword: this.confirmpassword,
-          address: this.address, // Include address field
-          number: this.number,   // Include number field
-        })
+          address: this.address,
+          number: this.number,
+        });
+
+        // Clear form fields
         this.name = "";
         this.email = "";
         this.password = "";
         this.confirmpassword = "";
-        this.address = ""; // Clear address field after registration
-        this.number = "";  // Clear number field after registration
+        this.address = "";
+        this.number = "";
+
+        // Update state
         this.registered = true;
+        this.emailSent = true; // Set to true after successful registration
         this.showMessage = false;
         this.errorMessage = ""; 
+
+        // Reset the form
         this.$refs.registerForm.reset();
+
+        // Emit event or handle additional logic if needed
         this.$emit('data-saved');
-        this.getInfo();
         
       } catch (error) {
         if (error.response && error.response.data && error.response.data.error) {
@@ -139,6 +152,7 @@ export default {
   }
 };
 </script>
+
 
 <style scoped>
 @import '@/assets/css/bootstrap.min.css';

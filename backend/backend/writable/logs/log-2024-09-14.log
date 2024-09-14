@@ -1,0 +1,14 @@
+CRITICAL - 2024-09-14 12:43:18 --> Call to a member function save() on null
+in APPPATH\Controllers\MainController.php on line 146.
+ 1 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->createReservation()
+ 2 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 3 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstonee\\backend\\backend\\public\\index.php')
+CRITICAL - 2024-09-14 12:50:11 --> Call to a member function validate() on null
+in APPPATH\Controllers\MainController.php on line 278.
+ 1 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->addMenuItem()
+ 2 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 3 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstonee\\backend\\backend\\public\\index.php')

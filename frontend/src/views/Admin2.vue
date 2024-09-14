@@ -574,7 +574,7 @@
           <button
             type="button"
             class="btn btn-primary"
-            @click="openAddModal"
+            @click="openAddItemModal"
           >
             Add Menu Item
           </button>
@@ -587,24 +587,20 @@
             >
               <thead>
                 <tr>
-                  <th>Item ID</th>
                   <th>Item Name</th>
                   <th>Category</th>
-                  <th>Description</th>
                   <th>Price</th>
                   <th>Action</th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(item, index) in menuItems" :key="item.menu_id">
-                  <td>{{ item.item_id }}</td>
                   <td>{{ item.item_name }}</td>
                   <td>{{ item.item_category }}</td>
-                  <td>{{ item.item_description }}</td>
                   <td>{{ item.item_price }}</td>
                   <td>
-                    <button @click="openEditModal(item)">Edit</button>
-                    <button @click="deleteItem(item.menu_id)">Delete</button>
+                    <button @click="openEditModal(item)" class="btn btn-primary" >Edit</button>
+                    <!-- <button @click="deleteItem(item.menu_id)" class="btn btn-primary">Delete</button> -->
                   </td>
                 </tr>
               </tbody>
@@ -613,75 +609,73 @@
         </div>
       </div>
     </div>
+
   </div>
     <!-- Add Modal -->
-    <div v-if="addModalVisible" class="modal fade show" tabindex="-1" role="dialog">
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Add Menu Item</h5>
-            <button type="button" class="close" @click="closeAddModal">
-              <span aria-hidden="true">&times;</span>
-            </button>
+    <div v-if="addModalItemVisible" class="modal fade show" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add Menu Item</h5>
+        <button type="button" class="close" @click="closeAddItemModal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form @submit.prevent="addMenuItem">
+          <div class="form-group">
+            <label for="item_name">Item Name</label>
+            <input type="text" id="item_name" class="form-control" v-model="newItem.item_name" required />
           </div>
-          <div class="modal-body">
-            <form @submit.prevent="addMenuItem">
-              <div class="form-group">
-                <label for="itemName">Item Name</label>
-                <input type="text" id="itemName" class="form-control" v-model="newItem.item_name" required />
-              </div>
-              <div class="form-group">
-                <label for="itemCategory">Category</label>
-                <input type="text" id="itemCategory" class="form-control" v-model="newItem.item_category" required />
-              </div>
-              <div class="form-group">
-                <label for="itemDescription">Description</label>
-                <textarea id="itemDescription" class="form-control" v-model="newItem.item_description" required></textarea>
-              </div>
-              <div class="form-group">
-                <label for="itemPrice">Price</label>
-                <input type="number" id="itemPrice" class="form-control" v-model="newItem.item_price" required />
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" @click="closeAddModal">Close</button>
-                <button type="submit" class="btn btn-primary">Add Item</button>
-              </div>
-            </form>
+          <div class="form-group">
+            <label for="item_category">Category</label>
+            <input type="text" id="item_category" class="form-control" v-model="newItem.item_category" required />
           </div>
-        </div>
+          
+          <div class="form-group">
+            <label for="item_price">Price</label>
+            <input type="number" id="item_price" class="form-control" v-model="newItem.item_price" required />
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" @click="closeAddItemModal">Close</button>
+            <button type="submit" class="btn btn-primary">Add Item</button>
+          </div>
+        </form>
       </div>
     </div>
+  </div>
+  <div v-if="successMessage" class="alert alert-success" role="alert">
+    {{ successMessage }}
+  </div>
+</div>
 
     <!-- Edit Modal -->
-    <div v-if="editModalVisible" class="modal fade show" tabindex="-1" role="dialog">
+    <div v-if="editModalItemVisible" class="modal fade show" tabindex="-1" role="dialog">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title">Edit Menu Item</h5>
-            <button type="button" class="close" @click="closeEditModal">
+            <button type="button" class="close" @click="closeEditItemModal">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
             <form @submit.prevent="updateMenuItem">
               <div class="form-group">
-                <label for="editItemName">Item Name</label>
-                <input type="text" id="editItemName" class="form-control" v-model="currentItem.item_name" required />
+                <label for="editItem_name">Item Name</label>
+                <input type="text" id="editItem_name" class="form-control" v-model="currentItem.item_name" required />
               </div>
               <div class="form-group">
-                <label for="editItemCategory">Category</label>
-                <input type="text" id="editItemCategory" class="form-control" v-model="currentItem.item_category" required />
+                <label for="editItem_category">Category</label>
+                <input type="text" id="editItem_category" class="form-control" v-model="currentItem.item_category" required />
               </div>
+             
               <div class="form-group">
-                <label for="editItemDescription">Description</label>
-                <textarea id="editItemDescription" class="form-control" v-model="currentItem.item_description" required></textarea>
-              </div>
-              <div class="form-group">
-                <label for="editItemPrice">Price</label>
-                <input type="number" id="editItemPrice" class="form-control" v-model="currentItem.item_price" required />
+                <label for="editItem_price">Price</label>
+                <input type="number" id="editItem_price" class="form-control" v-model="currentItem.item_price" required />
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" @click="closeEditModal">Close</button>
+                <button type="button" class="btn btn-secondary" @click="closeEditItemModal">Close</button>
                 <button type="submit" class="btn btn-primary">Save Changes</button>
               </div>
             </form>
@@ -690,10 +684,6 @@
       </div>
     </div>
 
-    <!-- Success Message -->
-    <div v-if="successMessage" class="alert alert-success" role="alert">
-      {{ successMessage }}
-    </div>
 
     <div class="row">
       <!-- Table Product -->
@@ -1037,16 +1027,16 @@ components: {
 data() {
   return {
     menuItems: [],
-      addModalVisible: false,
-      editModalVisible: false,
+      addModalItemVisible: false,
+      editModalItemVisible: false,
       newItem: {
         item_name: '',
         item_category: '',
-        item_description: '',
         item_price: ''
       },
-      currentItem: {},
       successMessage: '',
+      errorMessage: '',
+      currentItem: {},
     addDateModalVisible: false,
     successMessageDate: null,
     successMessage: null,
@@ -1136,28 +1126,63 @@ methods: {
         console.error(error);
       }
     },
-    openAddModal() {
-      this.addModalVisible = true;
+    openAddItemModal() {
+      this.addModalItemVisible = true;
     },
-    closeAddModal() {
-      this.addModalVisible = false;
+    closeAddItemModal() {
+      this.addModalItemVisible = false;
     },
     async addMenuItem() {
-      try {
-        await axios.post('/api/menu', this.newItem);
-        this.successMessage = 'Item added successfully!';
-        this.closeAddModal();
-        this.fetchMenuItems();
-      } catch (error) {
-        console.error(error);
-      }
+  try {
+    const response = await axios.post("http://localhost:8080/addMenuItem", {
+      item_name: this.newItem.item_name,
+      item_category: this.newItem.item_category,
+      item_price: this.newItem.item_price
+    });
+
+    if (response.data.status === "success") {
+      this.showSuccessNotification(response.data.message);
+      this.closeAddModal();
+    } else {
+      console.error("Error from server:", response.data.message, response.data.errors);
+      this.showErrorNotification(response.data.message);
+    }
+  } catch (error) {
+    console.error("An error occurred:", error);
+    if (error.response) {
+      console.error("Server responded with a status:", error.response.status);
+      console.error("Response data:", error.response.data);
+      console.error("Response headers:", error.response.headers);
+      this.showErrorNotification(`Server error: ${error.response.data.message}`);
+    } else if (error.request) {
+      console.error("No response received:", error.request);
+      this.showErrorNotification("No response received from server.");
+    } else {
+      console.error("Error setting up request:", error.message);
+      this.showErrorNotification("Error setting up request: " + error.message);
+    }
+  }
+},
+
+    clearForm() {
+      this.newItem = {
+        item_name: '',
+        item_category: '',
+        item_price: null,
+      };
     },
-    openEditModal(item) {
+    showSuccessNotification(message) {
+      this.successMessage = message;
+      setTimeout(() => {
+        this.successMessage = '';
+      }, 3000); // Clear the message after 3 seconds
+    },
+    openEditItemModal(item) {
       this.currentItem = { ...item };
-      this.editModalVisible = true;
+      this.editModalItemVisible = true;
     },
-    closeEditModal() {
-      this.editModalVisible = false;
+    closeEditItemModal() {
+      this.editModalItemVisible = false;
     },
     async updateMenuItem() {
       try {
@@ -1190,7 +1215,6 @@ methods: {
     this.addDateModalVisible = false;
   },
   openDatePicker() {
-    // Open the flatpickr calendar when the input field is clicked
     this.flatpickrInstance.open();
   },
   async logout() {
@@ -1201,11 +1225,50 @@ methods: {
           console.log("Logout successful");
 
           sessionStorage.removeItem("token");
+          sessionStorage.removeItem("id");
 
-          this.$router.push("/");
+          localStorage.clear();
+
+          this.userInfo = {}; 
+          this.user = []; 
+          this.notifications = []; 
+          this.eventName = ""; 
+          this.eventTheme = "";
+          this.eventDate = "";
+          this.manifest = ""; 
+          this.hasBooking = false; 
+          this.feed = []; 
+          document.cookie.split(";").forEach((cookie) => {
+            document.cookie = cookie
+              .replace(/^ +/, "")
+              .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+          });
+
+          this.notification = {
+            show: true,
+            type: 'success',
+            message: 'You have been logged out successfully.'
+          };
+
+          setTimeout(() => {
+            this.$router.push('/'); 
+          }, 1000); 
+          
+        } else {
+          throw new Error("Logout failed");
         }
       } catch (error) {
         console.error("Error during logout", error);
+
+        this.notification = {
+          show: true,
+          type: 'error',
+          message: 'Logout failed. Please try again.'
+        };
+
+        setTimeout(() => {
+          this.notification.show = false;
+        }, 1000); 
       }
     },
   async declineOrder(orderId) {
@@ -1692,43 +1755,43 @@ methods: {
     this.prod_img = formData;
   },
 
-  async saveShop(mode) {
-    try {
-      let data = {};
-      if (mode === "add") {
-        
-        if (this.prod_img instanceof FormData) {
-          data = this.prod_img;
-          data.append("prod_name", this.prod_name);
-          data.append("prod_quantity", this.prod_quantity);
-          data.append("prod_desc", this.prod_desc);
-          data.append("prod_price", this.prod_price);
-          this.showSuccessNotification("Product Added Successfully");
-        } else {
-          data = {
-            prod_name: this.prod_name,
-            prod_quantity: this.prod_quantity,
-            prod_desc: this.prod_desc,
-            prod_price: this.prod_price,
-          };
+    async saveShop(mode) {
+      try {
+        let data = {};
+        if (mode === "add") {
+          
+          if (this.prod_img instanceof FormData) {
+            data = this.prod_img;
+            data.append("prod_name", this.prod_name);
+            data.append("prod_quantity", this.prod_quantity);
+            data.append("prod_desc", this.prod_desc);
+            data.append("prod_price", this.prod_price);
+            this.showSuccessNotification("Product Added Successfully");
+          } else {
+            data = {
+              prod_name: this.prod_name,
+              prod_quantity: this.prod_quantity,
+              prod_desc: this.prod_desc,
+              prod_price: this.prod_price,
+            };
+          }
         }
-      }
 
-      const ins = await axios.post("saveShop", data);
+        const ins = await axios.post("saveShop", data);
 
-      if (mode === "add") {
-        this.closeAddModal();
-        this.prod_img = "";
-        this.prod_name = "";
-        this.prod_quantity = "";
-        this.prod_desc = "";
-        this.prod_price = "";
-        this.getInfo();
+        if (mode === "add") {
+          this.closeAddModal();
+          this.prod_img = "";
+          this.prod_name = "";
+          this.prod_quantity = "";
+          this.prod_desc = "";
+          this.prod_price = "";
+          this.getInfo();
+        }
+      } catch (error) {
+        console.error(error);
       }
-    } catch (error) {
-      console.error(error);
-    }
-  },
+    },
 
   openEditModal(info) {
     this.editedInfo = { ...info };

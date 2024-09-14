@@ -441,13 +441,13 @@
 import axios from "axios";
 import insert from "@/components/insert.vue";
 import Notification from '@/components/Notification.vue';
+import { useRouter } from 'vue-router'; // Import the router
 
 export default {
   name: "feedback",
   components: {
     insert,
     Notification
-
   },
   data() {
     return {
@@ -473,10 +473,8 @@ export default {
       errorMessage: "",
       staff:[],
       hasBooking: false,
-
     };
   },
-
   mounted() {
     this.getFeed();
     this.getData();
@@ -485,52 +483,59 @@ export default {
     this.getRoom();
     this.getStaff();
     this.checkBooking(); 
-
   },
   methods: {
-    submitEventBookingForm() {
-  const id = sessionStorage.getItem("id");
-  axios.post('/api/event/bookings', {
-    eventName: this.eventName,
-    eventTheme: this.eventTheme,
-    eventDate: this.eventDate,
-    id: id,
+    isLoggedIn() {
+      return !!sessionStorage.getItem("id");
+    },
+    redirectToLogin() {
+      this.$router.push("/login"); // Redirect to login page
+    },
+    async submitEventBookingForm() {
+      if (!this.isLoggedIn()) {
+        this.redirectToLogin();
+        return;
+      }
 
-  })
-  .then(response => {
-    console.log('Event booking submitted successfully:', response.data);
-    this.eventName = '';
-    this.eventTheme = '';
-    this.eventDate = '';
-    this.id = "";
+      const id = sessionStorage.getItem("id");
+      try {
+        const response = await axios.post('/api/event/bookings', {
+          eventName: this.eventName,
+          eventTheme: this.eventTheme,
+          eventDate: this.eventDate,
+          id: id,
+        });
 
-    this.notification = {
-      show: true,
-      type: 'success',
-      message: 'Event booking submitted successfully'
-    };
+        console.log('Event booking submitted successfully:', response.data);
+        this.eventName = '';
+        this.eventTheme = '';
+        this.eventDate = '';
 
-    setTimeout(() => {
-      this.notification.show = false;
-    }, 3000);
-    this.closeEventBookingForm();
+        this.notification = {
+          show: true,
+          type: 'success',
+          message: 'Event booking submitted successfully'
+        };
 
-  })
-  
-  .catch(error => {
-    console.error('Error submitting event booking:', error);
+        setTimeout(() => {
+          this.notification.show = false;
+        }, 3000);
+        this.closeEventBookingForm();
 
-    this.notification = {
-      show: true,
-      type: 'error',
-      message: 'Failed to submit event booking. Please try again later.'
-    };
+      } catch (error) {
+        console.error('Error submitting event booking:', error);
 
-    setTimeout(() => {
-      this.notification.show = false;
-    }, 3000);
-  });
-},
+        this.notification = {
+          show: true,
+          type: 'error',
+          message: 'Failed to submit event booking. Please try again later.'
+        };
+
+        setTimeout(() => {
+          this.notification.show = false;
+        }, 3000);
+      }
+    },
     openEventBookingForm() {
       this.eventBookingFormVisible = true;
     },
@@ -538,27 +543,24 @@ export default {
       this.eventBookingFormVisible = false;
     },
     async getStaff() {
-                const response = await axios.get("/getStaff");
-                this.staff = response.data;
-                this.numberOfStaffs = this.staff.length;
+      const response = await axios.get("/getStaff");
+      this.staff = response.data;
+      this.numberOfStaffs = this.staff.length;
+    },
+    async getFeed() {
+      try {
+        const [g, n] = await Promise.all([
+          axios.get("/getFeedback"),
+          axios.get("/getData"),
+        ]);
 
-        },
-        async getFeed() {
-  try {
-    const [g, n] = await Promise.all([
-      axios.get("/getFeedback"),
-      axios.get("/getData"),
-    ]);
+        this.feed = g.data.filter(feed => feed.is_hidden !== 1);
+        this.name = n.data;
 
-    this.feed = g.data.filter(feed => feed.is_hidden !== 1);
-
-    this.name = n.data;
-    
-  } catch (error) {
-    console.error("Error fetching data:", error);
-  }
-},
-
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    },
     getName(g) {
       return this.name.find((n) => n.id === g.id) || {};
     },
@@ -571,15 +573,17 @@ export default {
       const response = await axios.get("/getRoom");
       this.room = response.data;
       this.numberOfRooms = this.room.length;
-
-
     },
     async getUser(){
       const u = await axios.get("/getData");
       this.user = u.data;
-    },  
-     
+    },
     async smanifest() {
+      if (!this.isLoggedIn()) {
+        this.redirectToLogin();
+        return;
+      }
+
       try {
         const id = sessionStorage.getItem("id");
         const response = await axios.post("manifest", {
@@ -592,7 +596,6 @@ export default {
           this.successMessage = "manifest submitted successfully";
           this.errorMessage = "";
           this.manifest = "";
-          this.id = "";
           this.$emit('data-saved');
           this.successMessage = response.data.message;
           setTimeout(() => {
@@ -606,63 +609,48 @@ export default {
       }
     },
     async checkBooking() {
-    try {
-      const response = await axios.get("/getbook");
-      const bookedRooms = response.data;
+      try {
+        const response = await axios.get("/getbook");
+        const bookedRooms = response.data;
+        const userId = sessionStorage.getItem("id");
+        const userBookings = bookedRooms.filter(room => room.id === userId);
+        this.hasBooking = userBookings.length > 0;
 
-      const userId = sessionStorage.getItem("id");
-
-      const userBookings = bookedRooms.filter(room => room.id === userId);
-
-      this.hasBooking = userBookings.length > 0;
-
-      console.log("Booking status:", this.hasBooking);
-      console.log("User bookings:", userBookings);
-    } catch (error) {
-      console.error("Error fetching bookings:", error);
+        console.log("Booking status:", this.hasBooking);
+        console.log("User bookings:", userBookings);
+      } catch (error) {
+        console.error("Error fetching bookings:", error);
+      }
     }
-  }, },
-  computed:{
+  },
+  computed: {
     username(){
-        console.log('id:', JSON.parse(sessionStorage.getItem("id")) || 'Not Found');
-        const id = sessionStorage.getItem("id");
-        const activeuser = this.user.find(user => user.id === id);
-        const client = activeuser ? activeuser.name : "Customer";
-        return ` ${client}`;
-      },
-      address() {
-    const id = sessionStorage.getItem("id");
-    const activeuser = this.user.find(user => user.id === id);
-    return activeuser ? activeuser.address : "";
-  },
-
-  number() {
-    const id = sessionStorage.getItem("id");
-    const activeuser = this.user.find(user => user.id === id);
-    return activeuser ? activeuser.number : "";
-  },
-
-  email() {
-    const id = sessionStorage.getItem("id");
-    const activeuser = this.user.find(user => user.id === id);
-    return activeuser ? activeuser.email : "";
-  },
-  minDate() {
-    const today = new Date();
-    const minDate = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);// Bukas
-    return minDate.toISOString().slice(0, -8); // Format bilang YYYY-MM-DDTHH:MM
-  },
-  // maxDate() {
-  //   const oneWeekFromNow = new Date();
-  //   const oneWeekLater = new Date(oneWeekFromNow.getTime() + 7 * 24 * 60 * 60 * 1000); // Isang linggo mula ngayon
-  //   return oneWeekLater.toISOString().slice(0, -8); // Format bilang YYYY-MM-DDTHH:MM
-  // },
-  // isBookingAllowed() {
-  //   const oneWeekFromNow = new Date();
-  //   const oneWeekLater = new Date(oneWeekFromNow.getTime() + 7 * 24 * 60 * 60 * 1000); // Isang linggo mula ngayon
-  //   const bookingDate = new Date(this.eventDate);
-  //   return bookingDate >= oneWeekFromNow && bookingDate <= oneWeekLater;
-  // }
+      const id = sessionStorage.getItem("id");
+      const activeuser = this.user.find(user => user.id === id);
+      const client = activeuser ? activeuser.name : "Customer";
+      return ` ${client}`;
+    },
+    address() {
+      const id = sessionStorage.getItem("id");
+      const activeuser = this.user.find(user => user.id === id);
+      return activeuser ? activeuser.address : "";
+    },
+    number() {
+      const id = sessionStorage.getItem("id");
+      const activeuser = this.user.find(user => user.id === id);
+      return activeuser ? activeuser.number : "";
+    },
+    email() {
+      const id = sessionStorage.getItem("id");
+      const activeuser = this.user.find(user => user.id === id);
+      return activeuser ? activeuser.email : "";
+    },
+    minDate() {
+      const today = new Date();
+      const minDate = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000); // One week from now
+      return minDate.toISOString().slice(0, -8); // Format as YYYY-MM-DDTHH:MM
+    }
   }
 };
 </script>
+
