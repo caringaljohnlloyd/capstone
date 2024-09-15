@@ -902,34 +902,44 @@ public function deleteMenuItem($id)
     }
     public function booking()
     {
-        $json = $this->request->getJSON();
-        $room_id = $json->room_id;
+        $json = $this->request->getPost(); // Use getPost for form data
+        $room_id = $json['room_id'];
         $this->room = new RoomModel();
         $booked = $this->room->where(['room_id' => $room_id])->first();
-
-        $expiration = $json->checkout;
-
-        $qrCodeData = $json->id;
-
+    
+        $expiration = $json['checkout'];
+        $qrCodeData = $json['id'];
+    
+        // Handle file upload
+        $file = $this->request->getFile('downpaymentProof');
+        if ($file && $file->isValid() && !$file->hasMoved()) {
+            $newName = $file->getRandomName();
+            $file->move(WRITEPATH . 'uploads', $newName); // Save file to 'uploads' directory
+            $filePath = WRITEPATH . 'uploads/' . $newName; // Store the file path
+        } else {
+            return $this->respond(['message' => 'File upload failed'], 400);
+        }
+    
         $data = [
-            'id' => $json->id,
-            'checkin' => $json->checkin,
-            'checkout' => $json->checkout,
-            'specialRequest' => $json->specialRequest,
-            'room_id' => $json->room_id,
+            'id' => $json['id'],
+            'checkin' => $json['checkin'],
+            'checkout' => $json['checkout'],
+            'specialRequest' => $json['specialRequest'],
+            'room_id' => $json['room_id'],
             'booking_status' => 'pending',
-            'payment_method' => $json->payment_method,
-            'downpayment' => $json->downpayment,
+            'payment_method' => $json['payment_method'],
+            'downpayment' => $json['downpayment'],
             'booking_qr' => $qrCodeData,
-            'expiration' => $expiration
+            'expiration' => $expiration,
+            'downpaymentProof' => $filePath, // Save file path in database
         ];
-
+    
         $booking = new BookingModel();
         $r = $booking->save($data);
-
+    
         if ($r) {
             $bookedr = $this->room->update($booked['room_id'], ['room_status' => 'pending']);
-
+    
             if ($bookedr) {
                 return $this->respond(['message' => 'Booked successfully', 'booking' => $r, 'expiration' => $expiration, 'booking_qr' => $qrCodeData], 200);
             } else {
