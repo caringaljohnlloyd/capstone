@@ -103,13 +103,26 @@ $routes->group('api', ['namespace' => 'App\Controllers'], function ($routes) {
 $routes->group('api', ['namespace' => 'App\Controllers'], function ($routes) {
     $routes->post('update-password', 'MainController::updatePassword');
 });
+$routes->put('api/menu/(:num)', 'MainController::updateMenuItem/$1');
 
 
 $routes->group('api', function($routes) {
+    // Fetch all menu items
     $routes->get('menu', 'MainController::fetchMenuItems');
-    $routes->put('menu/(:num)', 'MainController::updateMenuItem/$1');
+    
+    // Fetch a single menu item by ID
+    $routes->get('menu/(:num)', 'MainController::fetchMenuItem/$1');
+    
+    // Create a new menu item
+    $routes->post('menu', 'MainController::addMenuItem');
+    
+    // Update a menu item by ID
+    
+    // Delete a menu item by ID
     $routes->delete('menu/(:num)', 'MainController::deleteMenuItem/$1');
 });
+
+
 $routes->post('/reservations', 'MainController::createReservation'); // Create a new reservation
 $routes->get('/reservations/(:num)', 'MainController::getReservation/$1'); // Retrieve a reservation by ID
 $routes->delete('/reservations/(:num)', 'MainController::deleteReservation/$1'); // Delete a reservation by ID
@@ -119,10 +132,8 @@ $routes->get('/order-items/(:num)', 'MainController::getOrderItem/$1'); // Retri
 $routes->delete('/order-items/(:num)', 'MainController::deleteOrderItem/$1'); // Delete an order item by ID
 
 
-// $routes->post('order/create', 'MainController::createOrder');
-// $routes->get('order/(:num)', 'MainController::getOrder/$1');
-// $routes->delete('order/(:num)', 'MainController::deleteOrder/$1');
-// $routes->post('order/item/add', 'MainController::addOrderItem');
-// $routes->get('order/item/(:num)', 'MainController::getOrderItem/$1');
-// $routes->delete('order/item/(:num)', 'MainController::deleteOrderItem/$1');
-
+$routes->group('admin', function ($routes) {
+    $routes->get('reservations', 'MainController::getTableReservation');
+    $routes->put('reservations/updateStatus/(:num)', 'MainController::updateStatus/$1');
+    $routes->get('reservations/(:num)', 'MainController::show/$1');
+});

@@ -164,7 +164,7 @@ const routes = [
   {
     path: '/teamadmin2',
     component: TeamAdmin2,
-    meta: { requiresAuth: true, role: 'admin' }
+    meta: { requiresAuth: true, role: 'admin2' }
   },
   {
     path: '/monitorusers',
@@ -174,7 +174,7 @@ const routes = [
   {
     path: '/monitorusers2',
     component: monitorusers2,
-    meta: { requiresAuth: true, role: 'admin' }
+    meta: { requiresAuth: true, role: 'admin2' }
   },
   {
     path: '/pos',
@@ -184,7 +184,7 @@ const routes = [
   {
     path: '/pos2',
     component: pos2,
-    meta: { requiresAuth: true, role: 'admin' }
+    meta: { requiresAuth: true, role: 'admin2' }
   },
   {
     path: '/email_inbox',
@@ -204,7 +204,7 @@ const routes = [
     name: 'auditHistory',
     component: AuditHistory,
     props: true,
-    meta: { requiresAuth: true, role: 'admin' }
+    meta: { requiresAuth: true, role: 'admin2' }
   },
   {
     path: '/getInvoices/:invoice_id',

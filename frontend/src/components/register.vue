@@ -6,7 +6,6 @@
         <hr />
 
         <form @submit.prevent="register" ref="registerForm">
-
           <!-- Name Input with Floating Label -->
           <div class="form-floating mb-3">
             <input type="text" class="form-control" name="name" v-model="name" required placeholder=" ">
@@ -19,16 +18,22 @@
             <label for="email" class="form-label">Email address</label>
           </div>
 
-          <!-- Password Input with Floating Label -->
-          <div class="form-floating mb-3">
-            <input type="password" class="form-control" name="password" v-model="password" required minlength="8" placeholder=" ">
+          <!-- Password Input with Floating Label and Eye Icon -->
+          <div class="form-floating mb-3 position-relative">
+            <input :type="showPassword ? 'text' : 'password'" class="form-control" name="password" v-model="password" required minlength="8" placeholder=" ">
             <label for="password" class="form-label">Password</label>
+            <span class="password-toggle" @click="togglePassword('password')">
+              <i :class="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+            </span>
           </div>
 
-          <!-- Confirm Password Input with Floating Label -->
-          <div class="form-floating mb-3">
-            <input type="password" name="confirmpassword" id="confirmpassword" class="form-control" required v-model="confirmpassword" @input="checkMsg" placeholder=" ">
+          <!-- Confirm Password Input with Floating Label and Eye Icon -->
+          <div class="form-floating mb-3 position-relative">
+            <input :type="showConfirmPassword ? 'text' : 'password'" name="confirmpassword" id="confirmpassword" class="form-control" required v-model="confirmpassword" @input="checkMsg" placeholder=" ">
             <label for="confirmpassword" class="form-label">Confirm Password</label>
+            <span class="password-toggle" @click="togglePassword('confirmPassword')">
+              <i :class="showConfirmPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+            </span>
           </div>
 
           <!-- Address Input with Floating Label -->
@@ -57,7 +62,7 @@
 
           <!-- Links -->
           <div class="mt-3 text-center">
-            <router-link to="/">Already have an account</router-link>
+            <router-link to="/login">Already have an account</router-link>
           </div>
         </form>
       </div>
@@ -78,9 +83,11 @@ export default {
       confirmpassword: "",
       address: "",
       number: "",
+      showPassword: false,
+      showConfirmPassword: false, // State to control confirm password visibility
       showMessage: false,
       registered: false,
-      emailSent: false, // New state to track if email has been sent
+      emailSent: false,
       errorMessage: "", 
     };
   },
@@ -100,6 +107,13 @@ export default {
     },
   },
   methods: {
+    togglePassword(field) {
+      if (field === 'password') {
+        this.showPassword = !this.showPassword;
+      } else if (field === 'confirmPassword') {
+        this.showConfirmPassword = !this.showConfirmPassword;
+      }
+    },
     checkMsg() {
       this.dirty = this.confirmpassword !== '';
       this.showMessage = this.dirty;
@@ -130,7 +144,7 @@ export default {
 
         // Update state
         this.registered = true;
-        this.emailSent = true; // Set to true after successful registration
+        this.emailSent = true; 
         this.showMessage = false;
         this.errorMessage = ""; 
 
@@ -152,7 +166,6 @@ export default {
   }
 };
 </script>
-
 
 <style scoped>
 @import '@/assets/css/bootstrap.min.css';
@@ -176,4 +189,18 @@ export default {
 .text-muted {
   color: #6c757d;
 }
+
+.password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #6c757d;
+}
+
+.password-toggle:hover {
+  color: #007bff;
+}
 </style>
+

@@ -51,12 +51,145 @@ class MainController extends ResourceController
     protected $tableorderModel;
     protected $orderItemModel;
 
-    
+    protected $tableModel;
+    protected $userModel;
+
     public function __construct()
     {
         $this->db = \Config\Database::connect();
+        $this->reservationModel = new ReservationModel();
+        $this->userModel = new UserModel();
+        $this->tableModel = new TableModel();
+        $this->orderItemModel = new OrderItemModel();
 
     }
+    public function getTableReservation()
+    {
+        try {
+            // Fetch reservations
+            $reservations = $this->reservationModel->findAll();
+    
+            // Enrich the reservation data
+            foreach ($reservations as &$reservation) {
+                $reservation['user'] = $this->userModel->find($reservation['user_id']);
+                $reservation['table'] = $this->tableModel->find($reservation['table_id']);
+                
+                // Fetch order items with item details
+                $orderItems = $this->orderItemModel
+                    ->select('order_items.*, menu.item_name') // Select item_name from items table
+                    ->join('menu', 'order_items.menu_item_id = menu.menu_id') // Join items table to get item details
+                    ->where('order_items.reservation_id', $reservation['reservation_id'])
+                    ->findAll();
+                    
+                $reservation['order_items'] = $orderItems;
+            }
+    
+            return $this->response->setJSON($reservations);
+        } catch (\Exception $e) {
+            log_message('error', 'Error in getTableReservation: ' . $e->getMessage());
+            return $this->response->setStatusCode(500)->setJSON(['message' => 'Internal Server Error']);
+        }
+    }
+    
+    public function updateStatus($id = null)
+    {
+        try {
+            if ($id === null) {
+                return $this->response->setStatusCode(400)->setJSON(['message' => 'No ID provided.']);
+            }
+    
+            $status = $this->request->getPost('status');
+    
+            if (empty($status) || !in_array($status, ['pending', 'confirmed', 'declined', 'paid'])) {
+                return $this->response->setJSON(['message' => 'Invalid status provided.'], 400);
+            }
+    
+            $reservationModel = new ReservationModel();
+            $notificationModel = new NotificationModel();
+    
+            // Find the reservation
+            $reservation = $reservationModel->find($id);
+    
+            if (!$reservation) {
+                return $this->response->setStatusCode(404)->setJSON(['message' => 'Reservation not found.']);
+            }
+    
+            // Determine the current status and update accordingly
+            switch ($status) {
+                case 'confirmed':
+                    if ($reservation['status'] === 'pending') {
+                        $reservationModel->update($id, ['status' => 'confirmed']);
+                        $notificationData = [
+                            'reservation_id' => $id,
+                            'message' => 'Your reservation has been confirmed.'
+                        ];
+                        $notificationModel->insert($notificationData);
+                        return $this->response->setJSON(['message' => 'Reservation confirmed successfully']);
+                    }
+                    return $this->response->setJSON(['message' => 'Reservation is not pending or already confirmed'], 400);
+    
+                case 'declined':
+                    if ($reservation['status'] === 'pending') {
+                        $reservationModel->update($id, ['status' => 'declined']);
+                        $notificationData = [
+                            'reservation_id' => $id,
+                            'message' => 'Your reservation has been declined.'
+                        ];
+                        $notificationModel->insert($notificationData);
+                        return $this->response->setJSON(['message' => 'Reservation declined successfully']);
+                    }
+                    return $this->response->setJSON(['message' => 'Reservation is not pending or already declined'], 400);
+    
+                case 'paid':
+                    if ($reservation['status'] === 'confirmed') {
+                        $reservationModel->update($id, ['status' => 'paid']);
+                        return $this->response->setJSON(['message' => 'Reservation marked as paid successfully']);
+                    }
+                    return $this->response->setJSON(['message' => 'Reservation is not confirmed or already paid'], 400);
+    
+                case 'pending':
+                    if ($reservation['status'] === 'confirmed' || $reservation['status'] === 'declined' || $reservation['status'] === 'paid') {
+                        $reservationModel->update($id, ['status' => 'pending']);
+                        return $this->response->setJSON(['message' => 'Reservation status reverted to pending successfully']);
+                    }
+                    return $this->response->setJSON(['message' => 'Reservation is not confirmed, declined, or paid'], 400);
+            }
+        } catch (\Exception $e) {
+            log_message('error', 'Error in updateStatus: ' . $e->getMessage());
+            return $this->response->setStatusCode(500)->setJSON(['message' => 'Internal Server Error']);
+        }
+    }
+    
+    
+    
+    public function show($id = null)
+    {
+        try {
+            $reservation = $this->reservationModel->find($id);
+    
+            if (!$reservation) {
+                return $this->response->setStatusCode(404)->setJSON(['message' => 'Reservation not found.']);
+            }
+    
+            $reservation['user'] = $this->userModel->find($reservation['user_id']);
+            $reservation['table'] = $this->tableModel->find($reservation['table_id']);
+            
+            // Fetch order items with item details
+            $orderItems = $this->orderItemModel
+                ->select('order_items.*, items.item_name') // Select item_name from items table
+                ->join('items', 'order_items.menu_item_id = items.id') // Join items table to get item details
+                ->where('order_items.reservation_id', $reservation['reservation_id'])
+                ->findAll();
+    
+            $reservation['order_items'] = $orderItems;
+    
+            return $this->response->setJSON($reservation);
+        } catch (\Exception $e) {
+            log_message('error', 'Error in show: ' . $e->getMessage());
+            return $this->response->setStatusCode(500)->setJSON(['message' => 'Internal Server Error']);
+        }
+    }
+    
     public function createReservation()
     {
         $data = $this->request->getJSON(true);
@@ -82,6 +215,17 @@ class MainController extends ResourceController
         } elseif (!$this->isValidISO8601($data['reservation_time'])) {
             $errors['reservation_time'] = 'Reservation time must be a valid ISO 8601 datetime.';
         }
+
+        // Payment validation
+        if (empty($data['payment_amount'])) {
+            $errors['payment_amount'] = 'Payment amount is required.';
+        } elseif (!is_numeric($data['payment_amount']) || $data['payment_amount'] <= 0) {
+            $errors['payment_amount'] = 'Payment amount must be a positive numeric value.';
+        }
+
+        if (empty($data['payment_method'])) {
+            $errors['payment_method'] = 'Payment method is required.';
+        }
     
         if (empty($data['order_items']) || !is_array($data['order_items'])) {
             $errors['order_items'] = 'Order items are required and must be a non-empty array.';
@@ -102,9 +246,9 @@ class MainController extends ResourceController
         }
     
         // Load models
-        $reservationModel = model('App\Models\ReservationModel');
-        $orderItemModel = model('App\Models\OrderItemModel');
-        $tableOrderModel = model('App\Models\TableOrdersModel');
+        $reservationModel = model(ReservationModel::class);
+        $orderItemModel = model(OrderItemModel::class);
+        $tableOrderModel = model(TableOrdersModel::class);
     
         // Check if models are loaded correctly
         if (!$reservationModel || !$orderItemModel || !$tableOrderModel) {
@@ -117,9 +261,12 @@ class MainController extends ResourceController
     
         // Prepare reservation data
         $reservationData = [
-            'user_id' => $data['user_id'],
-            'table_id' => $data['table_id'],
+            'user_id'           => $data['user_id'],
+            'table_id'          => $data['table_id'],
             'reservation_time' => $data['reservation_time'],
+            'status'            => 'pending', // Combined status
+            'payment_amount'    => $data['payment_amount'],
+            'payment_method'    => $data['payment_method'],
         ];
     
         // Validate and save reservation data
@@ -266,42 +413,41 @@ class MainController extends ResourceController
 
 public function addMenuItem()
 {
-    $request = $this->request;
+    $json = $this->request->getJSON();
+
+    // Validate the received data
+    if (!isset($json->item_name) || !isset($json->item_category) || !isset($json->item_price)) {
+        return $this->respond([
+            'status' => 'error',
+            'message' => 'Missing required fields'
+        ], 400);
+    }
 
     $data = [
-        'item_name' => $request->getPost('item_name'),
-        'item_category' => $request->getPost('item_category'),
-        'item_price' => $request->getPost('item_price'),
+        'item_name' => $json->item_name,
+        'item_category' => $json->item_category,
+        'item_price' => $json->item_price,
     ];
 
     try {
-        if (!$this->menuModel->validate($data)) {
-            return $this->response->setJSON([
-                "status" => "error",
-                "message" => "Validation failed",
-                "errors" => $this->menuModel->errors()
+        $menuModel = new MenuModel();
+        if (!$menuModel->save($data)) {
+            return $this->respond([
+                'status' => 'error',
+                'message' => 'Failed to add menu item',
+                'errors' => $menuModel->errors()
             ], 400);
         }
 
-        if (!$this->menuModel->save($data)) {
-            $errors = $this->menuModel->errors();
-            return $this->response->setJSON([
-                "status" => "error",
-                "message" => "Failed to add item",
-                "errors" => $errors
-            ], 400);
-        }
-
-        return $this->response->setJSON([
-            "status" => "success",
-            "message" => "Item added successfully!"
+        return $this->respond([
+            'status' => 'success',
+            'message' => 'Item added successfully!'
         ], 200);
     } catch (\Exception $e) {
-        // Log the exception and return a response
         log_message('error', 'Failed to add menu item: ' . $e->getMessage());
-        return $this->response->setJSON([
-            "status" => "error",
-            "message" => "Failed to add item: " . $e->getMessage()
+        return $this->respond([
+            'status' => 'error',
+            'message' => 'Failed to add item: ' . $e->getMessage()
         ], 500);
     }
 }
@@ -309,17 +455,62 @@ public function addMenuItem()
 
 
 
+public function updateMenuItem($id = null)
+{
+    // Get the request instance
+    $request = $this->request;
 
-    public function updateMenuItem($id)
-    {
-        $input = $this->request->getRawInput();
-        $input['menu_id'] = $id;
-        if ($this->menuModel->save($input)) {
-            return $this->response->setJSON(['status' => 'success', 'message' => 'Item updated successfully!']);
-        } else {
-            return $this->response->setJSON(['status' => 'error', 'message' => 'Failed to update item']);
-        }
+    // Initialize the model
+    $menuModel = new MenuModel();
+
+    // Find the existing data by menu_id
+    $existingData = $menuModel->find($id);
+
+    // Check if the record exists
+    if (empty($existingData)) {
+        return $this->respond([
+            "status" => "error",
+            "message" => "Record not found"
+        ], 404);
     }
+
+    // Gather input data, using existing data if new data is not provided
+    $data = [
+        'menu_id' => $id,
+        'item_name' => $request->getVar('item_name') ?? $existingData['item_name'],
+        'item_category' => $request->getVar('item_category') ?? $existingData['item_category'],
+        'item_price' => $request->getVar('item_price') ?? $existingData['item_price'],
+    ];
+
+    // Check if there are any changes to update
+    if ($data === array_intersect_key($existingData, $data)) {
+        return $this->respond([
+            "status" => "success",
+            "message" => "No changes detected, data not updated"
+        ], 200);
+    }
+
+    // Try to update the record
+    try {
+        if ($menuModel->update($id, $data)) {
+            return $this->respond([
+                "status" => "success",
+                "message" => "Item updated successfully!"
+            ], 200);
+        } else {
+            return $this->respond([
+                "status" => "error",
+                "message" => "Failed to update item"
+            ], 500);
+        }
+    } catch (\Exception $e) {
+        return $this->respond([
+            "status" => "error",
+            "message" => "Failed to update data: " . $e->getMessage()
+        ], 500);
+    }
+}
+
 
 public function deleteMenuItem($id)
 {
@@ -906,20 +1097,40 @@ public function deleteMenuItem($id)
         $room_id = $json['room_id'];
         $this->room = new RoomModel();
         $booked = $this->room->where(['room_id' => $room_id])->first();
-    
+        
+        if (!$booked) {
+            return $this->respond(['message' => 'Room not found'], 404);
+        }
+        
         $expiration = $json['checkout'];
         $qrCodeData = $json['id'];
-    
+        
+        // Define the upload path relative to the public directory
+        $uploadPath = FCPATH . 'uploads/';
+        
         // Handle file upload
         $file = $this->request->getFile('downpaymentProof');
         if ($file && $file->isValid() && !$file->hasMoved()) {
             $newName = $file->getRandomName();
-            $file->move(WRITEPATH . 'uploads', $newName); // Save file to 'uploads' directory
-            $filePath = WRITEPATH . 'uploads/' . $newName; // Store the file path
+            $filePath = 'uploads/' . $newName; // Relative path for database storage
+            
+            // Ensure the directory exists
+            if (!is_dir($uploadPath)) {
+                if (!mkdir($uploadPath, 0755, true)) {
+                    return $this->respond(['message' => 'Failed to create upload directory'], 500);
+                }
+            }
+            
+            // Try to move the file
+            if ($file->move($uploadPath, $newName)) {
+                // File moved successfully
+            } else {
+                return $this->respond(['message' => 'Failed to move uploaded file'], 500);
+            }
         } else {
-            return $this->respond(['message' => 'File upload failed'], 400);
+            return $this->respond(['message' => 'Invalid file upload'], 400);
         }
-    
+        
         $data = [
             'id' => $json['id'],
             'checkin' => $json['checkin'],
@@ -931,25 +1142,32 @@ public function deleteMenuItem($id)
             'downpayment' => $json['downpayment'],
             'booking_qr' => $qrCodeData,
             'expiration' => $expiration,
-            'downpaymentProof' => $filePath, // Save file path in database
+            'downpaymentProof' => $filePath, // Save relative file path or filename in database
         ];
-    
+        
         $booking = new BookingModel();
-        $r = $booking->save($data);
-    
-        if ($r) {
-            $bookedr = $this->room->update($booked['room_id'], ['room_status' => 'pending']);
-    
-            if ($bookedr) {
-                return $this->respond(['message' => 'Booked successfully', 'booking' => $r, 'expiration' => $expiration, 'booking_qr' => $qrCodeData], 200);
+        if ($booking->save($data)) {
+            if ($this->room->update($booked['room_id'], ['room_status' => 'pending'])) {
+                return $this->respond([
+                    'message' => 'Booked successfully',
+                    'booking' => $data, // Include booking data in the response
+                    'expiration' => $expiration,
+                    'booking_qr' => $qrCodeData
+                ], 200);
             } else {
                 return $this->respond(['message' => 'Failed to update room status'], 500);
             }
         } else {
-            return $this->respond(['message' => 'Booking failed'], 500);
+            return $this->respond(['message' => 'Failed to save booking'], 500);
         }
     }
-
+    
+    
+    
+    
+    
+    
+    
 
     public function getDataShop()
     {
@@ -1470,9 +1688,7 @@ public function handleRoomImageUpload($image, $imageName)
         $data = [
             'room_name' => $request->getVar('room_name') ?? $existingData['room_name'],
             'price' => $request->getVar('price') ?? $existingData['price'],
-            'downpayment' => $request->getVar('downpayment') ?? $existingData['downpayment'],
-            'bed' => $request->getVar('bed') ?? $existingData['bed'],
-            'bath' => $request->getVar('bath') ?? $existingData['bath'],
+            // 'downpayment' => $request->getVar('downpayment') ?? $existingData['downpayment'],
             'description' => $request->getVar('description') ?? $existingData['description'],
             'room_status' => $request->getVar('room_status') ?? $existingData['room_status'],
         ];
@@ -1489,13 +1705,6 @@ public function handleRoomImageUpload($image, $imageName)
         }
     }
 
-    public function handleEditImageUpload($image, $imageName)
-    {
-        $uploadPath = 'C:/laragon/www/capstonee/frontend/src/assets/img';
-
-        $image->move($uploadPath, $imageName);
-        return $imageName;
-    }
     public function saveStaff()
     {
         $request = $this->request;

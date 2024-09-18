@@ -1,0 +1,288 @@
+CRITICAL - 2024-09-16 00:58:19 --> Call to a member function validate() on null
+in APPPATH\Controllers\MainController.php on line 278.
+ 1 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->addMenuItem()
+ 2 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 3 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+CRITICAL - 2024-09-16 00:58:40 --> Call to a member function validate() on null
+in APPPATH\Controllers\MainController.php on line 278.
+ 1 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->addMenuItem()
+ 2 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 3 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+CRITICAL - 2024-09-16 01:01:27 --> Call to a member function validate() on null
+in APPPATH\Controllers\MainController.php on line 279.
+ 1 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->addMenuItem()
+ 2 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 3 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+CRITICAL - 2024-09-16 01:16:08 --> Call to a member function validate() on null
+in APPPATH\Controllers\MainController.php on line 279.
+ 1 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->addMenuItem()
+ 2 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 3 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+CRITICAL - 2024-09-16 01:16:21 --> Call to a member function validate() on null
+in APPPATH\Controllers\MainController.php on line 279.
+ 1 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->addMenuItem()
+ 2 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 3 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+CRITICAL - 2024-09-16 01:23:58 --> Call to a member function validate() on null
+in APPPATH\Controllers\MainController.php on line 279.
+ 1 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->addMenuItem()
+ 2 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 3 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+ERROR - 2024-09-16 01:27:07 --> mysqli_sql_exception: Unknown column 'created_at' in 'field list' in C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php:306
+Stack trace:
+#0 C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php(306): mysqli->query('INSERT INTO `me...', 0)
+#1 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `me...')
+#2 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `me...')
+#3 C:\laragon\www\capstone\backend\backend\system\Database\BaseBuilder.php(2308): CodeIgniter\Database\BaseConnection->query('INSERT INTO `me...', Array, false)
+#4 C:\laragon\www\capstone\backend\backend\system\Model.php(319): CodeIgniter\Database\BaseBuilder->insert()
+#5 C:\laragon\www\capstone\backend\backend\system\BaseModel.php(788): CodeIgniter\Model->doInsert(Array)
+#6 C:\laragon\www\capstone\backend\backend\system\Model.php(715): CodeIgniter\BaseModel->insert(Array, false)
+#7 C:\laragon\www\capstone\backend\backend\system\BaseModel.php(698): CodeIgniter\Model->insert(Array, false)
+#8 C:\laragon\www\capstone\backend\backend\app\Controllers\MainController.php(283): CodeIgniter\BaseModel->save(Array)
+#9 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(942): App\Controllers\MainController->addMenuItem()
+#10 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+#11 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\laragon\www\capstone\backend\backend\public\index.php(86): CodeIgniter\CodeIgniter->run()
+#13 C:\laragon\www\capstone\backend\backend\system\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\...')
+#14 {main}
+CRITICAL - 2024-09-16 01:27:07 --> Unknown column 'created_at' in 'field list'
+in SYSTEMPATH\Database\BaseConnection.php on line 647.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(2308): CodeIgniter\Database\BaseConnection->query('INSERT INTO `menu` (`item_name`, `item_category`, `item_price`, `created_at`) VALUES (:item_name:, :item_category:, :item_price:, :created_at:)', [...], false)
+ 2 SYSTEMPATH\Model.php(319): CodeIgniter\Database\BaseBuilder->insert()
+ 3 SYSTEMPATH\BaseModel.php(788): CodeIgniter\Model->doInsert([...])
+ 4 SYSTEMPATH\Model.php(715): CodeIgniter\BaseModel->insert([...], false)
+ 5 SYSTEMPATH\BaseModel.php(698): CodeIgniter\Model->insert([...], false)
+ 6 APPPATH\Controllers\MainController.php(283): CodeIgniter\BaseModel->save([...])
+ 7 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->addMenuItem()
+ 8 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 9 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+ERROR - 2024-09-16 01:30:18 --> mysqli_sql_exception: Unknown column 'created_at' in 'field list' in C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php:306
+Stack trace:
+#0 C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php(306): mysqli->query('INSERT INTO `me...', 0)
+#1 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `me...')
+#2 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `me...')
+#3 C:\laragon\www\capstone\backend\backend\system\Database\BaseBuilder.php(2308): CodeIgniter\Database\BaseConnection->query('INSERT INTO `me...', Array, false)
+#4 C:\laragon\www\capstone\backend\backend\system\Model.php(319): CodeIgniter\Database\BaseBuilder->insert()
+#5 C:\laragon\www\capstone\backend\backend\system\BaseModel.php(788): CodeIgniter\Model->doInsert(Array)
+#6 C:\laragon\www\capstone\backend\backend\system\Model.php(715): CodeIgniter\BaseModel->insert(Array, false)
+#7 C:\laragon\www\capstone\backend\backend\system\BaseModel.php(698): CodeIgniter\Model->insert(Array, false)
+#8 C:\laragon\www\capstone\backend\backend\app\Controllers\MainController.php(283): CodeIgniter\BaseModel->save(Array)
+#9 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(942): App\Controllers\MainController->addMenuItem()
+#10 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+#11 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\laragon\www\capstone\backend\backend\public\index.php(86): CodeIgniter\CodeIgniter->run()
+#13 C:\laragon\www\capstone\backend\backend\system\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\...')
+#14 {main}
+CRITICAL - 2024-09-16 01:30:18 --> Unknown column 'created_at' in 'field list'
+in SYSTEMPATH\Database\BaseConnection.php on line 647.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(2308): CodeIgniter\Database\BaseConnection->query('INSERT INTO `menu` (`item_name`, `item_category`, `item_price`, `created_at`) VALUES (:item_name:, :item_category:, :item_price:, :created_at:)', [...], false)
+ 2 SYSTEMPATH\Model.php(319): CodeIgniter\Database\BaseBuilder->insert()
+ 3 SYSTEMPATH\BaseModel.php(788): CodeIgniter\Model->doInsert([...])
+ 4 SYSTEMPATH\Model.php(715): CodeIgniter\BaseModel->insert([...], false)
+ 5 SYSTEMPATH\BaseModel.php(698): CodeIgniter\Model->insert([...], false)
+ 6 APPPATH\Controllers\MainController.php(283): CodeIgniter\BaseModel->save([...])
+ 7 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->addMenuItem()
+ 8 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 9 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+ERROR - 2024-09-16 01:31:41 --> mysqli_sql_exception: Unknown column 'created_at' in 'field list' in C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php:306
+Stack trace:
+#0 C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php(306): mysqli->query('INSERT INTO `me...', 0)
+#1 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `me...')
+#2 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `me...')
+#3 C:\laragon\www\capstone\backend\backend\system\Database\BaseBuilder.php(2308): CodeIgniter\Database\BaseConnection->query('INSERT INTO `me...', Array, false)
+#4 C:\laragon\www\capstone\backend\backend\system\Model.php(319): CodeIgniter\Database\BaseBuilder->insert()
+#5 C:\laragon\www\capstone\backend\backend\system\BaseModel.php(788): CodeIgniter\Model->doInsert(Array)
+#6 C:\laragon\www\capstone\backend\backend\system\Model.php(715): CodeIgniter\BaseModel->insert(Array, false)
+#7 C:\laragon\www\capstone\backend\backend\system\BaseModel.php(698): CodeIgniter\Model->insert(Array, false)
+#8 C:\laragon\www\capstone\backend\backend\app\Controllers\MainController.php(283): CodeIgniter\BaseModel->save(Array)
+#9 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(942): App\Controllers\MainController->addMenuItem()
+#10 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+#11 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\laragon\www\capstone\backend\backend\public\index.php(86): CodeIgniter\CodeIgniter->run()
+#13 C:\laragon\www\capstone\backend\backend\system\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\...')
+#14 {main}
+CRITICAL - 2024-09-16 01:31:41 --> Unknown column 'created_at' in 'field list'
+in SYSTEMPATH\Database\BaseConnection.php on line 647.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(2308): CodeIgniter\Database\BaseConnection->query('INSERT INTO `menu` (`item_name`, `item_category`, `item_price`, `created_at`) VALUES (:item_name:, :item_category:, :item_price:, :created_at:)', [...], false)
+ 2 SYSTEMPATH\Model.php(319): CodeIgniter\Database\BaseBuilder->insert()
+ 3 SYSTEMPATH\BaseModel.php(788): CodeIgniter\Model->doInsert([...])
+ 4 SYSTEMPATH\Model.php(715): CodeIgniter\BaseModel->insert([...], false)
+ 5 SYSTEMPATH\BaseModel.php(698): CodeIgniter\Model->insert([...], false)
+ 6 APPPATH\Controllers\MainController.php(283): CodeIgniter\BaseModel->save([...])
+ 7 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->addMenuItem()
+ 8 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 9 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+ERROR - 2024-09-16 01:35:00 --> mysqli_sql_exception: Unknown column 'created_at' in 'field list' in C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php:306
+Stack trace:
+#0 C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php(306): mysqli->query('INSERT INTO `me...', 0)
+#1 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `me...')
+#2 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `me...')
+#3 C:\laragon\www\capstone\backend\backend\system\Database\BaseBuilder.php(2308): CodeIgniter\Database\BaseConnection->query('INSERT INTO `me...', Array, false)
+#4 C:\laragon\www\capstone\backend\backend\system\Model.php(319): CodeIgniter\Database\BaseBuilder->insert()
+#5 C:\laragon\www\capstone\backend\backend\system\BaseModel.php(788): CodeIgniter\Model->doInsert(Array)
+#6 C:\laragon\www\capstone\backend\backend\system\Model.php(715): CodeIgniter\BaseModel->insert(Array, false)
+#7 C:\laragon\www\capstone\backend\backend\system\BaseModel.php(698): CodeIgniter\Model->insert(Array, false)
+#8 C:\laragon\www\capstone\backend\backend\app\Controllers\MainController.php(283): CodeIgniter\BaseModel->save(Array)
+#9 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(942): App\Controllers\MainController->addMenuItem()
+#10 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+#11 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\laragon\www\capstone\backend\backend\public\index.php(86): CodeIgniter\CodeIgniter->run()
+#13 C:\laragon\www\capstone\backend\backend\system\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\...')
+#14 {main}
+CRITICAL - 2024-09-16 01:35:00 --> Unknown column 'created_at' in 'field list'
+in SYSTEMPATH\Database\BaseConnection.php on line 647.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(2308): CodeIgniter\Database\BaseConnection->query('INSERT INTO `menu` (`item_name`, `item_category`, `item_price`, `created_at`) VALUES (:item_name:, :item_category:, :item_price:, :created_at:)', [...], false)
+ 2 SYSTEMPATH\Model.php(319): CodeIgniter\Database\BaseBuilder->insert()
+ 3 SYSTEMPATH\BaseModel.php(788): CodeIgniter\Model->doInsert([...])
+ 4 SYSTEMPATH\Model.php(715): CodeIgniter\BaseModel->insert([...], false)
+ 5 SYSTEMPATH\BaseModel.php(698): CodeIgniter\Model->insert([...], false)
+ 6 APPPATH\Controllers\MainController.php(283): CodeIgniter\BaseModel->save([...])
+ 7 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->addMenuItem()
+ 8 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 9 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+ERROR - 2024-09-16 01:39:28 --> mysqli_sql_exception: Unknown column 'created_at' in 'field list' in C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php:306
+Stack trace:
+#0 C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php(306): mysqli->query('INSERT INTO `me...', 0)
+#1 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `me...')
+#2 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `me...')
+#3 C:\laragon\www\capstone\backend\backend\system\Database\BaseBuilder.php(2308): CodeIgniter\Database\BaseConnection->query('INSERT INTO `me...', Array, false)
+#4 C:\laragon\www\capstone\backend\backend\system\Model.php(319): CodeIgniter\Database\BaseBuilder->insert()
+#5 C:\laragon\www\capstone\backend\backend\system\BaseModel.php(788): CodeIgniter\Model->doInsert(Array)
+#6 C:\laragon\www\capstone\backend\backend\system\Model.php(715): CodeIgniter\BaseModel->insert(Array, false)
+#7 C:\laragon\www\capstone\backend\backend\system\BaseModel.php(698): CodeIgniter\Model->insert(Array, false)
+#8 C:\laragon\www\capstone\backend\backend\app\Controllers\MainController.php(287): CodeIgniter\BaseModel->save(Array)
+#9 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(942): App\Controllers\MainController->addMenuItem()
+#10 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+#11 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\laragon\www\capstone\backend\backend\public\index.php(86): CodeIgniter\CodeIgniter->run()
+#13 C:\laragon\www\capstone\backend\backend\system\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\...')
+#14 {main}
+CRITICAL - 2024-09-16 01:39:28 --> Unknown column 'created_at' in 'field list'
+in SYSTEMPATH\Database\BaseConnection.php on line 647.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(2308): CodeIgniter\Database\BaseConnection->query('INSERT INTO `menu` (`item_name`, `item_category`, `item_price`, `created_at`) VALUES (:item_name:, :item_category:, :item_price:, :created_at:)', [...], false)
+ 2 SYSTEMPATH\Model.php(319): CodeIgniter\Database\BaseBuilder->insert()
+ 3 SYSTEMPATH\BaseModel.php(788): CodeIgniter\Model->doInsert([...])
+ 4 SYSTEMPATH\Model.php(715): CodeIgniter\BaseModel->insert([...], false)
+ 5 SYSTEMPATH\BaseModel.php(698): CodeIgniter\Model->insert([...], false)
+ 6 APPPATH\Controllers\MainController.php(287): CodeIgniter\BaseModel->save([...])
+ 7 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->addMenuItem()
+ 8 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 9 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+CRITICAL - 2024-09-16 14:32:45 --> Undefined array key "downpayment"
+in APPPATH\Controllers\MainController.php on line 1498.
+ 1 APPPATH\Controllers\MainController.php(1498): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "downpayment"', 'C:\\laragon\\www\\capstone\\backend\\backend\\app\\Controllers\\MainController.php', 1498)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->updateRoom('7')
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+CRITICAL - 2024-09-16 14:32:52 --> Undefined array key "downpayment"
+in APPPATH\Controllers\MainController.php on line 1498.
+ 1 APPPATH\Controllers\MainController.php(1498): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "downpayment"', 'C:\\laragon\\www\\capstone\\backend\\backend\\app\\Controllers\\MainController.php', 1498)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->updateRoom('7')
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+CRITICAL - 2024-09-16 14:34:54 --> Undefined array key "downpayment"
+in APPPATH\Controllers\MainController.php on line 1498.
+ 1 APPPATH\Controllers\MainController.php(1498): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "downpayment"', 'C:\\laragon\\www\\capstone\\backend\\backend\\app\\Controllers\\MainController.php', 1498)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->updateRoom('7')
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+CRITICAL - 2024-09-16 14:35:06 --> Undefined array key "downpayment"
+in APPPATH\Controllers\MainController.php on line 1498.
+ 1 APPPATH\Controllers\MainController.php(1498): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "downpayment"', 'C:\\laragon\\www\\capstone\\backend\\backend\\app\\Controllers\\MainController.php', 1498)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->updateRoom('8')
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+CRITICAL - 2024-09-16 14:35:52 --> Undefined array key "downpayment"
+in APPPATH\Controllers\MainController.php on line 1498.
+ 1 APPPATH\Controllers\MainController.php(1498): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "downpayment"', 'C:\\laragon\\www\\capstone\\backend\\backend\\app\\Controllers\\MainController.php', 1498)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->updateRoom('7')
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+CRITICAL - 2024-09-16 14:37:53 --> Undefined array key "downpayment"
+in APPPATH\Controllers\MainController.php on line 1498.
+ 1 APPPATH\Controllers\MainController.php(1498): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "downpayment"', 'C:\\laragon\\www\\capstone\\backend\\backend\\app\\Controllers\\MainController.php', 1498)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->updateRoom('7')
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+CRITICAL - 2024-09-16 14:41:27 --> Undefined array key "downpayment"
+in APPPATH\Controllers\MainController.php on line 1498.
+ 1 APPPATH\Controllers\MainController.php(1498): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "downpayment"', 'C:\\laragon\\www\\capstone\\backend\\backend\\app\\Controllers\\MainController.php', 1498)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->updateRoom('7')
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+CRITICAL - 2024-09-16 14:41:50 --> Undefined array key "downpayment"
+in APPPATH\Controllers\MainController.php on line 1498.
+ 1 APPPATH\Controllers\MainController.php(1498): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "downpayment"', 'C:\\laragon\\www\\capstone\\backend\\backend\\app\\Controllers\\MainController.php', 1498)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->updateRoom('7')
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+CRITICAL - 2024-09-16 14:42:30 --> Undefined array key "downpayment"
+in APPPATH\Controllers\MainController.php on line 1498.
+ 1 APPPATH\Controllers\MainController.php(1498): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "downpayment"', 'C:\\laragon\\www\\capstone\\backend\\backend\\app\\Controllers\\MainController.php', 1498)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->updateRoom('7')
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+CRITICAL - 2024-09-16 14:43:06 --> Undefined array key "downpayment"
+in APPPATH\Controllers\MainController.php on line 1498.
+ 1 APPPATH\Controllers\MainController.php(1498): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "downpayment"', 'C:\\laragon\\www\\capstone\\backend\\backend\\app\\Controllers\\MainController.php', 1498)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->updateRoom('7')
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+CRITICAL - 2024-09-16 14:43:10 --> Undefined array key "downpayment"
+in APPPATH\Controllers\MainController.php on line 1498.
+ 1 APPPATH\Controllers\MainController.php(1498): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "downpayment"', 'C:\\laragon\\www\\capstone\\backend\\backend\\app\\Controllers\\MainController.php', 1498)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->updateRoom('7')
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+CRITICAL - 2024-09-16 14:45:00 --> Undefined array key "downpayment"
+in APPPATH\Controllers\MainController.php on line 1498.
+ 1 APPPATH\Controllers\MainController.php(1498): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "downpayment"', 'C:\\laragon\\www\\capstone\\backend\\backend\\app\\Controllers\\MainController.php', 1498)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->updateRoom('27')
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')

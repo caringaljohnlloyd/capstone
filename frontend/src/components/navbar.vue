@@ -310,12 +310,27 @@
             <label for="dateTimeSelection">Date & Time</label>
             <input type="datetime-local" id="dateTimeSelection" class="form-control" v-model="selectedDateTime" required :min="minDateTime">
           </div>
+          <div class="form-group">
+            <label for="paymentAmount">Payment Amount (₱)</label>
+            <input type="number" id="paymentAmount" class="form-control" v-model.number="paymentAmount" min="0" step="0.01" required>
+          </div>
+          <div class="form-group">
+            <label for="paymentMethod">Payment Method</label>
+            <select id="paymentMethod" class="form-control" v-model="paymentMethod" required>
+              <option value="" disabled>Select Payment Method</option>
+              <option value="Credit Card">Credit Card</option>
+              <option value="Cash">Cash</option>
+              <option value="Paypal">Paypal</option>
+              <!-- Add other payment methods as needed -->
+            </select>
+          </div>
           <button type="submit" class="btn btn-primary">Book Table with Menu</button>
         </form>
       </div>
     </div>
   </div>
 </div>
+
 
 
 
@@ -510,12 +525,18 @@ export default {
         return;
     }
 
+    // Prepare payment details (dummy values, replace with actual user input if needed)
+    const paymentAmount = parseFloat(this.paymentAmount || 0).toFixed(2); // Ensure payment amount is a float
+    const paymentMethod = this.paymentMethod || 'Credit Card'; // Replace with actual method if needed
+
     // Log the payload for debugging
     console.log('Payload being sent:', {
         user_id: userId,
         table_id: tableId,
         reservation_time: reservationTimeISO,
-        order_items: orderItems
+        order_items: orderItems,
+        payment_amount: paymentAmount,
+        payment_method: paymentMethod
     });
 
     try {
@@ -524,7 +545,9 @@ export default {
             user_id: userId,
             table_id: tableId,
             reservation_time: reservationTimeISO,
-            order_items: orderItems
+            order_items: orderItems,
+            payment_amount: paymentAmount,
+            payment_method: paymentMethod
         }, {
             headers: {
                 'Content-Type': 'application/json'

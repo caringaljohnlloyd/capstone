@@ -51,7 +51,180 @@
 
     <div class="card-main">
       <div class="content">
-        
+        <div class="row">
+  <!-- Reservation List -->
+  <div class="col-12">
+    <div class="card card-default">
+      <div class="card-header">
+        <h2>Reservations</h2>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table
+            id="reservationsTable"
+            class="table table-hover"
+            style="width: 100%"
+          >
+            <thead>
+              <tr>
+                <th>Reservation ID</th>
+                <th>User</th>
+                <th>Table</th>
+                <th>Order Items</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(reservation, index) in reservations" :key="reservation.id">
+                <td>{{ reservation.reservation_id }}</td>
+                <td>{{ reservation.user.name }}</td>
+                <td>{{ reservation.table.table_name }}</td>
+                
+                <td>
+                  <ul>
+                    <li v-for="item in reservation.order_items" :key="item.id">
+                      {{ item.item_name }} ({{ item.quantity }})
+                    </li>
+                  </ul>
+                </td>
+                <td>{{ reservation.status }}</td>
+                <td class="action-buttons">
+                  <button class="btn btn-custom" @click="openStatusModal(reservation)">Update Status</button>
+                  <button class="btn btn-custom" @click="viewDetails(reservation)">View Details</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Status Update Modal -->
+        <div
+          v-if="statusModalVisible"
+          class="modal fade show"
+          tabindex="-1"
+          role="dialog"
+        >
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Update Status</h5>
+                <button
+                  type="button"
+                  class="close"
+                  @click="closeStatusModal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="form-group">
+                  <label for="status">Status:</label>
+                  <select
+                    id="status"
+                    class="form-control"
+                    v-model="statusToUpdate"
+                  >
+                    <option value="pending">Pending</option>
+                    <option value="paid">Paid</option>
+                    <option value="confirmed">Confirmed</option>
+                    <option value="declined">Declined</option>
+                  </select>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-custom"
+                  @click="updateStatus"
+                >
+                  Update
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-custom"
+                  style="background:#0F172B; border:none;"
+                  @click="closeStatusModal"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Details Modal -->
+        <div
+          v-if="detailsModalVisible"
+          class="modal fade show"
+          tabindex="-1"
+          role="dialog"
+        >
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Reservation Details</h5>
+                <button
+                  type="button"
+                  class="close"
+                  @click="closeDetailsModal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="form-group">
+                  <label for="reservationId">Reservation ID:</label>
+                  <p id="reservationId">{{ selectedReservation.reservation_id }}</p>
+                </div>
+                <div class="form-group">
+                  <label for="user">User:</label>
+                  <p id="user">{{ selectedReservation.user.name }}</p>
+                </div>
+                <div class="form-group">
+                  <label for="table">Table:</label>
+                  <p id="table">{{ selectedReservation.table.table_name }}</p>
+                </div>
+                <div class="form-group">
+                  <label for="orderItems">Order Items:</label>
+                  <ul>
+                    <li v-for="item in selectedReservation.order_items" :key="item.id">
+                      {{ item.item_name }} ({{ item.quantity }})
+                    </li>
+                  </ul>
+                </div>
+                <div class="form-group">
+                  <label for="status">Status:</label>
+                  <p id="status">{{ selectedReservation.status }}</p>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-custom"
+                  @click="closeDetailsModal"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Success and Error Messages -->
+        <div v-if="successMessage" class="alert alert-success" role="alert">
+          {{ successMessage }}
+        </div>
+        <div v-if="errorMessage" class="alert alert-danger" role="alert">
+          {{ errorMessage }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
         <div class="row">
   <!-- Table Product -->
   <div class="col-12">
@@ -344,8 +517,6 @@
                   <th>Image</th>
                   <th>Room Name</th>
                   <th>Price</th>
-                  <th>Bed</th>
-                  <th>Bath</th>
                   <th>Number of Packs</th>
                   <th>Description</th>
                   <th>Room Status</th>
@@ -358,8 +529,6 @@
                   <td>{{ room.image }}</td>
                   <td>{{ room.room_name }}</td>
                   <td>{{ room.price }}</td>
-                  <td>{{ room.bed }}</td>
-                  <td>{{ room.bath }}</td>
                   <td>{{ room.packs }}</td>
                   <td>{{ room.description }}</td>
                   <td>{{ room.room_status }}</td>
@@ -412,26 +581,10 @@
                     />
                   </div>
                 </div>
-                <div class="form-group">
-                  <label for="bed">Number of Beds</label>
-                  <input
-                    type="number"
-                    class="form-control"
-                    placeholder="Beds"
-                    v-model="editedRoom.bed"
-                  />
-                </div>
+
               </div>
               <div class="col-md-6">
-                <div class="form-group">
-                  <label for="bath">Number of Baths</label>
-                  <input
-                    type="number"
-                    class="form-control"
-                    placeholder="Baths"
-                    v-model="editedRoom.bath"
-                  />
-                </div>
+
                 <div class="form-group">
                   <label for="description">Room Description</label>
                   <textarea
@@ -523,28 +676,7 @@
                 </select>
               </div>
             </div>
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                <label for="bed">Number of Beds</label>
-                <input
-                  type="number"
-                  class="form-control"
-                  placeholder="Beds"
-                  v-model="bed"
-                  required
-                />
-              </div>
-              <div class="form-group col-md-6">
-                <label for="bath">Number of Baths</label>
-                <input
-                  type="number"
-                  class="form-control"
-                  placeholder="Baths"
-                  v-model="bath"
-                  required
-                />
-              </div>
-            </div>
+
             <div class="form-group">
               <label for="description">Room Description</label>
               <textarea
@@ -599,7 +731,7 @@
                   <td>{{ item.item_category }}</td>
                   <td>{{ item.item_price }}</td>
                   <td>
-                    <button @click="openEditModal(item)" class="btn btn-primary" >Edit</button>
+                    <button @click="openEditItemModal(item)" class="btn btn-primary" >Edit</button>
                     <!-- <button @click="deleteItem(item.menu_id)" class="btn btn-primary">Delete</button> -->
                   </td>
                 </tr>
@@ -611,8 +743,8 @@
     </div>
 
   </div>
-    <!-- Add Modal -->
-    <div v-if="addModalItemVisible" class="modal fade show" tabindex="-1" role="dialog">
+<!-- Add Modal -->
+<div v-if="addModalItemVisible" class="modal fade show" tabindex="-1" role="dialog">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -625,16 +757,26 @@
         <form @submit.prevent="addMenuItem">
           <div class="form-group">
             <label for="item_name">Item Name</label>
-            <input type="text" id="item_name" class="form-control" v-model="newItem.item_name" required />
+            <input type="text" id="item_name" class="form-control" v-model="item_name" required />
           </div>
           <div class="form-group">
             <label for="item_category">Category</label>
-            <input type="text" id="item_category" class="form-control" v-model="newItem.item_category" required />
+            <select id="item_category" class="form-control" v-model="item_category" required>
+              <option value="" disabled>Select a category</option>
+              <option value="breakfast">Breakfast</option>
+              <option value="rice">Rice</option>
+              <option value="noodles">Noodles</option>
+              <option value="asian curry">Asian Curry</option>
+              <option value="soup">Soup</option>
+              <option value="refreshments">Refreshments</option>
+              <option value="sizzling">Sizzling</option>
+              <option value="filipino style">Filipino Style</option>
+              <option value="vegetables">Vegetables</option>
+            </select>
           </div>
-          
           <div class="form-group">
             <label for="item_price">Price</label>
-            <input type="number" id="item_price" class="form-control" v-model="newItem.item_price" required />
+            <input type="number" id="item_price" class="form-control" v-model="item_price" required />
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" @click="closeAddItemModal">Close</button>
@@ -649,40 +791,80 @@
   </div>
 </div>
 
-    <!-- Edit Modal -->
-    <div v-if="editModalItemVisible" class="modal fade show" tabindex="-1" role="dialog">
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Edit Menu Item</h5>
-            <button type="button" class="close" @click="closeEditItemModal">
-              <span aria-hidden="true">&times;</span>
-            </button>
+
+<!-- Success Notification -->
+<div v-if="successMessage" class="alert alert-success" role="alert">
+  {{ successMessage }}
+</div>
+
+<!-- Error Notification -->
+<div v-if="errorMessage" class="alert alert-danger" role="alert">
+  {{ errorMessage }}
+</div>
+
+<!-- Edit Modal -->
+<div v-if="editModalItemVisible" class="modal fade show" tabindex="-1" role="dialog" style="display: block;">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit Menu Item</h5>
+        <button type="button" class="close" @click="closeEditItemModal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form @submit.prevent="updateMenuItem">
+          <div class="form-group">
+            <label for="editItem_name">Item Name</label>
+            <input
+              type="text"
+              class="form-control"
+              v-model="currentItem.item_name"
+              required
+            />
           </div>
-          <div class="modal-body">
-            <form @submit.prevent="updateMenuItem">
-              <div class="form-group">
-                <label for="editItem_name">Item Name</label>
-                <input type="text" id="editItem_name" class="form-control" v-model="currentItem.item_name" required />
-              </div>
-              <div class="form-group">
-                <label for="editItem_category">Category</label>
-                <input type="text" id="editItem_category" class="form-control" v-model="currentItem.item_category" required />
-              </div>
-             
-              <div class="form-group">
-                <label for="editItem_price">Price</label>
-                <input type="number" id="editItem_price" class="form-control" v-model="currentItem.item_price" required />
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" @click="closeEditItemModal">Close</button>
-                <button type="submit" class="btn btn-primary">Save Changes</button>
-              </div>
-            </form>
+          <div class="form-group">
+  <label for="editItem_category">Category</label>
+  <select
+    id="editItem_category"
+    class="form-control"
+    v-model="currentItem.item_category"
+    required
+  >
+    <option value="" disabled>Select a category</option>
+    <option value="breakfast">Breakfast</option>
+    <option value="rice">Rice</option>
+    <option value="noodles">Noodles</option>
+    <option value="asian curry">Asian Curry</option>
+    <option value="soup">Soup</option>
+    <option value="refreshments">Refreshments</option>
+    <option value="sizzling">Sizzling</option>
+    <option value="filipino style">Filipino Style</option>
+    <option value="vegetables">Vegetables</option>
+  </select>
+</div>
+
+          <div class="form-group">
+            <label for="editItem_price">Price</label>
+            <input
+              type="number"
+              class="form-control"
+              v-model="currentItem.item_price"
+              required
+            />
           </div>
-        </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" @click="closeEditItemModal">Close</button>
+            <button type="button" class="btn btn-primary" @click="updateMenuItem">Update</button>
+          </div>
+        </form>
       </div>
     </div>
+  </div>
+</div>
+
+
+
 
 
     <div class="row">
@@ -694,7 +876,7 @@
           </div>
           <div class="card-body">
             <div class="table-responsive">
-            <table
+              <table
               id="productsTable"
               class="table table-hover table-product"
               style="width: 100%"
@@ -705,61 +887,45 @@
                   <th>User</th>
                   <th>Checkin</th>
                   <th>Checkout</th>
-                  <th>Adult</th>
-                  <th>Child</th>
                   <th>Special Request</th>
                   <th>Room</th>
                   <th>Booking Status</th>
                   <th>Booking Payment</th>
                   <th>Down Payment</th>
+                  <th>Proof of Payment</th>
                   <th>Action</th>
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="book in book">
+                <tr v-for="book in book" :key="book.book_id">
                   <td>{{ book.book_id }}</td>
                   <td>{{ book.name }}</td>
                   <td>{{ book.checkin }}</td>
                   <td>{{ book.checkout }}</td>
-                  <td>{{ book.adult }}</td>
-                  <td>{{ book.child }}</td>
                   <td>{{ book.specialRequest }}</td>
                   <td>{{ book.room_name }}</td>
                   <td>{{ book.booking_status }}</td>
                   <td>{{ book.payment_method }}</td>
                   <td>{{ book.downpayment }}</td>
                   <td>
+                    <img 
+                      class="img-fluid menu" 
+                      style="width: 100%; max-width: 150px; height: auto;" 
+                      :src="`http://localhost:8080/uploads/${book.downpaymentProof}`" 
+                      alt="Downpayment Proof" 
+                    />
+                  </td>
+                  <td>
                     <div class="dropdown">
-                      <button
-                        class="btn btn-custom dropdown-toggle"
-                        type="button"
-                        id="dropdownMenuButton"
-                        data-toggle="dropdown"
-                        aria-haspopup="true"
-                        aria-expanded="false"
-                      >
-                        Actions
-                      </button>
-                      <div
-                        class="dropdown-menu"
-                        aria-labelledby="dropdownMenuButton"
-                      >
-                        <a
-                          class="dropdown-item"
-                          @click="markAsPaid(book.book_id)"
-                          >Paid</a
-                        >
-                        <a
-                          class="dropdown-item"
-                          @click="acceptBooking(book.book_id)"
-                          >Confirm</a
-                        >
-                        <a
-                          class="dropdown-item"
-                          @click="declineBooking(book.book_id)"
-                          >Decline Booking</a
-                        >
+                      <div class="select" @click="toggleDropdown(book.book_id)">
+                        <span class="selected">Actions</span>
+                        <div class="caret" :class="{ 'caret-rotate': openDropdown === book.book_id }"></div>
                       </div>
+                      <ul class="menu" :class="{ 'menu-open': openDropdown === book.book_id }">
+                        <li @click="handleDropdownAction('markAsPaid', book.book_id)">Mark as Paid</li>
+                        <li @click="handleDropdownAction('acceptBooking', book.book_id)">Confirm Booking</li>
+                        <li @click="handleDropdownAction('declineBooking', book.book_id)">Decline Booking</li>
+                      </ul>
                     </div>
                   </td>
                 </tr>
@@ -1026,14 +1192,25 @@ components: {
 },
 data() {
   return {
+    reservations: [],
+      statusModalVisible: false,
+      detailsModalVisible: false,
+      selectedReservation: {},
+      statusToUpdate: '',
+      successMessage: '',
+      errorMessage: '',
     menuItems: [],
-      addModalItemVisible: false,
-      editModalItemVisible: false,
-      newItem: {
+    currentItem: {
+        menu_id: null,
         item_name: '',
         item_category: '',
         item_price: ''
       },
+      addModalItemVisible: false,
+      editModalItemVisible: false,
+      item_name: '',
+    item_category: '',
+    item_price: '',
       successMessage: '',
       errorMessage: '',
       currentItem: {},
@@ -1076,8 +1253,7 @@ data() {
     addRoomModalVisible: false,
     room_name: "",
     price: "",
-    bed: "",
-    bath: "",
+
     packs: "3", // Default to 3 packs
     description: "",
     downpayment: "",
@@ -1088,8 +1264,9 @@ data() {
   };
 },
 mounted() {
+  this.fetchReservations();
   this.fetchMenuItems();
-
+this.getbook();
   this.initializeDropdowns();
   },
   beforeDestroy() {
@@ -1118,6 +1295,53 @@ created() {
 },
 
 methods: {
+  async fetchReservations() {
+      try {
+        const response = await axios.get('/admin/reservations'); // Update with your API endpoint
+        this.reservations = response.data;
+      } catch (error) {
+        console.error('Error fetching reservations:', error);
+        this.errorMessage = 'Failed to load reservation data.';
+      }
+    },
+    openStatusModal(reservation) {
+      this.selectedReservation = reservation;
+      this.statusToUpdate = reservation.status;
+      this.statusModalVisible = true;
+    },
+    closeStatusModal() {
+      this.statusModalVisible = false;
+    },
+    async updateStatus() {
+    try {
+        const response = await axios.put(`/admin/reservations/updateStatus/${this.selectedReservation.reservation_id}`, {
+            status: this.statusToUpdate
+        });
+
+        if (response.status === 200) {
+            this.showSuccessNotification(`Reservation ${this.selectedReservation.reservation_id} status updated to ${this.statusToUpdate}`);
+            this.fetchReservations(); // Refresh the list
+            this.closeStatusModal();
+        } else {
+            console.error("Failed to update status:", response.data.message);
+            this.errorMessage = `Failed to update status: ${response.data.message}`;
+        }
+    } catch (error) {
+        console.error('Error updating status:', error);
+        this.errorMessage = 'Failed to update status. Please try again.';
+    }
+},
+  showSuccessNotification(message) {
+    // Implementation for showing success notifications
+    console.log(`Success: ${message}`);
+  },
+    viewDetails(reservation) {
+      this.selectedReservation = reservation;
+      this.detailsModalVisible = true;
+    },
+    closeDetailsModal() {
+      this.detailsModalVisible = false;
+    },
   async fetchMenuItems() {
       try {
         const response = await axios.get('/api/menu');
@@ -1134,15 +1358,18 @@ methods: {
     },
     async addMenuItem() {
   try {
-    const response = await axios.post("http://localhost:8080/addMenuItem", {
-      item_name: this.newItem.item_name,
-      item_category: this.newItem.item_category,
-      item_price: this.newItem.item_price
+    const response = await axios.post("http://localhost:8080/api/menu", {
+      item_name: this.item_name,
+      item_category: this.item_category,
+      item_price: this.item_price
     });
 
     if (response.data.status === "success") {
       this.showSuccessNotification(response.data.message);
-      this.closeAddModal();
+      this.clearForm();
+      this.closeAddItemModal();
+      // Optionally fetch the updated menu list
+      this.fetchMenuItems();
     } else {
       console.error("Error from server:", response.data.message, response.data.errors);
       this.showErrorNotification(response.data.message);
@@ -1164,35 +1391,94 @@ methods: {
   }
 },
 
-    clearForm() {
-      this.newItem = {
-        item_name: '',
-        item_category: '',
-        item_price: null,
-      };
-    },
+clearForm() {
+  this.item_name = '';
+  this.item_category = '';
+  this.item_price = '';
+},
+
     showSuccessNotification(message) {
       this.successMessage = message;
       setTimeout(() => {
         this.successMessage = '';
       }, 3000); // Clear the message after 3 seconds
     },
+    showErrorNotification(message) {
+      this.errorMessage = message;
+      setTimeout(() => {
+        this.errorMessage = '';
+      }, 5000); // Clear the message after 5 seconds
+    },
     openEditItemModal(item) {
-      this.currentItem = { ...item };
-      this.editModalItemVisible = true;
+  if (!item.menu_id) {
+    console.error('Item ID is missing.');
+    this.showErrorNotification('Item ID is missing.');
+    return;
+  }
+  this.currentItem = { ...item };
+  console.log('Selected item:', this.currentItem); // Check the contents of currentItem
+  this.editModalItemVisible = true;
+},
+  closeEditItemModal() {
+    this.editModalItemVisible = false;
+  },
+  async updateMenuItem() {
+  try {
+    // Prepare the data to be sent in the request
+    const data = {
+      item_name: this.currentItem.item_name,
+      item_category: this.currentItem.item_category,
+      item_price: this.currentItem.item_price,
+    };
+
+    // Construct the API URL
+    const apiUrl = `/api/menu/${this.currentItem.menu_id}`;
+
+    // Make an API call to update the menu item
+    const response = await axios.put(apiUrl, data);
+
+    // Log success and notify user
+    console.log("Item updated successfully:", response.data);
+    this.showSuccessNotification(response.data.message || 'Item updated successfully!');
+
+    // Close the modal and refresh the menu items list
+    this.closeEditItemModal();
+    this.fetchMenuItems(); // Refresh the list of menu items
+
+    // Emit an event to notify other components
+    this.$emit("item-updated");
+  } catch (error) {
+    console.error("Error updating item:", error);
+    if (error.response) {
+      console.error("Server responded with a status:", error.response.status);
+      console.error("Response data:", error.response.data);
+      this.showErrorNotification(`Server error: ${error.response.data.message || 'Unknown server error'}`);
+    } else if (error.request) {
+      console.error("No response received:", error.request);
+      this.showErrorNotification('No response received from server.');
+    } else {
+      console.error("Error setting up request:", error.message);
+      this.showErrorNotification('Error setting up request: ' + error.message);
+    }
+  }
+},
+
+
+    showSuccessNotification(message) {
+      this.successMessage = message;
+      setTimeout(() => this.successMessage = '', 3000);
     },
-    closeEditItemModal() {
-      this.editModalItemVisible = false;
+    showErrorNotification(message) {
+      this.errorMessage = message;
+      setTimeout(() => this.errorMessage = '', 5000);
     },
-    async updateMenuItem() {
-      try {
-        await axios.put(`/api/menu/${this.currentItem.menu_id}`, this.currentItem);
-        this.successMessage = 'Item updated successfully!';
-        this.closeEditModal();
-        this.fetchMenuItems();
-      } catch (error) {
-        console.error(error);
-      }
+    clearForm() {
+      this.currentItem = {
+        menu_id: null,
+        item_name: '',
+        item_category: '',
+        item_price: ''
+      };
     },
     async deleteItem(itemId) {
       try {
@@ -1290,22 +1576,47 @@ methods: {
   },
 
   async declineBooking(booking_id) {
-    try {
-      const response = await axios.post(`/api/decline-booking/${booking_id}`);
+      try {
+        const response = await axios.post(`/api/decline-booking/${booking_id}`);
 
-      if (response.status === 200) {
-        this.showSuccessNotification(`Booking ${booking_id} Declined`);
-        this.getbook();
-        this.getRoom();
-
-        this.$emit("data-saved");
-      } else {
-        console.error("Failed to decline booking:", response.data.message);
+        if (response.status === 200) {
+          this.showSuccessNotification(`Booking ${booking_id} Declined`);
+          this.getBook();
+        } else {
+          console.error("Failed to decline booking:", response.data.message);
+        }
+      } catch (error) {
+        console.error("Error declining booking:", error);
       }
-    } catch (error) {
-      console.error("Error declining booking:", error);
-    }
-  },
+    },
+    async markAsPaid(booking_id) {
+      try {
+        const response = await axios.post(`/mark-as-paid/${booking_id}`);
+
+        if (response.status === 200) {
+          this.showSuccessNotification(`Booking ${booking_id} Marked as Paid`);
+          this.getBook();
+        } else {
+          console.error("Failed to mark as paid:", response.data.message);
+        }
+      } catch (error) {
+        console.error("Error marking as paid:", error);
+      }
+    },
+    async acceptBooking(booking_id) {
+      try {
+        const response = await axios.post(`/accept-booking/${booking_id}`);
+
+        if (response.status === 200) {
+          this.showSuccessNotification(`Booking ${booking_id} Accepted`);
+          this.getBook();
+        } else {
+          console.error("Failed to accept booking:", response.data.message);
+        }
+      } catch (error) {
+        console.error("Error accepting booking:", error);
+      }
+    },
   async declineenrolling(enroll_id) {
     try {
       const response = await axios.post(`/api/decline-enroll/${enroll_id}`);
@@ -1379,8 +1690,6 @@ methods: {
         room_name: this.editedRoom.room_name,
         price: this.editedRoom.price,
         downpayment: this.editedRoom.downpayment,
-        bed: this.editedRoom.bed,
-        bath: this.editedRoom.bath,
         description: this.editedRoom.description,
         room_status: this.editedRoom.room_status, // Add room_status to the data object
       };
@@ -1421,9 +1730,6 @@ methods: {
       data.append("price", this.price);
       data.append("downpayment", this.downpayment);
       data.append("packs", this.packs);
-
-      data.append("bed", this.bed);
-      data.append("bath", this.bath);
       data.append("description", this.description);
       this.showSuccessNotification("Room Added Successfully");
 
@@ -1435,9 +1741,6 @@ methods: {
       this.price = "";
       this.downpayment = "";
       this.packs = "";
-
-      this.bed = "";
-      this.bath = "";
       this.description = "";
 
       this.getRoom();
@@ -1447,22 +1750,22 @@ methods: {
     }
   },
 
-  async markAsPaid(booking_id) {
-    try {
-      const response = await axios.post(`/mark-as-paid/${booking_id}`);
+  // async markAsPaid(booking_id) {
+  //   try {
+  //     const response = await axios.post(`/mark-as-paid/${booking_id}`);
 
-      if (response.status === 200) {
-        this.showSuccessNotification(`Booking ${booking_id} Marked as Paid`);
-        this.getbook();
+  //     if (response.status === 200) {
+  //       this.showSuccessNotification(`Booking ${booking_id} Marked as Paid`);
+  //       this.getbook();
 
-        this.$emit("data-saved");
-      } else {
-        console.error("Failed to mark as paid:", response.data.message);
-      }
-    } catch (error) {
-      console.error("Error marking as paid:", error);
-    }
-  },
+  //       this.$emit("data-saved");
+  //     } else {
+  //       console.error("Failed to mark as paid:", response.data.message);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error marking as paid:", error);
+  //   }
+  // },
   async markthisPaid(enroll_id) {
     try {
       const response = await axios.post(`/mark-this-paid/${enroll_id}`);
@@ -1545,38 +1848,38 @@ methods: {
       this.openDropdown = null; 
     },
     handleDropdownAction(action, book_id) {
-
       if (action === 'markAsPaid') {
         this.markAsPaid(book_id);
       } else if (action === 'acceptBooking') {
         this.acceptBooking(book_id);
       } else if (action === 'declineBooking') {
-        this.declinBooking(book_id);
+        this.declineBooking(book_id);
       }
       this.openDropdown = null; 
     },
+
     showSuccessNotification(message) {
       this.successMessage = message;
       setTimeout(() => {
         this.successMessage = '';
       }, 3000);
     },
-  async acceptBooking(booking_id) {
-    try {
-      const response = await axios.post(`/accept-booking/${booking_id}`);
+  // async acceptBooking(booking_id) {
+  //   try {
+  //     const response = await axios.post(`/accept-booking/${booking_id}`);
 
-      if (response.status === 200) {
-        const updatedBookingId = response.data.booking_id;
-        this.showSuccessNotification(`Booking ${updatedBookingId} Accepted`);
-        this.getbook();
-        this.$emit("data-saved");
-      } else {
-        console.error("Failed to accept booking:", response.data.message);
-      }
-    } catch (error) {
-      console.error("Error accepting booking:", error);
-    }
-  },
+  //     if (response.status === 200) {
+  //       const updatedBookingId = response.data.booking_id;
+  //       this.showSuccessNotification(`Booking ${updatedBookingId} Accepted`);
+  //       this.getbook();
+  //       this.$emit("data-saved");
+  //     } else {
+  //       console.error("Failed to accept booking:", response.data.message);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error accepting booking:", error);
+  //   }
+  // },
 
   async acceptenrolling(enroll_id) {
     try {

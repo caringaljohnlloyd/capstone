@@ -1,11 +1,10 @@
 <template>
   <div class="container mt-5">
     <div class="row justify-content-center">
-      <div class="col-12 col-sm-8 col-md-6 col-lg-4 mt-3  p-4 form-wrapper bg-dark shadow">
+      <div class="col-12 col-sm-8 col-md-6 col-lg-4 mt-3 p-4 form-wrapper bg-dark shadow">
         <h2 class="text-primary text-center mb-4">Welcome Back!</h2>
 
         <form @submit.prevent="login">
-
           <!-- Email Input -->
           <div class="form-floating mb-3">
             <input type="email" class="form-control" v-model="email" required placeholder="Email" />
@@ -13,9 +12,12 @@
           </div>
 
           <!-- Password Input -->
-          <div class="form-floating mb-3">
-            <input type="password" class="form-control" v-model="password" required minlength="8" placeholder="Password" />
+          <div class="form-floating mb-3 position-relative">
+            <input :type="showPassword ? 'text' : 'password'" class="form-control" v-model="password" required minlength="8" placeholder="Password" />
             <label for="password" class="form-label">Password</label>
+            <span class="password-toggle" @click="togglePassword">
+              <i :class="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+            </span>
           </div>
 
           <!-- Error Message -->
@@ -31,7 +33,6 @@
             <router-link class="text-muted" to="/reset-password">Forgot Password?</router-link>
           </div>
         </form>
-
       </div>
     </div>
   </div>
@@ -58,6 +59,23 @@
   .text-muted {
     color: #6c757d;
   }
+
+  .position-relative {
+    position: relative;
+  }
+
+  .password-toggle {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #6c757d;
+  }
+
+  .password-toggle:hover {
+    color: #007bff;
+  }
 </style>
 
 <script>
@@ -69,10 +87,14 @@ export default {
     return {
       email: '',
       password: '',
+      showPassword: false,
       errorMessage: '',
     };
   },
   methods: {
+    togglePassword() {
+      this.showPassword = !this.showPassword;
+    },
     login() {
       const data = {
         email: this.email,

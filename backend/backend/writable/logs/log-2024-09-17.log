@@ -1,0 +1,1260 @@
+ERROR - 2024-09-17 11:38:33 --> Error connecting to the database: mysqli_sql_exception: No connection could be made because the target machine actively refused it in C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php:185
+Stack trace:
+#0 C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php(185): mysqli->real_connect('localhost', 'root', '', 'crud', 3306, '', 0)
+#1 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(392): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#2 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(575): CodeIgniter\Database\BaseConnection->initialize()
+#3 C:\laragon\www\capstone\backend\backend\system\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#4 C:\laragon\www\capstone\backend\backend\system\Model.php(237): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\laragon\www\capstone\backend\backend\system\BaseModel.php(624): CodeIgniter\Model->doFindAll(0, 0)
+#6 C:\laragon\www\capstone\backend\backend\app\Controllers\MainController.php(679): CodeIgniter\BaseModel->findAll()
+#7 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(942): App\Controllers\MainController->getItem()
+#8 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+#9 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\laragon\www\capstone\backend\backend\public\index.php(86): CodeIgniter\CodeIgniter->run()
+#11 C:\laragon\www\capstone\backend\backend\system\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\...')
+#12 {main}
+
+Next CodeIgniter\Database\Exceptions\DatabaseException: No connection could be made because the target machine actively refused it in C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php:229
+Stack trace:
+#0 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(392): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#1 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(575): CodeIgniter\Database\BaseConnection->initialize()
+#2 C:\laragon\www\capstone\backend\backend\system\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#3 C:\laragon\www\capstone\backend\backend\system\Model.php(237): CodeIgniter\Database\BaseBuilder->get()
+#4 C:\laragon\www\capstone\backend\backend\system\BaseModel.php(624): CodeIgniter\Model->doFindAll(0, 0)
+#5 C:\laragon\www\capstone\backend\backend\app\Controllers\MainController.php(679): CodeIgniter\BaseModel->findAll()
+#6 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(942): App\Controllers\MainController->getItem()
+#7 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+#8 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\laragon\www\capstone\backend\backend\public\index.php(86): CodeIgniter\CodeIgniter->run()
+#10 C:\laragon\www\capstone\backend\backend\system\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\...')
+#11 {main}
+CRITICAL - 2024-09-17 11:38:33 --> Unable to connect to the database.
+Main connection [MySQLi]: No connection could be made because the target machine actively refused it
+in SYSTEMPATH\Database\BaseConnection.php on line 428.
+ 1 SYSTEMPATH\Database\BaseConnection.php(575): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `menu`', [], false)
+ 3 SYSTEMPATH\Model.php(237): CodeIgniter\Database\BaseBuilder->get()
+ 4 SYSTEMPATH\BaseModel.php(624): CodeIgniter\Model->doFindAll(0, 0)
+ 5 APPPATH\Controllers\MainController.php(679): CodeIgniter\BaseModel->findAll()
+ 6 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->getItem()
+ 7 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 8 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+ERROR - 2024-09-17 11:38:38 --> Error connecting to the database: mysqli_sql_exception: No connection could be made because the target machine actively refused it in C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php:185
+Stack trace:
+#0 C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php(185): mysqli->real_connect('localhost', 'root', '', 'crud', 3306, '', 0)
+#1 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(392): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#2 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(575): CodeIgniter\Database\BaseConnection->initialize()
+#3 C:\laragon\www\capstone\backend\backend\system\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#4 C:\laragon\www\capstone\backend\backend\system\Model.php(237): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\laragon\www\capstone\backend\backend\system\BaseModel.php(624): CodeIgniter\Model->doFindAll(0, 0)
+#6 C:\laragon\www\capstone\backend\backend\app\Controllers\MainController.php(685): CodeIgniter\BaseModel->findAll()
+#7 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(942): App\Controllers\MainController->getCottage()
+#8 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+#9 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\laragon\www\capstone\backend\backend\public\index.php(86): CodeIgniter\CodeIgniter->run()
+#11 C:\laragon\www\capstone\backend\backend\system\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\...')
+#12 {main}
+
+Next CodeIgniter\Database\Exceptions\DatabaseException: No connection could be made because the target machine actively refused it in C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php:229
+Stack trace:
+#0 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(392): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#1 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(575): CodeIgniter\Database\BaseConnection->initialize()
+#2 C:\laragon\www\capstone\backend\backend\system\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#3 C:\laragon\www\capstone\backend\backend\system\Model.php(237): CodeIgniter\Database\BaseBuilder->get()
+#4 C:\laragon\www\capstone\backend\backend\system\BaseModel.php(624): CodeIgniter\Model->doFindAll(0, 0)
+#5 C:\laragon\www\capstone\backend\backend\app\Controllers\MainController.php(685): CodeIgniter\BaseModel->findAll()
+#6 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(942): App\Controllers\MainController->getCottage()
+#7 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+#8 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\laragon\www\capstone\backend\backend\public\index.php(86): CodeIgniter\CodeIgniter->run()
+#10 C:\laragon\www\capstone\backend\backend\system\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\...')
+#11 {main}
+CRITICAL - 2024-09-17 11:38:38 --> Unable to connect to the database.
+Main connection [MySQLi]: No connection could be made because the target machine actively refused it
+in SYSTEMPATH\Database\BaseConnection.php on line 428.
+ 1 SYSTEMPATH\Database\BaseConnection.php(575): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `cottage`', [], false)
+ 3 SYSTEMPATH\Model.php(237): CodeIgniter\Database\BaseBuilder->get()
+ 4 SYSTEMPATH\BaseModel.php(624): CodeIgniter\Model->doFindAll(0, 0)
+ 5 APPPATH\Controllers\MainController.php(685): CodeIgniter\BaseModel->findAll()
+ 6 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->getCottage()
+ 7 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 8 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+ERROR - 2024-09-17 11:38:42 --> Error connecting to the database: mysqli_sql_exception: No connection could be made because the target machine actively refused it in C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php:185
+Stack trace:
+#0 C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php(185): mysqli->real_connect('localhost', 'root', '', 'crud', 3306, '', 0)
+#1 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(392): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#2 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(575): CodeIgniter\Database\BaseConnection->initialize()
+#3 C:\laragon\www\capstone\backend\backend\system\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#4 C:\laragon\www\capstone\backend\backend\system\Model.php(237): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\laragon\www\capstone\backend\backend\system\BaseModel.php(624): CodeIgniter\Model->doFindAll(0, 0)
+#6 C:\laragon\www\capstone\backend\backend\app\Controllers\MainController.php(705): CodeIgniter\BaseModel->findAll()
+#7 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(942): App\Controllers\MainController->getFeedback()
+#8 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+#9 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\laragon\www\capstone\backend\backend\public\index.php(86): CodeIgniter\CodeIgniter->run()
+#11 C:\laragon\www\capstone\backend\backend\system\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\...')
+#12 {main}
+
+Next CodeIgniter\Database\Exceptions\DatabaseException: No connection could be made because the target machine actively refused it in C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php:229
+Stack trace:
+#0 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(392): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#1 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(575): CodeIgniter\Database\BaseConnection->initialize()
+#2 C:\laragon\www\capstone\backend\backend\system\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#3 C:\laragon\www\capstone\backend\backend\system\Model.php(237): CodeIgniter\Database\BaseBuilder->get()
+#4 C:\laragon\www\capstone\backend\backend\system\BaseModel.php(624): CodeIgniter\Model->doFindAll(0, 0)
+#5 C:\laragon\www\capstone\backend\backend\app\Controllers\MainController.php(705): CodeIgniter\BaseModel->findAll()
+#6 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(942): App\Controllers\MainController->getFeedback()
+#7 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+#8 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\laragon\www\capstone\backend\backend\public\index.php(86): CodeIgniter\CodeIgniter->run()
+#10 C:\laragon\www\capstone\backend\backend\system\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\...')
+#11 {main}
+CRITICAL - 2024-09-17 11:38:42 --> Unable to connect to the database.
+Main connection [MySQLi]: No connection could be made because the target machine actively refused it
+in SYSTEMPATH\Database\BaseConnection.php on line 428.
+ 1 SYSTEMPATH\Database\BaseConnection.php(575): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `feedbacks`
+WHERE `is_hidden` = :is_hidden:', [...], false)
+ 3 SYSTEMPATH\Model.php(237): CodeIgniter\Database\BaseBuilder->get()
+ 4 SYSTEMPATH\BaseModel.php(624): CodeIgniter\Model->doFindAll(0, 0)
+ 5 APPPATH\Controllers\MainController.php(705): CodeIgniter\BaseModel->findAll()
+ 6 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->getFeedback()
+ 7 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 8 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+ERROR - 2024-09-17 11:38:46 --> Error connecting to the database: mysqli_sql_exception: No connection could be made because the target machine actively refused it in C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php:185
+Stack trace:
+#0 C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php(185): mysqli->real_connect('localhost', 'root', '', 'crud', 3306, '', 0)
+#1 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(392): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#2 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(575): CodeIgniter\Database\BaseConnection->initialize()
+#3 C:\laragon\www\capstone\backend\backend\system\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#4 C:\laragon\www\capstone\backend\backend\system\Model.php(237): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\laragon\www\capstone\backend\backend\system\BaseModel.php(624): CodeIgniter\Model->doFindAll(0, 0)
+#6 C:\laragon\www\capstone\backend\backend\app\Controllers\MainController.php(786): CodeIgniter\BaseModel->findAll()
+#7 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(942): App\Controllers\MainController->getData()
+#8 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+#9 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\laragon\www\capstone\backend\backend\public\index.php(86): CodeIgniter\CodeIgniter->run()
+#11 C:\laragon\www\capstone\backend\backend\system\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\...')
+#12 {main}
+
+Next CodeIgniter\Database\Exceptions\DatabaseException: No connection could be made because the target machine actively refused it in C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php:229
+Stack trace:
+#0 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(392): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#1 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(575): CodeIgniter\Database\BaseConnection->initialize()
+#2 C:\laragon\www\capstone\backend\backend\system\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#3 C:\laragon\www\capstone\backend\backend\system\Model.php(237): CodeIgniter\Database\BaseBuilder->get()
+#4 C:\laragon\www\capstone\backend\backend\system\BaseModel.php(624): CodeIgniter\Model->doFindAll(0, 0)
+#5 C:\laragon\www\capstone\backend\backend\app\Controllers\MainController.php(786): CodeIgniter\BaseModel->findAll()
+#6 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(942): App\Controllers\MainController->getData()
+#7 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+#8 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\laragon\www\capstone\backend\backend\public\index.php(86): CodeIgniter\CodeIgniter->run()
+#10 C:\laragon\www\capstone\backend\backend\system\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\...')
+#11 {main}
+CRITICAL - 2024-09-17 11:38:46 --> Unable to connect to the database.
+Main connection [MySQLi]: No connection could be made because the target machine actively refused it
+in SYSTEMPATH\Database\BaseConnection.php on line 428.
+ 1 SYSTEMPATH\Database\BaseConnection.php(575): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `user`', [], false)
+ 3 SYSTEMPATH\Model.php(237): CodeIgniter\Database\BaseBuilder->get()
+ 4 SYSTEMPATH\BaseModel.php(624): CodeIgniter\Model->doFindAll(0, 0)
+ 5 APPPATH\Controllers\MainController.php(786): CodeIgniter\BaseModel->findAll()
+ 6 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->getData()
+ 7 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 8 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+ERROR - 2024-09-17 11:38:50 --> Error connecting to the database: mysqli_sql_exception: No connection could be made because the target machine actively refused it in C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php:185
+Stack trace:
+#0 C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php(185): mysqli->real_connect('localhost', 'root', '', 'crud', 3306, '', 0)
+#1 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(392): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#2 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(575): CodeIgniter\Database\BaseConnection->initialize()
+#3 C:\laragon\www\capstone\backend\backend\system\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#4 C:\laragon\www\capstone\backend\backend\system\Model.php(237): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\laragon\www\capstone\backend\backend\system\BaseModel.php(624): CodeIgniter\Model->doFindAll(0, 0)
+#6 C:\laragon\www\capstone\backend\backend\app\Controllers\MainController.php(770): CodeIgniter\BaseModel->findAll()
+#7 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(942): App\Controllers\MainController->getRoom()
+#8 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+#9 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\laragon\www\capstone\backend\backend\public\index.php(86): CodeIgniter\CodeIgniter->run()
+#11 C:\laragon\www\capstone\backend\backend\system\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\...')
+#12 {main}
+
+Next CodeIgniter\Database\Exceptions\DatabaseException: No connection could be made because the target machine actively refused it in C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php:229
+Stack trace:
+#0 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(392): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#1 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(575): CodeIgniter\Database\BaseConnection->initialize()
+#2 C:\laragon\www\capstone\backend\backend\system\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#3 C:\laragon\www\capstone\backend\backend\system\Model.php(237): CodeIgniter\Database\BaseBuilder->get()
+#4 C:\laragon\www\capstone\backend\backend\system\BaseModel.php(624): CodeIgniter\Model->doFindAll(0, 0)
+#5 C:\laragon\www\capstone\backend\backend\app\Controllers\MainController.php(770): CodeIgniter\BaseModel->findAll()
+#6 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(942): App\Controllers\MainController->getRoom()
+#7 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+#8 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\laragon\www\capstone\backend\backend\public\index.php(86): CodeIgniter\CodeIgniter->run()
+#10 C:\laragon\www\capstone\backend\backend\system\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\...')
+#11 {main}
+CRITICAL - 2024-09-17 11:38:50 --> Unable to connect to the database.
+Main connection [MySQLi]: No connection could be made because the target machine actively refused it
+in SYSTEMPATH\Database\BaseConnection.php on line 428.
+ 1 SYSTEMPATH\Database\BaseConnection.php(575): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `room`', [], false)
+ 3 SYSTEMPATH\Model.php(237): CodeIgniter\Database\BaseBuilder->get()
+ 4 SYSTEMPATH\BaseModel.php(624): CodeIgniter\Model->doFindAll(0, 0)
+ 5 APPPATH\Controllers\MainController.php(770): CodeIgniter\BaseModel->findAll()
+ 6 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->getRoom()
+ 7 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 8 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+ERROR - 2024-09-17 11:38:54 --> Error connecting to the database: mysqli_sql_exception: No connection could be made because the target machine actively refused it in C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php:185
+Stack trace:
+#0 C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php(185): mysqli->real_connect('localhost', 'root', '', 'crud', 3306, '', 0)
+#1 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(392): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#2 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(575): CodeIgniter\Database\BaseConnection->initialize()
+#3 C:\laragon\www\capstone\backend\backend\system\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#4 C:\laragon\www\capstone\backend\backend\system\Model.php(237): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\laragon\www\capstone\backend\backend\system\BaseModel.php(624): CodeIgniter\Model->doFindAll(0, 0)
+#6 C:\laragon\www\capstone\backend\backend\app\Controllers\MainController.php(636): CodeIgniter\BaseModel->findAll()
+#7 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(942): App\Controllers\MainController->getStaff()
+#8 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+#9 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\laragon\www\capstone\backend\backend\public\index.php(86): CodeIgniter\CodeIgniter->run()
+#11 C:\laragon\www\capstone\backend\backend\system\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\...')
+#12 {main}
+
+Next CodeIgniter\Database\Exceptions\DatabaseException: No connection could be made because the target machine actively refused it in C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php:229
+Stack trace:
+#0 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(392): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#1 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(575): CodeIgniter\Database\BaseConnection->initialize()
+#2 C:\laragon\www\capstone\backend\backend\system\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#3 C:\laragon\www\capstone\backend\backend\system\Model.php(237): CodeIgniter\Database\BaseBuilder->get()
+#4 C:\laragon\www\capstone\backend\backend\system\BaseModel.php(624): CodeIgniter\Model->doFindAll(0, 0)
+#5 C:\laragon\www\capstone\backend\backend\app\Controllers\MainController.php(636): CodeIgniter\BaseModel->findAll()
+#6 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(942): App\Controllers\MainController->getStaff()
+#7 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+#8 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\laragon\www\capstone\backend\backend\public\index.php(86): CodeIgniter\CodeIgniter->run()
+#10 C:\laragon\www\capstone\backend\backend\system\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\...')
+#11 {main}
+CRITICAL - 2024-09-17 11:38:54 --> Unable to connect to the database.
+Main connection [MySQLi]: No connection could be made because the target machine actively refused it
+in SYSTEMPATH\Database\BaseConnection.php on line 428.
+ 1 SYSTEMPATH\Database\BaseConnection.php(575): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `staff`
+WHERE `hide_staff` = :hide_staff:', [...], false)
+ 3 SYSTEMPATH\Model.php(237): CodeIgniter\Database\BaseBuilder->get()
+ 4 SYSTEMPATH\BaseModel.php(624): CodeIgniter\Model->doFindAll(0, 0)
+ 5 APPPATH\Controllers\MainController.php(636): CodeIgniter\BaseModel->findAll()
+ 6 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->getStaff()
+ 7 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 8 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+ERROR - 2024-09-17 11:38:59 --> Error connecting to the database: mysqli_sql_exception: No connection could be made because the target machine actively refused it in C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php:185
+Stack trace:
+#0 C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php(185): mysqli->real_connect('localhost', 'root', '', 'crud', 3306, '', 0)
+#1 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(392): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#2 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(575): CodeIgniter\Database\BaseConnection->initialize()
+#3 C:\laragon\www\capstone\backend\backend\system\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT `booking...', Array, false)
+#4 C:\laragon\www\capstone\backend\backend\system\Model.php(237): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\laragon\www\capstone\backend\backend\system\BaseModel.php(624): CodeIgniter\Model->doFindAll(0, 0)
+#6 C:\laragon\www\capstone\backend\backend\app\Controllers\MainController.php(812): CodeIgniter\BaseModel->findAll()
+#7 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(942): App\Controllers\MainController->getBook()
+#8 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+#9 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\laragon\www\capstone\backend\backend\public\index.php(86): CodeIgniter\CodeIgniter->run()
+#11 C:\laragon\www\capstone\backend\backend\system\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\...')
+#12 {main}
+
+Next CodeIgniter\Database\Exceptions\DatabaseException: No connection could be made because the target machine actively refused it in C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php:229
+Stack trace:
+#0 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(392): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#1 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(575): CodeIgniter\Database\BaseConnection->initialize()
+#2 C:\laragon\www\capstone\backend\backend\system\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT `booking...', Array, false)
+#3 C:\laragon\www\capstone\backend\backend\system\Model.php(237): CodeIgniter\Database\BaseBuilder->get()
+#4 C:\laragon\www\capstone\backend\backend\system\BaseModel.php(624): CodeIgniter\Model->doFindAll(0, 0)
+#5 C:\laragon\www\capstone\backend\backend\app\Controllers\MainController.php(812): CodeIgniter\BaseModel->findAll()
+#6 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(942): App\Controllers\MainController->getBook()
+#7 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+#8 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\laragon\www\capstone\backend\backend\public\index.php(86): CodeIgniter\CodeIgniter->run()
+#10 C:\laragon\www\capstone\backend\backend\system\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\...')
+#11 {main}
+CRITICAL - 2024-09-17 11:38:59 --> Unable to connect to the database.
+Main connection [MySQLi]: No connection could be made because the target machine actively refused it
+in SYSTEMPATH\Database\BaseConnection.php on line 428.
+ 1 SYSTEMPATH\Database\BaseConnection.php(575): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT `booking`.*, `user`.*, `room`.*
+FROM `booking`
+JOIN `user` ON `user`.`id` = `booking`.`id`
+JOIN `room` ON `room`.`room_id` = `booking`.`room_id`
+WHERE `booking`.`booking_status` != :booking.booking_status:
+AND `booking`.`booking_status` != :booking.booking_status.1:', [...], false)
+ 3 SYSTEMPATH\Model.php(237): CodeIgniter\Database\BaseBuilder->get()
+ 4 SYSTEMPATH\BaseModel.php(624): CodeIgniter\Model->doFindAll(0, 0)
+ 5 APPPATH\Controllers\MainController.php(812): CodeIgniter\BaseModel->findAll()
+ 6 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->getBook()
+ 7 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 8 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+ERROR - 2024-09-17 11:39:03 --> Error connecting to the database: mysqli_sql_exception: No connection could be made because the target machine actively refused it in C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php:185
+Stack trace:
+#0 C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php(185): mysqli->real_connect('localhost', 'root', '', 'crud', 3306, '', 0)
+#1 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(392): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#2 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(575): CodeIgniter\Database\BaseConnection->initialize()
+#3 C:\laragon\www\capstone\backend\backend\system\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#4 C:\laragon\www\capstone\backend\backend\system\Model.php(237): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\laragon\www\capstone\backend\backend\system\BaseModel.php(624): CodeIgniter\Model->doFindAll(0, 0)
+#6 C:\laragon\www\capstone\backend\backend\app\Controllers\MainController.php(679): CodeIgniter\BaseModel->findAll()
+#7 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(942): App\Controllers\MainController->getItem()
+#8 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+#9 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\laragon\www\capstone\backend\backend\public\index.php(86): CodeIgniter\CodeIgniter->run()
+#11 C:\laragon\www\capstone\backend\backend\system\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\...')
+#12 {main}
+
+Next CodeIgniter\Database\Exceptions\DatabaseException: No connection could be made because the target machine actively refused it in C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php:229
+Stack trace:
+#0 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(392): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#1 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(575): CodeIgniter\Database\BaseConnection->initialize()
+#2 C:\laragon\www\capstone\backend\backend\system\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#3 C:\laragon\www\capstone\backend\backend\system\Model.php(237): CodeIgniter\Database\BaseBuilder->get()
+#4 C:\laragon\www\capstone\backend\backend\system\BaseModel.php(624): CodeIgniter\Model->doFindAll(0, 0)
+#5 C:\laragon\www\capstone\backend\backend\app\Controllers\MainController.php(679): CodeIgniter\BaseModel->findAll()
+#6 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(942): App\Controllers\MainController->getItem()
+#7 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+#8 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\laragon\www\capstone\backend\backend\public\index.php(86): CodeIgniter\CodeIgniter->run()
+#10 C:\laragon\www\capstone\backend\backend\system\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\...')
+#11 {main}
+CRITICAL - 2024-09-17 11:39:03 --> Unable to connect to the database.
+Main connection [MySQLi]: No connection could be made because the target machine actively refused it
+in SYSTEMPATH\Database\BaseConnection.php on line 428.
+ 1 SYSTEMPATH\Database\BaseConnection.php(575): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `menu`', [], false)
+ 3 SYSTEMPATH\Model.php(237): CodeIgniter\Database\BaseBuilder->get()
+ 4 SYSTEMPATH\BaseModel.php(624): CodeIgniter\Model->doFindAll(0, 0)
+ 5 APPPATH\Controllers\MainController.php(679): CodeIgniter\BaseModel->findAll()
+ 6 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->getItem()
+ 7 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 8 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+ERROR - 2024-09-17 11:39:07 --> Error connecting to the database: mysqli_sql_exception: No connection could be made because the target machine actively refused it in C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php:185
+Stack trace:
+#0 C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php(185): mysqli->real_connect('localhost', 'root', '', 'crud', 3306, '', 0)
+#1 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(392): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#2 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(575): CodeIgniter\Database\BaseConnection->initialize()
+#3 C:\laragon\www\capstone\backend\backend\system\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#4 C:\laragon\www\capstone\backend\backend\system\Model.php(237): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\laragon\www\capstone\backend\backend\system\BaseModel.php(624): CodeIgniter\Model->doFindAll(0, 0)
+#6 C:\laragon\www\capstone\backend\backend\app\Controllers\MainController.php(685): CodeIgniter\BaseModel->findAll()
+#7 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(942): App\Controllers\MainController->getCottage()
+#8 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+#9 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\laragon\www\capstone\backend\backend\public\index.php(86): CodeIgniter\CodeIgniter->run()
+#11 C:\laragon\www\capstone\backend\backend\system\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\...')
+#12 {main}
+
+Next CodeIgniter\Database\Exceptions\DatabaseException: No connection could be made because the target machine actively refused it in C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php:229
+Stack trace:
+#0 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(392): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#1 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(575): CodeIgniter\Database\BaseConnection->initialize()
+#2 C:\laragon\www\capstone\backend\backend\system\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#3 C:\laragon\www\capstone\backend\backend\system\Model.php(237): CodeIgniter\Database\BaseBuilder->get()
+#4 C:\laragon\www\capstone\backend\backend\system\BaseModel.php(624): CodeIgniter\Model->doFindAll(0, 0)
+#5 C:\laragon\www\capstone\backend\backend\app\Controllers\MainController.php(685): CodeIgniter\BaseModel->findAll()
+#6 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(942): App\Controllers\MainController->getCottage()
+#7 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+#8 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\laragon\www\capstone\backend\backend\public\index.php(86): CodeIgniter\CodeIgniter->run()
+#10 C:\laragon\www\capstone\backend\backend\system\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\...')
+#11 {main}
+CRITICAL - 2024-09-17 11:39:07 --> Unable to connect to the database.
+Main connection [MySQLi]: No connection could be made because the target machine actively refused it
+in SYSTEMPATH\Database\BaseConnection.php on line 428.
+ 1 SYSTEMPATH\Database\BaseConnection.php(575): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `cottage`', [], false)
+ 3 SYSTEMPATH\Model.php(237): CodeIgniter\Database\BaseBuilder->get()
+ 4 SYSTEMPATH\BaseModel.php(624): CodeIgniter\Model->doFindAll(0, 0)
+ 5 APPPATH\Controllers\MainController.php(685): CodeIgniter\BaseModel->findAll()
+ 6 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->getCottage()
+ 7 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 8 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+ERROR - 2024-09-17 11:39:11 --> Error connecting to the database: mysqli_sql_exception: No connection could be made because the target machine actively refused it in C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php:185
+Stack trace:
+#0 C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php(185): mysqli->real_connect('localhost', 'root', '', 'crud', 3306, '', 0)
+#1 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(392): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#2 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(575): CodeIgniter\Database\BaseConnection->initialize()
+#3 C:\laragon\www\capstone\backend\backend\system\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#4 C:\laragon\www\capstone\backend\backend\system\Model.php(237): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\laragon\www\capstone\backend\backend\system\BaseModel.php(624): CodeIgniter\Model->doFindAll(0, 0)
+#6 C:\laragon\www\capstone\backend\backend\app\Controllers\MainController.php(705): CodeIgniter\BaseModel->findAll()
+#7 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(942): App\Controllers\MainController->getFeedback()
+#8 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+#9 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\laragon\www\capstone\backend\backend\public\index.php(86): CodeIgniter\CodeIgniter->run()
+#11 C:\laragon\www\capstone\backend\backend\system\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\...')
+#12 {main}
+
+Next CodeIgniter\Database\Exceptions\DatabaseException: No connection could be made because the target machine actively refused it in C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php:229
+Stack trace:
+#0 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(392): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#1 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(575): CodeIgniter\Database\BaseConnection->initialize()
+#2 C:\laragon\www\capstone\backend\backend\system\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#3 C:\laragon\www\capstone\backend\backend\system\Model.php(237): CodeIgniter\Database\BaseBuilder->get()
+#4 C:\laragon\www\capstone\backend\backend\system\BaseModel.php(624): CodeIgniter\Model->doFindAll(0, 0)
+#5 C:\laragon\www\capstone\backend\backend\app\Controllers\MainController.php(705): CodeIgniter\BaseModel->findAll()
+#6 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(942): App\Controllers\MainController->getFeedback()
+#7 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+#8 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\laragon\www\capstone\backend\backend\public\index.php(86): CodeIgniter\CodeIgniter->run()
+#10 C:\laragon\www\capstone\backend\backend\system\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\...')
+#11 {main}
+CRITICAL - 2024-09-17 11:39:11 --> Unable to connect to the database.
+Main connection [MySQLi]: No connection could be made because the target machine actively refused it
+in SYSTEMPATH\Database\BaseConnection.php on line 428.
+ 1 SYSTEMPATH\Database\BaseConnection.php(575): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `feedbacks`
+WHERE `is_hidden` = :is_hidden:', [...], false)
+ 3 SYSTEMPATH\Model.php(237): CodeIgniter\Database\BaseBuilder->get()
+ 4 SYSTEMPATH\BaseModel.php(624): CodeIgniter\Model->doFindAll(0, 0)
+ 5 APPPATH\Controllers\MainController.php(705): CodeIgniter\BaseModel->findAll()
+ 6 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->getFeedback()
+ 7 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 8 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+ERROR - 2024-09-17 11:39:15 --> Error connecting to the database: mysqli_sql_exception: No connection could be made because the target machine actively refused it in C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php:185
+Stack trace:
+#0 C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php(185): mysqli->real_connect('localhost', 'root', '', 'crud', 3306, '', 0)
+#1 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(392): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#2 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(575): CodeIgniter\Database\BaseConnection->initialize()
+#3 C:\laragon\www\capstone\backend\backend\system\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#4 C:\laragon\www\capstone\backend\backend\system\Model.php(237): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\laragon\www\capstone\backend\backend\system\BaseModel.php(624): CodeIgniter\Model->doFindAll(0, 0)
+#6 C:\laragon\www\capstone\backend\backend\app\Controllers\MainController.php(786): CodeIgniter\BaseModel->findAll()
+#7 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(942): App\Controllers\MainController->getData()
+#8 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+#9 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\laragon\www\capstone\backend\backend\public\index.php(86): CodeIgniter\CodeIgniter->run()
+#11 C:\laragon\www\capstone\backend\backend\system\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\...')
+#12 {main}
+
+Next CodeIgniter\Database\Exceptions\DatabaseException: No connection could be made because the target machine actively refused it in C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php:229
+Stack trace:
+#0 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(392): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#1 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(575): CodeIgniter\Database\BaseConnection->initialize()
+#2 C:\laragon\www\capstone\backend\backend\system\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#3 C:\laragon\www\capstone\backend\backend\system\Model.php(237): CodeIgniter\Database\BaseBuilder->get()
+#4 C:\laragon\www\capstone\backend\backend\system\BaseModel.php(624): CodeIgniter\Model->doFindAll(0, 0)
+#5 C:\laragon\www\capstone\backend\backend\app\Controllers\MainController.php(786): CodeIgniter\BaseModel->findAll()
+#6 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(942): App\Controllers\MainController->getData()
+#7 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+#8 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\laragon\www\capstone\backend\backend\public\index.php(86): CodeIgniter\CodeIgniter->run()
+#10 C:\laragon\www\capstone\backend\backend\system\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\...')
+#11 {main}
+CRITICAL - 2024-09-17 11:39:15 --> Unable to connect to the database.
+Main connection [MySQLi]: No connection could be made because the target machine actively refused it
+in SYSTEMPATH\Database\BaseConnection.php on line 428.
+ 1 SYSTEMPATH\Database\BaseConnection.php(575): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `user`', [], false)
+ 3 SYSTEMPATH\Model.php(237): CodeIgniter\Database\BaseBuilder->get()
+ 4 SYSTEMPATH\BaseModel.php(624): CodeIgniter\Model->doFindAll(0, 0)
+ 5 APPPATH\Controllers\MainController.php(786): CodeIgniter\BaseModel->findAll()
+ 6 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->getData()
+ 7 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 8 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+ERROR - 2024-09-17 11:39:20 --> Error connecting to the database: mysqli_sql_exception: No connection could be made because the target machine actively refused it in C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php:185
+Stack trace:
+#0 C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php(185): mysqli->real_connect('localhost', 'root', '', 'crud', 3306, '', 0)
+#1 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(392): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#2 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(575): CodeIgniter\Database\BaseConnection->initialize()
+#3 C:\laragon\www\capstone\backend\backend\system\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#4 C:\laragon\www\capstone\backend\backend\system\Model.php(237): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\laragon\www\capstone\backend\backend\system\BaseModel.php(624): CodeIgniter\Model->doFindAll(0, 0)
+#6 C:\laragon\www\capstone\backend\backend\app\Controllers\MainController.php(770): CodeIgniter\BaseModel->findAll()
+#7 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(942): App\Controllers\MainController->getRoom()
+#8 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+#9 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\laragon\www\capstone\backend\backend\public\index.php(86): CodeIgniter\CodeIgniter->run()
+#11 C:\laragon\www\capstone\backend\backend\system\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\...')
+#12 {main}
+
+Next CodeIgniter\Database\Exceptions\DatabaseException: No connection could be made because the target machine actively refused it in C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php:229
+Stack trace:
+#0 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(392): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#1 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(575): CodeIgniter\Database\BaseConnection->initialize()
+#2 C:\laragon\www\capstone\backend\backend\system\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#3 C:\laragon\www\capstone\backend\backend\system\Model.php(237): CodeIgniter\Database\BaseBuilder->get()
+#4 C:\laragon\www\capstone\backend\backend\system\BaseModel.php(624): CodeIgniter\Model->doFindAll(0, 0)
+#5 C:\laragon\www\capstone\backend\backend\app\Controllers\MainController.php(770): CodeIgniter\BaseModel->findAll()
+#6 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(942): App\Controllers\MainController->getRoom()
+#7 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+#8 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\laragon\www\capstone\backend\backend\public\index.php(86): CodeIgniter\CodeIgniter->run()
+#10 C:\laragon\www\capstone\backend\backend\system\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\...')
+#11 {main}
+CRITICAL - 2024-09-17 11:39:20 --> Unable to connect to the database.
+Main connection [MySQLi]: No connection could be made because the target machine actively refused it
+in SYSTEMPATH\Database\BaseConnection.php on line 428.
+ 1 SYSTEMPATH\Database\BaseConnection.php(575): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `room`', [], false)
+ 3 SYSTEMPATH\Model.php(237): CodeIgniter\Database\BaseBuilder->get()
+ 4 SYSTEMPATH\BaseModel.php(624): CodeIgniter\Model->doFindAll(0, 0)
+ 5 APPPATH\Controllers\MainController.php(770): CodeIgniter\BaseModel->findAll()
+ 6 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->getRoom()
+ 7 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 8 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+ERROR - 2024-09-17 11:39:24 --> Error connecting to the database: mysqli_sql_exception: No connection could be made because the target machine actively refused it in C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php:185
+Stack trace:
+#0 C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php(185): mysqli->real_connect('localhost', 'root', '', 'crud', 3306, '', 0)
+#1 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(392): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#2 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(575): CodeIgniter\Database\BaseConnection->initialize()
+#3 C:\laragon\www\capstone\backend\backend\system\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#4 C:\laragon\www\capstone\backend\backend\system\Model.php(237): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\laragon\www\capstone\backend\backend\system\BaseModel.php(624): CodeIgniter\Model->doFindAll(0, 0)
+#6 C:\laragon\www\capstone\backend\backend\app\Controllers\MainController.php(636): CodeIgniter\BaseModel->findAll()
+#7 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(942): App\Controllers\MainController->getStaff()
+#8 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+#9 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\laragon\www\capstone\backend\backend\public\index.php(86): CodeIgniter\CodeIgniter->run()
+#11 C:\laragon\www\capstone\backend\backend\system\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\...')
+#12 {main}
+
+Next CodeIgniter\Database\Exceptions\DatabaseException: No connection could be made because the target machine actively refused it in C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php:229
+Stack trace:
+#0 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(392): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#1 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(575): CodeIgniter\Database\BaseConnection->initialize()
+#2 C:\laragon\www\capstone\backend\backend\system\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#3 C:\laragon\www\capstone\backend\backend\system\Model.php(237): CodeIgniter\Database\BaseBuilder->get()
+#4 C:\laragon\www\capstone\backend\backend\system\BaseModel.php(624): CodeIgniter\Model->doFindAll(0, 0)
+#5 C:\laragon\www\capstone\backend\backend\app\Controllers\MainController.php(636): CodeIgniter\BaseModel->findAll()
+#6 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(942): App\Controllers\MainController->getStaff()
+#7 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+#8 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\laragon\www\capstone\backend\backend\public\index.php(86): CodeIgniter\CodeIgniter->run()
+#10 C:\laragon\www\capstone\backend\backend\system\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\...')
+#11 {main}
+CRITICAL - 2024-09-17 11:39:24 --> Unable to connect to the database.
+Main connection [MySQLi]: No connection could be made because the target machine actively refused it
+in SYSTEMPATH\Database\BaseConnection.php on line 428.
+ 1 SYSTEMPATH\Database\BaseConnection.php(575): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `staff`
+WHERE `hide_staff` = :hide_staff:', [...], false)
+ 3 SYSTEMPATH\Model.php(237): CodeIgniter\Database\BaseBuilder->get()
+ 4 SYSTEMPATH\BaseModel.php(624): CodeIgniter\Model->doFindAll(0, 0)
+ 5 APPPATH\Controllers\MainController.php(636): CodeIgniter\BaseModel->findAll()
+ 6 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->getStaff()
+ 7 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 8 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+ERROR - 2024-09-17 11:39:28 --> Error connecting to the database: mysqli_sql_exception: No connection could be made because the target machine actively refused it in C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php:185
+Stack trace:
+#0 C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php(185): mysqli->real_connect('localhost', 'root', '', 'crud', 3306, '', 0)
+#1 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(392): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#2 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(575): CodeIgniter\Database\BaseConnection->initialize()
+#3 C:\laragon\www\capstone\backend\backend\system\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT `booking...', Array, false)
+#4 C:\laragon\www\capstone\backend\backend\system\Model.php(237): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\laragon\www\capstone\backend\backend\system\BaseModel.php(624): CodeIgniter\Model->doFindAll(0, 0)
+#6 C:\laragon\www\capstone\backend\backend\app\Controllers\MainController.php(812): CodeIgniter\BaseModel->findAll()
+#7 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(942): App\Controllers\MainController->getBook()
+#8 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+#9 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\laragon\www\capstone\backend\backend\public\index.php(86): CodeIgniter\CodeIgniter->run()
+#11 C:\laragon\www\capstone\backend\backend\system\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\...')
+#12 {main}
+
+Next CodeIgniter\Database\Exceptions\DatabaseException: No connection could be made because the target machine actively refused it in C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php:229
+Stack trace:
+#0 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(392): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#1 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(575): CodeIgniter\Database\BaseConnection->initialize()
+#2 C:\laragon\www\capstone\backend\backend\system\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT `booking...', Array, false)
+#3 C:\laragon\www\capstone\backend\backend\system\Model.php(237): CodeIgniter\Database\BaseBuilder->get()
+#4 C:\laragon\www\capstone\backend\backend\system\BaseModel.php(624): CodeIgniter\Model->doFindAll(0, 0)
+#5 C:\laragon\www\capstone\backend\backend\app\Controllers\MainController.php(812): CodeIgniter\BaseModel->findAll()
+#6 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(942): App\Controllers\MainController->getBook()
+#7 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+#8 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\laragon\www\capstone\backend\backend\public\index.php(86): CodeIgniter\CodeIgniter->run()
+#10 C:\laragon\www\capstone\backend\backend\system\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\...')
+#11 {main}
+CRITICAL - 2024-09-17 11:39:28 --> Unable to connect to the database.
+Main connection [MySQLi]: No connection could be made because the target machine actively refused it
+in SYSTEMPATH\Database\BaseConnection.php on line 428.
+ 1 SYSTEMPATH\Database\BaseConnection.php(575): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT `booking`.*, `user`.*, `room`.*
+FROM `booking`
+JOIN `user` ON `user`.`id` = `booking`.`id`
+JOIN `room` ON `room`.`room_id` = `booking`.`room_id`
+WHERE `booking`.`booking_status` != :booking.booking_status:
+AND `booking`.`booking_status` != :booking.booking_status.1:', [...], false)
+ 3 SYSTEMPATH\Model.php(237): CodeIgniter\Database\BaseBuilder->get()
+ 4 SYSTEMPATH\BaseModel.php(624): CodeIgniter\Model->doFindAll(0, 0)
+ 5 APPPATH\Controllers\MainController.php(812): CodeIgniter\BaseModel->findAll()
+ 6 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->getBook()
+ 7 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 8 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+ERROR - 2024-09-17 11:39:32 --> Error connecting to the database: mysqli_sql_exception: No connection could be made because the target machine actively refused it in C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php:185
+Stack trace:
+#0 C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php(185): mysqli->real_connect('localhost', 'root', '', 'crud', 3306, '', 0)
+#1 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(392): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#2 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(575): CodeIgniter\Database\BaseConnection->initialize()
+#3 C:\laragon\www\capstone\backend\backend\system\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#4 C:\laragon\www\capstone\backend\backend\system\Model.php(237): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\laragon\www\capstone\backend\backend\system\BaseModel.php(624): CodeIgniter\Model->doFindAll(0, 0)
+#6 C:\laragon\www\capstone\backend\backend\app\Controllers\MainController.php(786): CodeIgniter\BaseModel->findAll()
+#7 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(942): App\Controllers\MainController->getData()
+#8 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+#9 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\laragon\www\capstone\backend\backend\public\index.php(86): CodeIgniter\CodeIgniter->run()
+#11 C:\laragon\www\capstone\backend\backend\system\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\...')
+#12 {main}
+
+Next CodeIgniter\Database\Exceptions\DatabaseException: No connection could be made because the target machine actively refused it in C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php:229
+Stack trace:
+#0 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(392): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#1 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(575): CodeIgniter\Database\BaseConnection->initialize()
+#2 C:\laragon\www\capstone\backend\backend\system\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#3 C:\laragon\www\capstone\backend\backend\system\Model.php(237): CodeIgniter\Database\BaseBuilder->get()
+#4 C:\laragon\www\capstone\backend\backend\system\BaseModel.php(624): CodeIgniter\Model->doFindAll(0, 0)
+#5 C:\laragon\www\capstone\backend\backend\app\Controllers\MainController.php(786): CodeIgniter\BaseModel->findAll()
+#6 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(942): App\Controllers\MainController->getData()
+#7 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+#8 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\laragon\www\capstone\backend\backend\public\index.php(86): CodeIgniter\CodeIgniter->run()
+#10 C:\laragon\www\capstone\backend\backend\system\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\...')
+#11 {main}
+CRITICAL - 2024-09-17 11:39:32 --> Unable to connect to the database.
+Main connection [MySQLi]: No connection could be made because the target machine actively refused it
+in SYSTEMPATH\Database\BaseConnection.php on line 428.
+ 1 SYSTEMPATH\Database\BaseConnection.php(575): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `user`', [], false)
+ 3 SYSTEMPATH\Model.php(237): CodeIgniter\Database\BaseBuilder->get()
+ 4 SYSTEMPATH\BaseModel.php(624): CodeIgniter\Model->doFindAll(0, 0)
+ 5 APPPATH\Controllers\MainController.php(786): CodeIgniter\BaseModel->findAll()
+ 6 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->getData()
+ 7 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 8 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+ERROR - 2024-09-17 11:39:37 --> Error connecting to the database: mysqli_sql_exception: No connection could be made because the target machine actively refused it in C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php:185
+Stack trace:
+#0 C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php(185): mysqli->real_connect('localhost', 'root', '', 'crud', 3306, '', 0)
+#1 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(392): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#2 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(575): CodeIgniter\Database\BaseConnection->initialize()
+#3 C:\laragon\www\capstone\backend\backend\system\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#4 C:\laragon\www\capstone\backend\backend\system\Model.php(237): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\laragon\www\capstone\backend\backend\system\BaseModel.php(624): CodeIgniter\Model->doFindAll(0, 0)
+#6 C:\laragon\www\capstone\backend\backend\app\Controllers\MainController.php(786): CodeIgniter\BaseModel->findAll()
+#7 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(942): App\Controllers\MainController->getData()
+#8 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+#9 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\laragon\www\capstone\backend\backend\public\index.php(86): CodeIgniter\CodeIgniter->run()
+#11 C:\laragon\www\capstone\backend\backend\system\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\...')
+#12 {main}
+
+Next CodeIgniter\Database\Exceptions\DatabaseException: No connection could be made because the target machine actively refused it in C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php:229
+Stack trace:
+#0 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(392): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#1 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(575): CodeIgniter\Database\BaseConnection->initialize()
+#2 C:\laragon\www\capstone\backend\backend\system\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#3 C:\laragon\www\capstone\backend\backend\system\Model.php(237): CodeIgniter\Database\BaseBuilder->get()
+#4 C:\laragon\www\capstone\backend\backend\system\BaseModel.php(624): CodeIgniter\Model->doFindAll(0, 0)
+#5 C:\laragon\www\capstone\backend\backend\app\Controllers\MainController.php(786): CodeIgniter\BaseModel->findAll()
+#6 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(942): App\Controllers\MainController->getData()
+#7 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+#8 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\laragon\www\capstone\backend\backend\public\index.php(86): CodeIgniter\CodeIgniter->run()
+#10 C:\laragon\www\capstone\backend\backend\system\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\...')
+#11 {main}
+CRITICAL - 2024-09-17 11:39:37 --> Unable to connect to the database.
+Main connection [MySQLi]: No connection could be made because the target machine actively refused it
+in SYSTEMPATH\Database\BaseConnection.php on line 428.
+ 1 SYSTEMPATH\Database\BaseConnection.php(575): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `user`', [], false)
+ 3 SYSTEMPATH\Model.php(237): CodeIgniter\Database\BaseBuilder->get()
+ 4 SYSTEMPATH\BaseModel.php(624): CodeIgniter\Model->doFindAll(0, 0)
+ 5 APPPATH\Controllers\MainController.php(786): CodeIgniter\BaseModel->findAll()
+ 6 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->getData()
+ 7 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 8 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+ERROR - 2024-09-17 11:40:23 --> Error connecting to the database: mysqli_sql_exception: No connection could be made because the target machine actively refused it in C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php:185
+Stack trace:
+#0 C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php(185): mysqli->real_connect('localhost', 'root', '', 'crud', 3306, '', 0)
+#1 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(392): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#2 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(575): CodeIgniter\Database\BaseConnection->initialize()
+#3 C:\laragon\www\capstone\backend\backend\system\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#4 C:\laragon\www\capstone\backend\backend\system\Model.php(237): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\laragon\www\capstone\backend\backend\system\BaseModel.php(624): CodeIgniter\Model->doFindAll(0, 0)
+#6 C:\laragon\www\capstone\backend\backend\app\Controllers\MainController.php(679): CodeIgniter\BaseModel->findAll()
+#7 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(942): App\Controllers\MainController->getItem()
+#8 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+#9 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\laragon\www\capstone\backend\backend\public\index.php(86): CodeIgniter\CodeIgniter->run()
+#11 C:\laragon\www\capstone\backend\backend\system\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\...')
+#12 {main}
+
+Next CodeIgniter\Database\Exceptions\DatabaseException: No connection could be made because the target machine actively refused it in C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php:229
+Stack trace:
+#0 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(392): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#1 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(575): CodeIgniter\Database\BaseConnection->initialize()
+#2 C:\laragon\www\capstone\backend\backend\system\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#3 C:\laragon\www\capstone\backend\backend\system\Model.php(237): CodeIgniter\Database\BaseBuilder->get()
+#4 C:\laragon\www\capstone\backend\backend\system\BaseModel.php(624): CodeIgniter\Model->doFindAll(0, 0)
+#5 C:\laragon\www\capstone\backend\backend\app\Controllers\MainController.php(679): CodeIgniter\BaseModel->findAll()
+#6 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(942): App\Controllers\MainController->getItem()
+#7 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+#8 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\laragon\www\capstone\backend\backend\public\index.php(86): CodeIgniter\CodeIgniter->run()
+#10 C:\laragon\www\capstone\backend\backend\system\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\...')
+#11 {main}
+CRITICAL - 2024-09-17 11:40:23 --> Unable to connect to the database.
+Main connection [MySQLi]: No connection could be made because the target machine actively refused it
+in SYSTEMPATH\Database\BaseConnection.php on line 428.
+ 1 SYSTEMPATH\Database\BaseConnection.php(575): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `menu`', [], false)
+ 3 SYSTEMPATH\Model.php(237): CodeIgniter\Database\BaseBuilder->get()
+ 4 SYSTEMPATH\BaseModel.php(624): CodeIgniter\Model->doFindAll(0, 0)
+ 5 APPPATH\Controllers\MainController.php(679): CodeIgniter\BaseModel->findAll()
+ 6 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->getItem()
+ 7 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 8 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+ERROR - 2024-09-17 11:40:27 --> Error connecting to the database: mysqli_sql_exception: No connection could be made because the target machine actively refused it in C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php:185
+Stack trace:
+#0 C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php(185): mysqli->real_connect('localhost', 'root', '', 'crud', 3306, '', 0)
+#1 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(392): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#2 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(575): CodeIgniter\Database\BaseConnection->initialize()
+#3 C:\laragon\www\capstone\backend\backend\system\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#4 C:\laragon\www\capstone\backend\backend\system\Model.php(237): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\laragon\www\capstone\backend\backend\system\BaseModel.php(624): CodeIgniter\Model->doFindAll(0, 0)
+#6 C:\laragon\www\capstone\backend\backend\app\Controllers\MainController.php(685): CodeIgniter\BaseModel->findAll()
+#7 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(942): App\Controllers\MainController->getCottage()
+#8 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+#9 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\laragon\www\capstone\backend\backend\public\index.php(86): CodeIgniter\CodeIgniter->run()
+#11 C:\laragon\www\capstone\backend\backend\system\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\...')
+#12 {main}
+
+Next CodeIgniter\Database\Exceptions\DatabaseException: No connection could be made because the target machine actively refused it in C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php:229
+Stack trace:
+#0 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(392): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#1 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(575): CodeIgniter\Database\BaseConnection->initialize()
+#2 C:\laragon\www\capstone\backend\backend\system\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#3 C:\laragon\www\capstone\backend\backend\system\Model.php(237): CodeIgniter\Database\BaseBuilder->get()
+#4 C:\laragon\www\capstone\backend\backend\system\BaseModel.php(624): CodeIgniter\Model->doFindAll(0, 0)
+#5 C:\laragon\www\capstone\backend\backend\app\Controllers\MainController.php(685): CodeIgniter\BaseModel->findAll()
+#6 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(942): App\Controllers\MainController->getCottage()
+#7 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+#8 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\laragon\www\capstone\backend\backend\public\index.php(86): CodeIgniter\CodeIgniter->run()
+#10 C:\laragon\www\capstone\backend\backend\system\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\...')
+#11 {main}
+CRITICAL - 2024-09-17 11:40:27 --> Unable to connect to the database.
+Main connection [MySQLi]: No connection could be made because the target machine actively refused it
+in SYSTEMPATH\Database\BaseConnection.php on line 428.
+ 1 SYSTEMPATH\Database\BaseConnection.php(575): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `cottage`', [], false)
+ 3 SYSTEMPATH\Model.php(237): CodeIgniter\Database\BaseBuilder->get()
+ 4 SYSTEMPATH\BaseModel.php(624): CodeIgniter\Model->doFindAll(0, 0)
+ 5 APPPATH\Controllers\MainController.php(685): CodeIgniter\BaseModel->findAll()
+ 6 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->getCottage()
+ 7 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 8 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+CRITICAL - 2024-09-17 11:56:28 --> Call to a member function save() on null
+in APPPATH\Controllers\MainController.php on line 315.
+ 1 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->updateMenuItem('10')
+ 2 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 3 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+CRITICAL - 2024-09-17 11:56:37 --> Call to a member function save() on null
+in APPPATH\Controllers\MainController.php on line 315.
+ 1 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->updateMenuItem('10')
+ 2 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 3 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+ERROR - 2024-09-17 12:25:32 --> Validation errors: Array
+(
+    [reservation_time] => Reservation time must be a valid ISO 8601 datetime.
+)
+
+ERROR - 2024-09-17 12:26:05 --> Validation errors: Array
+(
+    [reservation_time] => Reservation time must be a valid ISO 8601 datetime.
+)
+
+CRITICAL - 2024-09-17 12:38:19 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 87.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:38:19 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 87.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:38:19 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 87.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:38:20 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 87.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:38:20 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 87.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:38:20 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 87.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:38:20 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 87.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:38:20 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 87.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:38:23 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 87.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:38:23 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 87.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:38:23 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 87.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:38:23 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 87.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:38:23 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 87.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:38:23 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 87.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:39:28 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 87.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:39:28 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 87.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:39:28 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 87.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:39:28 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 87.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:39:28 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 87.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:39:28 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 87.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:39:28 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 87.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:39:28 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 87.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:39:56 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 84.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:39:56 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 84.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:39:56 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 84.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:39:57 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 84.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:39:57 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 84.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:39:57 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 84.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:39:57 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 84.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:39:57 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 84.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:40:33 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 84.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:40:33 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 84.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:40:33 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 84.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:40:33 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 84.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:40:33 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 84.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:40:33 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 84.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:40:33 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 84.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:40:33 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 84.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:42:00 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 84.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:42:00 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 84.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:42:00 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 84.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:42:00 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 84.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:42:00 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 84.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:42:00 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 84.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:42:00 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 84.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:42:01 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 84.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:42:05 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 84.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:42:05 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 84.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:42:05 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 84.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:42:05 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 84.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:42:06 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 84.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:42:06 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 84.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:42:06 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 84.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:42:06 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 84.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:42:10 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 84.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:42:11 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 84.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:42:11 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 84.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:42:11 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 84.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:42:11 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 84.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:42:11 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 84.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:42:11 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 84.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:42:11 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 84.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:42:13 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 84.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:42:13 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 84.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:42:13 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 84.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:42:13 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 84.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:42:13 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 84.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:42:13 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 84.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:42:23 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 84.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:42:23 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 84.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:42:23 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 84.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:42:24 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 84.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:42:24 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 84.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:42:24 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 84.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:42:24 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 84.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:42:24 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 84.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:42:31 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 84.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:42:31 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 84.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:42:31 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 84.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:42:31 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 84.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:42:31 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 84.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:42:31 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 84.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:42:31 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 84.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:42:31 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 84.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:47:38 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 92.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:47:38 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 92.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:47:38 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 92.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:47:38 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 92.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:47:38 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 92.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:47:38 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 92.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:47:38 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 92.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:47:38 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 92.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:48:35 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 92.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:48:35 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 92.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:48:35 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 92.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:48:35 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 92.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:48:35 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 92.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:48:35 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 92.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:48:36 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 92.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:48:36 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 92.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:50:06 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 96.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:50:06 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 96.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:50:06 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 96.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:50:06 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 96.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:50:06 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 96.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:50:06 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 96.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:50:06 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 96.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:50:07 --> Declaration of App\Controllers\MainController::show($id) must be compatible with CodeIgniter\RESTful\ResourceController::show($id = null)
+in APPPATH\Controllers\MainController.php on line 96.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2024-09-17 12:54:59 --> Call to a member function findAll() on null
+in APPPATH\Controllers\MainController.php on line 66.
+ 1 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->getTableReservation()
+ 2 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 3 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+CRITICAL - 2024-09-17 13:03:31 --> Call to a member function findAll() on null
+in APPPATH\Controllers\MainController.php on line 66.
+ 1 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->getTableReservation()
+ 2 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 3 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+CRITICAL - 2024-09-17 13:03:37 --> Call to a member function findAll() on null
+in APPPATH\Controllers\MainController.php on line 66.
+ 1 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->getTableReservation()
+ 2 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 3 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+ERROR - 2024-09-17 13:24:37 --> mysqli_sql_exception: Table 'crud.items' doesn't exist in C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php:306
+Stack trace:
+#0 C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php(306): mysqli->query('SELECT `order_i...', 0)
+#1 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `order_i...')
+#2 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `order_i...')
+#3 C:\laragon\www\capstone\backend\backend\system\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT `order_i...', Array, false)
+#4 C:\laragon\www\capstone\backend\backend\system\Model.php(237): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\laragon\www\capstone\backend\backend\system\BaseModel.php(624): CodeIgniter\Model->doFindAll(0, 0)
+#6 C:\laragon\www\capstone\backend\backend\app\Controllers\MainController.php(82): CodeIgniter\BaseModel->findAll()
+#7 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(942): App\Controllers\MainController->getTableReservation()
+#8 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+#9 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\laragon\www\capstone\backend\backend\public\index.php(86): CodeIgniter\CodeIgniter->run()
+#11 C:\laragon\www\capstone\backend\backend\system\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\...')
+#12 {main}
+CRITICAL - 2024-09-17 13:24:37 --> Table 'crud.items' doesn't exist
+in SYSTEMPATH\Database\BaseConnection.php on line 647.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT `order_items`.*, `items`.`item_name`
+FROM `order_items`
+JOIN `items` ON `order_items`.`menu_item_id` = `items`.`id`
+WHERE `order_items`.`reservation_id` = :order_items.reservation_id:', [...], false)
+ 2 SYSTEMPATH\Model.php(237): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH\BaseModel.php(624): CodeIgniter\Model->doFindAll(0, 0)
+ 4 APPPATH\Controllers\MainController.php(82): CodeIgniter\BaseModel->findAll()
+ 5 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->getTableReservation()
+ 6 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 7 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+ERROR - 2024-09-17 13:25:06 --> mysqli_sql_exception: Table 'crud.items' doesn't exist in C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php:306
+Stack trace:
+#0 C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php(306): mysqli->query('SELECT `order_i...', 0)
+#1 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `order_i...')
+#2 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `order_i...')
+#3 C:\laragon\www\capstone\backend\backend\system\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT `order_i...', Array, false)
+#4 C:\laragon\www\capstone\backend\backend\system\Model.php(237): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\laragon\www\capstone\backend\backend\system\BaseModel.php(624): CodeIgniter\Model->doFindAll(0, 0)
+#6 C:\laragon\www\capstone\backend\backend\app\Controllers\MainController.php(82): CodeIgniter\BaseModel->findAll()
+#7 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(942): App\Controllers\MainController->getTableReservation()
+#8 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+#9 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\laragon\www\capstone\backend\backend\public\index.php(86): CodeIgniter\CodeIgniter->run()
+#11 C:\laragon\www\capstone\backend\backend\system\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\...')
+#12 {main}
+CRITICAL - 2024-09-17 13:25:06 --> Table 'crud.items' doesn't exist
+in SYSTEMPATH\Database\BaseConnection.php on line 647.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT `order_items`.*, `items`.`item_name`
+FROM `order_items`
+JOIN `items` ON `order_items`.`menu_item_id` = `items`.`id`
+WHERE `order_items`.`reservation_id` = :order_items.reservation_id:', [...], false)
+ 2 SYSTEMPATH\Model.php(237): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH\BaseModel.php(624): CodeIgniter\Model->doFindAll(0, 0)
+ 4 APPPATH\Controllers\MainController.php(82): CodeIgniter\BaseModel->findAll()
+ 5 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->getTableReservation()
+ 6 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 7 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+ERROR - 2024-09-17 13:25:33 --> mysqli_sql_exception: Unknown column 'menu.id' in 'on clause' in C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php:306
+Stack trace:
+#0 C:\laragon\www\capstone\backend\backend\system\Database\MySQLi\Connection.php(306): mysqli->query('SELECT `order_i...', 0)
+#1 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `order_i...')
+#2 C:\laragon\www\capstone\backend\backend\system\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `order_i...')
+#3 C:\laragon\www\capstone\backend\backend\system\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT `order_i...', Array, false)
+#4 C:\laragon\www\capstone\backend\backend\system\Model.php(237): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\laragon\www\capstone\backend\backend\system\BaseModel.php(624): CodeIgniter\Model->doFindAll(0, 0)
+#6 C:\laragon\www\capstone\backend\backend\app\Controllers\MainController.php(82): CodeIgniter\BaseModel->findAll()
+#7 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(942): App\Controllers\MainController->getTableReservation()
+#8 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+#9 C:\laragon\www\capstone\backend\backend\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\laragon\www\capstone\backend\backend\public\index.php(86): CodeIgniter\CodeIgniter->run()
+#11 C:\laragon\www\capstone\backend\backend\system\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\...')
+#12 {main}
+CRITICAL - 2024-09-17 13:25:33 --> Unknown column 'menu.id' in 'on clause'
+in SYSTEMPATH\Database\BaseConnection.php on line 647.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1615): CodeIgniter\Database\BaseConnection->query('SELECT `order_items`.*, `menu`.`item_name`
+FROM `order_items`
+JOIN `menu` ON `order_items`.`menu_item_id` = `menu`.`id`
+WHERE `order_items`.`reservation_id` = :order_items.reservation_id:', [...], false)
+ 2 SYSTEMPATH\Model.php(237): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH\BaseModel.php(624): CodeIgniter\Model->doFindAll(0, 0)
+ 4 APPPATH\Controllers\MainController.php(82): CodeIgniter\BaseModel->findAll()
+ 5 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->getTableReservation()
+ 6 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 7 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
