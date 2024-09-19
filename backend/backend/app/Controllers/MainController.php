@@ -31,7 +31,8 @@ use App\Models\CottageModel;
 use App\Models\ReservationModel;
 use App\Models\TableOrdersModel;
 use App\Models\OrderItemModel;
-
+use App\Models\AmenitiesModel;
+use App\Models\RoomAmenitiesModel;
 class MainController extends ResourceController
 {
 
@@ -53,6 +54,9 @@ class MainController extends ResourceController
 
     protected $tableModel;
     protected $userModel;
+    protected $amenitiesModel;
+    protected $roomAmenitiesModel;
+
 
     public function __construct()
     {
@@ -61,6 +65,8 @@ class MainController extends ResourceController
         $this->userModel = new UserModel();
         $this->tableModel = new TableModel();
         $this->orderItemModel = new OrderItemModel();
+        $this->amenitiesModel = new AmenitiesModel();
+        $this->roomAmenitiesModel = new RoomAmenitiesModel();
 
     }
     public function getTableReservation()
@@ -955,7 +961,129 @@ public function deleteMenuItem($id)
 
         return false;
     }
+    public function getAllAmenities()
+    {
+        $amenities = $this->amenitiesModel->findAll();
+        return $this->respond($amenities, 200);
+    }
+    public function addAmenity()
+{
+    $json = $this->request->getJSON();
 
+    // Validate the received data
+    if (!isset($json->amenity_name) || !isset($json->description)) {
+        return $this->respond([
+            'status' => 'error',
+            'message' => 'Missing required fields'
+        ], 400);
+    }
+
+    $data = [
+        'amenity_name' => $json->amenity_name,
+        'description' => $json->description,
+    ];
+
+    try {
+        $amenitiesModel = new AmenitiesModel(); // Ensure this model is correctly initialized
+        if (!$amenitiesModel->save($data)) {
+            return $this->respond([
+                'status' => 'error',
+                'message' => 'Failed to add amenity',
+                'errors' => $amenitiesModel->errors()
+            ], 400);
+        }
+
+        return $this->respond([
+            'status' => 'success',
+            'message' => 'Amenity added successfully!'
+        ], 200);
+    } catch (\Exception $e) {
+        log_message('error', 'Failed to add amenity: ' . $e->getMessage());
+        return $this->respond([
+            'status' => 'error',
+            'message' => 'Failed to add amenity: ' . $e->getMessage()
+        ], 500);
+    }
+}
+
+public function assignAmenitiesToRoom($roomId)
+{
+    $data = $this->request->getJSON(true);
+    
+    // Validate if amenities are provided
+    if (!isset($data['amenities']) || !is_array($data['amenities'])) {
+        return $this->respond([
+            'status' => 'error',
+            'message' => 'Invalid or missing amenities data'
+        ], 400);
+    }
+
+    $amenities = $data['amenities'];
+
+    // Validate if room ID is valid
+    if (empty($roomId) || !is_numeric($roomId)) {
+        return $this->respond([
+            'status' => 'error',
+            'message' => 'Invalid room ID'
+        ], 400);
+    }
+
+    $db = \Config\Database::connect();
+    $builder = $db->table('room_amenities'); // Ensure table name is correct
+
+    $db->transBegin();
+
+    try {
+        // Delete existing amenities for the room
+        $builder->where('room_id', $roomId)->delete();
+
+        // Prepare data for insertion
+        $insertData = [];
+        foreach ($amenities as $amenityId) {
+            if (is_numeric($amenityId)) {
+                $insertData[] = [
+                    'room_id' => $roomId,
+                    'amenity_id' => $amenityId
+                ];
+            } else {
+                throw new \Exception('Invalid amenity ID: ' . $amenityId);
+            }
+        }
+
+        // Insert new amenities
+        if (!empty($insertData)) {
+            $builder->insertBatch($insertData);
+        }
+
+        $db->transCommit();
+
+        return $this->respond([
+            'status' => 'success',
+            'message' => 'Amenities assigned successfully'
+        ], 200);
+
+    } catch (\Exception $e) {
+        $db->transRollback();
+        log_message('error', 'Failed to assign amenities to room: ' . $e->getMessage());
+        return $this->respond([
+            'status' => 'error',
+            'message' => 'Failed to assign amenities: ' . $e->getMessage()
+        ], 500);
+    }
+}
+
+public function getAmenitiesForRoom($roomId)
+{
+    $amenities = $this->roomAmenitiesModel
+        ->select('amenities.*')
+        ->join('amenities', 'room_amenities.amenity_id = amenities.amenity_id')
+        ->where('room_amenities.room_id', $roomId)
+        ->findAll();
+
+    return $this->respond($amenities, 200);
+}
+
+            
 
     public function getRoom()
     {

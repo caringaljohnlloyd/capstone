@@ -19,7 +19,12 @@ $routes->post('save', 'MainController::save');
 $routes->post('/logout', 'MainController::logout');
 $routes->post('/getCart', 'MainController::Cart');
 $routes->get('/getProd/(:num)', 'MainController::getCart/$1');
-$routes->get('/getRoom','MainController::getRoom');
+$routes->get('/getRoom', 'MainController::getRoom'); // Fetch all rooms
+$routes->get('/getAllAmenities', 'MainController::getAllAmenities'); // Fetch all amenities
+$routes->post('/addAmenity', 'MainController::addAmenity'); // Add a new amenity
+$routes->post('/assignAmenitiesToRoom/(:num)', 'MainController::assignAmenitiesToRoom/$1'); // Assign amenities to a room
+$routes->get('/getAmenitiesForRoom/(:num)', 'MainController::getAmenitiesForRoom/$1'); // Get amenities for a specific room
+
 $routes->get('/getShop','MainController::getShop');
 $routes->get('/getPool','MainController::getPool');
 $routes->get('/getManifest','MainController::getManifest');

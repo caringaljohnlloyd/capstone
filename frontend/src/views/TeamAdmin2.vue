@@ -190,6 +190,62 @@
 </div>
 </div>
 </div>
+<div>
+    <h2>Assign Amenities to Rooms</h2>
+
+    <!-- Table for Assigning Amenities -->
+    <table>
+      <thead>
+        <tr>
+          <th>Room Name</th>
+          <th>Select Amenities</th>
+          <th>Assigned Amenities</th> <!-- New column for assigned amenities -->
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="room in rooms" :key="room.room_id">
+          <td>{{ room.room_name }}</td>
+          <td>
+            <!-- Dropdown with Checkboxes -->
+            <div class="dropdown">
+              <button class="dropdown-button" @click="toggleDropdown(room.room_id)">
+                Select Amenities
+              </button>
+              <div v-if="isDropdownOpen(room.room_id)" class="dropdown-content">
+                <div v-for="amenity in amenities" :key="amenity.amenity_id">
+                  <input
+                    type="checkbox"
+                    :id="`dropdown-amenity-${room.room_id}-${amenity.amenity_id}`"
+                    :value="amenity.amenity_id"
+                    :checked="room.amenities.includes(amenity.amenity_id)"
+                    @change="toggleAmenity(room.room_id, amenity.amenity_id)"
+                  />
+                  <label :for="`dropdown-amenity-${room.room_id}-${amenity.amenity_id}`">{{ amenity.amenity_name }}</label>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td>
+            <!-- Display assigned amenities -->
+            <ul>
+              <li v-for="amenity in room.assignedAmenities" :key="amenity.amenity_id">{{ amenity.amenity_name }}</li>
+            </ul>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Add New Amenity Form -->
+    <div class="add-amenity">
+      <h3>Add New Amenity</h3>
+      <input type="text" v-model="newAmenity.name" placeholder="Amenity Name" />
+      <textarea v-model="newAmenity.description" placeholder="Description"></textarea>
+      <button @click="addAmenity">Add Amenity</button>
+    </div>
+
+    <Notification :show="notification.show" :type="notification.type" :message="notification.message" />
+  </div>
+
 </div>
 
   <Notification :show="notification.show" :type="notification.type" :message="notification.message" />
@@ -210,6 +266,18 @@ components: {
 },
 data() {
   return {
+    rooms: [], // List of rooms with assigned amenities
+      amenities: [], // List of available amenities
+      newAmenity: {
+        name: '',
+        description: ''
+      },
+      notification: {
+        show: false,
+        type: "",
+        message: "",
+      },
+      openDropdowns: {}, // Track open/close state of dropdowns
     isSidebarCollapsed: false,
   staff: [],
   addModalVisible: false,
@@ -231,8 +299,118 @@ data() {
 },
 mounted() {
   this.getStaff();
+  this.fetchRoomsAndAmenities();
+
 },
 methods: {
+  fetchRoomsAndAmenities() {
+      axios.get('/getRoom')
+        .then(response => {
+          console.log('Rooms data:', response.data);
+          this.rooms = response.data.map(room => ({
+            ...room,
+            amenities: room.amenities ? room.amenities.map(a => a.amenity_id) : [],
+            assignedAmenities: [] // Initialize with empty list
+          }));
+          // Fetch amenities for each room
+          this.rooms.forEach(room => this.getAmenitiesForRoom(room.room_id));
+        })
+        .catch(error => {
+          console.error('Error fetching rooms:', error);
+        });
+
+      axios.get('/getAllAmenities')
+        .then(response => {
+          console.log('Amenities data:', response.data);
+          this.amenities = response.data;
+        })
+        .catch(error => {
+          console.error('Error fetching amenities:', error);
+        });
+    },
+    toggleAmenity(roomId, amenityId) {
+      const room = this.rooms.find(r => r.room_id === roomId);
+      const index = room.amenities.indexOf(amenityId);
+      if (index > -1) {
+        room.amenities.splice(index, 1);
+      } else {
+        room.amenities.push(amenityId);
+      }
+      this.updateRoomAmenities(roomId, room.amenities);
+    },
+    updateRoomAmenities(roomId, amenities) {
+      axios.post(`/assignAmenitiesToRoom/${roomId}`, { amenities })
+        .then(response => {
+          if (response.data.status !== 'success') {
+            this.showNotification('error', 'Failed to update amenities');
+          } else {
+            // Refresh assigned amenities for the room
+            this.getAmenitiesForRoom(roomId);
+          }
+        })
+        .catch(error => {
+          console.error('Error updating room amenities:', error);
+          this.showNotification('error', 'Failed to update amenities');
+        });
+    },
+    addAmenity() {
+    const newAmenity = { 
+      amenity_name: this.newAmenity.name, 
+      description: this.newAmenity.description 
+    };
+
+    axios.post('/addAmenity', newAmenity)
+      .then(response => {
+        if (response.data.status === 'success') {
+          this.fetchRoomsAndAmenities(); // Refresh the amenities list
+          this.newAmenity.name = '';
+          this.newAmenity.description = '';
+          this.showNotification('success', 'Amenity added successfully');
+        } else {
+          this.showNotification('error', 'Failed to add amenity');
+        }
+      })
+      .catch(error => {
+        console.error('Error adding amenity:', error);
+        this.showNotification('error', 'Failed to add amenity');
+      });
+  },
+  
+  showNotification(type, message) {
+    this.notification = {
+      show: true,
+      type,
+      message
+    };
+    
+    // Hide notification after 5 seconds
+    setTimeout(() => {
+      this.notification.show = false;
+    }, 2000);
+  },
+    toggleDropdown(roomId) {
+      this.openDropdowns = {
+        ...this.openDropdowns,
+        [roomId]: !this.openDropdowns[roomId]
+      };
+    },
+    isDropdownOpen(roomId) {
+      return !!this.openDropdowns[roomId];
+    },
+    getAmenitiesForRoom(roomId) {
+      axios.get(`/getAmenitiesForRoom/${roomId}`)
+        .then(response => {
+          const room = this.rooms.find(r => r.room_id === roomId);
+          if (room) {
+            room.assignedAmenities = response.data; // Update assigned amenities
+          }
+        })
+        .catch(error => {
+          console.error('Error fetching amenities for room:', error);
+        });
+    },
+
+
   toggleSidebar() {
       this.isSidebarCollapsed = !this.isSidebarCollapsed;
     },
@@ -417,6 +595,70 @@ this.editStaffModalVisible = true;
 
 
 <style scoped>
+.room {
+  margin-bottom: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table, th, td {
+  border: 1px solid #ddd;
+}
+
+th, td {
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #f4f4f4;
+}
+
+/* Dropdown Styling */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+.dropdown-content {
+  display: block;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.dropdown-content input[type="checkbox"] {
+  margin-right: 5px;
+}
+
+.dropdown-content div {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.dropdown-content div:hover {
+  background-color: #f1f1f1;
+}
+
+.add-amenity {
+  margin-top: 20px;
+}
+
 /* Existing styles */
 h1 {
   color: white;
