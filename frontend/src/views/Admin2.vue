@@ -52,178 +52,192 @@
     <div class="card-main">
       <div class="content">
         <div class="row">
-  <!-- Reservation List -->
+  <!-- Table Product -->
   <div class="col-12">
     <div class="card card-default">
       <div class="card-header">
-        <h2>Reservations</h2>
+        <h2>Cottage Booking Inventory</h2>
       </div>
       <div class="card-body">
         <div class="table-responsive">
-          <table
-            id="reservationsTable"
-            class="table table-hover"
-            style="width: 100%"
-          >
-            <thead>
-              <tr>
-                <th>Reservation ID</th>
-                <th>User</th>
-                <th>Table</th>
-                <th>Order Items</th>
-                <th>Status</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(reservation, index) in reservations" :key="reservation.id">
-                <td>{{ reservation.reservation_id }}</td>
-                <td>{{ reservation.user.name }}</td>
-                <td>{{ reservation.table.table_name }}</td>
-                
-                <td>
-                  <ul>
-                    <li v-for="item in reservation.order_items" :key="item.id">
-                      {{ item.item_name }} ({{ item.quantity }})
-                    </li>
-                  </ul>
-                </td>
-                <td>{{ reservation.status }}</td>
-                <td class="action-buttons">
-                  <button class="btn btn-custom" @click="openStatusModal(reservation)">Update Status</button>
-                  <button class="btn btn-custom" @click="viewDetails(reservation)">View Details</button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+      <table id="cottageBookingTable" class="table table-hover table-product" style="width: 100%">
+        <thead>
+          <tr>
+            <th>Booking Id</th>
+            <th>User Id</th>
+            <th>Checkin</th>
+            <th>Checkout</th>
+            <th>Booking Status</th>
+            <th>Cottage Id</th>
+            <th>Created At</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="booking in bookings" :key="booking.cottagebooking_id">
+            <td>{{ booking.cottagebooking_id }}</td>
+            <td>{{ booking.user_id }}</td>
+            <td>{{ booking.selectedTime }}</td>
+            <td>{{ booking.selectedTimeout }}</td>
+            <td>{{ booking.cottagebooking_status }}</td>
+            <td>{{ booking.cottage_id }}</td>
+            <td>{{ booking.created_at }}</td>
+            <td>
+  <div class="btn-group" role="group" aria-label="Booking Actions">
+    <button 
+      @click="confirmCottageBooking(booking.cottagebooking_id)" 
+      class="btn btn-primary"
+    >
+      Confirm
+    </button>
+    <button 
+      @click="declineCottageBooking(booking.cottagebooking_id)" 
+      class="btn btn-danger" 
+      :disabled="booking.cottagebooking_status === 'confirmed'" 
+      :class="{ 'disabled': booking.cottagebooking_status === 'confirmed' }"
+    >
+      Decline
+    </button>
+    <button 
+      @click="markCottageBookingAsPaid(booking.cottagebooking_id)" 
+      class="btn btn-primary"
+    >
+      Mark as Paid
+    </button>
+  </div>
+</td>
 
-        <!-- Status Update Modal -->
-        <div
-          v-if="statusModalVisible"
-          class="modal fade show"
-          tabindex="-1"
-          role="dialog"
-        >
-          <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title">Update Status</h5>
-                <button
-                  type="button"
-                  class="close"
-                  @click="closeStatusModal"
-                  aria-label="Close"
-                >
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <div class="form-group">
-                  <label for="status">Status:</label>
-                  <select
-                    id="status"
-                    class="form-control"
-                    v-model="statusToUpdate"
-                  >
-                    <option value="pending">Pending</option>
-                    <option value="paid">Paid</option>
-                    <option value="confirmed">Confirmed</option>
-                    <option value="declined">Declined</option>
-                  </select>
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button
-                  type="button"
-                  class="btn btn-custom"
-                  @click="updateStatus"
-                >
-                  Update
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-custom"
-                  style="background:#0F172B; border:none;"
-                  @click="closeStatusModal"
-                >
-                  Close
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
 
-        <!-- Details Modal -->
-        <div
-          v-if="detailsModalVisible"
-          class="modal fade show"
-          tabindex="-1"
-          role="dialog"
-        >
-          <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title">Reservation Details</h5>
-                <button
-                  type="button"
-                  class="close"
-                  @click="closeDetailsModal"
-                  aria-label="Close"
-                >
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <div class="form-group">
-                  <label for="reservationId">Reservation ID:</label>
-                  <p id="reservationId">{{ selectedReservation.reservation_id }}</p>
-                </div>
-                <div class="form-group">
-                  <label for="user">User:</label>
-                  <p id="user">{{ selectedReservation.user.name }}</p>
-                </div>
-                <div class="form-group">
-                  <label for="table">Table:</label>
-                  <p id="table">{{ selectedReservation.table.table_name }}</p>
-                </div>
-                <div class="form-group">
-                  <label for="orderItems">Order Items:</label>
-                  <ul>
-                    <li v-for="item in selectedReservation.order_items" :key="item.id">
-                      {{ item.item_name }} ({{ item.quantity }})
-                    </li>
-                  </ul>
-                </div>
-                <div class="form-group">
-                  <label for="status">Status:</label>
-                  <p id="status">{{ selectedReservation.status }}</p>
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button
-                  type="button"
-                  class="btn btn-custom"
-                  @click="closeDetailsModal"
-                >
-                  Close
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
 
-        <!-- Success and Error Messages -->
-        <div v-if="successMessage" class="alert alert-success" role="alert">
-          {{ successMessage }}
-        </div>
-        <div v-if="errorMessage" class="alert alert-danger" role="alert">
-          {{ errorMessage }}
-        </div>
+          </tr>
+        </tbody>
+      </table>
+    </div>
       </div>
     </div>
   </div>
 </div>
+
+        
+        <div class="row">
+  <!-- Reservation List -->
+  <div class="col-12">
+  <div class="card card-default">
+    <div class="card-header">
+      <h2>Reservations</h2>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table id="reservationsTable" class="table table-hover" style="width: 100%">
+          <thead>
+            <tr>
+              <th>Reservation ID</th>
+              <th>User</th>
+              <th>Table</th>
+              <th>Order Items</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(reservation, index) in reservations" :key="reservation.reservation_id">
+              <td>{{ reservation.reservation_id }}</td>
+              <td>{{ reservation.user.name }}</td>
+              <td>{{ reservation.table.table_name }}</td>
+              <td>
+                <ul>
+                  <li v-for="item in reservation.order_items" :key="item.id">
+                    {{ item.item_name }} ({{ item.quantity }})
+                  </li>
+                </ul>
+              </td>
+              <td>{{ reservation.status }}</td>
+              <td class="action-buttons">
+
+
+                <!-- View Details Button -->
+                <button class="btn btn-custom" @click="viewDetails(reservation)">
+                  View Details
+                </button>
+
+                <!-- Accept Reservation Button -->
+                <button class="btn btn-success" @click="acceptReservation(reservation.reservation_id)">
+                  Accept
+                </button>
+
+                <!-- Decline Reservation Button -->
+                <button class="btn btn-danger" @click="declineReservation(reservation.reservation_id)">
+                  Decline
+                </button>
+
+                <!-- Mark as Paid Button -->
+                <button class="btn btn-warning" @click="markReservationAsPaid(reservation.reservation_id)">
+                  Mark as Paid
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Details Modal -->
+      <div v-if="detailsModalVisible" class="modal fade show" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Reservation Details</h5>
+              <button type="button" class="close" @click="closeDetailsModal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="form-group">
+                <label for="reservationId">Reservation ID:</label>
+                <p id="reservationId">{{ selectedReservation.reservation_id }}</p>
+              </div>
+              <div class="form-group">
+                <label for="user">User:</label>
+                <p id="user">{{ selectedReservation.user.name }}</p>
+              </div>
+              <div class="form-group">
+                <label for="table">Table:</label>
+                <p id="table">{{ selectedReservation.table.table_name }}</p>
+              </div>
+              <div class="form-group">
+                <label for="orderItems">Order Items:</label>
+                <ul>
+                  <li v-for="item in selectedReservation.order_items" :key="item.id">
+                    {{ item.item_name }} ({{ item.quantity }})
+                  </li>
+                </ul>
+              </div>
+              <div class="form-group">
+                <label for="status">Status:</label>
+                <p id="status">{{ selectedReservation.status }}</p>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-custom" @click="closeDetailsModal">
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Success and Error Messages -->
+      <div v-if="successMessage" class="alert alert-success" role="alert">
+        {{ successMessage }}
+      </div>
+      <div v-if="errorMessage" class="alert alert-danger" role="alert">
+        {{ errorMessage }}
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
 
         <div class="row">
   <!-- Table Product -->
@@ -1114,28 +1128,6 @@
     </div>
   </div>
 
-  <div class="row">
-    <!-- Input Date -->
-    <div class="col-12">
-      <div class="card card-default">
-        <div class="card-header">
-          <h2>Swimming Lesson Date Inventory</h2>
-          <button type="button" class="btn btn-custom" @click="openAddDateModal">
-            Add Date
-          </button>
-        </div>
-        <div class="card-body">
-          <div class="input-group">
-            <input type="text" class="form-control" placeholder="Select Date" ref="datepicker" />
-          </div>
-          <!-- Success Message -->
-          <div v-if="successMessageDate" class="alert alert-success" role="alert">
-            {{ successMessageDate }}
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 
   <!-- Modal for Adding -->
   <div v-if="addDateModalVisible" class="modal show">
@@ -1261,9 +1253,13 @@ data() {
     ConfirmationVisible: false,
     openDropdown: null, 
     successMessage: '', 
+    bookings: [],
+      successMessage: '',
+      errorMessage: '',
   };
 },
 mounted() {
+  this.fetchCottageBookings(); // Fetch bookings when component is mounted
   this.fetchReservations();
   this.fetchMenuItems();
 this.getbook();
@@ -1295,6 +1291,72 @@ created() {
 },
 
 methods: {
+  async declineCottageBooking(cottagebooking_id) {
+  try {
+    const response = await axios.post(`api/cottage-bookings/decline/${cottagebooking_id}`);
+
+    if (response.status === 200) {
+      this.showSuccessNotification(`Cottage booking ${cottagebooking_id} has been declined.`);
+      this.fetchCottageBookings(); // Refresh the booking list
+    } else {
+      console.error("Failed to decline cottage booking:", response.data.message);
+      this.showErrorNotification(`Failed to decline booking: ${response.data.message}`);
+    }
+  } catch (error) {
+    if (error.response && error.response.status === 400) {
+      this.showErrorNotification("Cannot decline a confirmed booking.");
+    } else {
+      console.error("Error declining cottage booking:", error);
+      this.showErrorNotification("An error occurred while declining the cottage booking.");
+    }
+  }
+},
+
+
+async confirmCottageBooking(cottagebooking_id) {
+  try {
+    const response = await axios.post(`api/cottage-bookings/confirm/${cottagebooking_id}`);
+
+    if (response.status === 200) {
+      this.showSuccessNotification(`Cottage booking ${cottagebooking_id} has been confirmed.`);
+      this.fetchCottageBookings(); // Refresh the booking list
+    } else {
+      console.error("Failed to confirm cottage booking:", response.data.message);
+      this.showErrorNotification(`Failed to confirm booking: ${response.data.message}`);
+    }
+  } catch (error) {
+    console.error("Error confirming cottage booking:", error);
+    this.showErrorNotification("An error occurred while confirming the cottage booking.");
+  }
+},
+
+async markCottageBookingAsPaid(cottagebooking_id) {
+  try {
+    const response = await axios.post(`api/cottage-bookings/mark-paid/${cottagebooking_id}`);
+
+    if (response.status === 200) {
+      this.showSuccessNotification(`Cottage booking ${cottagebooking_id} marked as paid.`);
+      this.fetchCottageBookings(); // Refresh the booking list
+    } else {
+      console.error("Failed to mark cottage booking as paid:", response.data.message);
+      this.showErrorNotification(`Failed to mark booking as paid: ${response.data.message}`);
+    }
+  } catch (error) {
+    console.error("Error marking cottage booking as paid:", error);
+    this.showErrorNotification("An error occurred while marking the cottage booking as paid.");
+  }
+},
+
+async fetchCottageBookings() {
+  try {
+    const response = await axios.get('api/cottage-bookings'); // Update with your API endpoint
+    this.bookings = response.data; // Assuming you have a `bookings` data property
+  } catch (error) {
+    console.error('Error fetching cottage bookings:', error);
+    this.errorMessage = 'Failed to load cottage booking data.'; // Assuming you have an `errorMessage` property
+  }
+},
+
   async fetchReservations() {
       try {
         const response = await axios.get('/admin/reservations'); // Update with your API endpoint
@@ -1312,25 +1374,76 @@ methods: {
     closeStatusModal() {
       this.statusModalVisible = false;
     },
-    async updateStatus() {
-    try {
-        const response = await axios.put(`/admin/reservations/updateStatus/${this.selectedReservation.reservation_id}`, {
-            status: this.statusToUpdate
-        });
+    async declineReservation(reservation_id) {
+  try {
+    const response = await axios.post(`reservation/decline/${reservation_id}`);
 
-        if (response.status === 200) {
-            this.showSuccessNotification(`Reservation ${this.selectedReservation.reservation_id} status updated to ${this.statusToUpdate}`);
-            this.fetchReservations(); // Refresh the list
-            this.closeStatusModal();
-        } else {
-            console.error("Failed to update status:", response.data.message);
-            this.errorMessage = `Failed to update status: ${response.data.message}`;
-        }
-    } catch (error) {
-        console.error('Error updating status:', error);
-        this.errorMessage = 'Failed to update status. Please try again.';
+    if (response.status === 200) {
+      this.showSuccessNotification(`Reservation ${reservation_id} has been declined.`);
+      this.fetchReservations(); // Refresh the reservation list
+    } else {
+      console.error("Failed to decline reservation:", response.data.message);
+      this.showErrorNotification(`Failed to decline reservation: ${response.data.message}`);
     }
+  } catch (error) {
+    console.error("Error declining reservation:", error);
+    this.showErrorNotification("An error occurred while declining the reservation.");
+  }
 },
+
+async acceptReservation(reservation_id) {
+  try {
+    const response = await axios.post(`reservation/confirm/${reservation_id}`);
+
+    if (response.status === 200) {
+      this.showSuccessNotification(`Reservation ${reservation_id} has been accepted.`);
+      this.fetchReservations(); // Refresh the reservation list
+    } else {
+      console.error("Failed to accept reservation:", response.data.message);
+      this.showErrorNotification(`Failed to accept reservation: ${response.data.message}`);
+    }
+  } catch (error) {
+    console.error("Error accepting reservation:", error);
+    this.showErrorNotification("An error occurred while accepting the reservation.");
+  }
+},
+
+
+async markReservationAsPaid(reservation_id) {
+  try {
+    const response = await axios.post(`reservation/paid/${reservation_id}`);
+
+    if (response.status === 200) {
+      this.showSuccessNotification(`Reservation ${reservation_id} Marked as Paid`);
+      this.fetchReservations(); // Refresh the reservation list
+    } else {
+      console.error("Failed to mark reservation as paid:", response.data.message);
+    }
+  } catch (error) {
+    console.error("Error marking reservation as paid:", error);
+  }
+},
+
+
+// async updateReservationStatus() {
+//   try {
+//     const response = await axios.put(`/admin/reservations/updateStatus/${this.selectedReservation.reservation_id}`, {
+//       status: this.statusToUpdate
+//     });
+
+//     if (response.status === 200) {
+//       this.showSuccessNotification(`Reservation ${this.selectedReservation.reservation_id} status updated to ${this.statusToUpdate}`);
+//       this.fetchReservations(); // Refresh the list
+//       this.closeStatusModal();
+//     } else {
+//       console.error("Failed to update status:", response.data.message);
+//       this.errorMessage = `Failed to update status: ${response.data.message}`;
+//     }
+//   } catch (error) {
+//     console.error('Error updating status:', error);
+//     this.errorMessage = 'Failed to update status. Please try again.';
+//   }
+// },
   showSuccessNotification(message) {
     // Implementation for showing success notifications
     console.log(`Success: ${message}`);
@@ -2142,6 +2255,10 @@ clearForm() {
 
 
 <style scoped>
+.disabled {
+  pointer-events: none; /* Disable click events */
+  opacity: 0.5; /* Make it look inactive */
+}
 
 h1 {
   color: white;

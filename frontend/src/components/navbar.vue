@@ -114,7 +114,7 @@
         <button @click="authAction" class="btn btn-primary logout-logo-btn">
           <i :class="authIcon"></i> {{ authButtonText }}
         </button>
-      </div>
+      </div>  
     </div>
   </nav>
 
