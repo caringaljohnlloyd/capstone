@@ -51,11 +51,11 @@ class MainController extends ResourceController
     protected $reservationModel;
     protected $tableorderModel;
     protected $orderItemModel;
-
     protected $tableModel;
     protected $userModel;
     protected $amenitiesModel;
     protected $roomAmenitiesModel;
+    protected $cottageModel;
 
 
     public function __construct()
@@ -67,8 +67,225 @@ class MainController extends ResourceController
         $this->orderItemModel = new OrderItemModel();
         $this->amenitiesModel = new AmenitiesModel();
         $this->roomAmenitiesModel = new RoomAmenitiesModel();
+        $this->cottageModel = new CottageModel();
+
 
     }
+
+  // Get a list of all cottages or a single cottage by ID
+  public function getCottages($cottage_id = null)
+  {
+      if ($cottage_id) {
+          $cottage = $this->cottageModel->find($cottage_id);
+
+          if (!$cottage) {
+              return $this->respond(["message" => "Cottage not found"], 404);
+          }
+
+          return $this->respond($cottage, 200);
+      }
+
+      $cottages = $this->cottageModel->findAll();
+      return $this->respond($cottages, 200);
+  }
+
+  // Save a new cottage
+  public function saveCottage()
+  {
+      $request = $this->request;
+  
+      $data = [
+          'cottage_name' => $request->getPost('cottage_name'),
+          'cottage_description' => $request->getPost('cottage_description'),
+          'cottage_price' => $request->getPost('cottage_price'),
+      ];
+  
+      // Check if image is uploaded
+      if ($request->getFile('cottage_image') && $request->getFile('cottage_image')->isValid()) {
+          $image = $request->getFile('cottage_image');
+          $imageName = $this->generateUniqueCottageFileName($image->getName());
+  
+          // Move the uploaded file to the desired directory
+          $data['cottage_image'] = $this->handleCottageImageUpload($image, $imageName);
+      }
+  
+      try {
+          $this->cottageModel->insert($data);  // Insert data without created_at
+          return $this->respond(["message" => "Cottage added successfully"], 200);
+      } catch (\Exception $e) {
+          return $this->respond(["message" => "Failed to add cottage: " . $e->getMessage()], 500);
+      }
+  }
+  
+  
+
+  // Update an existing cottage
+  public function updateCottage($cottage_id = null)
+  {
+      $request = $this->request;
+      $existingData = $this->cottageModel->find($cottage_id);
+  
+      if (empty($existingData)) {
+          return $this->respond(["message" => "Cottage not found"], 404);
+      }
+  
+      $data = [
+          'cottage_name' => $request->getVar('cottage_name') ?? $existingData['cottage_name'],
+          'cottage_description' => $request->getVar('cottage_description') ?? $existingData['cottage_description'],
+          'cottage_price' => $request->getVar('cottage_price') ?? $existingData['cottage_price'],
+      ];
+  
+      // Check if new image is uploaded
+      $image = $request->getFile('cottage_image');
+      if ($image && $image->isValid()) {
+          // Generate a new unique name for the image
+          $imageName = $this->generateUniqueCottageFileName($image->getName());
+          
+          // Upload the image
+          $this->handleCottageImageUpload($image, $imageName);
+          
+          // Set the new image name in the data array
+          $data['cottage_image'] = $imageName;
+  
+          // Optionally delete the old image from the server if needed
+          $this->deleteOldImage($existingData['cottage_image']);
+      }
+  
+      try {
+          // Update the cottage with new data
+          $this->cottageModel->update($cottage_id, $data);
+          return $this->respond(["message" => "Cottage updated successfully"], 200);
+      } catch (\Exception $e) {
+          return $this->respond(["message" => "Failed to update cottage: " . $e->getMessage()], 500);
+      }
+  }
+  
+  private function deleteOldImage($imageName)
+  {
+      $filePath = 'uploads/' . $imageName;
+      if (is_file($filePath)) {
+          unlink($filePath);  // Delete the file
+      }
+  }
+  
+  // Handle image upload
+  private function handleCottageImageUpload($image, $imageName)
+  {
+      $uploadPath = 'uploads';
+      $image->move($uploadPath, $imageName);
+      return $imageName;
+  }
+
+  // Generate a unique file name for the uploaded image
+  private function generateUniqueCottageFileName($fileName)
+  {
+      $fileExtension = pathinfo($fileName, PATHINFO_EXTENSION);
+      $uniqueName = uniqid() . '.' . $fileExtension;
+      return $uniqueName;
+  }
+
+
+    public function fetchTables()
+    {
+        $tableModel = new TableModel();
+        $data = $tableModel->findAll();
+        
+        return $this->respond($data, 200); // Return data with a success response code (200 OK)
+    }
+    public function addTable()
+{
+    $json = $this->request->getJSON();
+
+    // Validate the received data
+    if (!isset($json->table_name) || !isset($json->table_description) || !isset($json->table_price)) {
+        return $this->respond([
+            'status' => 'error',
+            'message' => 'Missing required fields'
+        ], 400); // Return error for missing fields
+    }
+
+    $data = [
+        'table_name' => $json->table_name,
+        'table_description' => $json->table_description,
+        'table_price' => $json->table_price,
+    ];
+
+    try {
+        $tableModel = new TableModel();
+        
+        if (!$tableModel->save($data)) {
+            return $this->respond([
+                'status' => 'error',
+                'message' => 'Failed to add table',
+                'errors' => $tableModel->errors()
+            ], 400); // Return error response if save fails
+        }
+
+        return $this->respond([
+            'status' => 'success',
+            'message' => 'Table added successfully!'
+        ], 200); // Success response
+
+    } catch (\Exception $e) {
+        log_message('error', 'Failed to add table: ' . $e->getMessage());
+        
+        return $this->respond([
+            'status' => 'error',
+            'message' => 'Failed to add table: ' . $e->getMessage()
+        ], 500); // Return error if exception occurs
+    }
+}
+public function updateTable($id = null)
+{
+    $request = $this->request;
+    $tableModel = new TableModel();
+
+    // Find the existing data by ID
+    $existingData = $tableModel->find($id);
+
+    if (empty($existingData)) {
+        return $this->respond([
+            'status' => 'error',
+            'message' => 'Record not found'
+        ], 404); // Return error if record is not found
+    }
+
+    // Prepare new data, using existing values if no new values are provided
+    $data = [
+        'table_id' => $id,
+        'table_name' => $request->getVar('table_name') ?? $existingData['table_name'],
+        'table_description' => $request->getVar('table_description') ?? $existingData['table_description'],
+        'table_price' => $request->getVar('table_price') ?? $existingData['table_price'],
+    ];
+
+    // Check if any data has actually changed
+    if ($data === array_intersect_key($existingData, $data)) {
+        return $this->respond([
+            'status' => 'success',
+            'message' => 'No changes detected, data not updated'
+        ], 200); // Return message if no changes were made
+    }
+
+    try {
+        // Update the table record
+        if ($tableModel->update($id, $data)) {
+            return $this->respond([
+                'status' => 'success',
+                'message' => 'Table updated successfully!'
+            ], 200); // Success response
+        } else {
+            return $this->respond([
+                'status' => 'error',
+                'message' => 'Failed to update table'
+            ], 500); // Return error if update fails
+        }
+    } catch (\Exception $e) {
+        return $this->respond([
+            'status' => 'error',
+            'message' => 'Failed to update table: ' . $e->getMessage()
+        ], 500); // Return error if exception occurs
+    }
+}
 
     public function confirmCottageBooking($id = null)
     {
@@ -141,8 +358,6 @@ class MainController extends ResourceController
             return $this->response->setStatusCode(500)->setJSON(['message' => 'Internal Server Error']);
         }
     }
-    
-
     public function markCottageBookingAsPaid($id = null)
     {
         try {
@@ -170,7 +385,6 @@ class MainController extends ResourceController
             return $this->response->setStatusCode(500)->setJSON(['message' => 'Internal Server Error']);
         }
     }
-
     public function getAllCottageBookings()
     {
         try {
@@ -194,10 +408,6 @@ class MainController extends ResourceController
             return $this->response->setStatusCode(500)->setJSON(['message' => 'Internal Server Error']);
         }
     }
-    
-    
-
-
 
     public function getTableReservation()
     {
@@ -233,7 +443,6 @@ class MainController extends ResourceController
             return $this->response->setStatusCode(500)->setJSON(['message' => 'Internal Server Error']);
         }
     }
-    
     
     public function confirmReservation($id = null)
     {
@@ -301,8 +510,7 @@ class MainController extends ResourceController
             log_message('error', 'Error in declineReservation: ' . $e->getMessage());
             return $this->response->setStatusCode(500)->setJSON(['message' => 'Internal Server Error']);
         }
-    }
-    
+    }  
 public function markResrvationAsPaid($id = null)
 {
     try {
@@ -329,10 +537,7 @@ public function markResrvationAsPaid($id = null)
         log_message('error', 'Error in markAsPaid: ' . $e->getMessage());
         return $this->response->setStatusCode(500)->setJSON(['message' => 'Internal Server Error']);
     }
-}
-
-    
-    
+}  
     public function show($id = null)
     {
         try {
@@ -359,8 +564,7 @@ public function markResrvationAsPaid($id = null)
             log_message('error', 'Error in show: ' . $e->getMessage());
             return $this->response->setStatusCode(500)->setJSON(['message' => 'Internal Server Error']);
         }
-    }
-    
+    }    
     public function createReservation()
     {
         $data = $this->request->getJSON(true);
@@ -485,20 +689,13 @@ public function markResrvationAsPaid($id = null)
     
         return $this->response->setStatusCode(200)->setJSON(['message' => 'Reservation created successfully', 'reservation_id' => $reservationId]);
     }
-    
-    
-    
-
     private function isValidISO8601($datetime): bool
     {
         // Regular expression for ISO 8601 format
         $pattern = '/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{1,3})?(?:Z|[\+\-]\d{2}:\d{2})$/';
         return preg_match($pattern, $datetime);
     }
-    
 
-
-    
     public function getReservation($id)
     {
         $reservation = $this->reservationModel->find($id);
@@ -509,8 +706,6 @@ public function markResrvationAsPaid($id = null)
 
         return $this->response->setStatusCode(200)->setJSON($reservation);
     }
-
-    // Delete a reservation by ID
     public function deleteReservation($id)
     {
         if ($this->reservationModel->delete($id)) {
@@ -519,8 +714,6 @@ public function markResrvationAsPaid($id = null)
 
         return $this->response->setStatusCode(500)->setJSON(['error' => 'Failed to delete reservation']);
     }
-
-    // Add an item to an existing reservation
     public function addOrderItem()
     {
         $reservationId = $this->request->getPost('reservation_id');
@@ -551,8 +744,6 @@ public function markResrvationAsPaid($id = null)
             return $this->response->setStatusCode(500)->setJSON(['error' => 'Failed to add order item']);
         }
     }
-
-    // Retrieve an order item by ID
     public function getOrderItem($id)
     {
         $orderItem = $this->orderItemModel->find($id);
@@ -563,8 +754,6 @@ public function markResrvationAsPaid($id = null)
 
         return $this->response->setStatusCode(200)->setJSON($orderItem);
     }
-
-    // Delete an order item by ID
     public function deleteOrderItem($id)
     {
         if ($this->orderItemModel->delete($id)) {
@@ -573,15 +762,12 @@ public function markResrvationAsPaid($id = null)
 
         return $this->response->setStatusCode(500)->setJSON(['error' => 'Failed to delete order item']);
     }
-
-
     public function fetchMenuItems()
 {
     $menu = new MenuModel();
     $data = $menu->findAll();
     return $this->respond($data, 200);
 }
-
 public function addMenuItem()
 {
     $json = $this->request->getJSON();
@@ -622,22 +808,14 @@ public function addMenuItem()
         ], 500);
     }
 }
-
-
-
-
 public function updateMenuItem($id = null)
 {
-    // Get the request instance
     $request = $this->request;
 
-    // Initialize the model
     $menuModel = new MenuModel();
 
-    // Find the existing data by menu_id
     $existingData = $menuModel->find($id);
 
-    // Check if the record exists
     if (empty($existingData)) {
         return $this->respond([
             "status" => "error",
@@ -1568,18 +1746,23 @@ public function getAmenitiesForRoom($roomId)
     public function login()
     {
         $json = $this->request->getJSON();
-
+    
         if (isset($json->email) && isset($json->password)) {
             $email = $json->email;
             $password = $json->password;
-
+    
             $userModel = new UserModel();
             $data = $userModel->where('email', $email)->first();
-
+    
             if ($data) {
+                // Check if the user is active
+                if ($data['status'] !== 'active') {
+                    return $this->respond(['message' => 'Your account is not active. Please contact support.'], 403);
+                }
+    
                 $pass = $data['password'];
                 $auth = password_verify($password, $pass);
-
+    
                 if ($auth) {
                     return $this->respond([
                         'message' => 'Login successful',
@@ -1597,6 +1780,7 @@ public function getAmenitiesForRoom($roomId)
             return $this->respond(['message' => 'Invalid JSON data'], 400);
         }
     }
+    
 
     public function submitRating()
     {

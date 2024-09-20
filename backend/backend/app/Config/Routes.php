@@ -158,3 +158,12 @@ $routes->group('api', function($routes) {
     // Mark a cottage booking as paid
     $routes->post('cottage-bookings/mark-paid/(:num)', 'MainController::markCottageBookingAsPaid/$1');
 });
+$routes->get('/getTables', 'MainController::fetchTables');
+$routes->post('/addTable', 'MainController::addTable');
+$routes->post('/updateTable/(:num)', 'MainController::updateTable/$1');
+
+$routes->get('/cottages', 'MainController::getCottages');
+$routes->get('/cottages/(:num)', 'MainController::getCottages/$1');
+$routes->post('/cottages', 'MainController::saveCottage');
+$routes->post('/cottages/update/(:num)', 'MainController::updateCottage/$1');
+

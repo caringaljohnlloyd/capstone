@@ -51,192 +51,7 @@
 
     <div class="card-main">
       <div class="content">
-        <div class="row">
-  <!-- Table Product -->
-  <div class="col-12">
-    <div class="card card-default">
-      <div class="card-header">
-        <h2>Cottage Booking Inventory</h2>
-      </div>
-      <div class="card-body">
-        <div class="table-responsive">
-      <table id="cottageBookingTable" class="table table-hover table-product" style="width: 100%">
-        <thead>
-          <tr>
-            <th>Booking Id</th>
-            <th>User Id</th>
-            <th>Checkin</th>
-            <th>Checkout</th>
-            <th>Booking Status</th>
-            <th>Cottage Id</th>
-            <th>Created At</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="booking in bookings" :key="booking.cottagebooking_id">
-            <td>{{ booking.cottagebooking_id }}</td>
-            <td>{{ booking.user_id }}</td>
-            <td>{{ booking.selectedTime }}</td>
-            <td>{{ booking.selectedTimeout }}</td>
-            <td>{{ booking.cottagebooking_status }}</td>
-            <td>{{ booking.cottage_id }}</td>
-            <td>{{ booking.created_at }}</td>
-            <td>
-  <div class="btn-group" role="group" aria-label="Booking Actions">
-    <button 
-      @click="confirmCottageBooking(booking.cottagebooking_id)" 
-      class="btn btn-primary"
-    >
-      Confirm
-    </button>
-    <button 
-      @click="declineCottageBooking(booking.cottagebooking_id)" 
-      class="btn btn-danger" 
-      :disabled="booking.cottagebooking_status === 'confirmed'" 
-      :class="{ 'disabled': booking.cottagebooking_status === 'confirmed' }"
-    >
-      Decline
-    </button>
-    <button 
-      @click="markCottageBookingAsPaid(booking.cottagebooking_id)" 
-      class="btn btn-primary"
-    >
-      Mark as Paid
-    </button>
-  </div>
-</td>
 
-
-
-          </tr>
-        </tbody>
-      </table>
-    </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-        
-        <div class="row">
-  <!-- Reservation List -->
-  <div class="col-12">
-  <div class="card card-default">
-    <div class="card-header">
-      <h2>Reservations</h2>
-    </div>
-    <div class="card-body">
-      <div class="table-responsive">
-        <table id="reservationsTable" class="table table-hover" style="width: 100%">
-          <thead>
-            <tr>
-              <th>Reservation ID</th>
-              <th>User</th>
-              <th>Table</th>
-              <th>Order Items</th>
-              <th>Status</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(reservation, index) in reservations" :key="reservation.reservation_id">
-              <td>{{ reservation.reservation_id }}</td>
-              <td>{{ reservation.user.name }}</td>
-              <td>{{ reservation.table.table_name }}</td>
-              <td>
-                <ul>
-                  <li v-for="item in reservation.order_items" :key="item.id">
-                    {{ item.item_name }} ({{ item.quantity }})
-                  </li>
-                </ul>
-              </td>
-              <td>{{ reservation.status }}</td>
-              <td class="action-buttons">
-
-
-                <!-- View Details Button -->
-                <button class="btn btn-custom" @click="viewDetails(reservation)">
-                  View Details
-                </button>
-
-                <!-- Accept Reservation Button -->
-                <button class="btn btn-success" @click="acceptReservation(reservation.reservation_id)">
-                  Accept
-                </button>
-
-                <!-- Decline Reservation Button -->
-                <button class="btn btn-danger" @click="declineReservation(reservation.reservation_id)">
-                  Decline
-                </button>
-
-                <!-- Mark as Paid Button -->
-                <button class="btn btn-warning" @click="markReservationAsPaid(reservation.reservation_id)">
-                  Mark as Paid
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <!-- Details Modal -->
-      <div v-if="detailsModalVisible" class="modal fade show" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">Reservation Details</h5>
-              <button type="button" class="close" @click="closeDetailsModal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <div class="form-group">
-                <label for="reservationId">Reservation ID:</label>
-                <p id="reservationId">{{ selectedReservation.reservation_id }}</p>
-              </div>
-              <div class="form-group">
-                <label for="user">User:</label>
-                <p id="user">{{ selectedReservation.user.name }}</p>
-              </div>
-              <div class="form-group">
-                <label for="table">Table:</label>
-                <p id="table">{{ selectedReservation.table.table_name }}</p>
-              </div>
-              <div class="form-group">
-                <label for="orderItems">Order Items:</label>
-                <ul>
-                  <li v-for="item in selectedReservation.order_items" :key="item.id">
-                    {{ item.item_name }} ({{ item.quantity }})
-                  </li>
-                </ul>
-              </div>
-              <div class="form-group">
-                <label for="status">Status:</label>
-                <p id="status">{{ selectedReservation.status }}</p>
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-custom" @click="closeDetailsModal">
-                Close
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Success and Error Messages -->
-      <div v-if="successMessage" class="alert alert-success" role="alert">
-        {{ successMessage }}
-      </div>
-      <div v-if="errorMessage" class="alert alert-danger" role="alert">
-        {{ errorMessage }}
-      </div>
-    </div>
-  </div>
-</div>
-
-</div>
 
 
         <div class="row">
@@ -711,6 +526,115 @@
       </div>
     </div>
   </div>
+  <div class="row">
+    <!-- Table Inventory -->
+    <div class="col-12">
+      <div class="card card-default">
+        <div class="card-header">
+          <h2>Table Inventory</h2>
+          <button
+            type="button"
+            class="btn btn-custom"
+            @click="openAddTableModal"
+          >
+            Add Table
+          </button>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table
+              id="tablesInventory"
+              class="table table-hover"
+              style="width: 100%"
+            >
+              <thead>
+                <tr>
+                  <th>Table Name</th>
+                  <th>Description</th>
+                  <th>Price</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(table, index) in tables" :key="table.table_id">
+                  <td>{{ table.table_name }}</td>
+                  <td>{{ table.table_description }}</td>
+                  <td>{{ table.table_price }}</td>
+                  <td class="action-buttons">
+                    <button class="btn btn-custom" @click="openEditTableModal(table)">Edit</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Edit Table Modal -->
+    <div v-if="editTableModalVisible" class="modal" tabindex="-1" role="dialog" style="display: block">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Edit Table</h5>
+            <button type="button" class="close" @click="closeEditTableModal">&times;</button>
+          </div>
+          <div class="modal-body">
+            <form @submit.prevent="updateTable">
+              <div class="form-group">
+                <label for="edit_table_name">Table Name</label>
+                <input type="text" class="form-control" v-model="editedTable.table_name" required />
+              </div>
+              <div class="form-group">
+                <label for="edit_table_description">Description</label>
+                <input type="text" class="form-control" v-model="editedTable.table_description" required />
+              </div>
+              <div class="form-group">
+                <label for="edit_table_price">Price</label>
+                <input type="number" class="form-control" v-model="editedTable.table_price" required />
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-custom" @click="closeEditTableModal">Close</button>
+                <button type="submit" class="btn btn-custom">Save Changes</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add Table Modal -->
+    <div v-if="addTableModalVisible" class="modal" tabindex="-1" role="dialog" style="display: block">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Add Table</h5>
+            <button type="button" class="close" @click="closeAddTableModal">&times;</button>
+          </div>
+          <div class="modal-body">
+            <form @submit.prevent="saveTable">
+              <div class="form-group">
+                <label for="table_name">Table Name</label>
+                <input type="text" class="form-control" v-model="table_name" required />
+              </div>
+              <div class="form-group">
+                <label for="table_description">Description</label>
+                <input type="text" class="form-control" v-model="table_description" required />
+              </div>
+              <div class="form-group">
+                <label for="table_price">Price</label>
+                <input type="number" class="form-control" v-model="table_price" required />
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-custom" @click="closeAddTableModal">Close</button>
+                <button type="submit" class="btn btn-custom">Add Table</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
  <!-- Menu Table -->
  <div class="row">
  <div class="col-12">
@@ -877,7 +801,160 @@
   </div>
 </div>
 
+<div class="row">
+    <!-- Cottage Inventory Table -->
+    <div class="col-12">
+      <div class="card card-default">
+        <div class="card-header">
+          <h2>Cottage Inventory</h2>
+          <button
+            type="button"
+            class="btn btn-custom"
+            @click="openCottageAddModal"
+          >
+            Add Cottage
+          </button>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table
+              id="cottagesTable"
+              class="table table-hover table-product"
+              style="width: 100%"
+            >
+              <thead>
+                <tr>
+                  <th>Cottage Image</th>
+                  <th>Cottage Name</th>
+                  <th>Description</th>
+                  <th>Price</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(cottage, index) in cottages" :key="cottage.cottage_id">
+                  <td>{{ cottage.cottage_image }}</td>
+                  <td>{{ cottage.cottage_name }}</td>
+                  <td>{{ cottage.cottage_description }}</td>
+                  <td>{{ cottage.cottage_price }}</td>
+                  <td class="action-buttons">
+                    <button class="btn btn-custom" @click="openCottageEditModal(cottage)">Edit</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
 
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Cottage Modal -->
+  <div v-if="addCottageModalVisible" class="modal" tabindex="-1" role="dialog" style="display: block">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Add Cottage</h5>
+          <button
+            type="button"
+            class="close"
+            @click="closeCottageAddModal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="cottageName" class="label">Cottage Name:</label>
+            <input v-model="cottage_name" type="text" class="form-control" id="cottageName" />
+          </div>
+          <div class="form-group">
+            <label for="cottageDescription" class="label">Description:</label>
+            <input v-model="cottage_description" type="text" class="form-control" id="cottageDescription" />
+          </div>
+          <div class="form-group">
+            <label for="cottagePrice" class="label">Price:</label>
+            <input v-model="cottage_price" type="number" class="form-control" id="cottagePrice" />
+          </div>
+          <div class="form-group">
+            <label for="cottageImage" class="label">Image:</label>
+            <input type="file" ref="cottageImageInput" class="form-control" id="cottageImage" @change="handleCottageImageUpload" />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-custom"
+            @click="saveCottage('add')"
+          >
+            Save
+          </button>
+          <button
+            type="button"
+            class="btn btn-custom"
+            @click="closeCottageAddModal"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Cottage Modal -->
+  <div v-if="editCottageModalVisible" class="modal" tabindex="-1" role="dialog" style="display: block">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Edit Cottage</h5>
+          <button
+            type="button"
+            class="close"
+            @click="closeCottageEditModal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="editCottageName" class="label">Cottage Name:</label>
+            <input v-model="editedCottage.cottage_name" type="text" class="form-control" id="editCottageName" />
+          </div>
+          <div class="form-group">
+            <label for="editCottageDescription" class="label">Description:</label>
+            <input v-model="editedCottage.cottage_description" type="text" class="form-control" id="editCottageDescription" />
+          </div>
+          <div class="form-group">
+            <label for="editCottagePrice" class="label">Price:</label>
+            <input v-model="editedCottage.cottage_price" type="number" class="form-control" id="editCottagePrice" />
+          </div>
+          <div class="form-group">
+            <label for="editCottageImage" class="label">Change Image:</label>
+            <input type="file" ref="editCottageImageInput" @change="handleEditCottageImageUpload" />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-custom"
+            @click="saveCottageEdit"
+          >
+            Save Changes
+          </button>
+          <button
+            type="button"
+            class="btn btn-custom"
+            @click="closeCottageEditModal"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 
 
 
@@ -960,7 +1037,192 @@
         </div>
       </div>
     </div>
+    <div class="row">
+  <!-- Table Product -->
+  <div class="col-12">
+    <div class="card card-default">
+      <div class="card-header">
+        <h2>Cottage Booking Inventory</h2>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+      <table id="cottageBookingTable" class="table table-hover table-product" style="width: 100%">
+        <thead>
+          <tr>
+            <th>Booking Id</th>
+            <th>User Id</th>
+            <th>Checkin</th>
+            <th>Checkout</th>
+            <th>Booking Status</th>
+            <th>Cottage Id</th>
+            <th>Created At</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="booking in bookings" :key="booking.cottagebooking_id">
+            <td>{{ booking.cottagebooking_id }}</td>
+            <td>{{ booking.user_id }}</td>
+            <td>{{ booking.selectedTime }}</td>
+            <td>{{ booking.selectedTimeout }}</td>
+            <td>{{ booking.cottagebooking_status }}</td>
+            <td>{{ booking.cottage_id }}</td>
+            <td>{{ booking.created_at }}</td>
+            <td>
+  <div class="btn-group" role="group" aria-label="Booking Actions">
+    <button 
+      @click="confirmCottageBooking(booking.cottagebooking_id)" 
+      class="btn btn-primary"
+    >
+      Confirm
+    </button>
+    <button 
+      @click="declineCottageBooking(booking.cottagebooking_id)" 
+      class="btn btn-danger" 
+      :disabled="booking.cottagebooking_status === 'confirmed'" 
+      :class="{ 'disabled': booking.cottagebooking_status === 'confirmed' }"
+    >
+      Decline
+    </button>
+    <button 
+      @click="markCottageBookingAsPaid(booking.cottagebooking_id)" 
+      class="btn btn-primary"
+    >
+      Mark as Paid
+    </button>
+  </div>
+</td>
 
+
+
+          </tr>
+        </tbody>
+      </table>
+    </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+        
+        <div class="row">
+  <!-- Reservation List -->
+  <div class="col-12">
+  <div class="card card-default">
+    <div class="card-header">
+      <h2>Reservations</h2>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table id="reservationsTable" class="table table-hover" style="width: 100%">
+          <thead>
+            <tr>
+              <th>Reservation ID</th>
+              <th>User</th>
+              <th>Table</th>
+              <th>Order Items</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(reservation, index) in reservations" :key="reservation.reservation_id">
+              <td>{{ reservation.reservation_id }}</td>
+              <td>{{ reservation.user.name }}</td>
+              <td>{{ reservation.table.table_name }}</td>
+              <td>
+                <ul>
+                  <li v-for="item in reservation.order_items" :key="item.id">
+                    {{ item.item_name }} ({{ item.quantity }})
+                  </li>
+                </ul>
+              </td>
+              <td>{{ reservation.status }}</td>
+              <td class="action-buttons">
+
+
+                <!-- View Details Button -->
+                <button class="btn btn-custom" @click="viewDetails(reservation)">
+                  View Details
+                </button>
+
+                <!-- Accept Reservation Button -->
+                <button class="btn btn-success" @click="acceptReservation(reservation.reservation_id)">
+                  Accept
+                </button>
+
+                <!-- Decline Reservation Button -->
+                <button class="btn btn-danger" @click="declineReservation(reservation.reservation_id)">
+                  Decline
+                </button>
+
+                <!-- Mark as Paid Button -->
+                <button class="btn btn-warning" @click="markReservationAsPaid(reservation.reservation_id)">
+                  Mark as Paid
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Details Modal -->
+      <div v-if="detailsModalVisible" class="modal fade show" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Reservation Details</h5>
+              <button type="button" class="close" @click="closeDetailsModal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="form-group">
+                <label for="reservationId">Reservation ID:</label>
+                <p id="reservationId">{{ selectedReservation.reservation_id }}</p>
+              </div>
+              <div class="form-group">
+                <label for="user">User:</label>
+                <p id="user">{{ selectedReservation.user.name }}</p>
+              </div>
+              <div class="form-group">
+                <label for="table">Table:</label>
+                <p id="table">{{ selectedReservation.table.table_name }}</p>
+              </div>
+              <div class="form-group">
+                <label for="orderItems">Order Items:</label>
+                <ul>
+                  <li v-for="item in selectedReservation.order_items" :key="item.id">
+                    {{ item.item_name }} ({{ item.quantity }})
+                  </li>
+                </ul>
+              </div>
+              <div class="form-group">
+                <label for="status">Status:</label>
+                <p id="status">{{ selectedReservation.status }}</p>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-custom" @click="closeDetailsModal">
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Success and Error Messages -->
+      <div v-if="successMessage" class="alert alert-success" role="alert">
+        {{ successMessage }}
+      </div>
+      <div v-if="errorMessage" class="alert alert-danger" role="alert">
+        {{ errorMessage }}
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
     <div class="row">
     <!-- Table Product -->
     <div class="col-12">
@@ -1184,6 +1446,23 @@ components: {
 },
 data() {
   return {
+    cottages: [],
+      cottage_name: '',
+      cottage_description: '',
+      cottage_price: '',
+      cottage_img: null,
+      successMessage: '',
+      addCottageModalVisible: false,
+      editCottageModalVisible: false,
+      editedCottage: null,
+    tables: [],              // Holds table inventory data
+      table_name: '',          // New table name
+      table_description: '',   // New table description
+      table_price: '',         // New table price
+      editedTable: null,       // Stores table data for editing
+      addTableModalVisible: false,  // Controls visibility of Add Table modal
+      editTableModalVisible: false, // Controls visibility of Edit Table modal
+      successMessage: '',       // Success message state
     reservations: [],
       statusModalVisible: false,
       detailsModalVisible: false,
@@ -1256,9 +1535,16 @@ data() {
     bookings: [],
       successMessage: '',
       errorMessage: '',
+      notification: {
+      show: false,
+      type: 'success',  // Default notification type (e.g., success, error, etc.)
+      message: '',
+    },
   };
 },
 mounted() {
+  this.getCottages();
+  this.fetchTables();
   this.fetchCottageBookings(); // Fetch bookings when component is mounted
   this.fetchReservations();
   this.fetchMenuItems();
@@ -1291,6 +1577,238 @@ created() {
 },
 
 methods: {
+// Handle Image Upload for Add Cottage
+handleCottageImageUpload() {
+    const fileInput = this.$refs.cottageImageInput;
+    const file = fileInput.files[0];
+
+    const formData = new FormData();
+    formData.append("cottage_image", file);
+
+    this.cottage_img = formData;
+  },
+
+  // Save a new cottage
+  async saveCottage(mode) {
+    try {
+      let data = {};
+
+      if (mode === "add") {
+        if (this.cottage_img instanceof FormData) {
+          data = this.cottage_img;
+          data.append("cottage_name", this.cottage_name);
+          data.append("cottage_description", this.cottage_description);
+          data.append("cottage_price", this.cottage_price);
+        } else {
+          data = {
+            cottage_name: this.cottage_name,
+            cottage_description: this.cottage_description,
+            cottage_price: this.cottage_price,
+          };
+        }
+      }
+
+      const response = await axios.post("/cottages", data);
+
+      if (mode === "add") {
+        this.closeCottageAddModal();
+        this.cottage_name = "";
+        this.cottage_description = "";
+        this.cottage_price = "";
+        this.getCottages();
+        this.showNotification("Cottage Added Successfully", "success");
+      }
+    } catch (error) {
+      console.error(error);
+      this.showNotification("Error adding cottage", "error");
+    }
+  },
+
+  // Open Edit Cottage Modal
+  openCottageEditModal(cottage) {
+    this.editedCottage = { ...cottage };
+    this.editCottageModalVisible = true;
+  },
+
+  // Close Edit Cottage Modal
+  closeCottageEditModal() {
+    this.editedCottage = null;
+    this.editCottageModalVisible = false;
+    this.showNotification("Cottage Updated Successfully", "success");
+  },
+
+  // Save the edited cottage details
+  async saveCottageEdit() {
+  try {
+    const formData = new FormData();
+
+    // Append cottage details
+    formData.append("cottage_name", this.editedCottage.cottage_name);
+    formData.append("cottage_description", this.editedCottage.cottage_description);
+    formData.append("cottage_price", this.editedCottage.cottage_price);
+
+    // Append image file if a new image was selected
+    if (this.editedCottage.newImage) {
+      formData.append("cottage_image", this.editedCottage.newImage);
+    }
+
+    const apiUrl = `/cottages/update/${this.editedCottage.cottage_id}`;
+    
+    // Send the request with form data
+    const response = await axios.post(apiUrl, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    this.closeCottageEditModal();
+    this.getCottages();
+    this.showNotification("Cottage Updated Successfully", "success");
+  } catch (error) {
+    console.error("Error updating cottage:", error);
+    this.showNotification("Error updating cottage", "error");
+  }
+},
+
+handleEditCottageImageUpload() {
+  const fileInput = this.$refs.editCottageImageInput;
+  const file = fileInput.files[0];
+
+  // Assign the new image to the editedCottage object
+  this.editedCottage.newImage = file;
+},
+
+  // Show success notification
+  // showCottageSuccessNotification(message) {
+  //   this.notification.message = message;
+  //   this.notification.type = 'success';
+  //   this.notification.show = true;
+
+  //   setTimeout(() => {
+  //     this.notification.show = false;
+  //   }, 3000);  // Hide after 3 seconds
+  // },
+
+  // Show error notification
+  // showCottageErrorNotification(message) {
+  //   this.notification.message = message;
+  //   this.notification.type = 'error';
+  //   this.notification.show = true;
+
+  //   setTimeout(() => {
+  //     this.notification.show = false;
+  //   }, 3000);  // Hide after 3 seconds
+  // },  
+
+    // Fetch all cottages
+    async getCottages() {
+      try {
+        const response = await axios.get("/cottages");
+        this.cottages = response.data;
+      } catch (error) {
+        console.error("Error fetching cottages:", error);
+      }
+    },
+
+    // Show success notifications for cottage operations
+    showCottageSuccessNotification(message) {
+      this.successMessage = message;
+      setTimeout(() => {
+        this.successMessage = '';
+      }, 3000);
+    },
+
+    // Open Add Cottage Modal
+    openCottageAddModal() {
+      this.addCottageModalVisible = true;
+    },
+
+    // Close Add Cottage Modal
+    closeCottageAddModal() {
+      this.addCottageModalVisible = false;
+    },
+
+
+
+async fetchTables() {
+      try {
+        const response = await axios.get('/getTables');
+        this.tables = response.data;
+      } catch (error) {
+        console.error('Error fetching tables:', error);
+      }
+    },
+
+    async saveTable() {
+      try {
+        const data = {
+          table_name: this.table_name,
+          table_description: this.table_description,
+          table_price: this.table_price,
+        };
+
+        await axios.post('/addTable', data);
+        this.closeAddTableModal();
+        this.fetchTables();
+
+        this.showNotification("Table added successfully!", "success");
+      } catch (error) {
+        console.error('Error saving table:', error);
+      }
+    },
+
+    async updateTable() {
+      try {
+        const data = {
+          table_name: this.editedTable.table_name,
+          table_description: this.editedTable.table_description,
+          table_price: this.editedTable.table_price,
+        };
+
+        await axios.post(`/updateTable/${this.editedTable.table_id}`, data);
+        this.closeEditTableModal();
+        this.fetchTables();
+
+        this.showNotification("Table updated successfully!", "success");
+      } catch (error) {
+        console.error('Error updating table:', error);
+      }
+    },
+
+    showNotification(message, type) {
+      this.notification.message = message;
+      this.notification.type = type;
+      this.notification.show = true;
+
+      // Hide notification after 3 seconds
+      setTimeout(() => {
+        this.notification.show = false;
+      }, 3000);
+    },
+
+    openAddTableModal() {
+      this.addTableModalVisible = true;
+    },
+
+    closeAddTableModal() {
+      this.addTableModalVisible = false;
+      this.clearTableForm();
+    },
+
+    openEditTableModal(table) {
+      this.editedTable = { ...table };  
+      this.editTableModalVisible = true;
+    },
+
+    closeEditTableModal() {
+      this.editTableModalVisible = false;
+    },
+
+    clearTableForm() {
+      this.table_name = '';
+      this.table_description = '';
+      this.table_price = '';
+    },
   async declineCottageBooking(cottagebooking_id) {
   try {
     const response = await axios.post(`api/cottage-bookings/decline/${cottagebooking_id}`);

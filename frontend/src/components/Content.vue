@@ -4,148 +4,92 @@
   <div class="row justify-content-center">
      <div class="col-md-15">
       <div id="header-carousel" class="carousel slide mt-n5" data-bs-ride="carousel">
-        <div class="carousel-inner">
-          <div class="carousel-item active">
-            <img :src="require('../assets/img/pool4.jpg')" class="w-100" alt="Image" style="height: 600px; object-fit: cover;" />
-            <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
-              <div class="p-3" style="max-width: 700px">
-                <h6 class="section-title text-white text-uppercase mb-3 animated slideInDown">
-                  Your Escape to Paradise
-                </h6>
-                <h1 class="display-3 text-white mb-4 animated slideInDown">
-                  SAVING LIVES BUILDING COMPANIONS!
-                </h1>
-                <button type="button" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft" @click="openEventBookingForm">Book an Event</button>
-           
-           <!-- Event booking form -->
-           <div v-if="eventBookingFormVisible" class="modal fade show" tabindex="-1" role="dialog" style="display: block;">
-             <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
-               <div class="modal-content">
-                 <div class="modal-header">
-                   <h5 class="modal-title">Event Booking Form</h5>
-                   <button type="button" class="close" @click="closeEventBookingForm">
-                     <span aria-hidden="true">&times;</span>
-                   </button>
-                 </div>
-                 <div class="modal-body">
-           <form @submit.prevent="submitEventBookingForm">
-           
-             <div class="mb-3">
-               <h3>Name: {{ username }}</h3>
-               <h5>Email: {{ email }}</h5>
-               <h5>Address: {{ address }}</h5>
-               <h5>number: {{ number }}</h5>
-           
-             </div>
-           
-             <div class="mb-3 text-dark">
-               <label for="eventName" class="visually-hidden">Event Name</label>
-               <div class="input-group">
-                 <input type="text" class="form-control"  placeholder="Event Name" v-model="eventName" required>
-               </div>
-             </div>
-             <div class="mb-3 text-dark">
-               <label for="eventTheme" class="visually-hidden">Event Theme</label>
-               <div class="input-group">
-                 <input type="text" class="form-control"  placeholder="Event Theme" v-model="eventTheme" required>
-               </div>
-             </div>
-             <div class="mb-3 text-dark">
-             <label for="eventDate" class="visually-hidden">Event Date and Time</label>
-             <div class="input-group">
-               <input type="datetime-local" class="form-control" v-model="eventDate" :min="minDate" :max="maxDate" required>
-             </div>
-           </div>
-           
-           
-             <!-- Submit button -->
-             <div class="text-center">
-               <button type="submit" class="btn btn-primary">Submit</button>
-             </div>
-           </form>
-           
-                 </div>
-               </div>
-             </div>
-           </div>              </div>
-            </div>
-          </div>
-        <div class="carousel-item">
-          <img :src="require('../assets/img/eagleview.jpg')" class="w-100" alt="Image" style="height: 600px; object-fit: cover;"  />
-          <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
-            <div class="p-3" style="max-width: 700px">
-              <h6 class="section-title text-white text-uppercase mb-3 animated slideInDown">
-                Your Ultimate Getaway
-              </h6>
-              <h1 class="display-3 text-white mb-4 animated slideInDown">
-                Enjoy, Relax & Have Fun in the Cool & Therapeutic Waters
-              </h1>
-              <button type="button" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft" @click="openEventBookingForm">Book an Event</button>
-           
-           <!-- Event booking form -->
-           <div v-if="eventBookingFormVisible" class="modal fade show" tabindex="-1" role="dialog" style="display: block;">
-             <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
-               <div class="modal-content">
-                 <div class="modal-header">
-                   <h5 class="modal-title">Event Booking Form</h5>
-                   <button type="button" class="close" @click="closeEventBookingForm">
-                     <span aria-hidden="true">&times;</span>
-                   </button>
-                 </div>
-                 <div class="modal-body">
-           <form @submit.prevent="submitEventBookingForm">
-           
-             <div class="mb-3">
-               <h3>Name: {{ username }}</h3>
-               <h5>Email: {{ email }}</h5>
-               <h5>Address: {{ address }}</h5>
-               <h5>number: {{ number }}</h5>
-           
-             </div>
-           
-             <div class="mb-3 text-dark">
-               <label for="eventName" class="visually-hidden">Event Name</label>
-               <div class="input-group">
-                 <input type="text" class="form-control"  placeholder="Event Name" v-model="eventName" required>
-               </div>
-             </div>
-             <div class="mb-3 text-dark">
-               <label for="eventTheme" class="visually-hidden">Event Theme</label>
-               <div class="input-group">
-                 <input type="text" class="form-control"  placeholder="Event Theme" v-model="eventTheme" required>
-               </div>
-             </div>
-             <div class="mb-3 text-dark">
-             <label for="eventDate" class="visually-hidden">Event Date and Time</label>
-             <div class="input-group">
-               <input type="datetime-local" class="form-control" v-model="eventDate" :min="minDate" :max="maxDate" required>
-             </div>
-           </div>
-           
-           
-             <!-- Submit button -->
-             <div class="text-center">
-               <button type="submit" class="btn btn-primary">Submit</button>
-             </div>
-           </form>
-           
-                 </div>
-               </div>
-             </div>
-           </div>
-            </div>
-          </div>
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img :src="require('../assets/img/pool4.jpg')" class="w-100" alt="Image" style="height: 600px; object-fit: cover;" />
+      <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
+        <div class="p-3" style="max-width: 700px">
+          <h6 class="section-title text-white text-uppercase mb-3 animated slideInDown">
+            Your Escape to Paradise
+          </h6>
+          <h1 class="display-3 text-white mb-4 animated slideInDown">
+            SAVING LIVES BUILDING COMPANIONS!
+          </h1>
+          <button type="button" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft" @click="openEventBookingForm">Book an Event</button>
         </div>
       </div>
-      <button class="carousel-control-prev" type="button" data-bs-target="#header-carousel" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-      </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#header-carousel" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-      </button>
     </div>
+    <div class="carousel-item">
+      <img :src="require('../assets/img/eagleview.jpg')" class="w-100" alt="Image" style="height: 600px; object-fit: cover;" />
+      <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
+        <div class="p-3" style="max-width: 700px">
+          <h6 class="section-title text-white text-uppercase mb-3 animated slideInDown">
+            Your Ultimate Getaway
+          </h6>
+          <h1 class="display-3 text-white mb-4 animated slideInDown">
+            Enjoy, Relax & Have Fun in the Cool & Therapeutic Waters
+          </h1>
+          <button type="button" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft" @click="openEventBookingForm">Book an Event</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal for Event Booking -->
+  <div v-if="eventBookingFormVisible" class="modal fade show" tabindex="-1" role="dialog" style="display: block;">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Event Booking Form</h5>
+          <button type="button" class="close" @click="closeEventBookingForm">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form @submit.prevent="submitEventBookingForm">
+            <div class="mb-3">
+              <h3>Name: {{ username }}</h3>
+              <h5>Email: {{ email }}</h5>
+              <h5>Address: {{ address }}</h5>
+              <h5>Number: {{ number }}</h5>
+            </div>
+            <div class="mb-3 text-dark">
+              <label for="eventName" class="visually-hidden">Event Name</label>
+              <div class="input-group">
+                <input type="text" class="form-control" placeholder="Event Name" v-model="eventName" required>
+              </div>
+            </div>
+            <div class="mb-3 text-dark">
+              <label for="eventTheme" class="visually-hidden">Event Theme</label>
+              <div class="input-group">
+                <input type="text" class="form-control" placeholder="Event Theme" v-model="eventTheme" required>
+              </div>
+            </div>
+            <div class="mb-3 text-dark">
+              <label for="eventDate" class="visually-hidden">Event Date and Time</label>
+              <div class="input-group">
+                <input type="datetime-local" class="form-control" v-model="eventDate" :min="minDate" :max="maxDate" required>
+              </div>
+            </div>
+            <div class="text-center">
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button class="carousel-control-prev" type="button" data-bs-target="#header-carousel" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#header-carousel" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+
   </div>
 </div>
   </div>
@@ -280,50 +224,68 @@
     </div>
   </div>
   <!-- Service End -->
-  <!-- Video Start -->
-  <div id="app" class="container-xxl py-5 px-0 wow zoomIn" data-wow-delay="0.1s">
-    <div class="row g-0">
-      <div class="col-md-6 bg-dark d-flex align-items-center">
-        <div class="p-5">
-          <h6 class="section-title text-start text-white text-uppercase mb-3">
-            Eduardo's Resort
-          </h6>
-          <h1 class="text-white mb-4">"Where Every Moment Becomes a Memory"</h1>
-          <p class="text-white mb-4">
-            "Eduardo's Resort is a tranquil paradise nestled in a breathtaking
-            natural setting. With lush gardens, pristine pools, and luxurious
-            accommodations, our resort offers the perfect escape from the hustle
-            and bustle of daily life. Whether you're seeking a romantic getaway,
-            a family vacation, or a venue for your special events, Eduardo's
-            Resort provides a serene and memorable experience. Immerse yourself
-            in comfort, adventure, and relaxation, all in one remarkable
-            destination."
-          </p>
-          <a href="/room" class="btn btn-primary py-md-3 px-md-5 me-3">Our Rooms</a>
-        </div>
+<!-- Video Start -->
+<div id="app" class="container-xxl py-5 px-0 wow zoomIn" data-wow-delay="0.1s">
+  <div class="row g-0">
+    <!-- Text Section -->
+    <div class="col-md-6 bg-dark d-flex align-items-center">
+      <div class="p-5">
+        <h6 class="section-title text-start text-white text-uppercase mb-3">
+          Eduardo's Resort
+        </h6>
+        <h1 class="text-white mb-4">"Where Every Moment Becomes a Memory"</h1>
+        <p class="text-white mb-4">
+          "Eduardo's Resort is a tranquil paradise nestled in a breathtaking
+          natural setting. With lush gardens, pristine pools, and luxurious
+          accommodations, our resort offers the perfect escape from the hustle
+          and bustle of daily life. Whether you're seeking a romantic getaway,
+          a family vacation, or a venue for your special events, Eduardo's
+          Resort provides a serene and memorable experience. Immerse yourself
+          in comfort, adventure, and relaxation, all in one remarkable
+          destination."
+        </p>
+        <a href="/room" class="btn btn-primary py-md-3 px-md-5 me-3">Our Rooms</a>
       </div>
-      <div class="col-md-6">
-  <div class="video">
-    <!-- Button to trigger the modal with a video thumbnail -->
-    <button type="button" class="btn-play" data-bs-toggle="modal" data-bs-target="#videoModal">
-      <!-- Embed the video thumbnail or an icon -->
-      <!-- For example, you can use an image as a video thumbnail -->
-      <img src="@/assets/img/pool5.jpg" alt="Play Video">
-    </button>
+    </div>
+
+    <!-- Video Section with Play Button -->
+    <div class="col-md-6 d-flex justify-content-center align-items-center bg-light position-relative">
+      <div class="video" style="width: 100%; height: 100%; position: relative;">
+        <!-- Button to trigger the modal -->
+        <button type="button" class="btn-play" data-bs-toggle="modal" data-bs-target="#videoModal" style="border: none; background: none; padding: 0; width: 100%; height: 100%; position: relative;">
+          <!-- Full-width image as video thumbnail -->
+          <img src="@/assets/img/pool5.jpg" alt="Play Video" style="width: 100%; height: auto; object-fit: cover;">
+          <!-- Play button overlay (centered) -->
+          <span style="
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          ">
+            <!-- Play icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="48" height="48" fill="black">
+              <path d="M8 5v14l11-7z"/>
+            </svg>
+          </span>
+        </button>
+      </div>
+    </div>
   </div>
 </div>
 
-    </div>
-  </div>
-
-  <!-- Modal -->
-  <div class="modal fade" id="videoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- Modal -->
+<div class="modal fade" id="videoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content rounded-0">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">
-          Eduardo's Resort Video
-        </h5>
+        <h5 class="modal-title" id="exampleModalLabel">Eduardo's Resort Video</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -331,13 +293,15 @@
         <video controls width="100%" height="auto">
           <!-- Replace the direct URL with the actual URL of your video -->
           <source src="@/assets/img/bestresortinmindoro.mp4" type="video/mp4" />
-
           Your browser does not support the video tag.
         </video>
       </div>
     </div>
   </div>
 </div>
+
+
+
 
   <!-- Video Start -->
 
@@ -436,6 +400,20 @@
 <style>
 @import "@/assets/css/bootstrap.min.css";
 @import "@/assets/css/style.css";
+
+/* Additional CSS */
+.btn-play img {
+  transition: transform 0.3s ease;
+}
+
+.btn-play:hover img {
+  transform: scale(1.1); /* Slight zoom effect on hover */
+}
+
+.modal-body video {
+  border-radius: 5px;
+}
+
 </style>
 <script>
 import axios from "axios";
@@ -540,8 +518,10 @@ export default {
       this.eventBookingFormVisible = true;
     },
     closeEventBookingForm() {
-      this.eventBookingFormVisible = false;
-    },
+  this.eventBookingFormVisible = false; // Just toggle the visibility
+},
+
+
     async getStaff() {
       const response = await axios.get("/getStaff");
       this.staff = response.data;

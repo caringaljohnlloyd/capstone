@@ -24,7 +24,7 @@ class EmailController extends ResourceController
             $mail->Host       = 'smtp.gmail.com';
             $mail->SMTPAuth   = true;
             $mail->Username   = 'caringaljohnlloyd17@gmail.com';
-            $mail->Password   = 'vvme tzch kbky qpfr';
+            $mail->Password   = 'sfbm ayfi nsem qkju';
             $mail->SMTPSecure = 'tls';
             $mail->Port       = 587;
 
@@ -129,7 +129,7 @@ We may need to send you important updates and information regarding your reserva
             $mail->Host       = 'smtp.gmail.com';
             $mail->SMTPAuth   = true;
             $mail->Username   = 'caringaljohnlloyd17@gmail.com';
-            $mail->Password   = 'vvme tzch kbky qpfr';
+            $mail->Password   = 'sfbm ayfi nsem qkju';
             $mail->SMTPSecure = 'tls';
             $mail->Port       = 587;
 
