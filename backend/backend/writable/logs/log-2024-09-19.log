@@ -1,0 +1,155 @@
+CRITICAL - 2024-09-19 14:27:30 --> Cannot access offset of type string on string
+in APPPATH\Controllers\MainController.php on line 1439.
+ 1 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->checkout()
+ 2 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 3 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+CRITICAL - 2024-09-19 14:27:34 --> Cannot access offset of type string on string
+in APPPATH\Controllers\MainController.php on line 1439.
+ 1 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->checkout()
+ 2 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 3 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+CRITICAL - 2024-09-19 14:27:56 --> Cannot access offset of type string on string
+in APPPATH\Controllers\MainController.php on line 1439.
+ 1 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->checkout()
+ 2 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 3 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+CRITICAL - 2024-09-19 14:28:15 --> Cannot access offset of type string on string
+in APPPATH\Controllers\MainController.php on line 1439.
+ 1 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->checkout()
+ 2 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 3 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+CRITICAL - 2024-09-19 14:29:51 --> Cannot access offset of type string on string
+in APPPATH\Controllers\MainController.php on line 1439.
+ 1 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->checkout()
+ 2 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 3 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+CRITICAL - 2024-09-19 14:29:58 --> Cannot access offset of type string on string
+in APPPATH\Controllers\MainController.php on line 1439.
+ 1 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->checkout()
+ 2 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 3 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+CRITICAL - 2024-09-19 14:34:55 --> Cannot access offset of type string on string
+in APPPATH\Controllers\MainController.php on line 1439.
+ 1 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->checkout()
+ 2 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 3 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+CRITICAL - 2024-09-19 14:35:09 --> Cannot access offset of type string on string
+in APPPATH\Controllers\MainController.php on line 1439.
+ 1 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->checkout()
+ 2 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 3 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+CRITICAL - 2024-09-19 14:38:01 --> Cannot access offset of type string on string
+in APPPATH\Controllers\MainController.php on line 1439.
+ 1 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->checkout()
+ 2 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 3 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+CRITICAL - 2024-09-19 14:38:02 --> Cannot access offset of type string on string
+in APPPATH\Controllers\MainController.php on line 1439.
+ 1 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->checkout()
+ 2 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 3 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+CRITICAL - 2024-09-19 14:38:18 --> Cannot access offset of type string on string
+in APPPATH\Controllers\MainController.php on line 1439.
+ 1 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->checkout()
+ 2 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 3 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+CRITICAL - 2024-09-19 14:38:18 --> Cannot access offset of type string on string
+in APPPATH\Controllers\MainController.php on line 1439.
+ 1 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->checkout()
+ 2 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 3 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+CRITICAL - 2024-09-19 14:38:23 --> Cannot access offset of type string on string
+in APPPATH\Controllers\MainController.php on line 1439.
+ 1 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->checkout()
+ 2 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 3 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+CRITICAL - 2024-09-19 14:40:11 --> Cannot access offset of type string on string
+in APPPATH\Controllers\MainController.php on line 1439.
+ 1 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->checkout()
+ 2 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 3 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+CRITICAL - 2024-09-19 15:00:55 --> Cannot access offset of type string on string
+in APPPATH\Controllers\MainController.php on line 1439.
+ 1 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->checkout()
+ 2 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 3 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+CRITICAL - 2024-09-19 15:27:36 --> Cannot access offset of type string on string
+in APPPATH\Controllers\MainController.php on line 1439.
+ 1 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->checkout()
+ 2 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 3 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+CRITICAL - 2024-09-19 15:27:54 --> Cannot access offset of type string on string
+in APPPATH\Controllers\MainController.php on line 1439.
+ 1 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->checkout()
+ 2 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 3 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+CRITICAL - 2024-09-19 15:37:32 --> Undefined array key "id"
+in APPPATH\Controllers\MainController.php on line 1428.
+ 1 APPPATH\Controllers\MainController.php(1428): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "id"', 'C:\\Users\\PC\\laragon\\www\\capstone\\backend\\backend\\app\\Controllers\\MainController.php', 1428)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->checkout()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+CRITICAL - 2024-09-19 15:47:20 --> Cannot access offset of type string on string
+in APPPATH\Controllers\MainController.php on line 1446.
+ 1 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->checkout()
+ 2 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 3 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+CRITICAL - 2024-09-19 15:47:53 --> Cannot access offset of type string on string
+in APPPATH\Controllers\MainController.php on line 1446.
+ 1 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->checkout()
+ 2 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 3 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+CRITICAL - 2024-09-19 15:51:41 --> Cannot access offset of type string on string
+in APPPATH\Controllers\MainController.php on line 1445.
+ 1 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->checkout()
+ 2 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 3 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+CRITICAL - 2024-09-19 15:52:00 --> Cannot access offset of type string on string
+in APPPATH\Controllers\MainController.php on line 1445.
+ 1 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->checkout()
+ 2 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 3 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')

@@ -1,32 +1,62 @@
 <template>
-  <TopAdmin />
-  <div class="content-wrapper">
-    <HeaderAdmin />
+<div class="main-content">
+
+<div class="sidebar" :class="{ 'collapsed': isSidebarCollapsed }">
+
+<img :src="require('../assets/images/logo1.png.png')" alt="Mono" class="logo">
+<router-link to="/admin">
+<i class="fa-solid fa-chart-simple"></i><span>Business Dashboard</span>
+</router-link>
+<router-link to="/analytics">
+<i class="fa-solid fa-chart-line"></i><span>Analytics Board</span>
+</router-link>
+<router-link to="/teamadmin">
+<i class="fa-solid fa-people-group"></i><span>Team</span>
+</router-link>
+<router-link to="/monitorusers">
+<i class="fas fa-user"></i><span>Users</span>
+</router-link>
+<router-link to="/pos">
+<i class="fa-solid fa-table-columns"></i><span>POS</span>
+</router-link>
+</div>
+
+  <div class="header">
+    <h1 class="h1-main">EDUARDO'S ADMIN</h1>
+
+    <!-- Navbar Toggler -->
+    <button
+      class="navbar-toggler"
+      type="button"
+      @click="toggleSidebar"
+    >
+    <i class="fa-solid fa-bars" style="padding: 5px; margin:5px; width: 40px;"></i>
+    </button>
+
+    <!-- Logout Button -->
+    <button @click="logout" class="btn btn-custom logout-logo-btn">
+      <i class="fas fa-power-off logout-icon"></i>
+      Logout
+    </button>
   </div>
-
-  <!-- Table Product -->
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-3">
-        <SidebarAdmin />
-      </div>
-      <div class="col-md-9">
-        <!-- Adjusted the column width -->
+    
+    <div class="card-main">
+      <div class="content">
         <div class="row">
-          <h2>POS</h2>
+          <h2  class="fa-solid fa-cart-plus">   POS</h2><br>
 
-          <div class="row g-4">
+          <div class="row g-4 ">
             <div v-for="shop in shop" class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-              <div class="room-item shadow rounded overflow-hidden">
+              <div class="room-item shadow rounded overflow-hidden card-menu">
                 <div class="position-relative">
                   <img class="img-fluid menu" style="width: 200%; max-width: 500px; height: 330px"
-                    :src="require('@/assets/img/' + shop.prod_img)" alt="" />
+                  :src="`http://localhost:8080/uploads/${shop.prod_img}`" alt="" />
                   <small
                     class="position-absolute start-0 top-100 translate-middle-y bg-primary text-white rounded py-1 px-3 ms-4">
                     Php. {{ shop.prod_price }}
                   </small>
                 </div>
-                <div class="p-4 mt-2">
+                <div class="p-4 mt-2 " >
                   <div class="d-flex justify-content-between mb-3">
                     <h5 class="mb-0 text-dark">
                       {{ shop.prod_name }}
@@ -48,8 +78,8 @@
                     <div class="input-group">
                       <input type="number" class="form-control text-center" v-model="selectedQuantity" min="1" />
                     </div>
-                    <button class="btn text-primary btn-lg-square rounded-circle mx-2" @click="addCart(shop.shop_id)">
-                      <i class="fa fa-shopping-cart"> Add to Cart </i>
+                    <button class="btn btn-add " @click="addCart(shop.shop_id)">
+                      <i class="fa fa-shopping-cart add-cart"> Add to Cart </i>
                     </button>
                   </div>
                 </div>
@@ -59,177 +89,150 @@
               {{ successMessage }}
             </div>
           </div>
-          <div class="container-fluid padding-bottom-3x mb-1">
-            <Notification v-if="deleteSuccess" :show="deleteSuccess" type="success" message="Deleted successfully!" />
 
-            <div class="table-responsive">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th class="text-center">Product Name</th>
-                    <th class="text-center">Quantity</th>
-                    <th class="text-center">Price</th>
-                    <th class="text-center">Total Price</th>
-                    <th class="text-center">Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="cart in cart" :key="cart.shop_id">
-                    <td class="align-middle">
-                      <div class="product-item">
-                        <div class="custom-control custom-checkbox" style="
-                            float: left;
-                            margin-right: 10px;
-                            margin-top: 10px;
-                          ">
-                          <input type="checkbox" :id="'checkbox_' + cart.cart_id" v-model="checkedItems"
-                            :value="cart.cart_id" @click="check(cart.cart_id)" />
-                          <label class="custom-control-label" :for="'checkbox' + cart.shop_id"></label>
-                        </div>
-                        <a class=""><img class="img-fluid menu" style="
-                              width: 100%;
-                              max-width: 250px;
-                              height: 200px;
-                              margin-top: 5px;
-                            " :src="require('@/assets/img/' + getImg(cart).prod_img)
-                              " alt="Product" /></a>
-                        <div class="product-info">
-                          <h4 class="product-title">
-                            {{ getInfo(cart).prod_name }}
-                          </h4>
-                        </div>
-                      </div>
-                    </td>
-
-                    <td class="align-middle text-center">
-                      <div class="count-input">
-                        <button @click="updateQuantity(cart, 'decrement')" class="btn btn-primary btn-sm rounded-circle"
-                          :disabled="cart.quantity <= 1">
-                          <i class="fas fa-minus"></i>
-                        </button>
-                        <span class="quantity">{{ cart.quantity }}</span>
-                        <button @click="updateQuantity(cart, 'increment')" class="btn btn-primary btn-sm rounded-circle"
-                          :disabled="cart.quantity >= getMaxQuantity(cart)">
-                          <i class="fas fa-plus"></i>
-                        </button>
-                      </div>
-                    </td>
-
-                    <td class="align-middle text-center text-lg text-medium">
-                      {{ getPrice(cart).prod_price }}
-                    </td>
-                    <td class="align-middle text-center text-lg text-medium">
-                      {{ getTotal(cart) }}
-                    </td>
-                    <td class="align-middle text-center">
-                      <button @click="deleteCart(cart.cart_id)" class="btn btn-danger">
-                        <i class="fa fa-trash"></i>
-                      </button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="floating-container">
-              <div class="container">
-                <div class="shopping-cart-footer">
-                  <div class="column text-lg invoice-section sticky-column">
-                    <h4>Products to Pay:</h4>
-                    <table class="table">
-                      <thead>
-                        <tr>
-                          <th>Product Name</th>
-                          <th>Price</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr v-for="cartId in checkedItems" :key="cartId">
-                          <td>{{ getInfo(getCartItem(cartId)).prod_name }}</td>
-                          <td>
-                            Php.{{ getPrice(getCartItem(cartId)).prod_price }}
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                    <div>
-                      <h4>Total:</h4>
-                      <span class="text-medium">Php.{{ calculateSubtotal() }}</span>
-                    </div>
-                  </div>
-                  <div class="column checkout-button-section">
-                    <div class="shopping-cart-footer">
-                      <div class="column">
-                        <a class="btn btn-dark" @click="checkout">Proceed to Checkout</a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+         
+          <div class="card card-default">
+  <Notification v-if="deleteSuccess" :show="deleteSuccess" type="success" message="Deleted successfully!" />
+  
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th class="text-center">Product Name</th>
+          <th class="text-center">Quantity</th>
+          <th class="text-center">Price</th>
+          <th class="text-center">Total Price</th>
+          <th class="text-center">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="cart in cart" :key="cart.shop_id">
+          <td class="align-middle">
+            <div class="product-item">
+              <div class="custom-control custom-checkbox" style="float: left; margin-right: 10px; margin-top: 10px;">
+                <input type="checkbox" :id="'checkbox_' + cart.cart_id" v-model="checkedItems" :value="cart.cart_id" @click="check(cart.cart_id)" />
+                <label class="custom-control-label" :for="'checkbox_' + cart.cart_id"></label>
+              </div>
+              <a><img class="img-fluid menu" style="width: 100%; max-width: 250px; height: 200px; margin-top: 5px;" :src="require('@/assets/img/' + getImg(cart).prod_img)" alt="Product" /></a>
+              <div class="product-info">
+                <h4 class="product-title">{{ getInfo(cart).prod_name }}</h4>
               </div>
             </div>
+          </td>
 
-            <div class="column checkout-products-section">
-              <h4>Checkout Products:</h4>
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th class="text-center">Product Name</th>
-                    <th class="text-center">Quantity</th>
-                    <th class="text-center">Price</th>
-                    <th class="text-center">Total Price</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="product in checkedOutProducts" :key="product.cart_id">
-                    <td>{{ getInfo(product).prod_name }}</td>
-                    <td>Php.{{ getPrice(product).prod_price }}</td>
-                    <td>{{ product.quantity }}</td>
-                    <td>Php.{{ getTotal(product) }}</td>
-                  </tr>
-                </tbody>
-              </table>
+          <td class="align-middle text-center">
+            <div class="count-input">
+              <button @click="updateQuantity(cart, 'decrement')" class="btn btn-primary btn-option" :disabled="cart.quantity <= 1">
+                <span class="fas fa-minus"></span>
+              </button>
+              <span class="quantity">{{ cart.quantity }}</span>
+              <button @click="updateQuantity(cart, 'increment')" class="btn btn-primary btn-option" :disabled="cart.quantity >= getMaxQuantity(cart)">
+                <span class="fas fa-plus"></span>
+              </button>
             </div>
+          </td>
 
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <Notification v-if="insufficientStockError" :show="insufficientStockError" type="error"
-              message="Insufficient stock for one or more items" />
-            <Notification v-if="notification.show" :show="notification.show" :type="notification.type"
-              :message="notification.message" />
+          <td class="align-middle text-center text-lg text-medium">{{ getPrice(cart).prod_price }}</td>
+          <td class="align-middle text-center text-lg text-medium">{{ getTotal(cart) }}</td>
+          <td class="align-middle text-center">
+            <button @click="deleteCart(cart.cart_id)" class="btn btn-danger delete-cart">
+              <i class="fa fa-trash delete-cart"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
-            <Notification v-if="checkoutSuccess" :show="checkoutSuccess" type="success" message="Checkout successful!" />
-            <Notification v-if="checkoutError" :show="checkoutError" type="error"
-              message="Please select items before proceeding with the checkout." />
+  <div class="floating-container">
+    <div class="container">
+      <div class="shopping-cart-footer">
+        <div class="column text-lg invoice-section sticky-column">
+          <h4>Products to Pay:</h4>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Product Name</th>
+                <th>Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="cartId in checkedItems" :key="cartId">
+                <td>{{ getInfo(getCartItem(cartId)).prod_name }}</td>
+                <td>Php.{{ getPrice(getCartItem(cartId)).prod_price }}</td>
+              </tr>
+            </tbody>
+          </table>
+          <div>
+            <h4>Total:</h4>
+            <span class="text-medium">Php.{{ calculateSubtotal() }}</span>
+          </div>
+        </div>
+        <div class="column checkout-button-section">
+          <div class="shopping-cart-footer">
+            <div class="column">
+              <a class="btn btn-dark" @click="checkout">Proceed to Checkout</a>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+
+  <div class="column checkout-products-section">
+    <h4>Checkout Products:</h4>
+    <table class="table">
+      <thead>
+        <tr>
+          <th class="text-center">Product Name</th>
+          <th class="text-center">Quantity</th>
+          <th class="text-center">Price</th>
+          <th class="text-center">Total Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="product in checkedOutProducts" :key="product.cart_id">
+          <td>{{ getInfo(product).prod_name }}</td>
+          <td>Php.{{ getPrice(product).prod_price }}</td>
+          <td>{{ product.quantity }}</td>
+          <td>Php.{{ getTotal(product) }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <Notification v-if="insufficientStockError" :show="insufficientStockError" type="error" message="Insufficient stock for one or more items" />
+  <Notification v-if="notification.show" :show="notification.show" :type="notification.type" :message="notification.message" />
+  <Notification v-if="checkoutSuccess" :show="checkoutSuccess" type="success" message="Checkout successful!" />
+  <Notification v-if="checkoutError" :show="checkoutError" type="error" message="Please select items before proceeding with the checkout." />
+</div>
+
+       
+        </div>
+  
+ 
   <Notification :show="notification.show" :type="notification.type" :message="notification.message" />
-  <EndAdmin />
+
+      </div>
+    </div>
+  </div>
+
 </template>
 
 <script>
 import axios from "axios";
 import Notification from "@/components/Notification.vue";
-import TopAdmin from "@/components/TopAdmin.vue";
-import HeaderAdmin from "@/components/HeaderAdmin.vue";
-import EndAdmin from "@/components/EndAdmin.vue";
-import SidebarAdmin from "@/components/SidebarAdmin.vue";
 
 export default {
   components: {
-    TopAdmin,
-    HeaderAdmin,
+
     Notification,
-    EndAdmin,
-    SidebarAdmin,
+
   },
   data() {
     return {
-      cartCheckedOutIds: [],
+      isSidebarCollapsed: false,
+            cartCheckedOutIds: [],
       checkedItems: [],
       checkedOutProducts: [],
       cart: [],
@@ -261,8 +264,26 @@ export default {
     this.getShop();
   },
   methods: {
+    toggleSidebar() {
+      this.isSidebarCollapsed = !this.isSidebarCollapsed;
+    },
     getCartItem(cartId) {
       return this.cart.find((cart) => cart.cart_id === cartId) || {};
+    },
+    async logout() {
+      try {
+        const response = await axios.post("/logout");
+
+        if (response.status === 200) {
+          console.log("Logout successful");
+
+          sessionStorage.removeItem("token");
+
+          this.$router.push("/");
+        }
+      } catch (error) {
+        console.error("Error during logout", error);
+      }
     },
     async getCart() {
       const id = sessionStorage.getItem("id");
@@ -644,3 +665,432 @@ export default {
 };
 </script>
 
+
+
+<style scoped>
+  h1 {
+    color: white;
+    text-align: left;
+    margin: 0;
+  }
+
+  i {
+    padding-right: 38px;
+    padding-left: 10px;
+  }
+
+  span {
+    padding: 0;
+    margin: 0;
+  }
+
+  .sidebar {
+    width: 93px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #0F172B;
+    color: #fff;
+    padding: 20px;
+    overflow-y: auto;
+    transition: width 0.5s;
+  }
+
+  .sidebar img.logo {
+    width: 50px;
+    height: auto;
+    display: block;
+    transition: width 0.5s;
+  }
+
+  .sidebar:hover img.logo {
+    width: 100px;
+  }
+
+  .sidebar a, .sidebar router-link {
+    display: flex;
+    align-items: center;
+    color: #fff;
+    padding: 10px;
+    text-decoration: none;
+    margin: 5px 0;
+  }
+
+  .sidebar a:hover, .sidebar router-link:hover {
+    background-color: #FEA116;
+    transition: background-color 0.5s;
+  }
+
+  .sidebar:hover {
+    width: 200px;
+  }
+
+  @media (max-width: 768px) {
+    .sidebar {
+      width: 100%;
+      height: auto;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .sidebar img.logo {
+      width: 80px;
+    }
+
+    .sidebar:hover {
+      width: 100%;
+    }
+
+    .sidebar a, .sidebar router-link {
+      justify-content: center;
+    }
+  }
+
+  .main-content {
+    margin-left: 93px;
+    padding: 0;
+    transition: margin-left 0.5s;
+  }
+
+  .sidebar:hover ~ .main-content {
+    margin-left: 200px;
+  }
+
+  @media (max-width: 768px) {
+    .main-content {
+      margin-left: 0;
+    }
+  }
+
+  .header {
+    background-color: #0F172B;
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    margin-left: 0;
+  }
+
+  @media (max-width: 768px) {
+    .header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  .logout-logo-btn {
+    background-color: #FEA116;
+    border: none;
+    padding: 10px 15px;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+  }
+
+  .logout-logo-btn i {
+    margin-right: 5px;
+  }
+
+  .card {
+    background-color: #f4f4f4;
+    padding: 20px;
+    border-radius: 8px;
+  }
+
+  .table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    margin-top: 50px;
+  }
+
+  .table-product {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .table-product th, .table-product td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .card-body .modal-body, .card-body .alert, th, .modal-body {
+    font-family: "Edu AU VIC WA NT Hand", cursive;
+    font-weight: bold;
+    font-size: 17px;
+  }
+
+  .table-product tbody td.action-buttons button, .table-product tbody td.action-buttons a, td {
+    font-family: "Edu AU VIC WA NT Hand", cursive;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  .table-product tbody td.action-buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    white-space: nowrap;
+    padding: 0;
+    margin: 0;
+  }
+
+  .table-product tbody td {
+    padding: 12px;
+    margin: 0;
+  }
+
+  .table-product tbody tr {
+    margin: 0;
+    padding: 0;
+  }
+
+  .table-product tbody tr:hover {
+    background-color: #ff9933;
+  }
+
+  .actions-header {
+    text-align: center;
+  }
+
+  .table-product td {
+    vertical-align: middle;
+  }
+
+  .active {
+    background: #fea116;
+  }
+
+  @media (max-width: 768px) {
+    .table-product th, .table-product td {
+      padding: 8px;
+    }
+  }
+
+  .btn-dark {
+    background-color: #fea116;
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    transition: background-color 0.3s, transform 0.3s;
+    font-family: "Edu AU VIC WA NT Hand", cursive;
+    padding: 10px;
+    margin-bottom: 20px;
+  }
+
+  small, h5, p {
+    font-family: "Edu AU VIC WA NT Hand", cursive;
+  }
+
+  .btn-dark:hover {
+    background-color: #0F172B;
+    transform: scale(1.10);
+  }
+
+  .btn-add {
+    border-radius: 5px;
+    background-color: #FEA116;
+    color: white;
+    padding: 5px;
+    margin-left: 5px;
+  }
+
+  .add-cart {
+    padding: 0;
+    margin: 0;
+  }
+
+  .btn:hover {
+    background-color: #0F172B;
+    transform: scale(1.10);
+  }
+
+  .delete-cart {
+    border: none;
+    padding-right: 12px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+  }
+
+  .card-menu:hover {
+    transform: translateY(-30px);
+  }
+
+  .card-menu {
+    transition: transform 0.2s;
+  }
+
+  .btn-option {
+    width: 40px;
+    height: 40px;
+    border-radius: 70px;
+    margin: 5px;
+    border: none;
+  }
+  .card-default{
+    margin-top: 75px;
+  }
+  .card.card-big{
+    margin: 20px;
+  }
+
+  /* Sidebar styles */
+.sidebar {
+  width: 93px;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #0F172B;
+  color: #fff;
+  padding: 20px;
+  overflow-y: auto;
+
+
+}
+
+.sidebar img.logo {
+  width: 50px;
+  height: auto;
+  display: block;
+  transition: width 0.5s; /* Smooth transition for the logo size */
+}
+
+.sidebar:hover img.logo {
+  width: 100px;
+}
+
+
+.sidebar a,
+.sidebar router-link {
+  display: flex;
+  align-items: center;
+  color: #fff;
+  padding: 10px;
+  text-decoration: none;
+  margin: 5px 0;
+}
+
+.sidebar a:hover,
+.sidebar router-link:hover {
+  background-color: #FEA116;
+  transition: background-color 0.5s; 
+}
+
+
+.main-content {
+  margin-left: 93px; 
+  padding: 0;
+  transition: margin-left 0.5s; /* Smooth transition for the margin */
+  overflow-y: auto; /* Enable scrolling if the content is too long */
+  height: calc(100vh - 60px); 
+}
+.header {
+  background-color: #0F172B;
+  color: white;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  top: 0;
+  z-index: 1;
+  transition: 0.5s;
+  position: relative;
+}
+.card-main {
+  background-color: #f4f4f4;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow for better visibility */
+  transition: 0.5s;
+  margin: 10px;
+}
+.sidebar:hover ~ .card-main {
+  margin-left: 200px;
+  
+}
+.sidebar:hover ~ .header {
+  margin-left: 50px;
+}
+/* Navbar Toggler for Small Screens */
+.navbar-toggler {
+  display: none;
+  background-color: #FEA116;
+  border: none;
+  color:white;
+  cursor: pointer;
+  border-radius: 5px;
+ padding: 0;
+ margin:0;
+  position: absolute;
+  right: 20px;
+  align-items: center;
+}
+.navbar-toggler-icon{
+  padding: 0;
+  margin: 0;
+}
+.sidebar.collapsed + .navbar-toggler {
+  display: block;
+  transition: 0.3s;
+}
+
+@media (max-width: 768px) { 
+  .header {
+    display: flex;
+    align-items: center; /* Vertically center items */
+    position: relative; /* Ensure positioning context */
+  }
+  
+  /* Adjust header padding for smaller screens */
+
+  .sidebar {
+    width: 100%; /* Full width on small screens */
+    height: auto; /* Height auto adjusts */
+    position: fixed; 
+    overflow: hidden; /* Hide overflow on small screens */
+    transform: translateY(-100%); /* Hide sidebar by default on small screens */
+  
+  }
+
+  .sidebar.collapsed {
+    transform: translateY(0); /* Show sidebar when toggled */
+    position: relative; 
+    transition: 0.2s;
+  }
+  .main-content {
+    margin-left: 0;
+    height: auto;
+
+  }
+
+  .navbar-toggler {
+    display: block;
+    top: 10px;
+  } 
+  .header h1 {
+    margin-bottom: 50px; /* Adjust spacing for smaller screens */
+  }
+
+  .logout-logo-btn {
+    position: absolute;
+    bottom: 10px; /* Ensure it stays at the bottom */
+    right: 20px; /* Align to the right side */
+  }
+  
+}
+  </style>

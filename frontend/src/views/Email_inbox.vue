@@ -1,6 +1,5 @@
 <template>
-     <TopAdmin/>
-        <SidebarAdmin/>
+
      <!-- ====================================
         ——— CONTENT WRAPPER
         ===================================== -->
@@ -641,21 +640,19 @@
 
                       </div>
                     </div>
-                    <EndAdmin/>
+                  
      </template>
 
      <style>
  @import '@/assets/css/style.css';
     </style>
     <script>
-    import TopAdmin from '@/components/TopAdmin.vue';
-    import SidebarAdmin from '@/components/SidebarAdmin.vue';
-    import EndAdmin from '@/components/EndAdmin.vue';
+
    
    export default {
-    name: 'analytics',
+    name: 'analytics2',
      components: {
-       TopAdmin,SidebarAdmin,EndAdmin
+      
      }
    }
    </script>

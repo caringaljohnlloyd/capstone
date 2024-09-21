@@ -96,42 +96,45 @@ export default {
       this.showPassword = !this.showPassword;
     },
     login() {
-      const data = {
-        email: this.email,
-        password: this.password,
-      };
+  const data = {
+    email: this.email,
+    password: this.password,
+  };
 
-      axios
-        .post('/login', JSON.stringify(data), {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        })
-        .then((response) => {
-          console.log(response.data);
+  axios
+    .post('/login', JSON.stringify(data), {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    .then((response) => {
+      console.log(response.data);
 
-          if (response.data.message === 'Login successful') {
-            sessionStorage.setItem("token", response.data.token);
-            sessionStorage.setItem("id", response.data.id);
-            sessionStorage.setItem("book_id", response.data.book_id);
+      if (response.data.message === 'Login successful') {
+        // Store token, user ID, book ID, and role in sessionStorage
+        sessionStorage.setItem("token", response.data.token);
+        sessionStorage.setItem("id", response.data.id);
+        sessionStorage.setItem("book_id", response.data.book_id);
+        sessionStorage.setItem("role", response.data.role);  // <-- Store user role here
 
-            if (response.data.role === 'admin') {
-              console.log('Redirecting to admin panel');
-              router.push('/admin2');
-            } else {
-              console.log('Redirecting to user panel');
-              router.push('/user');
-            }
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-          this.errorMessage = 'Invalid email or password, try again!';
-          setTimeout(() => {
-            this.errorMessage = '';
-          }, 1000); 
-        });
-    },
+        // Redirect based on role
+        if (response.data.role === 'admin') {
+          console.log('Redirecting to admin panel');
+          router.push('/admin');
+        } else {
+          console.log('Redirecting to user panel');
+          router.push('/user');
+        }
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+      this.errorMessage = 'Invalid email or password, try again!';
+      setTimeout(() => {
+        this.errorMessage = '';
+      }, 1000); 
+    });
+},
   },
 };
 </script>
