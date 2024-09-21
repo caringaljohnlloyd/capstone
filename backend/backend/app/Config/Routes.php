@@ -19,7 +19,12 @@ $routes->post('save', 'MainController::save');
 $routes->post('/logout', 'MainController::logout');
 $routes->post('/getCart', 'MainController::Cart');
 $routes->get('/getProd/(:num)', 'MainController::getCart/$1');
-$routes->get('/getRoom','MainController::getRoom');
+$routes->get('/getRoom', 'MainController::getRoom'); // Fetch all rooms
+$routes->get('/getAllAmenities', 'MainController::getAllAmenities'); // Fetch all amenities
+$routes->post('/addAmenity', 'MainController::addAmenity'); // Add a new amenity
+$routes->post('/assignAmenitiesToRoom/(:num)', 'MainController::assignAmenitiesToRoom/$1'); // Assign amenities to a room
+$routes->get('/getAmenitiesForRoom/(:num)', 'MainController::getAmenitiesForRoom/$1'); // Get amenities for a specific room
+
 $routes->get('/getShop','MainController::getShop');
 $routes->get('/getPool','MainController::getPool');
 $routes->get('/getManifest','MainController::getManifest');
@@ -131,9 +136,34 @@ $routes->post('/reservations/addOrderItem', 'MainController::addOrderItem'); // 
 $routes->get('/order-items/(:num)', 'MainController::getOrderItem/$1'); // Retrieve an order item by ID
 $routes->delete('/order-items/(:num)', 'MainController::deleteOrderItem/$1'); // Delete an order item by ID
 
+$routes->post('reservation/confirm/(:num)', 'MainController::confirmReservation/$1');
+$routes->post('reservation/decline/(:num)', 'MainController::declineReservation/$1');
+$routes->post('reservation/paid/(:num)', 'MainController::markResrvationAsPaid/$1');
 
 $routes->group('admin', function ($routes) {
     $routes->get('reservations', 'MainController::getTableReservation');
     $routes->put('reservations/updateStatus/(:num)', 'MainController::updateStatus/$1');
     $routes->get('reservations/(:num)', 'MainController::show/$1');
 });
+$routes->group('api', function($routes) {
+    // Get all cottage bookings
+    $routes->get('cottage-bookings', 'MainController::getAllCottageBookings');
+
+    // Confirm a cottage booking
+    $routes->post('cottage-bookings/confirm/(:num)', 'MainController::confirmCottageBooking/$1');
+
+    // Decline a cottage booking
+    $routes->post('cottage-bookings/decline/(:num)', 'MainController::declineCottageBooking/$1');
+
+    // Mark a cottage booking as paid
+    $routes->post('cottage-bookings/mark-paid/(:num)', 'MainController::markCottageBookingAsPaid/$1');
+});
+$routes->get('/getTables', 'MainController::fetchTables');
+$routes->post('/addTable', 'MainController::addTable');
+$routes->post('/updateTable/(:num)', 'MainController::updateTable/$1');
+
+$routes->get('/cottages', 'MainController::getCottages');
+$routes->get('/cottages/(:num)', 'MainController::getCottages/$1');
+$routes->post('/cottages', 'MainController::saveCottage');
+$routes->post('/cottages/update/(:num)', 'MainController::updateCottage/$1');
+

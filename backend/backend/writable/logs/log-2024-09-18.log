@@ -1,0 +1,26 @@
+CRITICAL - 2024-09-18 15:04:37 --> Undefined array key "room_ids"
+in APPPATH\Controllers\MainController.php on line 1097.
+ 1 APPPATH\Controllers\MainController.php(1097): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "room_ids"', 'C:\\laragon\\www\\capstone\\backend\\backend\\app\\Controllers\\MainController.php', 1097)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->booking()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+CRITICAL - 2024-09-18 15:06:26 --> Undefined array key "room_id"
+in APPPATH\Controllers\MainController.php on line 1097.
+ 1 APPPATH\Controllers\MainController.php(1097): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "room_id"', 'C:\\laragon\\www\\capstone\\backend\\backend\\app\\Controllers\\MainController.php', 1097)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->booking()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+CRITICAL - 2024-09-18 15:07:45 --> Undefined array key "room_id"
+in APPPATH\Controllers\MainController.php on line 1097.
+ 1 APPPATH\Controllers\MainController.php(1097): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "room_id"', 'C:\\laragon\\www\\capstone\\backend\\backend\\app\\Controllers\\MainController.php', 1097)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->booking()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+ERROR - 2024-09-18 15:23:08 --> Room ID is missing or invalid: []
+ERROR - 2024-09-18 15:23:17 --> Room ID is missing or invalid: []

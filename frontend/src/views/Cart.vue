@@ -25,14 +25,14 @@
                       @click="check(cart.cart_id)">
                     <label class="custom-control-label" :for="'checkbox' + cart.shop_id"></label>
                   </div>
-                  <a class="">
-                      <img 
+                  <a class=""><img 
   class="img-fluid menu"
   style="width: 200%; max-width: 500px; height: 330px; margin-top: 5px;" 
-  :src="'http://localhost:8080/uploads/${getImg(cart).prod_img}'" 
+  :src="`http://localhost:8080/uploads/${getImg(cart).prod_img}`" 
   alt="Product"
 />
-                    </a>
+
+</a>
                   <div class="product-info">
                     <h4 class="product-title">{{ getInfo(cart).prod_name }}</h4>
                   </div>

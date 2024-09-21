@@ -114,7 +114,7 @@
         <button @click="authAction" class="btn btn-primary logout-logo-btn">
           <i :class="authIcon"></i> {{ authButtonText }}
         </button>
-      </div>
+      </div>  
     </div>
   </nav>
 
@@ -194,7 +194,7 @@
         <div class="row">
           <div v-for="cottage in cottages" :key="cottage.cottage_id" class="col-md-6 mb-4">
             <div class="card h-100">
-              <img :src="require('@/assets/img/' + cottage.cottage_image)" class="card-img-top" :alt="cottage.cottage_name">
+              <img :src="`http://localhost:8080/uploads/${cottage.cottage_image}`" class="card-img-top" :alt="cottage.cottage_name">
               <div class="card-body">
                 <h5 class="card-title">{{ cottage.cottage_name }}</h5>
                 <p class="card-text">{{ cottage.cottage_description }}</p>

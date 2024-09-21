@@ -14,7 +14,7 @@ class CottageModel extends Model
     protected $allowedFields = ['cottage_image', 'cottage_name', 'cottage_description', 'cottage_price'];
 
     // Dates
-    protected $useTimestamps = true;
+    protected $useTimestamps = false;
     protected $dateFormat = 'datetime';
     protected $createdField = 'created_at';
     protected $updatedField = '';
