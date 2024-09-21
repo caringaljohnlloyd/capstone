@@ -235,16 +235,158 @@
       </tbody>
     </table>
 
-    <!-- Add New Amenity Form -->
-    <div class="add-amenity">
-      <h3>Add New Amenity</h3>
-      <input type="text" v-model="newAmenity.name" placeholder="Amenity Name" />
-      <textarea v-model="newAmenity.description" placeholder="Description"></textarea>
-      <button @click="addAmenity">Add Amenity</button>
-    </div>
-
     <Notification :show="notification.show" :type="notification.type" :message="notification.message" />
   </div>
+  <div class="row">
+  <!-- Table Amenities -->
+  <div class="col-12">
+    <div class="card card-default">
+      <div class="card-header">
+        <h2>Amenities Inventory</h2>
+        <button type="button" class="btn btn-custom" @click="openAddAmenitiesModal">
+          Add Amenity
+        </button>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table id="amenitiesTable" class="table table-hover" style="width: 100%">
+            <thead>
+              <tr>
+                <th>Amenity Name</th>
+                <th>Description</th>
+                <th>Stocks</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(amenity, index) in amenities" :key="amenity.amenity_id">
+    <td>{{ amenity.amenity_name }}</td>
+    <td>{{ amenity.description }}</td>
+    <td>{{ amenity.stock }}</td>
+    <td class="action-buttons">
+      <button class="btn btn-custom" @click="openAddStockModal(amenity)">Add Stock</button>
+      <button class="btn btn-custom" @click="openEditAmenitiesModal(amenity)">Edit</button>
+      <button class="btn btn-danger" @click="deleteAmenity(amenity.amenity_id)">Delete</button>
+      <button class="btn btn-info" @click="goToAudit(amenity.amenity_id)">View Audit</button>
+    </td>
+              </tr>
+
+</tbody>
+
+          </table>
+        </div>
+
+        <!-- Success Message -->
+        <div v-if="successMessage" class="alert alert-success" role="alert">
+          {{ successMessage }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Modal -->
+  <div v-if="editAmenitiesModalVisible" class="modal" tabindex="-1" role="dialog" style="display: block">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Edit Amenity</h5>
+          <button type="button" class="close" @click="closeEditAmenitiesModal">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <!-- Edit form -->
+          <form @submit.prevent="saveEditAmenities">
+            <div class="form-group">
+              <label for="edit_amenity_name">Amenity Name</label>
+              <input type="text" class="form-control" placeholder="Name" v-model="editedAmenity.amenity_name" />
+            </div>
+            <div class="form-group">
+              <label for="edit_amenity_desc">Amenity Description</label>
+              <input type="text" class="form-control" placeholder="Description" v-model="editedAmenity.description" />
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-custom" style="background:#0F172B; border:none;" @click="closeEditAmenitiesModal">
+                Close
+              </button>
+              <button type="submit" class="btn btn-custom">Save Changes</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- Add Stock Modal -->
+<div v-if="addStockModalVisible" class="modal" tabindex="-1" role="dialog" style="display: block">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Stock</h5>
+                <button type="button" class="close" @click="closeAddStockModal">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form @submit.prevent="saveAddStock">
+                    <div class="form-group">
+                        <label for="stock_amount">Stock Amount</label>
+                        <input
+                            type="number"
+                            class="form-control"
+                            v-model="newStock.amount"
+                            min="1" 
+                            required 
+                        />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-custom" @click="closeAddStockModal">Close</button>
+                        <button type="submit" class="btn btn-custom">Add Stock</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+  <!-- Add Amenity Modal -->
+  <div v-if="addAmenitiesModalVisible" class="modal" tabindex="-1" role="dialog" style="display: block">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Add Amenity</h5>
+          <button type="button" class="close" @click="closeAddAmenitiesModal">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <!-- Add form -->
+          <form @submit.prevent="saveAddAmenities">
+            <div class="form-group">
+              <label for="new_amenity_name">Amenity Name</label>
+              <input type="text" class="form-control" placeholder="Name" v-model="newAmenity.amenity_name" />
+            </div>
+            <div class="form-group">
+              <label for="new_amenity_desc">Amenity Description</label>
+              <input type="text" class="form-control" placeholder="Description" v-model="newAmenity.description" />
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-custom" style="background:#0F172B; border:none;" @click="closeAddAmenitiesModal">
+                Close
+              </button>
+              <button type="submit" class="btn btn-custom">Add Amenity</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Success Message -->
+  <div v-if="successMessage" class="alert alert-success" role="alert">
+    {{ successMessage }}
+  </div>
+</div>
 
 </div>
 
@@ -266,6 +408,15 @@ components: {
 },
 data() {
   return {
+
+    addStockModalVisible: false,
+        newStock: { amount: 0 },
+    amenities: [], // List of amenities
+    newAmenity: { amenity_name: '', description: '' }, // For adding a new amenity
+    editedAmenity: {}, // For editing an existing amenity
+    addAmenitiesModalVisible: false, // Add modal visibility
+    editAmenitiesModalVisible: false, // Edit modal visibility
+    notification: { show: false, type: '', message: '' }, // Notification state
     rooms: [], // List of rooms with assigned amenities
       amenities: [], // List of available amenities
       newAmenity: {
@@ -303,6 +454,127 @@ mounted() {
 
 },
 methods: {
+      goToAudit(amenityId) {
+    this.$router.push({ name: 'AmenitiesAudit', params: { amenityId } });
+  },
+// Open the Add Stock Modal
+openAddStockModal(amenity) {
+    this.newStock.amount = 0; // Reset amount
+    this.editedAmenity = amenity; // Store the amenity to which the stock is being added
+    this.addStockModalVisible = true;
+},
+
+// Close the Add Stock Modal
+closeAddStockModal() {
+    this.addStockModalVisible = false;
+},
+
+async saveAddStock() {
+    try {
+        const response = await axios.post(`/api/amenities/${this.editedAmenity.amenity_id}/stock`, this.newStock);
+        if (response.data.status === 'success') {
+            this.fetchAmenities(); // Refresh the amenities list
+            this.closeAddStockModal();
+            this.showNotification('success', response.data.message);
+        } else {
+            throw new Error(response.data.message || 'Unknown error occurred');
+        }
+    } catch (error) {
+        console.error('Error adding stock:', error);
+        this.showNotification('error', error.response?.data?.message || 'Failed to add stock');
+    }
+},
+
+async fetchAmenities() {
+    try {
+        const response = await axios.get('/api/amenities');
+        this.amenities = response.data;
+    } catch (error) {
+        console.error('Error fetching amenities:', error);
+        this.showNotification('error', 'Error fetching amenities');
+    }
+},
+
+// Open the Add Amenities Modal
+openAddAmenitiesModal() {
+    this.newAmenity = { amenity_name: '', description: '' };
+    this.addAmenitiesModalVisible = true;
+},
+
+// Close the Add Amenities Modal
+closeAddAmenitiesModal() {
+    this.addAmenitiesModalVisible = false;
+},
+
+// Save the new amenity to the backend
+async saveAddAmenities() {
+    try {
+        const response = await axios.post('/api/amenities', this.newAmenity);
+        if (response.data.status === 'success') {
+            this.fetchAmenities(); // Refresh the amenities list
+            this.closeAddAmenitiesModal();
+            this.showNotification('success', response.data.message);
+        }
+    } catch (error) {
+        console.error('Error adding amenity:', error);
+        this.showNotification('error', 'Error adding amenity');
+    }
+},
+
+// Open the Edit Amenities Modal
+openEditAmenitiesModal(amenity) {
+    this.editedAmenity = { ...amenity }; // Clone the selected amenity for editing
+    this.editAmenitiesModalVisible = true;
+},
+
+// Close the Edit Amenities Modal
+closeEditAmenitiesModal() {
+    this.editAmenitiesModalVisible = false;
+},
+
+// Save the edited amenity to the backend
+async saveEditAmenities() {
+    try {
+        const response = await axios.put(`/api/amenities/${this.editedAmenity.amenity_id}`, this.editedAmenity);
+        if (response.data.status === 'success') {
+            this.fetchAmenities(); // Refresh the amenities list
+            this.closeEditAmenitiesModal();
+            this.showNotification('success', response.data.message);
+        }
+    } catch (error) {
+        console.error('Error updating amenity:', error);
+        this.showNotification('error', 'Error updating amenity');
+    }
+},
+
+// Show Notification
+showNotification(type, message) {
+    this.notification.type = type;
+    this.notification.message = message;
+    this.notification.show = true;
+
+    // Automatically hide the notification after 2 seconds
+    setTimeout(() => {
+        this.notification.show = false;
+    }, 2000); // Change to 2000 milliseconds (2 seconds)
+},
+
+// Delete an amenity from the backend
+async deleteAmenity(id) {
+    try {
+        const response = await axios.delete(`/api/amenities/${id}`);
+        if (response.data.status === 'success') {
+            this.fetchAmenities(); // Refresh the amenities list
+            this.showNotification('success', response.data.message);
+        } else {
+            this.showNotification('error', response.data.message || 'Failed to delete amenity.');
+        }
+    } catch (error) {
+        console.error('Error deleting amenity:', error);
+        this.showNotification('error', 'Error deleting amenity: ' + error.message);
+    }
+},
+
   fetchRoomsAndAmenities() {
       axios.get('/getRoom')
         .then(response => {
@@ -399,15 +671,17 @@ methods: {
     },
     getAmenitiesForRoom(roomId) {
       axios.get(`/getAmenitiesForRoom/${roomId}`)
-        .then(response => {
-          const room = this.rooms.find(r => r.room_id === roomId);
-          if (room) {
-            room.assignedAmenities = response.data; // Update assigned amenities
-          }
-        })
-        .catch(error => {
-          console.error('Error fetching amenities for room:', error);
-        });
+  .then(response => {
+    console.log('Amenities response:', response.data); // Log the response
+    const room = this.rooms.find(r => r.room_id === roomId);
+    if (room) {
+      room.assignedAmenities = response.data; // Update assigned amenities
+    }
+  })
+  .catch(error => {
+    console.error('Error fetching amenities for room:', error);
+  });
+
     },
 
 

@@ -12,7 +12,7 @@ class AmenitiesModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['amenity_name', 'description'];
+    protected $allowedFields    = ['amenity_name', 'description','stock'];
 
     // Dates
     protected $useTimestamps = false;

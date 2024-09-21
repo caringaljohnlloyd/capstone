@@ -4,14 +4,14 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class CottageBookingModel extends Model
+class AmenitiesAuditModel extends Model
 {
-    protected $table = 'cottagebooking';
-    protected $primaryKey = 'cottagebooking_id';
+    protected $table = 'amenities_audit';
+    protected $primaryKey = 'audit_id';
     protected $useAutoIncrement = true;
     protected $returnType = 'array';
     protected $useSoftDeletes = false;
-    protected $allowedFields = ['user_id', 'selectedTime', 'selectedTimeout', 'cottage_id', 'cottagebooking_status', 'created_at'];
+    protected $allowedFields = ['amenity_id', 'old_quantity', 'new_quantity', 'type', 'created_at'];
 
     // Dates
     protected $useTimestamps = true;

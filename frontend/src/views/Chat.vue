@@ -1,47 +1,25 @@
 <template>
-  <div id="app">
-    <TopAdmin />
+    <TopAdmin/>
+    <SidebarAdmin/>
 
-    <div id="main-content">
-      <ContentAdmin />
-    </div>
 
-    <EndAdmin />
-  </div>
+
+
+  <EndAdmin/>
 </template>
-
-<script>
-import TopAdmin from '@/components/TopAdmin.vue';
-import ContentAdmin from '@/components/ContentAdmin.vue';
-import EndAdmin from '@/components/EndAdmin.vue';
-
-export default {
-  name: 'admin',
-  components: {
-    TopAdmin,
-    ContentAdmin,
-    EndAdmin,
-  },
-};
-</script>
-
-
-
-
-
-
 
 <style scoped>
 
 
- /**
+
+/**
  * WEBSITE: https://themefisher.com
  * TWITTER: https://twitter.com/themefisher
  * FACEBOOK: https://www.facebook.com/themefisher
  * GITHUB: https://github.com/themefisher/
  */
 
-@charset "UTF-8";
+ @charset "UTF-8";
 /*!
  * Bootstrap v4.6.1 (https://getbootstrap.com/)
  * Copyright 2011-2021 The Bootstrap Authors
@@ -87,9 +65,7 @@ export default {
 *::after {
   box-sizing: border-box;
 }
-#main-content{
-  display: flex;
-}
+
 html {
   font-family: sans-serif;
   line-height: 1.15;
@@ -17488,6 +17464,25 @@ html[dir=rtl] .sidebar li > a .caret:before {
 /*# sourceMappingURL=style.css.map */
 
 
-
- @import '@/assets/css/bootstrap.min.css';
+      @import  '@/assets/plugins/material/css/materialdesignicons.min.css';
+        @import  '@/assets/plugins/simplebar/simplebar.css';
+        @import  '@/assets/plugins/nprogress/nprogress.css';
+        @import  '@/assets/plugins/DataTables/DataTables-1.10.18/css/jquery.dataTables.min.css';
+        @import   '@/assets/plugins/jvectormap/jquery-jvectormap-2.0.3.css';
+        @import    '@/assets/plugins/daterangepicker/daterangepicker.css';
+        @import    'https://cdn.quilljs.com/1.3.6/quill.snow.css';  
+        @import     '@/assets/plugins/toaster/toastr.min.css';
 </style>
+    
+<script>
+    import TopAdmin from '@/components/TopAdmin.vue';
+    import SidebarAdmin from '@/components/SidebarAdmin.vue';
+    import EndAdmin from '@/components/EndAdmin.vue';
+   
+   export default {
+    name: 'chat',
+     components: {
+       TopAdmin,SidebarAdmin,EndAdmin
+     }
+   }
+</script>

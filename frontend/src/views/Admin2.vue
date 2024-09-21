@@ -956,22 +956,16 @@
     </div>
   </div>
 
-
-
-    <div class="row">
-      <!-- Table Product -->
-      <div class="col-12">
-        <div class="card card-default">
-          <div class="card-header">
-            <h2>Booking Inventory</h2>
-          </div>
-          <div class="card-body">
-            <div class="table-responsive">
-              <table
-              id="productsTable"
-              class="table table-hover table-product"
-              style="width: 100%"
-            >
+  <div class="row">
+    <!-- Table Product -->
+    <div class="col-12">
+      <div class="card card-default">
+        <div class="card-header">
+          <h2>Booking Inventory</h2>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table id="productsTable" class="table table-hover table-product" style="width: 100%">
               <thead>
                 <tr>
                   <th>Booking Id</th>
@@ -999,11 +993,11 @@
                   <td>{{ book.payment_method }}</td>
                   <td>{{ book.downpayment }}</td>
                   <td>
-                    <img 
-                      class="img-fluid menu" 
-                      style="width: 100%; max-width: 150px; height: auto;" 
-                      :src="`http://localhost:8080/uploads/${book.downpaymentProof}`" 
-                      alt="Downpayment Proof" 
+                    <img
+                      class="img-fluid menu"
+                      style="width: 100%; max-width: 150px; height: auto;"
+                      :src="`http://localhost:8080/uploads/${book.downpaymentProof}`"
+                      alt="Downpayment Proof"
                     />
                   </td>
                   <td>
@@ -1022,21 +1016,15 @@
                 </tr>
               </tbody>
             </table>
-            <!-- Quantity Modal -->
-
             <!-- Success Message -->
-            <div
-              v-if="successMessage"
-              class="alert alert-success"
-              role="alert"
-            >
+            <div v-if="successMessage" class="alert alert-success" role="alert">
               {{ successMessage }}
-            </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
     <div class="row">
   <!-- Table Product -->
   <div class="col-12">
@@ -1548,7 +1536,7 @@ mounted() {
   this.fetchCottageBookings(); // Fetch bookings when component is mounted
   this.fetchReservations();
   this.fetchMenuItems();
-this.getbook();
+  this.getBook(); // This will work if getBook() is defined in methods
   this.initializeDropdowns();
   },
   beforeDestroy() {
@@ -1570,7 +1558,7 @@ this.getbook();
 created() {
   this.getInfo();
   this.getRoom();
-  this.getbook();
+  this.getBook();
   this.getenroll();
   this.getDate();
   this.fetchOrdersForAllUsers();
@@ -2206,48 +2194,56 @@ clearForm() {
     }
   },
 
+  async getBook() {
+    try {
+      const response = await axios.get('/getbook');
+      this.book = response.data;
+    } catch (error) {
+      console.error('Error fetching books:', error);
+    }
+  },
   async declineBooking(booking_id) {
-      try {
-        const response = await axios.post(`/api/decline-booking/${booking_id}`);
+    try {
+      const response = await axios.post(`/api/decline-booking/${booking_id}`);
 
-        if (response.status === 200) {
-          this.showSuccessNotification(`Booking ${booking_id} Declined`);
-          this.getBook();
-        } else {
-          console.error("Failed to decline booking:", response.data.message);
-        }
-      } catch (error) {
-        console.error("Error declining booking:", error);
+      if (response.status === 200) {
+        this.showSuccessNotification(`Booking ${booking_id} Declined`);
+        this.getBook(); // Ensure this method is defined
+      } else {
+        console.error("Failed to decline booking:", response.data.message);
       }
-    },
-    async markAsPaid(booking_id) {
-      try {
-        const response = await axios.post(`/mark-as-paid/${booking_id}`);
+    } catch (error) {
+      console.error("Error declining booking:", error);
+    }
+  },
+  async markAsPaid(booking_id) {
+    try {
+      const response = await axios.post(`/mark-as-paid/${booking_id}`);
 
-        if (response.status === 200) {
-          this.showSuccessNotification(`Booking ${booking_id} Marked as Paid`);
-          this.getBook();
-        } else {
-          console.error("Failed to mark as paid:", response.data.message);
-        }
-      } catch (error) {
-        console.error("Error marking as paid:", error);
+      if (response.status === 200) {
+        this.showSuccessNotification(`Booking ${booking_id} Marked as Paid`);
+        this.getBook(); // Ensure this method is defined
+      } else {
+        console.error("Failed to mark as paid:", response.data.message);
       }
-    },
-    async acceptBooking(booking_id) {
-      try {
-        const response = await axios.post(`/accept-booking/${booking_id}`);
+    } catch (error) {
+      console.error("Error marking as paid:", error);
+    }
+  },
+  async acceptBooking(booking_id) {
+    try {
+      const response = await axios.post(`/accept-booking/${booking_id}`);
 
-        if (response.status === 200) {
-          this.showSuccessNotification(`Booking ${booking_id} Accepted`);
-          this.getBook();
-        } else {
-          console.error("Failed to accept booking:", response.data.message);
-        }
-      } catch (error) {
-        console.error("Error accepting booking:", error);
+      if (response.status === 200) {
+        this.showSuccessNotification(`Booking ${booking_id} Accepted`);
+        this.getBook(); // Ensure this method is defined
+      } else {
+        console.error("Failed to accept booking:", response.data.message);
       }
-    },
+    } catch (error) {
+      console.error("Error accepting booking:", error);
+    }
+  },
   async declineenrolling(enroll_id) {
     try {
       const response = await axios.post(`/api/decline-enroll/${enroll_id}`);
@@ -2381,22 +2377,6 @@ clearForm() {
     }
   },
 
-  // async markAsPaid(booking_id) {
-  //   try {
-  //     const response = await axios.post(`/mark-as-paid/${booking_id}`);
-
-  //     if (response.status === 200) {
-  //       this.showSuccessNotification(`Booking ${booking_id} Marked as Paid`);
-  //       this.getbook();
-
-  //       this.$emit("data-saved");
-  //     } else {
-  //       console.error("Failed to mark as paid:", response.data.message);
-  //     }
-  //   } catch (error) {
-  //     console.error("Error marking as paid:", error);
-  //   }
-  // },
   async markthisPaid(enroll_id) {
     try {
       const response = await axios.post(`/mark-this-paid/${enroll_id}`);
@@ -2405,7 +2385,6 @@ clearForm() {
         this.showSuccessNotification(
           `enrollment ${enroll_id} Marked this Paid`
         );
-        this.getbook();
 
         this.$emit("data-saved");
       } else {
@@ -2495,22 +2474,6 @@ clearForm() {
         this.successMessage = '';
       }, 3000);
     },
-  // async acceptBooking(booking_id) {
-  //   try {
-  //     const response = await axios.post(`/accept-booking/${booking_id}`);
-
-  //     if (response.status === 200) {
-  //       const updatedBookingId = response.data.booking_id;
-  //       this.showSuccessNotification(`Booking ${updatedBookingId} Accepted`);
-  //       this.getbook();
-  //       this.$emit("data-saved");
-  //     } else {
-  //       console.error("Failed to accept booking:", response.data.message);
-  //     }
-  //   } catch (error) {
-  //     console.error("Error accepting booking:", error);
-  //   }
-  // },
 
   async acceptenrolling(enroll_id) {
     try {
@@ -2531,14 +2494,10 @@ clearForm() {
     }
   },
 
-  async getbook() {
-    const b = await axios.get("/getbook");
-    this.book = b.data;
-  },
   async getRoom() {
     const r = await axios.get("/getRoom");
     this.room = r.data;
-    this.getbook();
+    this.getBook();
   },
   async getenroll() {
     const b = await axios.get("/getenroll");

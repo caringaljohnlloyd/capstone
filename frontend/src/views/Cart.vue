@@ -92,100 +92,39 @@
         </div>
       </div>
       <div class="column checkout-button-section">
-    <div class="shopping-cart-footer">
-        <div class="column">
-            <div class="payment-form">
-                <h4>Select Payment Method:</h4>
-                <div>
-                    <label>
-                        <input type="radio" v-model="paymentMethod" value="credit_card">
-                        Credit Card
-                    </label>
+              <div class="shopping-cart-footer">
+                <div class="column">
+                  <div class="payment-form">
+      <h4>Select Payment Method:</h4>
+      <div>
+        <label>
+          <input type="radio" v-model="paymentMethod" value="credit_card">
+          Credit Card
+        </label>
+      </div>
+      <div>
+        <label>
+          <input type="radio" v-model="paymentMethod" value="paypal">
+          PayPal
+        </label>
+      </div>
+      <div>
+        <label>
+          <input type="radio" v-model="paymentMethod" value="cash">
+          Cash
+        </label>
+      </div>
+      
+                  <a class="btn btn-dark" @click="checkout">Proceed to Checkout</a>
+                  
                 </div>
-                <div>
-                    <label>
-                        <input type="radio" v-model="paymentMethod" value="paypal">
-                        PayPal
-                    </label>
-                </div>
-                <div>
-                    <label>
-                        <input type="radio" v-model="paymentMethod" value="cash">
-                        Cash
-                    </label>
-                </div>
+  
 
-                <!-- Downpayment proof upload section -->
-                <h4>Upload Downpayment Proof:</h4>
-                <div class="d-flex align-items-center mb-3">
-                    <div class="col-md-6">
-                        <input type="file" @change="handleFileUpload" accept="image/*" class="form-control" />
-                    </div>
-                    <div class="col-md-3 ms-2">
-                        <button type="button" class="btn btn-info w-100" @click="openGcashQRCode">
-                            <i class="fas fa-qrcode"></i> GCASH
-                        </button>
-                    </div>
-                    <div class="col-md-3 ms-2">
-                        <button type="button" class="btn btn-success w-100" @click="openPaypalQRCode">
-                            <i class="fa-brands fa-paypal"></i> PayPal
-                        </button>
-                    </div>
-                </div>
-
-                <a class="btn btn-dark" @click="checkout">Proceed to Checkout</a>
+              </div>
             </div>
+          </div>
         </div>
-    </div>
-</div>
-
-<!-- GCash QR Code Modal -->
-<div v-if="showGcashModal" class="modal" tabindex="-1" style="display: block;">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Scan GCash QR Code</h5>
-        <button type="button" class="close" @click="closeGcashModal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
       </div>
-      <div class="modal-body text-center">
-        <!-- QR Code Image (GCash) -->
-        <img src="../assets/img/gcash.jpg" alt="GCash QR Code" >
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" @click="closeGcashModal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- Paypal QR Code Modal -->
-<div v-if="showPaypalModal" class="modal" tabindex="-1" style="display: block;">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Scan Paypal QR Code</h5>
-        <button type="button" class="close" @click="closePaypalModal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body text-center">
-        <!-- QR Code Image (Paypal) -->
-        <img src="../assets/img/gcash.jpg" alt="Paypal QR Code" >
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" @click="closePaypalModal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
-
-</div>
-</div>
-     
       <div class="column checkout-products-section">
   <h4>Checkout Products:</h4>
   <table class="table">
@@ -249,12 +188,9 @@ export default {
   },
   data() {
     return {
-      showGcashModal: false,
-      showPaypalModal: false,
-      paymentMethod: null,
-      downpaymentProof: null,
+      paymentMethod: null, // Add the payment method you want to capture
       cartCheckedOutIds: [],
-      
+      checkedItems: [],
     checkedOutProducts: [],
        cart: [],
       deleteSuccess: false,
@@ -283,132 +219,6 @@ export default {
 
   },
   methods: {
-    handleFileUpload(event) {
-    this.downpaymentProof = event.target.files[0];
-  },
-  openGcashQRCode() {
-      this.showGcashModal = true;
-    },
-    closeGcashModal() {
-      this.showGcashModal = false;
-    },
-    openPaypalQRCode() {
-      this.showPaypalModal = true;
-    },
-    closePaypalModal() {
-      this.showPaypalModal = false;
-    },
-  async checkout() {
-    try {
-    const id = sessionStorage.getItem("id");
-
-    if (this.checkedItems.length === 0) {
-      console.warn("No items selected for checkout.");
-      this.checkoutError = true;
-      setTimeout(() => {
-        this.checkoutError = false;
-      }, 3000);
-      return;
-    }
-
-    if (!this.paymentMethod) {
-      console.warn("Please select a payment method.");
-      this.notification = {
-        show: true,
-        type: 'error',
-        message: 'Please select a payment method.',
-      };
-      setTimeout(() => {
-        this.notification = {
-          show: false,
-          type: '',
-          message: '',
-        };
-      }, 3000);
-      return;
-    }
-
-    const orderItems = this.checkedItems.map(cartId => {
-      const cart = this.cart.find(cart => cart.cart_id === cartId);
-      const shop_id = cart ? cart.shop_id : null;
-
-      return {
-        shop_id: shop_id,
-        quantity: cart ? cart.quantity : 0,
-        total_price: this.getTotal(cart),
-      };
-    });
-
-    const orderData = {
-      id: id,
-      status: 'pending',
-      total_price: parseFloat(this.calculateSubtotal()),
-      items: orderItems,
-      order_payment_method: this.paymentMethod,
-    };
-
-    // Create FormData object
-    const formData = new FormData();
-    formData.append('orderData', JSON.stringify(orderData)); // Append order data as string
-    if (this.downpaymentProof) {
-      formData.append('downpayment_proof', this.downpaymentProof); // Append the file
-    }
-
-    const response = await axios.post('checkout', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-
-
-    if (response.status === 400) {
-      console.warn("Insufficient stock for one or more items");
-      this.notification = {
-        show: true,
-        type: 'error',
-        message: 'Insufficient stock for one or more items',
-      };
-      setTimeout(() => {
-        this.notification = {
-          show: false,
-          type: '',
-          message: '',
-        };
-      }, 3000);
-      return;
-    }
-
-    if (response.status === 200) {
-      const invoice_id = response.data.invoice_id;
-
-      const newlyCheckedOutProducts = this.cart.filter(cart => this.checkedItems.includes(cart.cart_id));
-
-      this.checkedOutProducts.push(...newlyCheckedOutProducts);
-
-      this.cart = this.cart.filter(cart => !this.checkedItems.includes(cart.cart_id));
-
-      this.checkoutSuccess = true;
-      this.paymentMethod = null;
-      this.downpaymentProof = null;
-
-      setTimeout(() => {
-        this.checkoutSuccess = false;
-        this.checkedItems = []; 
-      }, 2000);
-    } else {
-      console.error('Checkout failed:', response.data.message);
-    }
-  } catch (error) {
-    console.error('Checkout Error:', error);
-  }
-},
-
-
-
-
-
-
-
     handlePaymentSelection(paymentMethod) {
       this.paymentMethod = paymentMethod;
     },
@@ -530,7 +340,95 @@ export default {
 },
 
 
+async checkout() {
+  try {
+    const id = sessionStorage.getItem("id");
 
+    if (this.checkedItems.length === 0) {
+      console.warn("No items selected for checkout.");
+      this.checkoutError = true;
+      setTimeout(() => {
+        this.checkoutError = false;
+      }, 3000);
+      return;
+    }
+
+    if (!this.paymentMethod) {
+      console.warn("Please select a payment method.");
+      this.notification = {
+        show: true,
+        type: 'error',
+        message: 'Please select a payment method.',
+      };
+      setTimeout(() => {
+        this.notification = {
+          show: false,
+          type: '',
+          message: '',
+        };
+      }, 3000);
+      return;
+    }
+
+    const orderItems = this.checkedItems.map(cartId => {
+      const cart = this.cart.find(cart => cart.cart_id === cartId);
+      const shop_id = cart ? cart.shop_id : null;
+
+      return {
+        shop_id: shop_id,
+        quantity: cart ? cart.quantity : 0,
+        total_price: this.getTotal(cart),
+      };
+    });
+
+    const orderData = {
+      id: id,
+      status: 'pending',
+      total_price: parseFloat(this.calculateSubtotal()),
+      items: orderItems,
+      order_payment_method: this.paymentMethod, 
+    };
+
+    const response = await axios.post('checkout', orderData);
+
+    if (response.status === 400) {
+      console.warn("Insufficient stock for one or more items");
+      this.notification = {
+        show: true,
+        type: 'error',
+        message: 'Insufficient stock for one or more items',
+      };
+      setTimeout(() => {
+        this.notification = {
+          show: false,
+          type: '',
+          message: '',
+        };
+      }, 3000);
+      return;
+    }
+
+    if (response.status === 200) {
+      const invoice_id = response.data.invoice_id;
+
+      const newlyCheckedOutProducts = this.cart.filter(cart => this.checkedItems.includes(cart.cart_id));
+
+      this.checkedOutProducts.push(...newlyCheckedOutProducts);
+
+      this.cart = this.cart.filter(cart => !this.checkedItems.includes(cart.cart_id));
+
+      this.checkoutSuccess = true;
+      setTimeout(() => {
+        this.checkoutSuccess = false;
+        this.checkedItems = []; 
+      }, 2000);
+    } else {
+      console.error('Checkout failed:', response.data.message);
+    }
+  } catch (error) {
+    console.error('Checkout Error:', error);
+  }
+},
 
 
 

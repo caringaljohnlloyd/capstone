@@ -94,10 +94,8 @@ $routes->get('sales-report/daily', 'MainController::showDailyReport');
 $routes->get('sales-report/monthly', 'MainController::monthlySalesReport');
 $routes->get('sales-report/yearly', 'MainController::yearlySalesReport');
 $routes->get('generateAllReports', 'MainController::generateAllReports');
+$routes->get('user/(:num)', 'MainController::getUserWithRelatedData/$1');
 
-// $routes->get('/report/daily', 'MainController::dailySalesReport');
-// $routes->get('/report/monthly', 'MainController::monthlySalesReport');
-// $routes->get('/report/yearly', 'MainController::yearlySalesReport');
 $routes->get('/report/combined-sales', 'MainController::combinedSalesReport');
 $routes->post('addMenuItem', 'MainController::addMenuItem');
 
@@ -167,3 +165,22 @@ $routes->get('/cottages/(:num)', 'MainController::getCottages/$1');
 $routes->post('/cottages', 'MainController::saveCottage');
 $routes->post('/cottages/update/(:num)', 'MainController::updateCottage/$1');
 
+$routes->group('api', function($routes) {
+    $routes->post('cottageBookings/(:num)', 'MainController::cancelCottageBooking/$1');
+    $routes->post('reservations/(:num)', 'MainController::cancelReservation/$1');
+    $routes->post('orders/(:num)', 'MainController::cancelOrder/$1');
+});
+$routes->group('api', function($routes) {
+    $routes->get('amenities', 'MainController::getAllAmenities'); // Get all amenities
+    $routes->post('amenities', 'MainController::addAmenity'); // Add a new amenity
+    $routes->get('amenities/(:num)', 'MainController::getAmenity/$1'); // Get a specific amenity
+    $routes->put('amenities/(:num)', 'MainController::updateAmenity/$1'); // Update a specific amenity
+    $routes->delete('amenities/(:num)', 'MainController::deleteAmenity/$1'); // Delete a specific amenity
+    $routes->post('amenities/(:num)/stock', 'MainController::modifyStock/$1');
+
+});
+// Fetch audit history for a specific amenity
+$routes->get('api/amenitiesAuditHistory/(:num)', 'MainController::getAmenitiesAuditHistory/$1');
+
+// Update stock for a specific amenity
+// $routes->post('api/updateAmenityStock/(:num)', 'YourControllerName::updateStock/$1');

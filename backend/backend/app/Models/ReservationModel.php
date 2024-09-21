@@ -20,8 +20,7 @@ class ReservationModel extends Model
         'payment_amount', 
         'payment_method', 
         'created_at', 
-        'updated_at',
-        'proof_of_payment' 
+        'updated_at'
     ];
     // Dates
     protected $useTimestamps = false;
@@ -49,4 +48,3 @@ class ReservationModel extends Model
 
     
 }
-

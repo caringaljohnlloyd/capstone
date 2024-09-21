@@ -9,9 +9,9 @@ class RoomAmenitiesModel extends Model
     protected $table            = 'room_amenities';
     protected $primaryKey       = ['room_id','amenity_id']; // No primary key, it's a composite primary key
     protected $returnType       = 'array';
-    protected $useAutoIncrement = false; // Since it's a pivot table, auto-increment is not used
+    protected $useAutoIncrement = false; 
     protected $protectFields    = true;
-    protected $allowedFields    = ['room_id', 'amenity_id'];
+    protected $allowedFields    = ['room_id', 'amenity_id','stock'];
 
     // Dates
     protected $useTimestamps = false;

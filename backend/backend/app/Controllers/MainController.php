@@ -33,6 +33,8 @@ use App\Models\TableOrdersModel;
 use App\Models\OrderItemModel;
 use App\Models\AmenitiesModel;
 use App\Models\RoomAmenitiesModel;
+use App\Models\AmenitiesAuditModel;
+
 class MainController extends ResourceController
 {
 
@@ -567,7 +569,7 @@ public function markResrvationAsPaid($id = null)
     }    
     public function createReservation()
     {
-        $data = $this->request->getPost();
+        $data = $this->request->getJSON(true);
         log_message('debug', 'Received reservation data: ' . print_r($data, true));
     
         $errors = [];
@@ -590,71 +592,71 @@ public function markResrvationAsPaid($id = null)
         } elseif (!$this->isValidISO8601($data['reservation_time'])) {
             $errors['reservation_time'] = 'Reservation time must be a valid ISO 8601 datetime.';
         }
-    
+
+        // Payment validation
         if (empty($data['payment_amount'])) {
             $errors['payment_amount'] = 'Payment amount is required.';
         } elseif (!is_numeric($data['payment_amount']) || $data['payment_amount'] <= 0) {
             $errors['payment_amount'] = 'Payment amount must be a positive numeric value.';
         }
-    
+
         if (empty($data['payment_method'])) {
             $errors['payment_method'] = 'Payment method is required.';
         }
     
         if (empty($data['order_items']) || !is_array($data['order_items'])) {
             $errors['order_items'] = 'Order items are required and must be a non-empty array.';
+        } else {
+            foreach ($data['order_items'] as $index => $item) {
+                if (empty($item['menu_id']) || !is_numeric($item['menu_id'])) {
+                    $errors['order_items'][$index]['menu_id'] = 'Each order item must have a valid menu_id.';
+                }
+                if (empty($item['quantity']) || !is_numeric($item['quantity'])) {
+                    $errors['order_items'][$index]['quantity'] = 'Each order item must have a valid quantity.';
+                }
+            }
         }
     
         if (!empty($errors)) {
+            log_message('error', 'Validation errors: ' . print_r($errors, true));
             return $this->response->setStatusCode(400)->setJSON(['message' => 'Validation errors', 'errors' => $errors]);
         }
     
-        // Handle proof of payment file upload
-        if ($file = $this->request->getFile('proof_of_payment')) {
-            if ($file->isValid() && !$file->hasMoved()) {
-                $newName = $file->getRandomName();
-                $file->move(WRITEPATH . 'uploads', $newName);
-                $data['proof_of_payment'] = $newName; // Save file name to database
-            } else {
-                return $this->response->setStatusCode(400)->setJSON(['message' => 'Proof of payment file upload failed.']);
-            }
-        }
-
         // Load models
         $reservationModel = model(ReservationModel::class);
         $orderItemModel = model(OrderItemModel::class);
         $tableOrderModel = model(TableOrdersModel::class);
-
+    
+        // Check if models are loaded correctly
         if (!$reservationModel || !$orderItemModel || !$tableOrderModel) {
             log_message('error', 'One or more models are not loaded.');
             return $this->response->setStatusCode(500)->setJSON(['message' => 'Internal server error']);
         }
-
+    
         // Start a transaction
         $this->db->transStart();
-
+    
         // Prepare reservation data
         $reservationData = [
-            'user_id' => $data['user_id'],
-            'table_id' => $data['table_id'],
+            'user_id'           => $data['user_id'],
+            'table_id'          => $data['table_id'],
             'reservation_time' => $data['reservation_time'],
-            'status' => 'pending', // Combined status
-            'payment_amount' => $data['payment_amount'],
-            'payment_method' => $data['payment_method'],
-            'proof_of_payment' => $data['proof_of_payment'] // Save the file name here
+            'status'            => 'pending', // Combined status
+            'payment_amount'    => $data['payment_amount'],
+            'payment_method'    => $data['payment_method'],
         ];
-
-        // Save reservation data
+    
+        // Validate and save reservation data
         if (!$reservationModel->save($reservationData)) {
             $errors = $reservationModel->errors();
             log_message('error', 'Reservation validation errors: ' . print_r($errors, true));
             $this->db->transRollback();
             return $this->response->setStatusCode(400)->setJSON(['message' => 'Validation errors', 'errors' => $errors]);
         }
-
+    
         $reservationId = $reservationModel->getInsertID();
-
-        // Save order items
+    
+        // Validate and save order items
         foreach ($data['order_items'] as $item) {
             if (!$orderItemModel->save([
                 'reservation_id' => $reservationId,
@@ -667,7 +669,7 @@ public function markResrvationAsPaid($id = null)
                 return $this->response->setStatusCode(400)->setJSON(['message' => 'Validation errors', 'errors' => $errors]);
             }
         }
-
+    
         // Create table order entry
         if (!$tableOrderModel->save([
             'reservation_id' => $reservationId,
@@ -678,15 +680,15 @@ public function markResrvationAsPaid($id = null)
             $this->db->transRollback();
             return $this->response->setStatusCode(400)->setJSON(['message' => 'Validation errors', 'errors' => $errors]);
         }
-
+    
         // Commit transaction
         $this->db->transComplete();
-
+    
         if ($this->db->transStatus() === FALSE) {
             log_message('error', 'Transaction failed.');
             return $this->response->setStatusCode(500)->setJSON(['message' => 'An error occurred while creating the reservation.']);
         }
-
+    
         return $this->response->setStatusCode(200)->setJSON(['message' => 'Reservation created successfully', 'reservation_id' => $reservationId]);
     }
     private function isValidISO8601($datetime): bool
@@ -949,28 +951,13 @@ public function deleteMenuItem($id)
         $data = $orders->findAll();
         return $this->respond($data, 200);
     }
-
-
     public function cottageBooking()
     {
-        // Log incoming request for debugging
-        log_message('debug', 'Request body: ' . json_encode($this->request->getPost()));
-        
-        $json = $this->request->getPost(); // Use getPost() for form data
-        
-        if (!$json || !isset($json['cottage_id']) || !isset($json['selectedTime']) || !isset($json['selectedTimeout']) || !isset($json['user_id']) || !isset($json['downpayment'])) {
+        $json = $this->request->getJSON(true); // true to get as associative array
+    
+        if (!$json || !isset($json['cottage_id']) || !isset($json['selectedTime']) || !isset($json['selectedTimeout']) || !isset($json['user_id'])) {
             return $this->fail('Missing required parameters', 400);
         }
-    
-        // Handle proof of downpayment file
-        $file = $this->request->getFile('proofOfDownpayment');
-        if (!$file || !$file->isValid()) {
-            return $this->fail('File upload error', 400);
-        }
-    
-        // Move file to desired location
-        $fileName = $file->getRandomName();
-        $file->move(WRITEPATH . 'uploads', $fileName);
     
         $bookingModel = new CottageBookingModel();
         $cottageModel = new CottageModel();
@@ -985,8 +972,6 @@ public function deleteMenuItem($id)
             'selectedTime' => $json['selectedTime'],
             'selectedTimeout' => $json['selectedTimeout'],
             'cottage_id' => $json['cottage_id'],
-            'downpayment' => $json['downpayment'],
-            'proof_of_downpayment' => $fileName,  // Save file name in DB
         ];
     
         if ($bookingModel->save($data) === false) {
@@ -995,11 +980,6 @@ public function deleteMenuItem($id)
     
         return $this->respond(['message' => 'Booked successfully'], 200);
     }
-    
-    
-    
-    
-    
     
     
     
@@ -1327,11 +1307,150 @@ public function deleteMenuItem($id)
 
         return false;
     }
+    public function getAmenitiesAuditHistory($amenityId)
+    {
+        $amenitiesModel = new AmenitiesModel();
+    
+        // Check if the amenity exists
+        $amenityData = $amenitiesModel->find($amenityId);
+        if (!$amenityData) {
+            return $this->respond(['message' => 'Amenity not found'], 404);
+        }
+    
+        $auditModel = new AmenitiesAuditModel(); // Use the AmenitiesAuditModel
+    
+        // Get the 'type' query parameter from the request
+        $type = $this->request->getGet('type');
+    
+        // Define a condition based on the 'type' parameter
+        $condition = [];
+        if ($type && $type !== 'all') {
+            $condition['type'] = $type;
+        }
+    
+        // Fetch audit history for the specific amenity
+        $auditHistory = $auditModel
+            ->where('amenity_id', $amenityId) // Adjust to filter by amenity_id
+            ->where($condition)
+            ->findAll();
+    
+        return $this->respond($auditHistory, 200);
+    }
+    
+    public function modifyStock($id = null)
+    {
+        $json = $this->request->getJSON();
+        
+        // Validate the received data
+        if (!isset($json->amount)) {
+            return $this->respond([
+                'status' => 'error',
+                'message' => 'Missing required fields'
+            ], 400);
+        }
+    
+        $amount = $json->amount;
+    
+        try {
+            $amenitiesModel = new AmenitiesModel();
+            $existingAmenity = $amenitiesModel->find($id);
+    
+            if (empty($existingAmenity)) {
+                return $this->respond([
+                    'status' => 'error',
+                    'message' => 'Amenity not found'
+                ], 404);
+            }
+    
+            // Update the stock amount
+            $newStock = $existingAmenity['stock'] + $amount;
+            $amenitiesModel->update($id, ['stock' => $newStock]);
+    
+            // Create audit entry
+            $auditModel = new AmenitiesAuditModel();
+            $auditData = [
+                'amenity_id' => $id,
+                'old_quantity' => $existingAmenity['stock'],
+                'new_quantity' => $newStock,
+                'type' => $amount > 0 ? 'inbound' : 'used', // Determine the type based on the amount
+            ];
+            $auditModel->save($auditData);
+    
+            return $this->respond([
+                'status' => 'success',
+                'message' => 'Stock modified successfully!',
+                'new_stock' => $newStock
+            ], 200);
+        } catch (\Exception $e) {
+            log_message('error', 'Failed to modify stock: ' . $e->getMessage());
+            return $this->respond([
+                'status' => 'error',
+                'message' => 'Failed to modify stock: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+    
+
+
     public function getAllAmenities()
     {
         $amenities = $this->amenitiesModel->findAll();
         return $this->respond($amenities, 200);
     }
+
+    public function updateAmenity($id = null)
+    {
+        $request = $this->request;
+        $amenitiesModel = new AmenitiesModel();
+    
+        // Find the existing data by ID
+        $existingData = $amenitiesModel->find($id);
+    
+        if (empty($existingData)) {
+            return $this->respond([
+                'status' => 'error',
+                'message' => 'Amenity not found'
+            ], 404); // Return error if amenity is not found
+        }
+    
+        // Prepare new data, using existing values if no new values are provided
+        $data = [
+            'amenity_id' => $id,
+            'amenity_name' => $request->getVar('amenity_name') ?? $existingData['amenity_name'],
+            'description' => $request->getVar('description') ?? $existingData['description'],
+        ];
+    
+        // Check if any data has actually changed
+        if ($data === array_intersect_key($existingData, $data)) {
+            return $this->respond([
+                'status' => 'success',
+                'message' => 'No changes detected, data not updated'
+            ], 200); // Return message if no changes were made
+        }
+    
+        try {
+            // Update the amenity record
+            if ($amenitiesModel->update($id, $data)) {
+                return $this->respond([
+                    'status' => 'success',
+                    'message' => 'Amenity updated successfully!'
+                ], 200); // Success response
+            } else {
+                return $this->respond([
+                    'status' => 'error',
+                    'message' => 'Failed to update amenity'
+                ], 500); // Return error if update fails
+            }
+        } catch (\Exception $e) {
+            return $this->respond([
+                'status' => 'error',
+                'message' => 'Failed to update amenity: ' . $e->getMessage()
+            ], 500); // Return error if exception occurs
+        }
+    }
+        
+
+
     public function addAmenity()
 {
     $json = $this->request->getJSON();
@@ -1371,84 +1490,88 @@ public function deleteMenuItem($id)
         ], 500);
     }
 }
-
-public function assignAmenitiesToRoom($roomId)
+public function deleteAmenity($id = null)
 {
-    $data = $this->request->getJSON(true);
-    
-    // Validate if amenities are provided
-    if (!isset($data['amenities']) || !is_array($data['amenities'])) {
+    if ($id === null) {
         return $this->respond([
             'status' => 'error',
-            'message' => 'Invalid or missing amenities data'
-        ], 400);
+            'message' => 'Amenity ID is required'
+        ], 400); // Return error if ID is not provided
     }
 
-    $amenities = $data['amenities'];
+    $amenitiesModel = new AmenitiesModel();
 
-    // Validate if room ID is valid
-    if (empty($roomId) || !is_numeric($roomId)) {
+    // Check if the amenity exists
+    $existingAmenity = $amenitiesModel->find($id);
+    if (empty($existingAmenity)) {
         return $this->respond([
             'status' => 'error',
-            'message' => 'Invalid room ID'
-        ], 400);
+            'message' => 'Amenity not found'
+        ], 404); // Return error if amenity is not found
     }
-
-    $db = \Config\Database::connect();
-    $builder = $db->table('room_amenities'); // Ensure table name is correct
-
-    $db->transBegin();
 
     try {
-        // Delete existing amenities for the room
-        $builder->where('room_id', $roomId)->delete();
-
-        // Prepare data for insertion
-        $insertData = [];
-        foreach ($amenities as $amenityId) {
-            if (is_numeric($amenityId)) {
-                $insertData[] = [
-                    'room_id' => $roomId,
-                    'amenity_id' => $amenityId
-                ];
-            } else {
-                throw new \Exception('Invalid amenity ID: ' . $amenityId);
-            }
+        // Attempt to delete the amenity
+        if ($amenitiesModel->delete($id)) {
+            return $this->respond([
+                'status' => 'success',
+                'message' => 'Amenity deleted successfully!'
+            ], 200); // Success response
+        } else {
+            return $this->respond([
+                'status' => 'error',
+                'message' => 'Failed to delete amenity'
+            ], 500); // Return error if delete fails
         }
-
-        // Insert new amenities
-        if (!empty($insertData)) {
-            $builder->insertBatch($insertData);
-        }
-
-        $db->transCommit();
-
-        return $this->respond([
-            'status' => 'success',
-            'message' => 'Amenities assigned successfully'
-        ], 200);
-
     } catch (\Exception $e) {
-        $db->transRollback();
-        log_message('error', 'Failed to assign amenities to room: ' . $e->getMessage());
+        log_message('error', 'Failed to delete amenity: ' . $e->getMessage());
         return $this->respond([
             'status' => 'error',
-            'message' => 'Failed to assign amenities: ' . $e->getMessage()
-        ], 500);
+            'message' => 'Failed to delete amenity: ' . $e->getMessage()
+        ], 500); // Return error if exception occurs
     }
 }
 
-public function getAmenitiesForRoom($roomId)
-{
-    $amenities = $this->roomAmenitiesModel
-        ->select('amenities.*')
-        ->join('amenities', 'room_amenities.amenity_id = amenities.amenity_id')
-        ->where('room_amenities.room_id', $roomId)
-        ->findAll();
 
-    return $this->respond($amenities, 200);
-}
 
+  // Cancel Cottage Booking
+  public function cancelCottageBooking($id)
+  {
+      $model = new CottageBookingModel();
+      $booking = $model->find($id);
+      
+      if ($booking) {
+          $model->update($id, ['cottagebooking_status' => 'cancelled']);
+          return $this->respond(['message' => 'Cottage booking status updated to cancelled'], 200);
+      }
+      return $this->failNotFound('Cottage booking not found');
+  }
+
+  // Cancel Reservation
+  public function cancelReservation($id)
+  {
+      $model = new ReservationModel();
+      $reservation = $model->find($id);
+      
+      if ($reservation) {
+          $model->update($id, ['status' => 'cancelled']);
+          return $this->respond(['message' => 'Reservation status updated to cancelled'], 200);
+      }
+      return $this->failNotFound('Reservation not found');
+  }
+
+  // Cancel Order
+  public function cancelOrder($id)
+  {
+      $model = new OrdersModel();
+      $order = $model->find($id);
+      
+      if ($order) {
+          $model->update($id, ['order_status' => 'cancelled']);
+          return $this->respond(['message' => 'Order status updated to cancelled'], 200);
+      }
+      return $this->failNotFound('Order not found');
+  }
             
 
     public function getRoom()
@@ -1467,6 +1590,122 @@ public function getAmenitiesForRoom($roomId)
         $r = $cart->delete($cart_id);
         return $this->respond($r, 200);
     }
+    public function getUserWithRelatedData($id)
+    {
+        $userModel = new UserModel();
+        $cottageBookingModel = new CottageBookingModel();
+        $reservationModel = new ReservationModel();
+        $ordersModel = new OrdersModel();
+        $bookingModel = new BookingModel();
+        $roomModel = new RoomModel(); // Include RoomModel
+        $shopModel = new ShopModel(); // Include ShopModel
+    
+        // Fetch user data
+        $userData = $userModel->find($id);
+        if (!$userData) {
+            return $this->failNotFound('User not found');
+        }
+    
+        // Fetch pending cottage bookings with room details
+        $cottageBookings = $cottageBookingModel->where('user_id', $id)
+            ->where('cottagebooking_status', 'pending')
+            ->findAll();
+    
+        foreach ($cottageBookings as &$booking) {
+            $booking['cottage_name'] = $this->getCottageName($booking['cottage_id']); // Assuming a method to fetch cottage name
+        }
+    
+        // Fetch pending reservations with table details
+        $reservations = $reservationModel->where('user_id', $id)
+            ->where('status', 'pending')
+            ->findAll();
+    
+        foreach ($reservations as &$reservation) {
+            $reservation['table_name'] = $this->getTableName($reservation['table_id']); // Assuming a method to fetch table name
+        }
+    
+        // Fetch pending orders with product details
+        $orders = $ordersModel->where('id', $id)
+            ->where('order_status', 'pending')
+            ->findAll();
+    
+        foreach ($orders as &$order) {
+            $order['products'] = $this->getOrderProducts($order['order_id']); // Assuming a method to fetch order products
+        }
+    
+        // Fetch bookings with room details
+        $bookings = $bookingModel->where('id', $id) // Assuming `id` refers to user_id
+            ->where('booking_status', 'pending')
+            ->findAll();
+    
+        foreach ($bookings as &$booking) {
+            $booking['room_name'] = $this->getRoomName($booking['room_id']); // Assuming a method to fetch room name
+        }
+    
+        // Combine the fetched data
+        $combinedData = [
+            'user' => $userData,
+            'cottageBookings' => $cottageBookings,
+            'reservations' => $reservations,
+            'orders' => $orders,
+            'bookings' => $bookings,
+        ];
+    
+        // Return combined data as a response
+        return $this->respond($combinedData, 200);
+    }
+    
+    
+    private function getCottageName($cottageId)
+    {
+        $cottageModel = new CottageModel(); // Assuming you have a CottageModel
+        $cottage = $cottageModel->find($cottageId);
+        return $cottage ? $cottage['cottage_name'] : 'Unknown Cottage'; // Adjust field name as necessary
+    }
+    
+    private function getTableName($tableId)
+    {
+        $tableModel = new TableModel(); // Assuming you have a TableModel
+        $table = $tableModel->find($tableId);
+        return $table ? $table['table_name'] : 'Unknown Table'; // Adjust field name as necessary
+    }
+    
+    private function getOrderProducts($orderId)
+    {
+        $orderListModel = new OrderListModel(); // Assuming you have an OrderListModel
+        $products = $orderListModel->where('order_id', $orderId)->findAll();
+        
+        // Fetch product details for each product in the order
+        $productDetails = [];
+        $shopModel = new ShopModel(); // Assuming you have a ShopModel
+    
+        foreach ($products as $product) {
+            $shopProduct = $shopModel->find($product['shop_id']);
+            if ($shopProduct) {
+                $productDetails[] = [
+                    'prod_name' => $shopProduct['prod_name'],
+                    'quantity' => $product['quantity'],
+                    'final_price' => $product['final_price'],
+                ];
+            }
+        }
+    
+        return $productDetails;
+    }
+    
+    private function getRoomName($roomId)
+    {
+        $roomModel = new RoomModel(); // Assuming you have a RoomModel
+        $room = $roomModel->find($roomId);
+        return $room ? $room['room_name'] : 'Unknown Room'; // Adjust field name as necessary
+    }
+    public function getAmenities()
+{
+    $amenitiesModel = new AmenitiesModel();  // Load the AmenitiesModel
+    $data = $amenitiesModel->findAll();                  // Fetch all amenities
+    return $this->respond($data, 200);                   // Return the data as JSON with HTTP status 200
+}
+
     public function getData()
     {
         $main = new UserModel();
@@ -1918,87 +2157,61 @@ public function getAmenitiesForRoom($roomId)
         }
     }
 
-    
-
-
-    public function checkout() {
+    public function checkout()
+    {
         $this->invoice = new InvoiceModel();
         $this->orderitems = new OrderListModel();
         $this->orders = new OrderSModel();
-    
-        // Accessing the uploaded file
-        $downpaymentProof = $this->request->getFile('downpayment_proof');
-        $downpaymentProofPath = null;
-    
-        if ($downpaymentProof && $downpaymentProof->isValid() && !$downpaymentProof->hasMoved()) {
-            // Move the file to the desired location
-            $downpaymentProofPath = 'path/to/uploads/' . $downpaymentProof->getName();
-            $downpaymentProof->move('path/to/uploads/'); // Ensure this directory exists
+
+        $json = $this->request->getJSON();
+        $id = $json->id;
+
+        foreach ($json->items as $item) {
+            $shopModel = new ShopModel();
+            $product = $shopModel->find($item->shop_id);
+
+            if (!$product || $product['prod_quantity'] < $item->quantity) {
+                return $this->respond(['message' => 'Insufficient stock for one or more items'], 400);
+            }
         }
-    
-        // Accessing the JSON data
-        $orderData = $this->request->getPost('orderData');
-        if ($orderData) {
-            $json = json_decode($orderData);
-            $id = $json->id;
-    
-            // Validate items
-            foreach ($json->items as $item) {
-                $shopModel = new ShopModel();
-                $product = $shopModel->find($item->shop_id);
-    
-                if (!$product || $product['prod_quantity'] < $item->quantity) {
-                    return $this->respond(['message' => 'Insufficient stock for one or more items'], 400);
-                }
-            }
-    
-            // Process the order
-            $order = [
+
+        $order = [
+            'id' => $id,
+            'order_status' => 'pending',
+            'total_price' => $json->total_price,
+            'order_payment_method' => $json->order_payment_method
+        ];
+
+        $this->orders->save($order);
+
+        $order_id = $this->orders->insertID();
+
+        foreach ($json->items as $item) {
+            $orderitem = [
                 'id' => $id,
-                'order_status' => 'pending',
-                'total_price' => $json->total_price,
-                'order_payment_method' => $json->order_payment_method,
-                'downpayment_proof' => $downpaymentProofPath, // Store the path in the database
-            ];
-    
-            $this->orders->save($order);
-            $order_id = $this->orders->insertID();
-    
-            foreach ($json->items as $item) {
-                $orderitem = [
-                    'id' => $id,
-                    'shop_id' => $item->shop_id,
-                    'quantity' => $item->quantity,
-                    'final_price' => $item->total_price,
-                    'order_id' => $order_id,
-                ];
-    
-                $this->orderitems->save($orderitem);
-            }
-    
-            $inv = [
-                'id' => $id,
+                'shop_id' => $item->shop_id,
+                'quantity' => $item->quantity,
+                'final_price' => $item->total_price,
                 'order_id' => $order_id,
             ];
-    
-            $this->invoice->save($inv);
-    
-            if ($this->orders->affectedRows() > 0 && $this->orderitems->affectedRows() > 0 && $this->invoice->affectedRows() > 0) {
-                return $this->respond(['message' => 'Checkout successful'], 200);
-            } else {
-                return $this->respond(['message' => 'Checkout failed'], 500);
-            }
+
+            $this->orderitems->save($orderitem);
+        }
+
+        $inv = [
+            'id' => $id,
+            'order_id' => $order_id,
+        ];
+
+        $this->invoice->save($inv);
+
+
+        if ($this->orders->affectedRows() > 0 && $this->orderitems->affectedRows() > 0 && $this->invoice->affectedRows() > 0) {
+            return $this->respond(['message' => 'Checkout successful'], 200);
         } else {
-            return $this->respond(['message' => 'Invalid order data'], 400);
+            return $this->respond(['message' => 'Checkout failed'], 500);
         }
     }
-    
-    
-    
-    
-    
-    
-    
 
 
     public function markOrderPaid($orderId)
@@ -2523,7 +2736,6 @@ public function handleRoomImageUpload($image, $imageName)
 
         return $this->respond($data, 200);
     }
-   
     public function acceptBooking($booking_id)
     {
         $roomModel = new RoomModel();
@@ -2565,6 +2777,87 @@ public function handleRoomImageUpload($image, $imageName)
             return $this->respond(['message' => 'Booking not found'], 404);
         }
     }
+    
+    public function assignAmenitiesToRoom($roomId)
+    {
+        $data = $this->request->getJSON(true);
+        
+        // Validate if amenities are provided
+        if (!isset($data['amenities']) || !is_array($data['amenities'])) {
+            return $this->respond([
+                'status' => 'error',
+                'message' => 'Invalid or missing amenities data'
+            ], 400);
+        }
+    
+        $amenities = $data['amenities'];
+    
+        // Validate if room ID is valid
+        if (empty($roomId) || !is_numeric($roomId)) {
+            return $this->respond([
+                'status' => 'error',
+                'message' => 'Invalid room ID'
+            ], 400);
+        }
+    
+        $db = \Config\Database::connect();
+        $builder = $db->table('room_amenities'); // Ensure table name is correct
+    
+        $db->transBegin();
+    
+        try {
+            // Delete existing amenities for the room
+            $builder->where('room_id', $roomId)->delete();
+    
+            // Prepare data for insertion
+            $insertData = [];
+            foreach ($amenities as $amenityId) {
+                if (is_numeric($amenityId)) {
+                    $insertData[] = [
+                        'room_id' => $roomId,
+                        'amenity_id' => $amenityId,
+                        'stock' => 1 // Set default stock to 1
+                    ];
+                } else {
+                    throw new \Exception('Invalid amenity ID: ' . $amenityId);
+                }
+            }
+    
+            // Insert new amenities
+            if (!empty($insertData)) {
+                $builder->insertBatch($insertData);
+            }
+    
+            $db->transCommit();
+    
+            return $this->respond([
+                'status' => 'success',
+                'message' => 'Amenities assigned successfully'
+            ], 200);
+    
+        } catch (\Exception $e) {
+            $db->transRollback();
+            log_message('error', 'Failed to assign amenities to room: ' . $e->getMessage());
+            return $this->respond([
+                'status' => 'error',
+                'message' => 'Failed to assign amenities: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+    
+    public function getAmenitiesForRoom($roomId)
+    {
+        $amenities = $this->roomAmenitiesModel
+            ->select('amenities.*')
+            ->join('amenities', 'room_amenities.amenity_id = amenities.amenity_id')
+            ->where('room_amenities.room_id', $roomId)
+            ->findAll();
+    
+        return $this->respond($amenities, 200);
+    }
+    
+            
+        
     public function declineBooking($booking_id)
     {
         $roomModel = new RoomModel();

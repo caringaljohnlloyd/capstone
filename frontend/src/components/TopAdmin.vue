@@ -1,40 +1,65 @@
 <template>
-  <div id="app">
-    <TopAdmin />
+   <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-name" content="mono"/>
 
-    <div id="main-content">
-      <ContentAdmin />
-    </div>
+  <title>Mono - Responsive Admin & Dashboard Template</title>
 
-    <EndAdmin />
-  </div>
+  <!-- GOOGLE FONTS -->
+  <link href="https://fonts.googleapis.com/css?family=Karla:400,700|Roboto" rel="stylesheet">
+  <link href="plugins/material/css/materialdesignicons.min.css" rel="stylesheet" />
+  <link href="plugins/simplebar/simplebar.css" rel="stylesheet" />
+
+  <!-- PLUGINS CSS STYLE -->
+  <link href="plugins/nprogress/nprogress.css" rel="stylesheet" />
+  
+  
+  
+  
+  <link href="plugins/DataTables/DataTables-1.10.18/css/jquery.dataTables.min.css" rel="stylesheet" />
+  
+  
+  
+  <link href="plugins/jvectormap/jquery-jvectormap-2.0.3.css" rel="stylesheet" />
+  
+  
+  
+  <link href="plugins/daterangepicker/daterangepicker.css" rel="stylesheet" />
+  
+  
+  
+  <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+  
+  
+  
+  <link href="plugins/toaster/toastr.min.css" rel="stylesheet" />
+  
+  
+  <!-- MONO CSS -->
+
+
+  
+
+
+  <!-- FAVICON -->
+  <link href="images/favicon.png" rel="shortcut icon" />
+
+  <!--
+    HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries
+  -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
 </template>
-
-<script>
-import TopAdmin from '@/components/TopAdmin.vue';
-import ContentAdmin from '@/components/ContentAdmin.vue';
-import EndAdmin from '@/components/EndAdmin.vue';
-
-export default {
-  name: 'admin',
-  components: {
-    TopAdmin,
-    ContentAdmin,
-    EndAdmin,
-  },
-};
-</script>
-
-
-
-
 
 
 
 <style scoped>
-
-
- /**
+/**
  * WEBSITE: https://themefisher.com
  * TWITTER: https://twitter.com/themefisher
  * FACEBOOK: https://www.facebook.com/themefisher
@@ -87,9 +112,7 @@ export default {
 *::after {
   box-sizing: border-box;
 }
-#main-content{
-  display: flex;
-}
+
 html {
   font-family: sans-serif;
   line-height: 1.15;
@@ -17486,8 +17509,39 @@ html[dir=rtl] .sidebar li > a .caret:before {
   font-weight: 500;
 }
 /*# sourceMappingURL=style.css.map */
+@import '@/assets/css/bootstrap.min.css';
 
-
-
- @import '@/assets/css/bootstrap.min.css';
 </style>
+
+<script>
+export default {
+  mounted() {
+   
+    this.loadExternalResources();
+  },
+  methods: {
+    loadExternalResources() {
+    
+      const resourceUrls = [
+        'img/favicon.ico',
+
+        'css/bootstrap.min.css',
+        'css/style.css',
+      ];
+
+    
+      resourceUrls.forEach((url) => {
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = url;
+        document.head.appendChild(link);
+      });
+
+      const favicon = document.createElement('link');
+      favicon.rel = 'icon';
+      favicon.href = 'img/favicon.ico';
+      document.head.appendChild(favicon);
+    },
+  },
+};
+</script>

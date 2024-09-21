@@ -64,12 +64,18 @@
 <script>
 import axios from 'axios';
 
-
+import TopAdmin from '@/components/TopAdmin.vue';
+import SidebarAdmin from '@/components/SidebarAdmin.vue';
+import EndAdmin from '@/components/EndAdmin.vue';
+import HeaderAdmin from '@/components/HeaderAdmin.vue';
 
 export default {
   name: 'analytics',
   components: {
-
+    TopAdmin,
+    SidebarAdmin,
+    EndAdmin,
+    HeaderAdmin,
   },
   data() {
     return {

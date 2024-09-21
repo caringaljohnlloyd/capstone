@@ -184,8 +184,7 @@
         />
       </div>
     </div>
-
-        <!-- Downpayment Proof -->
+    <!-- Downpayment Proof -->
 <div class="col-md-6">
   <div class="form-group">
     <label for="downpaymentProof">Upload Proof of Downpayment</label><br>
@@ -200,18 +199,12 @@
   </div>
 </div>
 
-<div class="col-md-3">
+<div class="col-md-2">
 <br>
 <button type="button" class="btn btn-info" @click="openGcashQRCode">
-          <i class="fas fa-qrcode"></i>  GCASH
+          <i class="fas fa-qrcode"></i>QR
         </button>
-    </div>
-
-    <div class="col-md-3">
-<br>
-<button type="button" class="btn btn-success " @click="openPaypalQRCode">
-          <i class="fa-brands fa-paypal"></i>  PayPal
-        </button>
+  
     </div>
 
     <div class="col-md-12 mt-3">
@@ -272,26 +265,6 @@
     </div>
   </div>
 </div>
-<!-- Paypal QR Code Modal -->
-<div v-if="showPaypalModal" class="modal" tabindex="-1" style="display: block;">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Scan Paypal QR Code</h5>
-        <button type="button" class="close" @click="closePaypalModal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body text-center">
-        <!-- QR Code Image (Paypal) -->
-        <img src="../assets/img/gcash.jpg" alt="Paypal QR Code" >
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" @click="closePaypalModal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
  <!-- Success and Error Messages -->
  <div v-if="successMessage" class="alert alert-success mt-3">
       {{ successMessage }}
@@ -309,8 +282,6 @@
     </div>
     <!-- Booking End -->
   </div>
-
-  
     <!-- Newsletter Start -->
     <div class="container newsletter mt-5 wow fadeIn" data-wow-delay="0.1s">
       <div class="row justify-content-center">
@@ -397,7 +368,6 @@
         bookingInfo: [], 
         minDate: new Date().toISOString().slice(0, 16), // for example, to set the min date
         showGcashModal: false,
-        showPaypalModal: false,
 
       };
     },
@@ -425,12 +395,6 @@
     },
     closeGcashModal() {
       this.showGcashModal = false;
-    },
-    openPaypalQRCode() {
-      this.showPaypalModal = true;
-    },
-    closePaypalModal() {
-      this.showPaypalModal = false;
     },
     handleFileUpload(event) {
       this.downpaymentProof = event.target.files[0];

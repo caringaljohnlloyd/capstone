@@ -1,78 +1,34 @@
-ERROR - 2024-09-21 02:07:02 --> Validation errors: Array
-(
-    [user_id] => User ID is required.
-    [table_id] => Table ID is required.
-    [reservation_time] => Reservation time is required.
-    [payment_amount] => Payment amount is required.
-    [payment_method] => Payment method is required.
-    [order_items] => Order items are required and must be a non-empty array.
-)
-
-ERROR - 2024-09-21 02:07:18 --> Validation errors: Array
-(
-    [user_id] => User ID is required.
-    [table_id] => Table ID is required.
-    [reservation_time] => Reservation time is required.
-    [payment_amount] => Payment amount is required.
-    [payment_method] => Payment method is required.
-    [order_items] => Order items are required and must be a non-empty array.
-)
-
-CRITICAL - 2024-09-21 02:30:39 --> Cannot access offset of type string on string
-in APPPATH\Controllers\MainController.php on line 1469.
- 1 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->checkout()
+ERROR - 2024-09-21 08:51:40 --> Failed to retrieve amenities for room ID 7
+CRITICAL - 2024-09-21 08:52:42 --> There is no data to update.
+in SYSTEMPATH\BaseModel.php on line 930.
+ 1 SYSTEMPATH\BaseModel.php(930): CodeIgniter\Database\Exceptions\DataException::forEmptyDataset('update')
+ 2 SYSTEMPATH\Model.php(776): CodeIgniter\BaseModel->update([...], [])
+ 3 APPPATH\Controllers\MainController.php(2774): CodeIgniter\Model->update([...], [...])
+ 4 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->acceptBooking('230')
+ 5 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 6 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capsproj\\backend\\backend\\public\\index.php')
+ERROR - 2024-09-21 08:57:03 --> Failed to retrieve amenities for room ID 7
+ERROR - 2024-09-21 08:59:58 --> No amenities found for room ID 7
+CRITICAL - 2024-09-21 09:12:45 --> Cannot use object of type CodeIgniter\HTTP\ContentSecurityPolicy as array
+in APPPATH\Controllers\MainController.php on line 2780.
+ 1 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->acceptBooking('230')
  2 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
  3 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
  4 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
- 5 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
-CRITICAL - 2024-09-21 02:30:52 --> Cannot access offset of type string on string
-in APPPATH\Controllers\MainController.php on line 1469.
- 1 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->checkout()
+ 5 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capsproj\\backend\\backend\\public\\index.php')
+CRITICAL - 2024-09-21 09:37:47 --> Cannot use object of type CodeIgniter\HTTP\ContentSecurityPolicy as array
+in APPPATH\Controllers\MainController.php on line 2769.
+ 1 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->acceptBooking('230')
  2 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
  3 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
  4 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
- 5 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
-CRITICAL - 2024-09-21 02:41:37 --> Cannot access offset of type string on string
-in APPPATH\Controllers\MainController.php on line 1475.
- 1 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->checkout()
+ 5 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capsproj\\backend\\backend\\public\\index.php')
+CRITICAL - 2024-09-21 09:40:33 --> Cannot use object of type CodeIgniter\HTTP\ContentSecurityPolicy as array
+in APPPATH\Controllers\MainController.php on line 2770.
+ 1 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->acceptBooking('230')
  2 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
  3 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
  4 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
- 5 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
-CRITICAL - 2024-09-21 02:41:44 --> Cannot access offset of type string on string
-in APPPATH\Controllers\MainController.php on line 1475.
- 1 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->checkout()
- 2 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
- 3 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
- 4 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
- 5 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
-CRITICAL - 2024-09-21 02:47:14 --> Cannot access offset of type string on string
-in APPPATH\Controllers\MainController.php on line 1474.
- 1 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->checkout()
- 2 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
- 3 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
- 4 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
- 5 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
-CRITICAL - 2024-09-21 02:47:20 --> Cannot access offset of type string on string
-in APPPATH\Controllers\MainController.php on line 1474.
- 1 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->checkout()
- 2 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
- 3 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
- 4 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
- 5 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
-CRITICAL - 2024-09-21 03:00:20 --> Attempt to read property "id" on null
-in APPPATH\Controllers\MainController.php on line 1454.
- 1 APPPATH\Controllers\MainController.php(1454): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Attempt to read property "id" on null', 'C:\\Users\\PC\\laragon\\www\\capstone\\backend\\backend\\app\\Controllers\\MainController.php', 1454)
- 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->checkout()
- 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
- 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
- 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
- 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
-CRITICAL - 2024-09-21 03:00:41 --> Attempt to read property "id" on null
-in APPPATH\Controllers\MainController.php on line 1454.
- 1 APPPATH\Controllers\MainController.php(1454): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Attempt to read property "id" on null', 'C:\\Users\\PC\\laragon\\www\\capstone\\backend\\backend\\app\\Controllers\\MainController.php', 1454)
- 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->checkout()
- 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
- 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
- 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
- 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\PC\\laragon\\www\\capstone\\backend\\backend\\public\\index.php')
+ 5 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capsproj\\backend\\backend\\public\\index.php')

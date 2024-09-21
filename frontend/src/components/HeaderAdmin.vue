@@ -1,40 +1,80 @@
 <template>
-  <div id="app">
-    <TopAdmin />
+  <div class="page-wrapper">
+    <header class="main-header" id="header">
+            <nav class="navbar navbar-expand-lg navbar-light" id="navbar">
+              <!-- Sidebar toggle button -->
+              <button id="sidebar-toggler" class="sidebar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+              </button>
 
-    <div id="main-content">
-      <ContentAdmin />
-    </div>
+              <span class="page-title">dashboard</span>
 
-    <EndAdmin />
-  </div>
+              <div class="navbar-right ">
+
+
+                <ul class="nav navbar-nav">
+               
+                  <li class="custom-dropdown">
+                    
+                    <div class="dropdown-notify">
+
+
+
+          
+                    </div>
+                  </li>
+                      <i class="mdi mdi-account-check"></i>
+                      <span class="d-none d-lg-inline-block">Admin</span>
+                  <!-- Remove the <ul> and <li> for dropdown -->
+<button @click.prevent="logout" class="btn logout-logo-btn" type="button">
+  <i class="fas fa-power-off logout-icon"></i>
+  Logout
+</button>
+
+                </ul>
+              </div>
+            </nav>
+
+
+          </header>
+        </div>
 </template>
 
 <script>
-import TopAdmin from '@/components/TopAdmin.vue';
-import ContentAdmin from '@/components/ContentAdmin.vue';
-import EndAdmin from '@/components/EndAdmin.vue';
+  import axios from 'axios';
 
 export default {
-  name: 'admin',
-  components: {
-    TopAdmin,
-    ContentAdmin,
-    EndAdmin,
+
+  data() {
+    return {
+      query: '',
+      data: [],
+      showData: false,
+      showNoMatchMessage: false,
+    };
   },
-};
+  methods: {
+    async logout() {
+      try {
+        const response = await axios.post("/logout");
+
+        if (response.status === 200) {
+          console.log("Logout successful");
+
+          sessionStorage.removeItem("token");
+          sessionStorage.removeItem("id");
+
+          this.$router.push("/");
+        }
+      } catch (error) {
+        console.error("Error during logout", error);
+      }
+    },
+  }
+}
 </script>
-
-
-
-
-
-
-
 <style scoped>
-
-
- /**
+/**
  * WEBSITE: https://themefisher.com
  * TWITTER: https://twitter.com/themefisher
  * FACEBOOK: https://www.facebook.com/themefisher
@@ -87,9 +127,7 @@ export default {
 *::after {
   box-sizing: border-box;
 }
-#main-content{
-  display: flex;
-}
+
 html {
   font-family: sans-serif;
   line-height: 1.15;
@@ -17486,8 +17524,6 @@ html[dir=rtl] .sidebar li > a .caret:before {
   font-weight: 500;
 }
 /*# sourceMappingURL=style.css.map */
+@import '@/assets/css/bootstrap.min.css';
 
-
-
- @import '@/assets/css/bootstrap.min.css';
 </style>
