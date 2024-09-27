@@ -1,0 +1,32 @@
+CRITICAL - 2024-09-27 14:49:16 --> Call to undefined method App\Models\CartModel::deleteCartItems
+in SYSTEMPATH\Model.php on line 873.
+ 1 APPPATH\Controllers\MainController.php(2241): CodeIgniter\Model->__call('deleteCartItems', [...])
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->checkout()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstonee\\backend\\backend\\public\\index.php')
+CRITICAL - 2024-09-27 14:49:26 --> Call to undefined method App\Models\CartModel::deleteCartItems
+in SYSTEMPATH\Model.php on line 873.
+ 1 APPPATH\Controllers\MainController.php(2241): CodeIgniter\Model->__call('deleteCartItems', [...])
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->checkout()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstonee\\backend\\backend\\public\\index.php')
+CRITICAL - 2024-09-27 14:53:07 --> Undefined property: stdClass::$cart_id
+in APPPATH\Controllers\MainController.php on line 2198.
+ 1 APPPATH\Controllers\MainController.php(2198): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$cart_id', 'C:\\laragon\\www\\capstonee\\backend\\backend\\app\\Controllers\\MainController.php', 2198)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->checkout()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstonee\\backend\\backend\\public\\index.php')
+CRITICAL - 2024-09-27 14:59:34 --> Undefined property: stdClass::$cart_id
+in APPPATH\Controllers\MainController.php on line 2198.
+ 1 APPPATH\Controllers\MainController.php(2198): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$cart_id', 'C:\\laragon\\www\\capstonee\\backend\\backend\\app\\Controllers\\MainController.php', 2198)
+ 2 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\MainController->checkout()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capstonee\\backend\\backend\\public\\index.php')

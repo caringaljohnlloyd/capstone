@@ -412,13 +412,77 @@
       </div>
       <form @submit.prevent="bookCottage">
         <div class="modal-body">
+          <label for="selectedTime">Start Time</label>
           <input type="datetime-local" v-model="selectedTime" class="form-control" :min="minDate" required>
+          
+          <label for="selectedTimeout">End Time</label>
           <input type="datetime-local" v-model="selectedTimeout" class="form-control" required readonly>
+          
+          <label for="downpayment">Downpayment (Php)</label>
+          <input type="number" v-model="downpayment" class="form-control" min="0" required>
+          
+          <label for="proofOfDownpayment">Proof of Downpayment</label>
+          <input type="file" @change="handleFileUpload" accept="image/*" class="form-control" required>
+          
+          <!-- Button Section for GCASH and PayPal -->
+          <div class="d-flex justify-content-between mt-1">
+            <div>
+              <button type="button" class="btn btn-info" @click="openGcashQRCode">
+                <i class="fas fa-qrcode"></i> GCASH
+              </button>
+            </div>
+            <div>
+              <button type="button" class="btn btn-success" @click="openPaypalQRCode">
+                <i class="fa-brands fa-paypal"></i> PayPal
+              </button>
+            </div>
+          </div>
         </div>
         <div class="modal-footer">
           <button class="btn btn-primary">Book Cottage</button>
         </div>
       </form>
+    </div>
+  </div>
+</div>
+
+<!-- GCash QR Code Modal -->
+<div v-if="showGcashModal" class="modal" tabindex="-1" style="display: block;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Scan GCash QR Code</h5>
+        <button type="button" class="close" @click="closeGcashModal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body text-center">
+        <!-- QR Code Image (GCash) -->
+        <img src="../assets/img/gcash.jpg" alt="GCash QR Code" >
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" @click="closeGcashModal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Paypal QR Code Modal -->
+<div v-if="showPaypalModal" class="modal" tabindex="-1" style="display: block;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Scan Paypal QR Code</h5>
+        <button type="button" class="close" @click="closePaypalModal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body text-center">
+        <!-- QR Code Image (Paypal) -->
+        <img src="../assets/img/gcash.jpg" alt="Paypal QR Code" >
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" @click="closePaypalModal">Close</button>
+      </div>
     </div>
   </div>
 </div>
@@ -480,7 +544,8 @@
                 </div>
               </div>
               <div class="row menu-container" data-aos="fade-up" data-aos-delay="200">
-                <div v-for="item in filteredMenuItems" :key="item.menu_id" class="col-lg-6 menu-item" :class="`filter-${item.item_category}`">
+                <div v-for="item in filteredMenuItems" :key="item.menu_id" class="col-lg-6 menu-item" :class="'filter-' + item.item_category">
+
                   <div class="menu-content">
                     <input type="checkbox" :id="'item-' + item.menu_id" :value="item.menu_id" v-model="selectedItems[item.menu_id]">
                     <label :for="'item-' + item.menu_id">
@@ -510,8 +575,27 @@
               <option value="Credit Card">Credit Card</option>
               <option value="Cash">Cash</option>
               <option value="Paypal">Paypal</option>
-              <!-- Add other payment methods as needed -->
+             
             </select>
+          </div>
+          
+<!-- Proof of Payment Input -->
+<div class="form-group">
+  <label for="proofOfPayment">Proof of Payment</label>
+  <input type="file" id="proofOfPayment" class="form-control" @change="handleFileUpload2" accept="image/*" required>
+</div>
+            <!-- Button Section for GCASH and PayPal -->
+            <div class="d-flex justify-content-between mt-1">
+            <div>
+              <button type="button" class="btn btn-info" @click="openGcashQRCode2">
+                <i class="fas fa-qrcode"></i> GCASH
+              </button>
+            </div>
+            <div>
+              <button type="button" class="btn btn-success" @click="openPaypalQRCode2">
+                <i class="fa-brands fa-paypal"></i> PayPal
+              </button>
+            </div>
           </div>
           <button type="submit" class="btn btn-primary">Book Table with Menu</button>
         </form>
@@ -519,6 +603,49 @@
     </div>
   </div>
 </div>
+
+<!-- GCash QR Code Modal -->
+<div v-if="showGcashModal2" class="modal" tabindex="-1" style="display: block;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Scan GCash QR Code</h5>
+        <button type="button" class="close" @click="closeGcashModal2" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body text-center">
+        <!-- QR Code Image (GCash) -->
+        <img src="../assets/img/gcash.jpg" alt="GCash QR Code" >
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" @click="closeGcashModal2">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Paypal QR Code Modal -->
+<div v-if="showPaypalModal2" class="modal" tabindex="-1" style="display: block;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Scan Paypal QR Code</h5>
+        <button type="button" class="close" @click="closePaypalModal2" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body text-center">
+        <!-- QR Code Image (Paypal) -->
+        <img src="../assets/img/gcash.jpg" alt="Paypal QR Code" >
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" @click="closePaypalModal2">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 
 
@@ -581,6 +708,10 @@ export default {
   },
   data() {
     return {
+      showGcashModal: false,
+      showPaypalModal: false,
+      showGcashModal2: false,
+      showPaypalModal2: false,
       user: null, // Will store the logged-in user's information
       errors: {}, // To store validation error messages
       query: "",
@@ -640,6 +771,37 @@ export default {
     this.fetchCottages();
   },
   methods: {
+    openGcashQRCode() {
+      this.showGcashModal = true;
+    },
+    closeGcashModal() {
+      this.showGcashModal = false;
+    },
+    openPaypalQRCode() {
+      this.showPaypalModal = true;
+    },
+    closePaypalModal() {
+      this.showPaypalModal = false;
+    },
+    openGcashQRCode2() {
+      this.showGcashModal2 = true;
+    },
+    closeGcashModal2() {
+      this.showGcashModal2 = false;
+    },
+    openPaypalQRCode2() {
+      this.showPaypalModal2 = true;
+    },
+    closePaypalModal2() {
+      this.showPaypalModal2 = false;
+    },
+    handleFileUpload2(event) {
+        this.proofOfPayment = event.target.files[0]; // Store the file
+    },
+    handleFileUpload(event) {
+    this.proofOfDownpayment = event.target.files[0];
+  },
+
     async cancelCottageBooking(bookingId) {
     try {
       await axios.post(`api/cottageBookings/${bookingId}`); // Adjust API endpoint
@@ -732,93 +894,70 @@ export default {
             }
         },
         async bookTableWithMenu() {
-    if (!this.checkAuth()) return;
+        if (!this.checkAuth()) return;
 
-    if (!this.selectedDateTime) {
-        this.showNotification('error', 'Please select date and time.');
-        return;
-    }
-
-    // Initialize reservationDateTime
+        if (!this.selectedDateTime) {
+            this.showNotification('error', 'Please select date and time.');
+            return;
+        }
+            // Initialize reservationDateTime
     const reservationDateTime = new Date(this.selectedDateTime);
 
-    // Ensure the selected date and time is in the future
-    if (reservationDateTime <= new Date()) {
-        this.showNotification('error', 'The selected date and time must be in the future.');
-        return;
-    }
+// Ensure the selected date and time is in the future
+if (reservationDateTime <= new Date()) {
+    this.showNotification('error', 'The selected date and time must be in the future.');
+    return;
+}
+        // Ensure at least one menu item is selected
+        const selectedItemIds = Object.keys(this.selectedItems).filter(itemId => this.selectedItems[itemId]);
+        if (selectedItemIds.length === 0) {
+            this.showNotification('error', 'Please select at least one menu item.');
+            return;
+        }
 
-    // Convert to ISO 8601 format manually
-    const reservationTimeISO = reservationDateTime.toISOString().replace(/(\.\d{3})(\d+)(Z)$/, '$1$3'); // Optional: remove milliseconds
+        const orderItems = selectedItemIds.map(itemId => ({
+            menu_id: parseInt(itemId, 10),
+            quantity: parseInt(this.itemQuantities[itemId] || 1, 10)
+        }));
 
-    // Ensure at least one menu item is selected
-    const selectedItemIds = Object.keys(this.selectedItems).filter(itemId => this.selectedItems[itemId]);
-    if (selectedItemIds.length === 0) {
-        this.showNotification('error', 'Please select at least one menu item.');
-        return;
-    }
+        const userId = parseInt(sessionStorage.getItem("id"), 10);
+        const tableId = this.currentTable ? parseInt(this.currentTable.table_id, 10) : null;
+        const paymentAmount = parseFloat(this.paymentAmount || 0).toFixed(2);
+        const paymentMethod = this.paymentMethod || 'Credit Card';
+        const reservationTimeISO = new Date(this.selectedDateTime).toISOString();
 
-    // Prepare the order items payload
-    const orderItems = selectedItemIds.map(itemId => ({
-        menu_id: parseInt(itemId, 10), // Ensure menu_id is an integer
-        quantity: parseInt(this.itemQuantities[itemId] || 1, 10) // Ensure quantity is an integer
-    }));
+        // Prepare the form data
+        const formData = new FormData();
+        formData.append('user_id', userId);
+        formData.append('table_id', tableId);
+        formData.append('reservation_time', reservationTimeISO);
+        formData.append('payment_amount', paymentAmount);
+        formData.append('payment_method', paymentMethod);
+        formData.append('proof_of_payment', this.proofOfPayment); // Attach file
 
-    // Extract userId and tableId
-    const userId = parseInt(sessionStorage.getItem("id"), 10); // Ensure userId is an integer
-    const tableId = this.currentTable ? parseInt(this.currentTable.table_id, 10) : null; // Ensure tableId is an integer
-
-    // Check for missing required parameters
-    if (!userId || !tableId || !this.selectedDateTime) {
-        this.showNotification('error', 'Missing required parameters. Please ensure all fields are filled.');
-        return;
-    }
-
-    // Prepare payment details (dummy values, replace with actual user input if needed)
-    const paymentAmount = parseFloat(this.paymentAmount || 0).toFixed(2); // Ensure payment amount is a float
-    const paymentMethod = this.paymentMethod || 'Credit Card'; // Replace with actual method if needed
-
-    // Log the payload for debugging
-    console.log('Payload being sent:', {
-        user_id: userId,
-        table_id: tableId,
-        reservation_time: reservationTimeISO,
-        order_items: orderItems,
-        payment_amount: paymentAmount,
-        payment_method: paymentMethod
-    });
-
-    try {
-        // Send the request to the server to create the reservation
-        const createResponse = await axios.post("/reservations", {
-            user_id: userId,
-            table_id: tableId,
-            reservation_time: reservationTimeISO,
-            order_items: orderItems,
-            payment_amount: paymentAmount,
-            payment_method: paymentMethod
-        }, {
-            headers: {
-                'Content-Type': 'application/json'
-            }
+        // Add order items to form data
+        orderItems.forEach((item, index) => {
+            formData.append(`order_items[${index}][menu_id]`, item.menu_id);
+            formData.append(`order_items[${index}][quantity]`, item.quantity);
         });
 
-        if (createResponse.status === 200) {
-            // Handle successful response
-            this.showNotification('success', createResponse.data.message || 'Table reservation with menu successful!');
-            this.errors = {}; // Clear errors on successful request
-            this.resetForm(); // Reset the form
-            console.log('Reservation ID:', createResponse.data.reservation_id);
+        try {
+            const createResponse = await axios.post("/reservations", formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data' // Important for file upload
+                }
+            });
+
+            if (createResponse.status === 200) {
+              this.tableModalVisible = false;
+                this.showNotification('success', 'Table reservation with menu successful!');
+                this.resetForm();
+            }
+        } catch (error) {
+            console.error("Error reserving table with menu", error);
         }
-    } catch (error) {
-        console.error("Error reserving table with menu", error);
-        if (error.response) {
-            console.error('Server responded with:', error.response.data);
-            this.errors = error.response.data.errors || {}; // Set errors from server response
-            this.showNotification('error', error.response.data.message || "Reservation failed");
-        }
-    }
-},
+    },
+
         showNotification(type, message) {
             this.notification = { show: true, type, message };
             setTimeout(() => this.notification.show = false, 2000);
@@ -836,54 +975,63 @@ export default {
         closeMenuModal() {
             // Logic to close the menu modal
         },
+        async bookCottage() {
+  if (!this.checkAuth()) return; // Check authentication before proceeding
 
-    async bookCottage() {
-      if (!this.checkAuth()) return; // Check authentication before proceeding
+  this.notification.show = false;
 
-      this.notification.show = false;
-      try {
-        const userId = sessionStorage.getItem("id");
-        const cottageId = this.selectedCottage ? this.selectedCottage.cottage_id : null;
+  try {
+    const userId = sessionStorage.getItem("id");
+    const cottageId = this.selectedCottage ? this.selectedCottage.cottage_id : null;
 
-        console.log('User ID:', userId);
-        console.log('Cottage ID:', cottageId);
-        console.log('Selected Time:', this.selectedTime);
-        console.log('Selected Timeout:', this.selectedTimeout);
+    if (!userId || !cottageId || !this.selectedTime || !this.selectedTimeout || !this.downpayment || !this.proofOfDownpayment) {
+      throw new Error("Missing required parameters. Please ensure all fields are filled.");
+    }
 
-        if (!userId || !cottageId || !this.selectedTime || !this.selectedTimeout) {
-          throw new Error("Missing required parameters. Please ensure all fields are filled.");
-        }
+    const formData = new FormData();
+    formData.append('user_id', userId);
+    formData.append('selectedTime', new Date(this.selectedTime).toISOString());
+    formData.append('selectedTimeout', new Date(this.selectedTimeout).toISOString());
+    formData.append('cottage_id', cottageId);
+    formData.append('downpayment', this.downpayment);
+    
+    // Ensure the file exists and is valid
+    if (this.proofOfDownpayment) {
+      formData.append('proofOfDownpayment', this.proofOfDownpayment);
+    } else {
+      throw new Error("Please upload the proof of downpayment.");
+    }
 
-        const selectedTimeISO = new Date(this.selectedTime).toISOString();
-        const selectedTimeoutISO = new Date(this.selectedTimeout).toISOString();
-
-        const response = await axios.post("cottageBooking", {
-          user_id: userId,
-          selectedTime: selectedTimeISO,
-          selectedTimeout: selectedTimeoutISO,
-          cottage_id: cottageId,
-        });
-
-        if (response.status === 200) {
-          this.notification = {
-            show: true,
-            type: 'success',
-            message: response.data.message || 'Booking successful!'
-          };
-          this.selectedTime = "";
-          this.selectedTimeout = "";
-          setTimeout(() => this.notification.show = false, 2000);
-        }
-      } catch (error) {
-        console.error("Error booking", error);
-        this.notification = {
-          show: true,
-          type: 'error',
-          message: error.response?.data?.message || "Booking failed"
-        };
-        setTimeout(() => this.notification.show = false, 2000);
+    // Send formData using axios
+    const response = await axios.post("cottageBooking", formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
       }
-    },
+    });
+
+    if (response.status === 200) {
+      this.notification = {
+        show: true,
+        type: 'success',
+        message: response.data.message || 'Booking successful!'
+      };
+      this.selectedTime = "";
+      this.selectedTimeout = "";
+      this.downpayment = "";
+      this.proofOfDownpayment = null;
+      setTimeout(() => this.notification.show = false, 2000);
+      this.timeSelectionModalVisible = false;
+    }
+  } catch (error) {
+    console.error("Error booking", error);
+    this.notification = {
+      show: true,
+      type: 'error',
+      message: error.response?.data?.message || "Booking failed"
+    };
+    setTimeout(() => this.notification.show = false, 2000);
+  }
+  },
 
     calculateCheckoutTime() {
       if (this.selectedTime) {

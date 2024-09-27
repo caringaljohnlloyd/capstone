@@ -567,9 +567,10 @@ public function markResrvationAsPaid($id = null)
             return $this->response->setStatusCode(500)->setJSON(['message' => 'Internal Server Error']);
         }
     }    
+
     public function createReservation()
     {
-        $data = $this->request->getJSON(true);
+        $data = $this->request->getPost();
         log_message('debug', 'Received reservation data: ' . print_r($data, true));
     
         $errors = [];
@@ -592,34 +593,34 @@ public function markResrvationAsPaid($id = null)
         } elseif (!$this->isValidISO8601($data['reservation_time'])) {
             $errors['reservation_time'] = 'Reservation time must be a valid ISO 8601 datetime.';
         }
-
-        // Payment validation
+    
         if (empty($data['payment_amount'])) {
             $errors['payment_amount'] = 'Payment amount is required.';
         } elseif (!is_numeric($data['payment_amount']) || $data['payment_amount'] <= 0) {
             $errors['payment_amount'] = 'Payment amount must be a positive numeric value.';
         }
-
+    
         if (empty($data['payment_method'])) {
             $errors['payment_method'] = 'Payment method is required.';
         }
     
         if (empty($data['order_items']) || !is_array($data['order_items'])) {
             $errors['order_items'] = 'Order items are required and must be a non-empty array.';
-        } else {
-            foreach ($data['order_items'] as $index => $item) {
-                if (empty($item['menu_id']) || !is_numeric($item['menu_id'])) {
-                    $errors['order_items'][$index]['menu_id'] = 'Each order item must have a valid menu_id.';
-                }
-                if (empty($item['quantity']) || !is_numeric($item['quantity'])) {
-                    $errors['order_items'][$index]['quantity'] = 'Each order item must have a valid quantity.';
-                }
-            }
         }
     
         if (!empty($errors)) {
-            log_message('error', 'Validation errors: ' . print_r($errors, true));
             return $this->response->setStatusCode(400)->setJSON(['message' => 'Validation errors', 'errors' => $errors]);
+        }
+    
+        // Handle proof of payment file upload
+        if ($file = $this->request->getFile('proof_of_payment')) {
+            if ($file->isValid() && !$file->hasMoved()) {
+                $newName = $file->getRandomName();
+                $file->move(FCPATH . 'uploads', $newName); // Change to FCPATH
+                $data['proof_of_payment'] = $newName; // Save file name to database
+            } else {
+                return $this->response->setStatusCode(400)->setJSON(['message' => 'Proof of payment file upload failed.']);
+            }
         }
     
         // Load models
@@ -627,7 +628,6 @@ public function markResrvationAsPaid($id = null)
         $orderItemModel = model(OrderItemModel::class);
         $tableOrderModel = model(TableOrdersModel::class);
     
-        // Check if models are loaded correctly
         if (!$reservationModel || !$orderItemModel || !$tableOrderModel) {
             log_message('error', 'One or more models are not loaded.');
             return $this->response->setStatusCode(500)->setJSON(['message' => 'Internal server error']);
@@ -638,15 +638,16 @@ public function markResrvationAsPaid($id = null)
     
         // Prepare reservation data
         $reservationData = [
-            'user_id'           => $data['user_id'],
-            'table_id'          => $data['table_id'],
+            'user_id' => $data['user_id'],
+            'table_id' => $data['table_id'],
             'reservation_time' => $data['reservation_time'],
-            'status'            => 'pending', // Combined status
-            'payment_amount'    => $data['payment_amount'],
-            'payment_method'    => $data['payment_method'],
+            'status' => 'pending', // Combined status
+            'payment_amount' => $data['payment_amount'],
+            'payment_method' => $data['payment_method'],
+            'proof_of_payment' => $data['proof_of_payment'] // Save the file name here
         ];
     
-        // Validate and save reservation data
+        // Save reservation data
         if (!$reservationModel->save($reservationData)) {
             $errors = $reservationModel->errors();
             log_message('error', 'Reservation validation errors: ' . print_r($errors, true));
@@ -656,7 +657,7 @@ public function markResrvationAsPaid($id = null)
     
         $reservationId = $reservationModel->getInsertID();
     
-        // Validate and save order items
+        // Save order items
         foreach ($data['order_items'] as $item) {
             if (!$orderItemModel->save([
                 'reservation_id' => $reservationId,
@@ -691,6 +692,7 @@ public function markResrvationAsPaid($id = null)
     
         return $this->response->setStatusCode(200)->setJSON(['message' => 'Reservation created successfully', 'reservation_id' => $reservationId]);
     }
+    
     private function isValidISO8601($datetime): bool
     {
         // Regular expression for ISO 8601 format
@@ -953,11 +955,24 @@ public function deleteMenuItem($id)
     }
     public function cottageBooking()
     {
-        $json = $this->request->getJSON(true); // true to get as associative array
-    
-        if (!$json || !isset($json['cottage_id']) || !isset($json['selectedTime']) || !isset($json['selectedTimeout']) || !isset($json['user_id'])) {
+        // Log incoming request for debugging
+        log_message('debug', 'Request body: ' . json_encode($this->request->getPost()));
+        
+        $json = $this->request->getPost(); // Use getPost() for form data
+        
+        if (!$json || !isset($json['cottage_id']) || !isset($json['selectedTime']) || !isset($json['selectedTimeout']) || !isset($json['user_id']) || !isset($json['downpayment'])) {
             return $this->fail('Missing required parameters', 400);
         }
+    
+        // Handle proof of downpayment file
+        $file = $this->request->getFile('proofOfDownpayment');
+        if (!$file || !$file->isValid()) {
+            return $this->fail('File upload error', 400);
+        }
+    
+        // Move file to public/uploads directory
+        $fileName = $file->getRandomName();
+        $file->move(FCPATH . 'uploads', $fileName); // Change to FCPATH
     
         $bookingModel = new CottageBookingModel();
         $cottageModel = new CottageModel();
@@ -972,6 +987,8 @@ public function deleteMenuItem($id)
             'selectedTime' => $json['selectedTime'],
             'selectedTimeout' => $json['selectedTimeout'],
             'cottage_id' => $json['cottage_id'],
+            'downpayment' => $json['downpayment'],
+            'proof_of_downpayment' => $fileName,  // Save file name in DB
         ];
     
         if ($bookingModel->save($data) === false) {
@@ -1845,7 +1862,7 @@ public function deleteAmenity($id = null)
         $file = $this->request->getFile('downpaymentProof');
         if ($file && $file->isValid() && !$file->hasMoved()) {
             $newName = $file->getRandomName();
-            $filePath = 'uploads/' . $newName; // Relative path for database storage
+            $filePath = $newName; // Relative path for database storage
             
             // Ensure the directory exists
             if (!is_dir($uploadPath)) {
@@ -2157,62 +2174,78 @@ public function deleteAmenity($id = null)
         }
     }
 
-    public function checkout()
-    {
+    public function checkout() {
         $this->invoice = new InvoiceModel();
         $this->orderitems = new OrderListModel();
         $this->orders = new OrderSModel();
-
-        $json = $this->request->getJSON();
-        $id = $json->id;
-
-        foreach ($json->items as $item) {
-            $shopModel = new ShopModel();
-            $product = $shopModel->find($item->shop_id);
-
-            if (!$product || $product['prod_quantity'] < $item->quantity) {
-                return $this->respond(['message' => 'Insufficient stock for one or more items'], 400);
-            }
+    
+        // Accessing the uploaded file
+        $downpaymentProof = $this->request->getFile('downpayment_proof');
+        $downpaymentProofPath = null;
+    
+        if ($downpaymentProof && $downpaymentProof->isValid() && !$downpaymentProof->hasMoved()) {
+            // Move the file to the desired location
+            $downpaymentProofPath = 'uploads/' . $downpaymentProof->getName();
+            $downpaymentProof->move('uploads/'); // Ensure this directory exists
         }
-
-        $order = [
-            'id' => $id,
-            'order_status' => 'pending',
-            'total_price' => $json->total_price,
-            'order_payment_method' => $json->order_payment_method
-        ];
-
-        $this->orders->save($order);
-
-        $order_id = $this->orders->insertID();
-
-        foreach ($json->items as $item) {
-            $orderitem = [
+    
+        // Accessing the JSON data
+        $orderData = $this->request->getPost('orderData');
+        if ($orderData) {
+            $json = json_decode($orderData);
+            $id = $json->id;
+    
+            // Validate items
+            foreach ($json->items as $item) {
+                $shopModel = new ShopModel();
+                $product = $shopModel->find($item->shop_id);
+    
+                if (!$product || $product['prod_quantity'] < $item->quantity) {
+                    return $this->respond(['message' => 'Insufficient stock for one or more items'], 400);
+                }
+            }
+    
+            // Process the order
+            $order = [
                 'id' => $id,
-                'shop_id' => $item->shop_id,
-                'quantity' => $item->quantity,
-                'final_price' => $item->total_price,
+                'order_status' => 'pending',
+                'total_price' => $json->total_price,
+                'order_payment_method' => $json->order_payment_method,
+                'downpayment_proof' => $downpaymentProofPath, // Store the path in the database
+            ];
+    
+            $this->orders->save($order);
+            $order_id = $this->orders->insertID();
+    
+            foreach ($json->items as $item) {
+                $orderitem = [
+                    'id' => $id,
+                    'shop_id' => $item->shop_id,
+                    'quantity' => $item->quantity,
+                    'final_price' => $item->total_price,
+                    'order_id' => $order_id,
+                ];
+    
+                $this->orderitems->save($orderitem);
+            }
+    
+            $inv = [
+                'id' => $id,
                 'order_id' => $order_id,
             ];
-
-            $this->orderitems->save($orderitem);
-        }
-
-        $inv = [
-            'id' => $id,
-            'order_id' => $order_id,
-        ];
-
-        $this->invoice->save($inv);
-
-
-        if ($this->orders->affectedRows() > 0 && $this->orderitems->affectedRows() > 0 && $this->invoice->affectedRows() > 0) {
-            return $this->respond(['message' => 'Checkout successful'], 200);
+    
+            $this->invoice->save($inv);
+    
+            if ($this->orders->affectedRows() > 0 && $this->orderitems->affectedRows() > 0 && $this->invoice->affectedRows() > 0) {
+                return $this->respond(['message' => 'Checkout successful'], 200);
+            } else {
+                return $this->respond(['message' => 'Checkout failed'], 500);
+            }
         } else {
-            return $this->respond(['message' => 'Checkout failed'], 500);
+            return $this->respond(['message' => 'Invalid order data'], 400);
         }
     }
-
+    
 
     public function markOrderPaid($orderId)
     {

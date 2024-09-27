@@ -32,3 +32,47 @@ in APPPATH\Controllers\MainController.php on line 2770.
  3 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
  4 FCPATH\index.php(86): CodeIgniter\CodeIgniter->run()
  5 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\capsproj\\backend\\backend\\public\\index.php')
+ERROR - 2024-09-21 15:05:12 --> mysqli_sql_exception: Unknown column 'proof_of_payment' in 'field list' in C:\laragon\www\capstonee\backend\backend\system\Database\MySQLi\Connection.php:306
+Stack trace:
+#0 C:\laragon\www\capstonee\backend\backend\system\Database\MySQLi\Connection.php(306): mysqli->query('INSERT INTO `re...', 0)
+#1 C:\laragon\www\capstonee\backend\backend\system\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `re...')
+#2 C:\laragon\www\capstonee\backend\backend\system\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `re...')
+#3 C:\laragon\www\capstonee\backend\backend\system\Database\BaseBuilder.php(2308): CodeIgniter\Database\BaseConnection->query('INSERT INTO `re...', Array, false)
+#4 C:\laragon\www\capstonee\backend\backend\system\Model.php(319): CodeIgniter\Database\BaseBuilder->insert()
+#5 C:\laragon\www\capstonee\backend\backend\system\BaseModel.php(788): CodeIgniter\Model->doInsert(Array)
+#6 C:\laragon\www\capstonee\backend\backend\system\Model.php(715): CodeIgniter\BaseModel->insert(Array, false)
+#7 C:\laragon\www\capstonee\backend\backend\system\BaseModel.php(698): CodeIgniter\Model->insert(Array, false)
+#8 C:\laragon\www\capstonee\backend\backend\app\Controllers\MainController.php(651): CodeIgniter\BaseModel->save(Array)
+#9 C:\laragon\www\capstonee\backend\backend\system\CodeIgniter.php(942): App\Controllers\MainController->createReservation()
+#10 C:\laragon\www\capstonee\backend\backend\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+#11 C:\laragon\www\capstonee\backend\backend\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\laragon\www\capstonee\backend\backend\public\index.php(86): CodeIgniter\CodeIgniter->run()
+#13 C:\laragon\www\capstonee\backend\backend\system\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\...')
+#14 {main}
+ERROR - 2024-09-21 15:05:12 --> Reservation validation errors: Array
+(
+    [CodeIgniter\Database\MySQLi\Connection] => Unknown column 'proof_of_payment' in 'field list'
+)
+
+ERROR - 2024-09-21 15:05:15 --> mysqli_sql_exception: Unknown column 'proof_of_payment' in 'field list' in C:\laragon\www\capstonee\backend\backend\system\Database\MySQLi\Connection.php:306
+Stack trace:
+#0 C:\laragon\www\capstonee\backend\backend\system\Database\MySQLi\Connection.php(306): mysqli->query('INSERT INTO `re...', 0)
+#1 C:\laragon\www\capstonee\backend\backend\system\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `re...')
+#2 C:\laragon\www\capstonee\backend\backend\system\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `re...')
+#3 C:\laragon\www\capstonee\backend\backend\system\Database\BaseBuilder.php(2308): CodeIgniter\Database\BaseConnection->query('INSERT INTO `re...', Array, false)
+#4 C:\laragon\www\capstonee\backend\backend\system\Model.php(319): CodeIgniter\Database\BaseBuilder->insert()
+#5 C:\laragon\www\capstonee\backend\backend\system\BaseModel.php(788): CodeIgniter\Model->doInsert(Array)
+#6 C:\laragon\www\capstonee\backend\backend\system\Model.php(715): CodeIgniter\BaseModel->insert(Array, false)
+#7 C:\laragon\www\capstonee\backend\backend\system\BaseModel.php(698): CodeIgniter\Model->insert(Array, false)
+#8 C:\laragon\www\capstonee\backend\backend\app\Controllers\MainController.php(651): CodeIgniter\BaseModel->save(Array)
+#9 C:\laragon\www\capstonee\backend\backend\system\CodeIgniter.php(942): App\Controllers\MainController->createReservation()
+#10 C:\laragon\www\capstonee\backend\backend\system\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MainController))
+#11 C:\laragon\www\capstonee\backend\backend\system\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 C:\laragon\www\capstonee\backend\backend\public\index.php(86): CodeIgniter\CodeIgniter->run()
+#13 C:\laragon\www\capstonee\backend\backend\system\Commands\Server\rewrite.php(47): require_once('C:\\laragon\\www\\...')
+#14 {main}
+ERROR - 2024-09-21 15:05:15 --> Reservation validation errors: Array
+(
+    [CodeIgniter\Database\MySQLi\Connection] => Unknown column 'proof_of_payment' in 'field list'
+)
+
