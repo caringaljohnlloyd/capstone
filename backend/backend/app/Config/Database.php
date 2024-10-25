@@ -27,9 +27,9 @@ class Database extends Config
     public array $default = [
         'DSN'          => '',
         'hostname'     => 'localhost',
-        'username'     => 'root',
-        'password'     => '',
-        'database'     => 'crud',
+        'username'     => 'u127431254_eduardos',
+        'password'     => ';l9*Rmk8S*Y',
+        'database'     => 'u127431254_eduardoappdb',
         'DBDriver'     => 'MySQLi',
         'DBPrefix'     => '',
         'pConnect'     => false,

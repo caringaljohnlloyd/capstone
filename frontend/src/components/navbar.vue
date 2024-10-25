@@ -331,66 +331,80 @@
   </div>
 </div>
 
-<!-- Room Modal -->
 <div v-if="roomModalVisible" class="modal fade show" tabindex="-1" role="dialog" style="display: block;">
-  <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">{{ selectedRooms.length > 1 ? 'Select Rooms' : selectedRooms[0].room_name }}</h5>
-        <button type="button" class="close" @click="closeRoomModal">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="row">
-          <div v-for="room in selectedRooms" :key="room.room_id" class="col-md-6 mb-4">
-            <div class="card h-100">
-              <img class="img-fluid menu" style="width: 200%; max-width: 500px; height: 330px;"
-              :src="`http://localhost:8080/uploads/${room.image}`" alt="" />
-                            <div class="card-body">
-                <h5 class="card-title">{{ room.room_name }}</h5>
-                <p class="card-text">{{ room.description }}</p>
-                <ul class="list-group list-group-flush">
-                  <li class="list-group-item">Number of Packs: {{ room.packs }}</li>
-                  <li class="list-group-item">Price: Php.{{ room.price }} | 500 {{ room.downpayment }}</li>
-                  <li class="list-group-item">Number of Beds: {{ room.bed }}</li>
-                  <li class="list-group-item">Number of Baths: {{ room.bath }}</li>
-                </ul>
-                <input type="checkbox" v-model="room.selected">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">{{ selectedRooms.length > 1 ? 'Select Rooms' : selectedRooms[0].room_name }}</h5>
+          <button type="button" class="close" @click="closeRoomModal">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div v-for="room in selectedRooms" :key="room.room_id" class="col-md-6 mb-4">
+              <div class="card h-100">
+                <img class="img-fluid" style="height: 200px; object-fit: cover;" 
+                     :src="`https://eduardos-resort.online/backend/backend/public/uploads/${room.image}`" alt="" />
+                <div class="card-body">
+                  <h5 class="card-title">{{ room.room_name }}</h5>
+                  <p class="card-text">{{ room.description }}</p>
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Number of Packs: {{ room.packs }}</li>
+                    <li class="list-group-item">Price: Php.{{ room.price }}</li>
+
+                  </ul>
+                  <input type="checkbox" v-model="room.selected"> <!-- Checkbox for selecting rooms -->
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="text-center mt-3">
-        <button @click="bookSelectedRooms" class="btn btn-primary">Book Selected Rooms</button>
+        <div class="text-center mt-3">
+          <button class="btn btn-primary" @click="bookSelectedRooms">Book A Luxury Room</button>
+        </div>
       </div>
     </div>
+  </div>  
+  <Booking
+  v-if="bookingModalVisible"
+  :selected-room-ids="selectedRoomIds"
+  :selected-room-names="selectedRoomNames"
+  :downpayment="downpayment" 
+  @update-downpayment="downpayment = $event" 
+  @close="closeBookingModal"
+/>
+
+
+
+
+
+
   </div>
-</div>
 
 <!-- Cottage Modal -->
 <div v-if="cottageModalVisible" class="modal fade show" tabindex="-1" role="dialog" style="display: block;">
-  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Select Cottage</h5>
-        <button type="button" class="close" @click="closeCottageModal">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="row">
-          <div v-for="cottage in cottages" :key="cottage.cottage_id" class="col-md-6 mb-4">
-            <div class="card h-100">
-              <img :src="`http://localhost:8080/uploads/${cottage.cottage_image}`" class="card-img-top" :alt="cottage.cottage_name">
-              <div class="card-body">
-                <h5 class="card-title">{{ cottage.cottage_name }}</h5>
-                <p class="card-text">{{ cottage.cottage_description }}</p>
-                <ul class="list-group list-group-flush">
-                  <li class="list-group-item">Price: Php.{{ cottage.cottage_price }}</li>
-                </ul>
-                <button type="button" class="btn btn-primary" @click="openTimeSelectionModal(cottage)">Select Time</button>
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Select Cottage</h5>
+          <button type="button" class="close" @click="closeCottageModal">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div v-for="cottage in cottages" :key="cottage.cottage_id" class="col-md-6 mb-4">
+              <div class="card h-100">
+                <img :src="`https://eduardos-resort.online/backend/backend/public/uploads/${cottage.cottage_image}`" class="card-img-top" :alt="cottage.cottage_name">
+                <div class="card-body">
+                  <h5 class="card-title">{{ cottage.cottage_name }}</h5>
+                  <p class="card-text">{{ cottage.cottage_description }}</p>
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Price: Php.{{ cottage.cottage_price }}</li>
+                  </ul>
+                  <button type="button" class="btn btn-primary" @click="openTimeSelectionModal(cottage)">Select Time</button>
+                </div>
               </div>
             </div>
           </div>
@@ -398,7 +412,6 @@
       </div>
     </div>
   </div>
-</div>
 
 <!-- Time Selection Modal -->
 <div v-if="timeSelectionModalVisible" class="modal fade show" tabindex="-1" role="dialog" style="display: block;">
@@ -412,39 +425,56 @@
       </div>
       <form @submit.prevent="bookCottage">
         <div class="modal-body">
+          <!-- Start Time Input -->
           <label for="selectedTime">Start Time</label>
-          <input type="datetime-local" v-model="selectedTime" class="form-control" :min="minDate" required>
-          
-          <label for="selectedTimeout">End Time</label>
-          <input type="datetime-local" v-model="selectedTimeout" class="form-control" required readonly>
-          
-          <label for="downpayment">Downpayment (Php)</label>
-          <input type="number" v-model="downpayment" class="form-control" min="0" required>
-          
+          <input 
+            type="datetime-local" 
+            v-model="selectedTime" 
+            class="form-control" 
+            :min="minDate" 
+            @change="updateEndTime" 
+            required
+          >
+
+          <!-- End Time Input (Readonly) -->
+          <label for="selectedTimeout">End Time (6 hours later)</label>
+          <input 
+            type="datetime-local" 
+            v-model="selectedTimeout" 
+            class="form-control" 
+            required 
+            readonly
+          >
+
+          <!-- Full Payment -->
+          <label for="downpayment">Full Payment (Php)</label>
+          <input type="number" v-model.number="downpayment" class="form-control" readonly>
+
+          <!-- Proof of Downpayment -->
           <label for="proofOfDownpayment">Proof of Downpayment</label>
-          <input type="file" @change="handleFileUpload" accept="image/*" class="form-control" required>
-          
-          <!-- Button Section for GCASH and PayPal -->
+          <input 
+            type="file" 
+            @change="handleFileUpload" 
+            accept="image/*" 
+            class="form-control" 
+            required
+          >
+
+          <!-- GCASH Button -->
           <div class="d-flex justify-content-between mt-1">
-            <div>
-              <button type="button" class="btn btn-info" @click="openGcashQRCode">
-                <i class="fas fa-qrcode"></i> GCASH
-              </button>
-            </div>
-            <div>
-              <button type="button" class="btn btn-success" @click="openPaypalQRCode">
-                <i class="fa-brands fa-paypal"></i> PayPal
-              </button>
-            </div>
+            <button type="button" class="btn btn-info" @click="openGcashQRCode">
+              <i class="fas fa-qrcode"></i> GCASH
+            </button>
           </div>
         </div>
         <div class="modal-footer">
-          <button class="btn btn-primary">Book Cottage</button>
+          <button class="btn btn-primary" :disabled="isLoading">Book Cottage</button>
         </div>
       </form>
     </div>
   </div>
 </div>
+
 
 <!-- GCash QR Code Modal -->
 <div v-if="showGcashModal" class="modal" tabindex="-1" style="display: block;">
@@ -456,9 +486,9 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body text-center">
+      <div class="modal-body text-center d-flex flex-column align-items-center">
         <!-- QR Code Image (GCash) -->
-        <img src="../assets/img/gcash.jpg" alt="GCash QR Code" >
+        <img src="../assets/img/gcash.jpg" alt="GCash QR Code" class="img-fluid" style="max-width: 100%; height: auto;"/>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" @click="closeGcashModal">Close</button>
@@ -466,26 +496,7 @@
     </div>
   </div>
 </div>
-<!-- Paypal QR Code Modal -->
-<div v-if="showPaypalModal" class="modal" tabindex="-1" style="display: block;">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Scan Paypal QR Code</h5>
-        <button type="button" class="close" @click="closePaypalModal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body text-center">
-        <!-- QR Code Image (Paypal) -->
-        <img src="../assets/img/gcash.jpg" alt="Paypal QR Code" >
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" @click="closePaypalModal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
+
 <!-- Table Modal -->
 <div v-if="tableModalVisible" class="modal fade show" tabindex="-1" role="dialog" style="display: block;">
   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -503,9 +514,6 @@
               <div class="card-body">
                 <h5 class="card-title">{{ table.table_name }}</h5>
                 <p class="card-text">Description: {{ table.table_description }}</p>
-                <ul class="list-group list-group-flush">
-                  <li class="list-group-item">Price: Php{{ table.table_price }}</li>
-                </ul>
                 <button @click="openMenuModal(table)" class="btn btn-primary">Select Menu & Time</button>
               </div>
             </div>
@@ -516,93 +524,106 @@
   </div>
 </div>
 
-<!-- Menu Modal -->
 <div v-if="menuModalVisible" class="modal fade show" tabindex="-1" role="dialog" style="display: block;">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Select Menu & Time for {{ currentTable.table_name }}</h5>
-        <button type="button" class="close" @click="closeMenuModal">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form @submit.prevent="bookTableWithMenu">
-          <section id="menu" class="menu section-bg">
-            <div class="container" data-aos="fade-up">
-              <div class="section-title">
-                <h2>Menu</h2>
-                <p>Check Our Tasty Menu</p>
-              </div>
-              <div class="row" data-aos="fade-up" data-aos-delay="100">
-                <div class="col-lg-12 d-flex justify-content-center">
-                  <ul id="menu-filters" class="row list-unstyled">
-                    <li v-for="category in menuCategories" :key="category" class="col-md-4 col-lg-3 mb-2" @click="filterMenu(category)" :class="{ 'filter-active': currentFilter === category }">
-                      {{ category }}
-                    </li>
-                  </ul>
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Select Menu & Time for {{ currentTable.table_name }}</h5>
+          <button type="button" class="close" @click="closeMenuModal">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form @submit.prevent="bookTableWithMenu">
+            <section id="menu" class="menu section-bg">
+              <div class="container-fluid" data-aos="fade-up">
+                <div class="section-title text-center">
+                  <h2>Menu</h2>
+                  <p>Check Our Tasty Menu</p>
                 </div>
-              </div>
-              <div class="row menu-container" data-aos="fade-up" data-aos-delay="200">
-                <div v-for="item in filteredMenuItems" :key="item.menu_id" class="col-lg-6 menu-item" :class="'filter-' + item.item_category">
 
-                  <div class="menu-content">
-                    <input type="checkbox" :id="'item-' + item.menu_id" :value="item.menu_id" v-model="selectedItems[item.menu_id]">
-                    <label :for="'item-' + item.menu_id">
-                      {{ item.item_name }} - ${{ item.item_price }}
-                    </label>
-                    <input type="number" v-model.number="itemQuantities[item.menu_id]" min="1" :disabled="!selectedItems[item.menu_id]" class="ml-2" placeholder="Qty">
+                <!-- Dropdown for Menu Categories -->
+                <div class="row" data-aos="fade-up" data-aos-delay="100">
+                  <div class="col-lg-12 d-flex justify-content-center mb-3">
+                    <label for="menuCategoriesDropdown">Select Category:</label>
+                    <select id="menuCategoriesDropdown" class="form-control mx-2" v-model="currentFilter" @change="filterMenu(currentFilter)">
+                      <option value="" disabled>Select a Category</option>
+                      <option v-for="category in menuCategories" :key="category" :value="category">{{ category }}</option>
+                    </select>
                   </div>
-                  <div class="menu-ingredients">
-                    {{ item.item_description }}
+                </div>
+
+                <!-- Menu Items Grid -->
+                <div class="row menu-container" data-aos="fade-up" data-aos-delay="200" style="max-height: 400px; overflow-y: auto;">
+                  <div v-for="item in filteredMenuItems" :key="item.menu_id" class="col-lg-4 col-md-6 col-sm-12 mb-4 d-flex align-items-stretch">
+                    <div class="card h-100 w-100">
+                      <img :src="`https://eduardos-resort.online/backend/backend/public/uploads/${item.item_image}`" class="card-img-top img-fluid" 
+                        alt="Menu Item Image" style="height: auto; max-height: 200px; object-fit: cover; width: 100%; display: block;">
+                      <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">
+                          {{ item.item_name }} - ₱{{ item.item_price }}
+                        </h5>
+                        <div class="form-check mt-2">
+                          <input type="checkbox" class="form-check-input" :id="'item-' + item.menu_id" :value="item.menu_id" v-model="selectedItems[item.menu_id]" @change="updateTotalPrice">
+                          <label class="form-check-label" :for="'item-' + item.menu_id">Select</label>
+                        </div>
+                        <input type="number" v-model.number="itemQuantities[item.menu_id]" min="1" :disabled="!selectedItems[item.menu_id]" class="form-control mt-2" placeholder="Qty" @input="updateTotalPrice">
+                        <p class="card-text mt-auto">
+                          {{ item.item_description }}
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
+            </section>
+
+            <div class="form-group">
+              <label for="dateTimeSelection">Date & Time</label>
+              <input 
+                type="datetime-local" 
+                id="dateTimeSelection" 
+                class="form-control" 
+                v-model="selectedDateTime" 
+                required 
+                :min="minDateTime()"  
+              />
             </div>
-          </section>
-          <div class="form-group">
-            <label for="dateTimeSelection">Date & Time</label>
-            <input type="datetime-local" id="dateTimeSelection" class="form-control" v-model="selectedDateTime" required :min="minDateTime">
-          </div>
-          <div class="form-group">
-            <label for="paymentAmount">Payment Amount (₱)</label>
-            <input type="number" id="paymentAmount" class="form-control" v-model.number="paymentAmount" min="0" step="0.01" required>
-          </div>
-          <div class="form-group">
-            <label for="paymentMethod">Payment Method</label>
-            <select id="paymentMethod" class="form-control" v-model="paymentMethod" required>
-              <option value="" disabled>Select Payment Method</option>
-              <option value="Credit Card">Credit Card</option>
-              <option value="Cash">Cash</option>
-              <option value="Paypal">Paypal</option>
-             
-            </select>
-          </div>
-          
-<!-- Proof of Payment Input -->
-<div class="form-group">
-  <label for="proofOfPayment">Proof of Payment</label>
-  <input type="file" id="proofOfPayment" class="form-control" @change="handleFileUpload2" accept="image/*" required>
-</div>
+
+
+            <div class="form-group">
+              <label for="paymentAmount">Payment Amount (₱)</label>
+              <input type="number" id="paymentAmount" class="form-control" v-model.number="totalPaymentAmount" readonly>
+            </div>
+            <div class="form-group">
+              <label for="paymentMethod">Payment Method</label>
+              <select id="paymentMethod" class="form-control" v-model="paymentMethod" required>
+                <option value="">Select Payment Method</option>
+                <option value="GCash">GCash</option>
+              </select>
+            </div>
+
+            <!-- Proof of Payment Input -->
+            <div class="form-group">
+              <label for="proofOfPayment">Proof of Payment</label>
+              <input type="file" id="proofOfPayment" class="form-control" @change="handleFileUpload2" accept="image/*" required>
+            </div>
+
             <!-- Button Section for GCASH and PayPal -->
             <div class="d-flex justify-content-between mt-1">
-            <div>
-              <button type="button" class="btn btn-info" @click="openGcashQRCode2">
-                <i class="fas fa-qrcode"></i> GCASH
-              </button>
+              <div>
+                <button type="button" class="btn btn-info" @click="openGcashQRCode2">
+                  <i class="fas fa-qrcode"></i> GCASH
+                </button>
+              </div>
             </div>
-            <div>
-              <button type="button" class="btn btn-success" @click="openPaypalQRCode2">
-                <i class="fa-brands fa-paypal"></i> PayPal
-              </button>
-            </div>
-          </div>
-          <button type="submit" class="btn btn-primary">Book Table with Menu</button>
-        </form>
+            <button type="submit" class="btn btn-primary mt-3">Book Table with Menu</button>
+          </form>
+        </div>
       </div>
     </div>
   </div>
-</div>
+
 
 <!-- GCash QR Code Modal -->
 <div v-if="showGcashModal2" class="modal" tabindex="-1" style="display: block;">
@@ -614,9 +635,9 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body text-center">
+      <div class="modal-body text-center d-flex flex-column align-items-center">
         <!-- QR Code Image (GCash) -->
-        <img src="../assets/img/gcash.jpg" alt="GCash QR Code" >
+        <img src="../assets/img/gcash.jpg" alt="GCash QR Code" class="img-fluid" style="max-width: 100%; height: auto;"/>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" @click="closeGcashModal2">Close</button>
@@ -625,26 +646,8 @@
   </div>
 </div>
 
-<!-- Paypal QR Code Modal -->
-<div v-if="showPaypalModal2" class="modal" tabindex="-1" style="display: block;">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Scan Paypal QR Code</h5>
-        <button type="button" class="close" @click="closePaypalModal2" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body text-center">
-        <!-- QR Code Image (Paypal) -->
-        <img src="../assets/img/gcash.jpg" alt="Paypal QR Code" >
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" @click="closePaypalModal2">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
+
+
 
 
 
@@ -663,35 +666,17 @@
       </div>
     </div>
 
-    <div class="app" ref="appRef">
-      <form class="d-flex me-2" @submit.prevent="getData">
-        <input
-          v-model="query"
-          class="form-control"
-          type="search"
-          placeholder="Search"
-          aria-label="Search"
-        />
-      </form>
-      <ul class="list-group" v-show="showData">
-        <li class="list-group-item" v-for="(item, index) in data" :key="index">
-          {{ item.matchedWord }}
-        </li>
-        <li class="list-group-item" v-if="showNoMatchMessage && !data.length">
-          No matching word found
-        </li>
-      </ul>
-    </div>
+
     <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"
       ><i class="bi bi-arrow-up"></i
     ></a>
-  </div>
   <router-view />
   <Notification
   :show="notification.show"
   :type="notification.type"
   :message="notification.message"
 />
+
 </template>
 
 <script>
@@ -699,21 +684,33 @@ import Top from "@/components/Top.vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import axios from "axios";
 import Notification from '@/components/Notification.vue';
+import Booking from "@/views/Booking.vue"; // Adjust the path as necessary
+
 
 export default {
   components: {
     Top,
     FontAwesomeIcon,
-    Notification
+    Notification,
+    Booking
   },
   data() {
     return {
+      isLoading: false,
+      menuModalVisible: false,
+      currentTable: {},
+      currentFilter: '',
+      menuCategories: [],
+      filteredMenuItems: [],
+      selectedItems: {},
+      itemQuantities: {},
+      selectedDateTime: "", // Initialize correctly
+      paymentMethod: '',
+      totalPaymentAmount: 0,
       showGcashModal: false,
-      showPaypalModal: false,
       showGcashModal2: false,
-      showPaypalModal2: false,
-      user: null, // Will store the logged-in user's information
-      errors: {}, // To store validation error messages
+      user: null,
+      errors: {},
       query: "",
       data: [],
       showData: false,
@@ -728,10 +725,6 @@ export default {
       tableModalVisible: false,
       tables: [],
       menus: [],
-      menuModalVisible: false,
-      currentTable: null,
-      filteredMenuItems: [],
-      currentFilter: '*',
       selectedMenuItem: null,
       menuItems: [],
       cottages: [],
@@ -739,11 +732,8 @@ export default {
       selectedCottage: null,
       selectedTime: '',
       selectedTimeout: '',
-      minDate: new Date().toISOString().slice(0, 16),
-      selectedDateTime: "", // To hold the combined date and time
-      itemQuantities: {}, // Track quantities by item IDs
-      selectedItems: {}, // Track selected items by their IDs
-      minDateTime: this.getMinDateTime(), // Minimum date-time for selection
+      downpayment: 0,
+      currentDateTime: new Date(),
       notification: {
         show: false,
         type: "",
@@ -751,8 +741,8 @@ export default {
       },
       menuCategories: ['All', 'breakfast', 'rice', 'noodles', 'asian curry', 'soup', 'refreshments', 'sizzling', 'filipino style', 'vegetables']
     };
-
   },
+  
   computed: {
     isAuthenticated() {
       return !!sessionStorage.getItem("token");
@@ -762,7 +752,9 @@ export default {
     },
     authIcon() {
       return this.isAuthenticated ? 'fas fa-power-off logout-icon' : 'fas fa-sign-in-alt login-icon';
-    }
+    },
+
+
   },
   created() {
     // Initialize data and fetch items
@@ -771,29 +763,110 @@ export default {
     this.fetchCottages();
   },
   methods: {
+        minDateTime() {
+    // Create a new Date object for the current date and time
+    const now = new Date();
+    // Return the ISO string format for the min attribute
+    return now.toISOString().slice(0, 16); // Format to "YYYY-MM-DDTHH:MM"
+  },
+    updateEndTime() {
+  if (this.selectedTime) {
+    const startTime = new Date(this.selectedTime);
+    
+    // Add 6 hours (6 * 60 * 60 * 1000 milliseconds)
+    const endTime = new Date(startTime.getTime() + 6 * 60 * 60 * 1000);
+    
+    // Adjust for the user's time zone and format the end time correctly
+    const timezoneOffset = endTime.getTimezoneOffset() * 60000; // Offset in milliseconds
+    const adjustedEndTime = new Date(endTime.getTime() - timezoneOffset);
+
+    // Format the end time as 'YYYY-MM-DDTHH:mm' for 'datetime-local'
+    this.selectedTimeout = adjustedEndTime.toISOString().slice(0, 16);
+  }
+},
+
+    closeRoomModal() {
+    this.roomModalVisible = false; // Close the modal
+  },
+  bookSelectedRooms() {
+  const selectedRooms = this.selectedRooms.filter(room => room.selected); // Filter selected rooms
+  console.log("Selected Rooms:", selectedRooms); // Debug: Log selected rooms
+
+  if (selectedRooms.length > 0) {
+    const selectedRoomIds = selectedRooms.map(room => room.room_id); // Get selected room IDs
+    const selectedRoomNames = selectedRooms.map(room => room.room_name); // Get selected room names
+
+    const totalPrice = selectedRooms.reduce((sum, room) => {
+      const sanitizedPrice = room.price.replace(/,/g, ''); // Remove commas from price string
+      const roomPrice = Number(sanitizedPrice); // Convert to number
+      console.log("Sanitized Room Price (as number):", roomPrice, "for Room:", room.room_name); // Debug: Log each room price
+
+      if (isNaN(roomPrice)) {
+        console.error(`Invalid price for room ${room.room_name}: ${room.price}`);
+        return sum; // Skip invalid prices
+      }
+
+      return sum + roomPrice;
+    }, 0);
+
+    console.log("Total Price Calculated:", totalPrice); // Debug: Log total price
+    this.selectedRoomNames = selectedRoomNames; // Store selected room names
+
+    this.selectedRoomIds = selectedRoomIds; // Store selected room IDs
+    this.totalRoomPrice = totalPrice; // Store total price
+
+    // Calculate downpayment (30%)
+    if (!isNaN(totalPrice) && totalPrice > 0) {
+      this.downpayment = totalPrice * 0.3; // Calculate downpayment
+    } else {
+      this.downpayment = 0; // Set downpayment to 0 if price is invalid
+    }
+
+    console.log("Downpayment Calculated:", this.downpayment); // Debug: Log downpayment value
+
+    // Emit the updated downpayment to the parent
+    this.$emit('update-downpayment', this.downpayment); // Emit event to parent
+
+    this.closeRoomModal(); // Close room selection modal
+    this.bookingModalVisible = true; // Open booking modal
+  } else {
+    alert("Please select at least one room to book.");
+  }
+},
+
+
+  closeBookingModal() {
+    this.bookingModalVisible = false; // Close the booking modal
+  },
+  updateTotalPrice() {
+    this.totalPaymentAmount = 0; // Reset total
+
+    // Loop through selected items to calculate the total
+    for (const itemId in this.selectedItems) {
+      if (this.selectedItems[itemId]) {
+        const item = this.filteredMenuItems.find(i => i.menu_id == itemId); // Find item details
+        const quantity = this.itemQuantities[itemId] || 1; // Get quantity, default to 1 if not set
+
+        if (item) {
+          // Calculate price and update total
+          this.totalPaymentAmount += item.item_price * quantity;
+        }
+      }
+    }
+  },
+
+
     openGcashQRCode() {
       this.showGcashModal = true;
     },
     closeGcashModal() {
       this.showGcashModal = false;
     },
-    openPaypalQRCode() {
-      this.showPaypalModal = true;
-    },
-    closePaypalModal() {
-      this.showPaypalModal = false;
-    },
     openGcashQRCode2() {
       this.showGcashModal2 = true;
     },
     closeGcashModal2() {
       this.showGcashModal2 = false;
-    },
-    openPaypalQRCode2() {
-      this.showPaypalModal2 = true;
-    },
-    closePaypalModal2() {
-      this.showPaypalModal2 = false;
     },
     handleFileUpload2(event) {
         this.proofOfPayment = event.target.files[0]; // Store the file
@@ -868,15 +941,15 @@ export default {
         this.$router.push('/login');
       }
     },
-    // Method to check if the user is authenticated
     checkAuth() {
-      const userId = sessionStorage.getItem("id");
-      if (!userId) {
-        this.$router.push({ name: 'LoginForm' });
-        return false;
-      }
-      return true;
-    },
+  const userId = sessionStorage.getItem("id");
+  if (!userId) {
+    // Redirect to login if the user is not authenticated
+    this.$router.push({ name: 'LoginForm' });
+    return false; // Stop further execution
+  }
+  return true; // Continue if authenticated
+},
 
     getMinDateTime() {
       const now = new Date();
@@ -886,77 +959,107 @@ export default {
 
     // Toggle item selection
     selectMenuItem(item) {
-            console.log("Item selected:", item); // Log item to verify structure
-            if (item && item.menu_id) {
-                this.$set(this.selectedItems, item.menu_id, !this.selectedItems[item.menu_id]);
-            } else {
-                console.error("Item or menu_id is undefined");
-            }
-        },
-        async bookTableWithMenu() {
-        if (!this.checkAuth()) return;
+    console.log("Item selected:", item); // Log item to verify structure
+    if (item && item.menu_id) {
+      const isSelected = !this.selectedItems[item.menu_id]; // Toggle selection state
 
-        if (!this.selectedDateTime) {
-            this.showNotification('error', 'Please select date and time.');
-            return;
-        }
-            // Initialize reservationDateTime
-    const reservationDateTime = new Date(this.selectedDateTime);
+      // Update selection state
+      this.$set(this.selectedItems, item.menu_id, isSelected);
+      
+      // Set quantity to 1 if the item is selected, otherwise remove the quantity
+      if (isSelected) {
+        this.$set(this.itemQuantities, item.menu_id, 1); // Set quantity to 1
+      } else {
+        this.$delete(this.itemQuantities, item.menu_id); // Remove quantity if deselected
+      }
 
-// Ensure the selected date and time is in the future
-if (reservationDateTime <= new Date()) {
+      this.updateTotalPrice(); // Update total price whenever an item is selected/deselected
+    } else {
+      console.error("Item or menu_id is undefined");
+    }
+  },
+
+  async bookTableWithMenu() {
+  // Step 1: Validate the selected date and time
+  if (!this.selectedDateTime) {
+    this.showNotification('error', 'Please select a date and time.');
+    return;
+  }
+
+  // Ensure the selected date and time is in the future
+  const reservationDateTime = new Date(this.selectedDateTime);
+  if (reservationDateTime <= new Date()) {
     this.showNotification('error', 'The selected date and time must be in the future.');
     return;
-}
-        // Ensure at least one menu item is selected
-        const selectedItemIds = Object.keys(this.selectedItems).filter(itemId => this.selectedItems[itemId]);
-        if (selectedItemIds.length === 0) {
-            this.showNotification('error', 'Please select at least one menu item.');
-            return;
-        }
+  }
 
-        const orderItems = selectedItemIds.map(itemId => ({
-            menu_id: parseInt(itemId, 10),
-            quantity: parseInt(this.itemQuantities[itemId] || 1, 10)
-        }));
+  // Step 2: Validate selected menu items
+  const selectedItemIds = Object.keys(this.selectedItems).filter(itemId => this.selectedItems[itemId]);
+  if (selectedItemIds.length === 0) {
+    this.showNotification('error', 'Please select at least one menu item.');
+    return;
+  }
 
-        const userId = parseInt(sessionStorage.getItem("id"), 10);
-        const tableId = this.currentTable ? parseInt(this.currentTable.table_id, 10) : null;
-        const paymentAmount = parseFloat(this.paymentAmount || 0).toFixed(2);
-        const paymentMethod = this.paymentMethod || 'Credit Card';
-        const reservationTimeISO = new Date(this.selectedDateTime).toISOString();
+  // Prepare order items for submission
+  const orderItems = selectedItemIds.map(itemId => ({
+    menu_id: parseInt(itemId, 10),
+    quantity: parseInt(this.itemQuantities[itemId] || 1, 10) // Default to 1 if not specified
+  }));
 
-        // Prepare the form data
-        const formData = new FormData();
-        formData.append('user_id', userId);
-        formData.append('table_id', tableId);
-        formData.append('reservation_time', reservationTimeISO);
-        formData.append('payment_amount', paymentAmount);
-        formData.append('payment_method', paymentMethod);
-        formData.append('proof_of_payment', this.proofOfPayment); // Attach file
+  // Step 3: Prepare data for submission
+  const userId = parseInt(sessionStorage.getItem("id"), 10);
+  const tableId = this.currentTable ? parseInt(this.currentTable.table_id, 10) : null;
+  const paymentAmount = parseFloat(this.totalPaymentAmount || 0).toFixed(2);
+  const paymentMethod = this.paymentMethod || 'Credit Card';
+  const reservationTimeISO = new Date(this.selectedDateTime).toISOString(); // Ensure it’s in ISO 8601 format
 
-        // Add order items to form data
-        orderItems.forEach((item, index) => {
-            formData.append(`order_items[${index}][menu_id]`, item.menu_id);
-            formData.append(`order_items[${index}][quantity]`, item.quantity);
-        });
+  console.log("Payment Amount:", this.totalPaymentAmount);
 
-        try {
-            const createResponse = await axios.post("/reservations", formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data' // Important for file upload
-                }
-            });
+  const formData = new FormData();
+  formData.append('user_id', userId);
+  formData.append('table_id', tableId);
+  formData.append('reservation_time', reservationTimeISO);
+  formData.append('payment_amount', paymentAmount); // Ensure the amount is fixed to 2 decimal points
+  formData.append('payment_method', paymentMethod);
+  
+  // Step 4: Handle proof of payment (if any)
+  if (this.proofOfPayment) {
+    formData.append('proof_of_payment', this.proofOfPayment); // Attach file
+  } else {
+    this.showNotification('error', 'Please upload proof of payment.');
+    return; // Early exit if proof of payment is not provided
+  }
 
-            if (createResponse.status === 200) {
-              this.tableModalVisible = false;
-                this.showNotification('success', 'Table reservation with menu successful!');
-                this.resetForm();
-            }
-        } catch (error) {
-            console.error("Error reserving table with menu", error);
-        }
-    },
+  // Step 5: Add order items to form data
+  orderItems.forEach((item, index) => {
+    formData.append(`order_items[${index}][menu_id]`, item.menu_id);
+    formData.append(`order_items[${index}][quantity]`, item.quantity);
+  });
+
+  // Step 6: Send the data to the backend
+  try {
+    const createResponse = await axios.post("/reservations", formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });
+
+    // Step 7: Handle successful response
+    if (createResponse.status === 200) {
+      this.tableModalVisible = false; // Close modal on success
+      this.showNotification('success', 'Table reservation with menu successful!');
+      this.resetForm(); // Reset form after success
+    }
+  } catch (error) {
+    console.error("Error reserving table with menu", error);
+    // Step 8: Handle error response
+    if (error.response && error.response.data && error.response.data.message) {
+      this.showNotification('error', error.response.data.message);
+    } else {
+      this.showNotification('error', 'Reservation failed. Please try again.');
+    }
+  }
+},
 
         showNotification(type, message) {
             this.notification = { show: true, type, message };
@@ -976,25 +1079,28 @@ if (reservationDateTime <= new Date()) {
             // Logic to close the menu modal
         },
         async bookCottage() {
-  if (!this.checkAuth()) return; // Check authentication before proceeding
-
+  // Reset notification visibility
   this.notification.show = false;
+  this.isLoading = true; // Start loading
 
   try {
+    // Retrieve user ID and cottage ID
     const userId = sessionStorage.getItem("id");
     const cottageId = this.selectedCottage ? this.selectedCottage.cottage_id : null;
 
+    // Check if all required fields are filled
     if (!userId || !cottageId || !this.selectedTime || !this.selectedTimeout || !this.downpayment || !this.proofOfDownpayment) {
       throw new Error("Missing required parameters. Please ensure all fields are filled.");
     }
 
+    // Prepare FormData for the API request
     const formData = new FormData();
     formData.append('user_id', userId);
     formData.append('selectedTime', new Date(this.selectedTime).toISOString());
     formData.append('selectedTimeout', new Date(this.selectedTimeout).toISOString());
     formData.append('cottage_id', cottageId);
     formData.append('downpayment', this.downpayment);
-    
+
     // Ensure the file exists and is valid
     if (this.proofOfDownpayment) {
       formData.append('proofOfDownpayment', this.proofOfDownpayment);
@@ -1009,30 +1115,51 @@ if (reservationDateTime <= new Date()) {
       }
     });
 
+    // Handle successful response
     if (response.status === 200) {
       this.notification = {
         show: true,
         type: 'success',
         message: response.data.message || 'Booking successful!'
       };
-      this.selectedTime = "";
-      this.selectedTimeout = "";
-      this.downpayment = "";
-      this.proofOfDownpayment = null;
-      setTimeout(() => this.notification.show = false, 2000);
-      this.timeSelectionModalVisible = false;
+
+      // Set a timeout to hide the notification after 3 seconds (3000 milliseconds)
+      setTimeout(() => {
+        this.notification.show = false; // Hide the notification after the timeout
+      }, 3000);
+
+      // Reset the booking form
+      this.resetBookingForm(); // Use this method to reset form
     }
   } catch (error) {
     console.error("Error booking", error);
+
+    // Improve error handling for different response statuses
     this.notification = {
       show: true,
       type: 'error',
-      message: error.response?.data?.message || "Booking failed"
+      message: error.response?.data?.message || "Booking failed. Please try again."
     };
-    setTimeout(() => this.notification.show = false, 2000);
-  }
-  },
 
+    // Optional: Additional logging for debugging
+    if (error.response) {
+      console.error("Response data:", error.response.data);
+      console.error("Response status:", error.response.status);
+    } else {
+      console.error("Error message:", error.message);
+    }
+  }
+  finally {
+    this.isLoading = false; // End loading
+  }
+},
+resetBookingForm() {
+  this.selectedTime = "";
+  this.selectedTimeout = "";
+  this.downpayment = "";
+  this.proofOfDownpayment = null;
+  this.timeSelectionModalVisible = false; // Close the modal
+},
     calculateCheckoutTime() {
       if (this.selectedTime) {
         let checkinDate = new Date(this.selectedTime);
@@ -1048,6 +1175,8 @@ if (reservationDateTime <= new Date()) {
       this.selectedCottage = cottage;
       this.timeSelectionModalVisible = true;
       this.cottageModalVisible = false;
+      this.downpayment = cottage.cottage_price; // Set full payment to the price of the selected cottage
+
     },
 
     closeTimeSelectionModal() {
@@ -1105,6 +1234,10 @@ if (reservationDateTime <= new Date()) {
     },
 
     showCottageModal() {
+      const userId = sessionStorage.getItem("id");
+  if (!userId) {
+    this.$router.push({ name: 'LoginForm' });
+  }
       this.fetchCottages();
       this.cottageModalVisible = true;
     },
@@ -1114,16 +1247,16 @@ if (reservationDateTime <= new Date()) {
     },
 
     showTableModal() {
+      const userId = sessionStorage.getItem("id");
+  if (!userId) {
+    this.$router.push({ name: 'LoginForm' });
+  }
       this.tableModalVisible = true;
       this.fetchTables();
     },
 
     closeTableModal() {
       this.tableModalVisible = false;
-    },
-
-    closeRoomModal() {
-      this.roomModalVisible = false;
     },
 
     fetchTables() {
@@ -1136,22 +1269,11 @@ if (reservationDateTime <= new Date()) {
           alert('Failed to load tables. Please try again.');
         });
     },
-
-    bookSelectedRooms() {
-      const selectedRoomIds = this.selectedRooms
-        .filter(room => room.selected)
-        .map(room => room.room_id);
-
-      if (selectedRoomIds.length > 0) {
-        selectedRoomIds.forEach(roomId => {
-          this.$router.push({ name: "booking", params: { id: roomId } });
-        });
-      } else {
-        alert("Please select at least one room to book.");
-      }
-    },
-
     showPackSelectionModal() {
+      const userId = sessionStorage.getItem("id");
+  if (!userId) {
+    this.$router.push({ name: 'LoginForm' });
+  }
       this.packSelectionModalVisible = true;
     },
 
@@ -1582,6 +1704,21 @@ if (reservationDateTime <= new Date()) {
   align-items: center;
   padding: 10px;
 }
+.modal-body {
+  padding: 20px; /* Add some padding for aesthetics */
+}
+
+.modal-content {
+  max-width: 90%; /* Set maximum width for modal content */
+}
+
+@media (max-width: 768px) {
+  .modal-dialog {
+    width: 100%; /* Ensure the modal takes full width on small screens */
+    margin: 0; /* Remove margins */
+  }
+}
+
 
 /* Menu Ingredients */
 .menu-ingredients {

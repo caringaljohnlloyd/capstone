@@ -47,12 +47,12 @@
             <div class="col-12">
               <div class="card card-default">
                 <div class="card-header">
-                  <h2>Current Users</h2>
+                  <h2 class="fa-solid fa-users"> Current Users</h2><br>
                   <span>Realtime</span>
                 </div>
                 <div class="card-body">
                   <div class="table-responsive">
-                    <table class="table table-bordered">
+                    <table class="table table-product">
                       <!-- Table Head -->
                       <thead>
                         <tr>
@@ -76,9 +76,7 @@
                     </table>
                   </div>
                 </div>
-                <div class="card-footer bg-white py-4">
-                  <a href="#" class="text-uppercase">Current Users Overview</a>
-                </div>
+            
               </div>
             </div>
           </div>
@@ -310,9 +308,11 @@ span{
 }
 
 .card-body .modal-body, .card-body .alert, th {
-  font-family: "Edu AU VIC WA NT Hand", cursive;
-  font-weight: bold; 
-  font-size: 17px; 
+  font-family: "Poppins", sans-serif;
+  font-weight: 800;
+  font-style: normal;
+  font-size: large;
+  color:#0F172B;
 }
 .table-product tbody td.action-buttons button,
 .table-product tbody td.action-buttons a, td {
@@ -329,10 +329,15 @@ span{
   white-space: nowrap;
   padding: 0; /* Remove padding */
   margin: 0; /* Remove margin */
+
 }
 .table-product tbody td {
   padding: 12px; /* Ensure padding is consistent */
-  margin: 0; /* Ensure margin is consistent */
+  margin: 0; 
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+  color:#0F172B;/* Ensure margin is consistent */
 }
 
 .table-product tbody tr {
@@ -340,7 +345,7 @@ span{
   padding: 0;
 }
 .table-product tbody tr:hover {
-  background-color: #ff9933; /* Change background color on hover */
+  background-color: rgb(253, 253, 221); /* Change background color on hover */
 }
 /* Header alignment for actions column */
 .actions-header {
@@ -470,9 +475,7 @@ menu.no-scroll {
 .btn-custom i {
   margin-right: 5px; /* Space between icon and text */
 }
-.table tbody tr:hover {
-  background-color: #ff9933; /* Change background color on hover */
-}
+
 .add-item-btn, .table tbody tr td button, .btn-primary {
   font-family: 'Edu AU VIC WA NT Hand', cursive;
   border: none;

@@ -5,7 +5,7 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use App\Models\CottageBookingModel;
 use App\Models\RoomModel;
-use CodeIgniter\RestFul\ResourceController;
+use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\API\ResponseTrait;
 use App\Models\UserModel;
 use App\Models\FeedbackModel;
@@ -34,6 +34,8 @@ use App\Models\OrderItemModel;
 use App\Models\AmenitiesModel;
 use App\Models\RoomAmenitiesModel;
 use App\Models\AmenitiesAuditModel;
+use App\Models\BookingGroupBookings;
+
 
 class MainController extends ResourceController
 {
@@ -58,6 +60,7 @@ class MainController extends ResourceController
     protected $amenitiesModel;
     protected $roomAmenitiesModel;
     protected $cottageModel;
+    protected $bookingModel;
 
 
     public function __construct()
@@ -173,7 +176,7 @@ class MainController extends ResourceController
   // Handle image upload
   private function handleCottageImageUpload($image, $imageName)
   {
-      $uploadPath = 'uploads';
+      $uploadPath = 'backend/public/uploads';
       $image->move($uploadPath, $imageName);
       return $imageName;
   }
@@ -199,7 +202,7 @@ class MainController extends ResourceController
     $json = $this->request->getJSON();
 
     // Validate the received data
-    if (!isset($json->table_name) || !isset($json->table_description) || !isset($json->table_price)) {
+    if (!isset($json->table_name) || !isset($json->table_description)) {
         return $this->respond([
             'status' => 'error',
             'message' => 'Missing required fields'
@@ -209,7 +212,6 @@ class MainController extends ResourceController
     $data = [
         'table_name' => $json->table_name,
         'table_description' => $json->table_description,
-        'table_price' => $json->table_price,
     ];
 
     try {
@@ -257,7 +259,6 @@ public function updateTable($id = null)
         'table_id' => $id,
         'table_name' => $request->getVar('table_name') ?? $existingData['table_name'],
         'table_description' => $request->getVar('table_description') ?? $existingData['table_description'],
-        'table_price' => $request->getVar('table_price') ?? $existingData['table_price'],
     ];
 
     // Check if any data has actually changed
@@ -289,77 +290,78 @@ public function updateTable($id = null)
     }
 }
 
-    public function confirmCottageBooking($id = null)
-    {
-        try {
-            if ($id === null) {
-                return $this->response->setStatusCode(400)->setJSON(['message' => 'No ID provided.']);
-            }
-
-            $bookingModel = new CottageBookingModel();
-            $notificationModel = new NotificationModel();
-
-            // Find the booking
-            $booking = $bookingModel->find($id);
-
-            if (!$booking) {
-                return $this->response->setStatusCode(404)->setJSON(['message' => 'Booking not found.']);
-            }
-
-            if ($booking['cottagebooking_status'] === 'pending') {
-                $bookingModel->update($id, ['cottagebooking_status' => 'confirmed']);
-                $notificationData = [
-                    'id' => $booking['user_id'],
-                    'message' => 'Your cottage booking has been confirmed.'
-                ];
-                $notificationModel->insert($notificationData);
-                return $this->response->setJSON(['message' => 'Cottage booking confirmed successfully']);
-            }
-
-            return $this->response->setJSON(['message' => 'Cottage booking is not pending or already confirmed'], 400);
-        } catch (\Exception $e) {
-            log_message('error', 'Error in confirmCottageBooking: ' . $e->getMessage());
-            return $this->response->setStatusCode(500)->setJSON(['message' => 'Internal Server Error']);
+public function confirmCottageBooking($id = null)
+{
+    try {
+        if ($id === null) {
+            return $this->response->setStatusCode(400)->setJSON(['message' => 'No ID provided.']);
         }
-    }
 
-    public function declineCottageBooking($id = null)
-    {
-        try {
-            if ($id === null) {
-                return $this->response->setStatusCode(400)->setJSON(['message' => 'No ID provided.']);
-            }
-    
-            $bookingModel = new CottageBookingModel();
-            $notificationModel = new NotificationModel();
-    
-            // Find the booking
-            $booking = $bookingModel->find($id);
-    
-            if (!$booking) {
-                return $this->response->setStatusCode(404)->setJSON(['message' => 'Booking not found.']);
-            }
-    
-            if ($booking['cottagebooking_status'] === 'confirmed') {
-                return $this->response->setJSON(['message' => 'Cottage booking cannot be declined because it is already confirmed.'], 400);
-            }
-    
-            if ($booking['cottagebooking_status'] === 'pending') {
-                $bookingModel->update($id, ['cottagebooking_status' => 'declined']);
-                $notificationData = [
-                    'id' => $booking['user_id'],
-                    'message' => 'Your cottage booking has been declined.'
-                ];
-                $notificationModel->insert($notificationData);
-                return $this->response->setJSON(['message' => 'Cottage booking declined successfully']);
-            }
-    
-            return $this->response->setJSON(['message' => 'Cottage booking is not pending or already declined'], 400);
-        } catch (\Exception $e) {
-            log_message('error', 'Error in declineCottageBooking: ' . $e->getMessage());
-            return $this->response->setStatusCode(500)->setJSON(['message' => 'Internal Server Error']);
+        $bookingModel = new CottageBookingModel();
+        $notificationModel = new NotificationModel();
+
+        // Find the booking
+        $booking = $bookingModel->find($id);
+
+        if (!$booking) {
+            return $this->response->setStatusCode(404)->setJSON(['message' => 'Booking not found.']);
         }
+
+        if ($booking['cottagebooking_status'] === 'pending') {
+            $bookingModel->update($id, ['cottagebooking_status' => 'confirmed']);
+            $notificationData = [
+                'id' => $booking['user_id'],
+                'message' => 'Your cottage booking has been confirmed.'
+            ];
+            $notificationModel->insert($notificationData);
+            return $this->response->setJSON(['message' => 'Cottage booking confirmed successfully']);
+        }
+
+        return $this->response->setJSON(['message' => 'Cottage booking is not pending or already confirmed'], 400);
+    } catch (\Exception $e) {
+        log_message('error', 'Error in confirmCottageBooking: ' . $e->getMessage());
+        return $this->response->setStatusCode(500)->setJSON(['message' => 'Internal Server Error']);
     }
+}
+
+public function declineCottageBooking($id = null)
+{
+    try {
+        if ($id === null) {
+            return $this->response->setStatusCode(400)->setJSON(['message' => 'No ID provided.']);
+        }
+
+        $bookingModel = new CottageBookingModel();
+        $notificationModel = new NotificationModel();
+
+        // Find the booking
+        $booking = $bookingModel->find($id);
+
+        if (!$booking) {
+            return $this->response->setStatusCode(404)->setJSON(['message' => 'Booking not found.']);
+        }
+
+        if ($booking['cottagebooking_status'] === 'confirmed') {
+            return $this->response->setJSON(['message' => 'Cottage booking cannot be declined because it is already confirmed.'], 400);
+        }
+
+        if ($booking['cottagebooking_status'] === 'pending') {
+            $bookingModel->update($id, ['cottagebooking_status' => 'declined']);
+            $notificationData = [
+                'id' => $booking['user_id'],
+                'message' => 'Your cottage booking has been declined.'
+            ];
+            $notificationModel->insert($notificationData);
+            return $this->response->setJSON(['message' => 'Cottage booking declined successfully']);
+        }
+
+        return $this->response->setJSON(['message' => 'Cottage booking is not pending or already declined'], 400);
+    } catch (\Exception $e) {
+        log_message('error', 'Error in declineCottageBooking: ' . $e->getMessage());
+        return $this->response->setStatusCode(500)->setJSON(['message' => 'Internal Server Error']);
+    }
+}
+
     public function markCottageBookingAsPaid($id = null)
     {
         try {
@@ -445,7 +447,6 @@ public function updateTable($id = null)
             return $this->response->setStatusCode(500)->setJSON(['message' => 'Internal Server Error']);
         }
     }
-    
     public function confirmReservation($id = null)
     {
         try {
@@ -588,11 +589,14 @@ public function markResrvationAsPaid($id = null)
             $errors['table_id'] = 'Table ID must be a numeric value.';
         }
     
-        if (empty($data['reservation_time'])) {
-            $errors['reservation_time'] = 'Reservation time is required.';
-        } elseif (!$this->isValidISO8601($data['reservation_time'])) {
-            $errors['reservation_time'] = 'Reservation time must be a valid ISO 8601 datetime.';
-        }
+         if (empty($data['reservation_time'])) {
+        $errors['reservation_time'] = 'Reservation time is required.';
+    } elseif (!$this->isValidISO8601($data['reservation_time'])) {
+        $errors['reservation_time'] = 'Reservation time must be a valid ISO 8601 datetime.';
+    } else {
+        // Convert to appropriate format or handle time zone if necessary
+        $data['reservation_time'] = date('Y-m-d H:i:s', strtotime($data['reservation_time'])); // Adjust based on your timezone needs
+    }
     
         if (empty($data['payment_amount'])) {
             $errors['payment_amount'] = 'Payment amount is required.';
@@ -616,7 +620,7 @@ public function markResrvationAsPaid($id = null)
         if ($file = $this->request->getFile('proof_of_payment')) {
             if ($file->isValid() && !$file->hasMoved()) {
                 $newName = $file->getRandomName();
-                $file->move(FCPATH . 'uploads', $newName); // Change to FCPATH
+                $file->move(FCPATH . 'backend/public/uploads/', $newName); // Change to FCPATH
                 $data['proof_of_payment'] = $newName; // Save file name to database
             } else {
                 return $this->response->setStatusCode(400)->setJSON(['message' => 'Proof of payment file upload failed.']);
@@ -774,21 +778,59 @@ public function markResrvationAsPaid($id = null)
 }
 public function addMenuItem()
 {
-    $json = $this->request->getJSON();
+    // Check if the request contains a file upload
+    $file = $this->request->getFile('item_image');
+
+    // Use getPost() to retrieve form data when using 'multipart/form-data'
+    $itemName = $this->request->getPost('item_name');
+    $itemCategory = $this->request->getPost('item_category');
+    $itemPrice = $this->request->getPost('item_price');
 
     // Validate the received data
-    if (!isset($json->item_name) || !isset($json->item_category) || !isset($json->item_price)) {
+    if (empty($itemName) || empty($itemCategory) || empty($itemPrice)) {
         return $this->respond([
             'status' => 'error',
-            'message' => 'Missing required fields'
+            'message' => 'Missing required fields: item_name, item_category, or item_price.'
         ], 400);
     }
 
     $data = [
-        'item_name' => $json->item_name,
-        'item_category' => $json->item_category,
-        'item_price' => $json->item_price,
+        'item_name' => $itemName,
+        'item_category' => $itemCategory,
+        'item_price' => $itemPrice
     ];
+
+    // Check if a file is uploaded and handle file upload
+    if ($file && $file->isValid() && !$file->hasMoved()) {
+        // Validate the file type (e.g., only allow images)
+        $allowedMimeTypes = ['image/jpeg', 'image/png', 'image/gif'];
+        if (!in_array($file->getMimeType(), $allowedMimeTypes)) {
+            return $this->respond([
+                'status' => 'error',
+                'message' => 'Invalid file type. Only JPEG, PNG, and GIF are allowed.'
+            ], 400);
+        }
+
+        // Define the upload directory outside the writable path
+        $uploadDir = FCPATH . 'backend/public/uploads/'; // Adjust the path as needed
+
+        // Ensure the directory exists
+        if (!is_dir($uploadDir)) {
+            mkdir($uploadDir, 0755, true);
+        }
+
+        // Move the file to the uploads directory and generate a unique name
+        $newName = $file->getRandomName();
+        if (!$file->move($uploadDir, $newName)) {
+            return $this->respond([
+                'status' => 'error',
+                'message' => 'Failed to move uploaded file.'
+            ], 500);
+        }
+
+        // Store only the file name in the data array to be saved in the database
+        $data['item_image'] = $newName; // Save only the file name
+    }
 
     try {
         $menuModel = new MenuModel();
@@ -812,57 +854,94 @@ public function addMenuItem()
         ], 500);
     }
 }
-public function updateMenuItem($id = null)
+
+public function updateMenuItem($menu_id = null)
 {
     $request = $this->request;
 
+    // Load the menu model and find the existing item by ID
     $menuModel = new MenuModel();
-
-    $existingData = $menuModel->find($id);
+    $existingData = $menuModel->find($menu_id);
 
     if (empty($existingData)) {
         return $this->respond([
             "status" => "error",
-            "message" => "Record not found"
+            "message" => "Menu item not found"
         ], 404);
     }
 
-    // Gather input data, using existing data if new data is not provided
+    // Gather data
     $data = [
-        'menu_id' => $id,
-        'item_name' => $request->getVar('item_name') ?? $existingData['item_name'],
-        'item_category' => $request->getVar('item_category') ?? $existingData['item_category'],
-        'item_price' => $request->getVar('item_price') ?? $existingData['item_price'],
+        'item_name' => $request->getPost('item_name') ?? $existingData['item_name'],
+        'item_category' => $request->getPost('item_category') ?? $existingData['item_category'],
+        'item_price' => $request->getPost('item_price') ?? $existingData['item_price'],
     ];
 
-    // Check if there are any changes to update
-    if ($data === array_intersect_key($existingData, $data)) {
-        return $this->respond([
-            "status" => "success",
-            "message" => "No changes detected, data not updated"
-        ], 200);
+    // Check if a new image is uploaded
+    $image = $request->getFile('item_image');
+    if ($image && $image->isValid()) {
+        // Generate a new unique name for the image
+        $imageName = $this->generateUniqueMenuFileName($image->getName());
+        
+        // Handle the image upload
+        $this->handleItemImageUpload($image, $imageName);
+        
+        // Set the new image name in the data array
+        $data['item_image'] = $imageName;
+
+        // Optionally delete the old image from the server
+        $this->deleteItemOldImage($existingData['item_image']);
     }
 
-    // Try to update the record
     try {
-        if ($menuModel->update($id, $data)) {
-            return $this->respond([
-                "status" => "success",
-                "message" => "Item updated successfully!"
-            ], 200);
-        } else {
-            return $this->respond([
-                "status" => "error",
-                "message" => "Failed to update item"
-            ], 500);
-        }
+        // Update the menu item with the new data
+        $menuModel->update($menu_id, $data);
+        return $this->respond([
+            "status" => "success",
+            "message" => "Menu item updated successfully"
+        ], 200);
     } catch (\Exception $e) {
         return $this->respond([
             "status" => "error",
-            "message" => "Failed to update data: " . $e->getMessage()
+            "message" => "Failed to update menu item: " . $e->getMessage()
         ], 500);
     }
 }
+
+// Function to delete the old image from the server
+private function deleteItemOldImage($imageName)
+{
+    $filePath = 'uploads/' . $imageName;
+    if (is_file($filePath)) {
+        unlink($filePath);  // Delete the file
+    }
+}
+
+// Function to handle image upload and saving
+private function handleItemImageUpload($image, $newFileName)
+{
+    // Define the upload directory
+    $uploadDir = FCPATH . 'backend/public/uploads/';
+
+    // Ensure the upload directory exists
+    if (!is_dir($uploadDir)) {
+        mkdir($uploadDir, 0755, true);
+    }
+
+    // Move the file to the upload directory with the new unique name
+    if (!$image->move($uploadDir, $newFileName)) {
+        throw new \RuntimeException('Failed to move uploaded file.');
+    }
+}
+
+// Function to generate a unique filename for the uploaded image
+private function generateUniqueMenuFileName($originalName)
+{
+    // Use a unique identifier (e.g., a timestamp and random string) for the file name
+    return uniqid() . '_' . $originalName;
+}
+
+
 
 
 public function deleteMenuItem($id)
@@ -953,50 +1032,57 @@ public function deleteMenuItem($id)
         $data = $orders->findAll();
         return $this->respond($data, 200);
     }
-    public function cottageBooking()
-    {
-        // Log incoming request for debugging
-        log_message('debug', 'Request body: ' . json_encode($this->request->getPost()));
-        
-        $json = $this->request->getPost(); // Use getPost() for form data
-        
-        if (!$json || !isset($json['cottage_id']) || !isset($json['selectedTime']) || !isset($json['selectedTimeout']) || !isset($json['user_id']) || !isset($json['downpayment'])) {
-            return $this->fail('Missing required parameters', 400);
-        }
-    
-        // Handle proof of downpayment file
-        $file = $this->request->getFile('proofOfDownpayment');
-        if (!$file || !$file->isValid()) {
-            return $this->fail('File upload error', 400);
-        }
-    
-        // Move file to public/uploads directory
-        $fileName = $file->getRandomName();
-        $file->move(FCPATH . 'uploads', $fileName); // Change to FCPATH
-    
-        $bookingModel = new CottageBookingModel();
-        $cottageModel = new CottageModel();
-    
-        $cottage = $cottageModel->find($json['cottage_id']);
-        if (!$cottage) {
-            return $this->failNotFound('Cottage not found');
-        }
-    
-        $data = [
-            'user_id' => $json['user_id'],
-            'selectedTime' => $json['selectedTime'],
-            'selectedTimeout' => $json['selectedTimeout'],
-            'cottage_id' => $json['cottage_id'],
-            'downpayment' => $json['downpayment'],
-            'proof_of_downpayment' => $fileName,  // Save file name in DB
-        ];
-    
-        if ($bookingModel->save($data) === false) {
-            return $this->respond(['message' => 'Booking failed', 'errors' => $bookingModel->errors()], 500);
-        }
-    
-        return $this->respond(['message' => 'Booked successfully'], 200);
+public function cottageBooking()
+{
+    // Log incoming request for debugging
+    log_message('debug', 'Request body: ' . json_encode($this->request->getPost()));
+
+    $json = $this->request->getPost(); // Use getPost() for form data
+
+    // Validate parameters
+    if (!$json || !isset($json['cottage_id'], $json['selectedTime'], $json['selectedTimeout'], $json['user_id'], $json['downpayment'])) {
+        return $this->fail('Missing required parameters', 400);
     }
+
+    // Ensure times are stored as UTC
+    $selectedTime = date('Y-m-d H:i:s', strtotime($json['selectedTime']));
+    $selectedTimeout = date('Y-m-d H:i:s', strtotime($json['selectedTimeout']));
+
+    // Handle proof of downpayment file
+    $file = $this->request->getFile('proofOfDownpayment');
+    if (!$file || !$file->isValid()) {
+        return $this->fail('File upload error', 400);
+    }
+
+    // Move file to public/uploads directory
+    $fileName = $file->getRandomName();
+    $file->move(FCPATH . 'backend/public/uploads/', $fileName); // Change to FCPATH
+
+    $bookingModel = new CottageBookingModel();
+    $cottageModel = new CottageModel();
+
+    $cottage = $cottageModel->find($json['cottage_id']);
+    if (!$cottage) {
+        return $this->failNotFound('Cottage not found');
+    }
+
+    // Prepare data for saving
+    $data = [
+        'user_id' => $json['user_id'],
+        'selectedTime' => $selectedTime, // Ensure UTC time is saved
+        'selectedTimeout' => $selectedTimeout, // Ensure UTC time is saved
+        'cottage_id' => $json['cottage_id'],
+        'downpayment' => $json['downpayment'],
+        'proofOfDownpayment' => $fileName,  // Save file name in DB
+    ];
+
+    if ($bookingModel->save($data) === false) {
+        return $this->respond(['message' => 'Booking failed', 'errors' => $bookingModel->errors()], 500);
+    }
+
+    return $this->respond(['message' => 'Booked successfully'], 200);
+}
+
     
     
     
@@ -1729,6 +1815,20 @@ public function deleteAmenity($id = null)
         $data = $main->findAll();
         return $this->respond($data, 200);
     }
+    public function fetchUser($id)
+{
+    $main = new UserModel();
+    
+    // Find user by ID
+    $user = $main->find($id); // Fetch user data by ID
+
+    if ($user) {
+        return $this->respond($user, 200); // Respond with user data
+    } else {
+        return $this->respond(['message' => 'User not found'], 404); // Handle user not found
+    }
+}
+
     public function getBooking($id)
     {
         $main = new BookingModel();
@@ -1744,18 +1844,25 @@ public function deleteAmenity($id = null)
 
     public function getBook()
     {
-        $bookingModel = new BookingModel();
-
-        $result = $bookingModel
-            ->select('booking.*, user.*, room.*')
-            ->join('user', 'user.id = booking.id') // Assuming 'id' is the foreign key in the 'booking' table
-            ->join('room', 'room.room_id = booking.room_id')
-            ->where('booking.booking_status !=', 'paid')
-            ->where('booking.booking_status !=', 'declined')
-            ->findAll();
-
-        return $this->respond($result, 200);
+        $db = \Config\Database::connect();
+        
+        // Query to group bookings by group_id and concatenate room names
+        $query = $db->table('booking')
+            ->select('booking_group.group_id, user.name, GROUP_CONCAT(room.room_name SEPARATOR ", ") as room_names, booking.checkin, booking.checkout, booking.specialRequest, booking.booking_status, booking.payment_method, booking.downpayment, booking.downpaymentProof')
+            ->join('booking_group_bookings', 'booking_group_bookings.book_id = booking.book_id') // Link booking with the group
+            ->join('booking_group', 'booking_group_bookings.group_id = booking_group.group_id') // Link group with the user
+            ->join('user', 'user.id = booking_group.user_id') // Use the user_id from booking_group
+            ->join('room', 'room.room_id = booking.room_id') // Join room table to get room_name
+            ->where('booking.booking_status !=', 'paid') // Exclude paid bookings
+            ->where('booking.booking_status !=', 'declined') // Exclude declined bookings
+            ->groupBy('booking_group.group_id, booking.checkin, booking.checkout, booking.specialRequest, booking.booking_status, booking.payment_method, booking.downpayment, booking.downpaymentProof, user.name') // Group by relevant fields
+            ->get()
+            ->getResultArray(); // Fetch results as an array
+    
+        return $this->respond($query, 200);
     }
+    
+    
     public function getenroll()
     {
         $enrollmentModel = new EnrollmentModel();
@@ -1792,35 +1899,38 @@ public function deleteAmenity($id = null)
 
 
 
-
-
-
-    public function markAsPaid($booking_id)
+    public function markAsPaidByGroup($groupId)
     {
         $roomModel = new RoomModel();
         $bookingModel = new BookingModel();
-
-        $booking = $bookingModel->find($booking_id);
-
-        if ($booking) {
-            $updatedBooking = $bookingModel->update($booking['book_id'], ['booking_status' => 'paid']);
-
-            if ($updatedBooking) {
-                $updatedRoom = $roomModel->update($booking['room_id'], ['room_status' => 'Available']);
-
-                if ($updatedRoom) {
-                    return $this->respond(['message' => 'Booking status updated to "Paid" and room status updated to "Available"', 'booking_id' => $booking['book_id']], 200);
-                } else {
-                    $bookingModel->update($booking['book_id'], ['booking_status' => 'confirmed']);
-                    return $this->respond(['message' => 'Failed to update room status'], 500);
+        $bookingGroupBookingsModel = new BookingGroupBookings();
+    
+        // Fetch all booking IDs for the given group_id
+        $groupBookings = $bookingGroupBookingsModel->where('group_id', $groupId)->findAll();
+    
+        if (count($groupBookings) > 0) {
+            $bookingIds = [];
+            $roomIds = [];
+    
+            foreach ($groupBookings as $groupBooking) {
+                $booking = $bookingModel->find($groupBooking['book_id']);
+                if ($booking) {
+                    $bookingIds[] = $booking['book_id'];
+                    $roomIds[] = $booking['room_id'];
                 }
-            } else {
-                return $this->respond(['message' => 'Failed to update booking status'], 500);
             }
+    
+            // Update bookings and rooms
+            $bookingModel->update($bookingIds, ['booking_status' => 'paid']);
+            $roomModel->update($roomIds, ['room_status' => 'Available']);
+    
+            return $this->respond(['message' => 'All bookings in group ' . $groupId . ' updated to "Paid" and rooms status updated to "Available"'], 200);
         } else {
-            return $this->respond(['message' => 'Booking not found'], 404);
+            return $this->respond(['message' => 'No bookings found for group ' . $groupId], 404);
         }
     }
+    
+    
     public function markthisPaid($enroll_id)
     {
         $enrollmentModel = new EnrollmentModel();
@@ -1843,75 +1953,101 @@ public function deleteAmenity($id = null)
     }
     public function booking()
     {
-        $json = $this->request->getPost(); // Use getPost for form data
-        $room_id = $json['room_id'];
-        $this->room = new RoomModel();
-        $booked = $this->room->where(['room_id' => $room_id])->first();
-        
-        if (!$booked) {
-            return $this->respond(['message' => 'Room not found'], 404);
+        $json = $this->request->getPost();
+    
+        // Check if 'id' is present in the request
+        if (!isset($json['id']) || empty($json['id'])) {
+            return $this->respond(['message' => 'User ID is required'], 400);
         }
-        
-        $expiration = $json['checkout'];
-        $qrCodeData = $json['id'];
-        
-        // Define the upload path relative to the public directory
-        $uploadPath = FCPATH . 'uploads/';
-        
-        // Handle file upload
-        $file = $this->request->getFile('downpaymentProof');
-        if ($file && $file->isValid() && !$file->hasMoved()) {
-            $newName = $file->getRandomName();
-            $filePath = $newName; // Relative path for database storage
-            
-            // Ensure the directory exists
-            if (!is_dir($uploadPath)) {
-                if (!mkdir($uploadPath, 0755, true)) {
-                    return $this->respond(['message' => 'Failed to create upload directory'], 500);
+    
+        $userId = $json['id'];
+    
+        // Log the received User ID for debugging
+        log_message('info', 'Received User ID: ' . $userId);
+    
+        // Check if the user exists
+        $userExists = $this->db->table('user')->where('id', $userId)->countAllResults();
+        if ($userExists == 0) {
+            log_message('error', 'Invalid User ID: ' . $userId);
+            return $this->respond(['message' => 'Invalid User ID'], 400);
+        }
+    
+        // Start transaction
+        $this->db->transBegin();
+    
+        try {
+            // Insert into booking_group table to create a new group for the booking
+            $bookingGroupData = [
+                'user_id' => $userId
+            ];
+            $this->db->table('booking_group')->insert($bookingGroupData);
+            $group_id = $this->db->insertID(); // Get the newly created group_id
+    
+            // Log the creation of the booking group
+            log_message('info', 'Created booking group with group_id: ' . $group_id);
+    
+            // Proceed to handle booking details
+            $room_ids = $this->request->getPost('room_ids'); // Get room IDs as an array
+            foreach ($room_ids as $room_id) {
+                $this->room = new RoomModel();
+                $booked = $this->room->where(['room_id' => $room_id])->first();
+    
+                if (!$booked) {
+                    // Rollback and return error if any room is not found
+                    $this->db->transRollback();
+                    return $this->respond(['message' => 'Room not found'], 404);
                 }
+    
+                // Define the upload path relative to the public directory
+                $uploadPath = FCPATH . 'backend/public/uploads/';
+    
+                // Handle file upload
+                $file = $this->request->getFile('downpaymentProof');
+                if ($file && $file->isValid() && !$file->hasMoved()) {
+                    $newName = $file->getRandomName();
+                    $filePath = $uploadPath . $newName;
+                    $file->move($uploadPath, $newName);
+                }
+    
+                // Prepare booking data
+                $bookingData = [
+                    'id' => $userId,
+                    'checkin' => $json['checkin'],
+                    'checkout' => $json['checkout'],
+                    'specialRequest' => $json['specialRequest'],
+                    'room_id' => $room_id,
+                    'booking_status' => 'pending', // Set initial status
+                    'payment_method' => $json['payment_method'],
+                    'downpayment' => $json['downpayment'],
+                    'downpaymentProof' => $newName ?? null, // If file uploaded
+                ];
+    
+                // Insert booking record into booking table
+                $this->db->table('booking')->insert($bookingData);
+                $book_id = $this->db->insertID(); // Get the inserted book_id
+    
+                // Insert into booking_group_bookings to link book_id with the group
+                $bookingGroupBookingsData = [
+                    'group_id' => $group_id,
+                    'book_id' => $book_id
+                ];
+                $this->db->table('booking_group_bookings')->insert($bookingGroupBookingsData);
+    
+                // Log the successful booking
+                log_message('info', 'Inserted booking with book_id: ' . $book_id . ' into group_id: ' . $group_id);
             }
-            
-            // Try to move the file
-            if ($file->move($uploadPath, $newName)) {
-                // File moved successfully
-            } else {
-                return $this->respond(['message' => 'Failed to move uploaded file'], 500);
-            }
-        } else {
-            return $this->respond(['message' => 'Invalid file upload'], 400);
-        }
-        
-        $data = [
-            'id' => $json['id'],
-            'checkin' => $json['checkin'],
-            'checkout' => $json['checkout'],
-            'specialRequest' => $json['specialRequest'],
-            'room_id' => $json['room_id'],
-            'booking_status' => 'pending',
-            'payment_method' => $json['payment_method'],
-            'downpayment' => $json['downpayment'],
-            'booking_qr' => $qrCodeData,
-            'expiration' => $expiration,
-            'downpaymentProof' => $filePath, // Save relative file path or filename in database
-        ];
-        
-        $booking = new BookingModel();
-        if ($booking->save($data)) {
-            if ($this->room->update($booked['room_id'], ['room_status' => 'pending'])) {
-                return $this->respond([
-                    'message' => 'Booked successfully',
-                    'booking' => $data, // Include booking data in the response
-                    'expiration' => $expiration,
-                    'booking_qr' => $qrCodeData
-                ], 200);
-            } else {
-                return $this->respond(['message' => 'Failed to update room status'], 500);
-            }
-        } else {
-            return $this->respond(['message' => 'Failed to save booking'], 500);
+    
+            // Commit transaction if all is good
+            $this->db->transCommit();
+    
+            return $this->respond(['message' => 'Booking successful', 'group_id' => $group_id], 200);
+        } catch (\Exception $e) {
+            // Rollback transaction if any error occurs
+            $this->db->transRollback();
+            log_message('error', 'Error in booking process: ' . $e->getMessage());
+            return $this->respond(['message' => 'Booking failed', 'error' => $e->getMessage()], 500);
         }
     }
-    
     
     
     
@@ -1955,65 +2091,63 @@ public function deleteAmenity($id = null)
 
         return $this->respond(['message' => 'Manifest submitted successfully', $result], 200);
     }
-    public function register()
-    {
-        $json = $this->request->getJSON();
-        $email = $json->email;
-
-        // Validate email format
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            return $this->respond(["error" => "Invalid email format"], 400);
-        }
-
-        // Check if email already exists
-        $userModel = new UserModel();
-        $exUser = $userModel->where('email', $email)->first();
-        if ($exUser) {
-            return $this->respond(["error" => "Email already exists"], 400);
-        }
-
-        // Validate password format
-        $password = $json->password;
-        if (!preg_match('/[A-Za-z]/', $password) || !preg_match('/[0-9]/', $password) || !preg_match('/[^A-Za-z0-9]/', $password)) {
-            return $this->respond(["error" => "Password must contain at least one letter, one number, and one special character"], 400);
-        }
-
-        // Generate verification token and expiry
-        $token = $this->verification(50);
-        $verificationToken = bin2hex(random_bytes(32));
-        $tokenExpiry = date('Y-m-d H:i:s', strtotime('+2 minutes'));
-
-        // Prepare data to save
-        $data = [
-            'name' => $json->name,
-            'email' => $email,
-            'password' => password_hash($password, PASSWORD_BCRYPT),
-            'address' => $json->address, // Add address field
-            'number' => $json->number,   // Add number field
-            'token' => $token,
-            'status' => 'inactive',
-            'role' => 'user',
-            'ver_token' => $verificationToken,
-            'expiry' => $tokenExpiry,
-        ];
-
-        // Save user data
-        $u = $userModel->save($data);
-
-        // Send verification email
-        $emailController = new \App\Controllers\EmailController();
-        $emailController->sendVerificationEmail($data);
-
-        // Respond based on the result of user registration
-        if ($u) {
-            return $this->respond(['msg' => 'Registered Successfully', 'token' => $token]);
-        } else {
-            return $this->respond(['msg' => 'Error occurred']);
-        }
+    public function register() 
+    { 
+        $json = $this->request->getJSON(); 
+        $email = $json->email; 
+    
+        // Validate email format 
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) { 
+            return $this->respond(["error" => "Invalid email format"], 400); 
+        } 
+    
+        // Check if email already exists 
+        $userModel = new UserModel(); 
+        $exUser = $userModel->where('email', $email)->first(); 
+        if ($exUser) { 
+            return $this->respond(["error" => "Email already exists"], 400); 
+        } 
+    
+        // Validate password format 
+        $password = $json->password; 
+        if (!preg_match('/[A-Za-z]/', $password) || !preg_match('/[0-9]/', $password) || !preg_match('/[^A-Za-z0-9]/', $password)) { 
+            return $this->respond(["error" => "Password must contain at least one letter, one number, and one special character"], 400); 
+        } 
+    
+        // Generate verification token and expiry 
+        $verificationToken = bin2hex(random_bytes(32)); 
+        $tokenExpiry = date('Y-m-d H:i:s', strtotime('+1 hour')); 
+    
+        // Prepare data to save 
+        $data = [ 
+            'name' => $json->name, 
+            'email' => $email, 
+            'password' => password_hash($password, PASSWORD_BCRYPT), 
+            'address' => $json->address, // Add address field 
+            'number' => $json->number,   // Add number field 
+            'token' => $this->verification(50), // Generate the token 
+            'status' => 'inactive', 
+            'role' => 'user', 
+            'ver_token' => $verificationToken, 
+            'expiry' => $tokenExpiry, 
+        ]; 
+    
+        // Save user data 
+        $u = $userModel->save($data); 
+    
+        // Send verification email 
+        $emailController = new \App\Controllers\EmailController(); 
+        $emailController->sendVerificationEmail($data); 
+    
+        // Respond based on the result of user registration 
+        if ($u) { 
+            return $this->respond(['msg' => 'Registered Successfully', 'token' => $data['token']]); 
+        } else { 
+            return $this->respond(['msg' => 'Error occurred']); 
+        } 
     }
-
-
-
+    
+    
 
     public function verification($length)
     {
@@ -2184,9 +2318,12 @@ public function deleteAmenity($id = null)
         $downpaymentProofPath = null;
     
         if ($downpaymentProof && $downpaymentProof->isValid() && !$downpaymentProof->hasMoved()) {
-            // Move the file to the desired location
-            $downpaymentProofPath = 'uploads/' . $downpaymentProof->getName();
-            $downpaymentProof->move('uploads/'); // Ensure this directory exists
+            // Generate a unique filename to avoid overwriting existing files
+            $newFileName = $downpaymentProof->getRandomName(); // Generate a random name for the file
+            $downpaymentProof->move('backend/public/uploads/', $newFileName); // Move the file to the uploads directory
+    
+            // Store only the file name in the variable
+            $downpaymentProofPath = $newFileName; // Store only the filename for the database
         }
     
         // Accessing the JSON data
@@ -2211,9 +2348,10 @@ public function deleteAmenity($id = null)
                 'order_status' => 'pending',
                 'total_price' => $json->total_price,
                 'order_payment_method' => $json->order_payment_method,
-                'downpayment_proof' => $downpaymentProofPath, // Store the path in the database
+                'downpayment_proof' => $downpaymentProofPath, // Store only the filename in the database
             ];
     
+            // Save the order
             $this->orders->save($order);
             $order_id = $this->orders->insertID();
     
@@ -2236,6 +2374,7 @@ public function deleteAmenity($id = null)
     
             $this->invoice->save($inv);
     
+            // Check if the operations were successful
             if ($this->orders->affectedRows() > 0 && $this->orderitems->affectedRows() > 0 && $this->invoice->affectedRows() > 0) {
                 return $this->respond(['message' => 'Checkout successful'], 200);
             } else {
@@ -2246,28 +2385,33 @@ public function deleteAmenity($id = null)
         }
     }
     
+    
+    
 
     public function markOrderPaid($orderId)
     {
+        // Ensure the model is properly loaded
         $ordersModel = new OrdersModel();
         $shopModel = new ShopModel();
-
         $this->orderitems = new OrderListModel();
-
+    
+        // Fetch the order by ID
         $order = $ordersModel->find($orderId);
-
+    
         if ($order && $order['order_status'] === 'confirmed') {
             $ordersModel->update($orderId, ['order_status' => 'paid']);
-
+    
+            // Fetch items related to the order
             $orderItems = $this->orderitems->where('order_id', $orderId)->findAll();
-
+    
             foreach ($orderItems as $item) {
                 $product = $shopModel->find($item['shop_id']);
-
+    
                 if ($product) {
                     $newQuantity = $product['prod_quantity'] - $item['quantity'];
                     $shopModel->update($item['shop_id'], ['prod_quantity' => $newQuantity]);
-
+    
+                    // Log the change in the audit table
                     $auditModel = new AuditModel();
                     $auditData = [
                         'shop_id' => $product['shop_id'],
@@ -2278,64 +2422,69 @@ public function deleteAmenity($id = null)
                     $auditModel->save($auditData);
                 }
             }
-
-            return $this->response->setJSON(['message' => 'Order marked as paid successfully']);
+    
+            // Return a success message with a 200 status
+            return $this->response->setStatusCode(200)->setJSON(['message' => 'Order marked as paid successfully']);
         } else {
-            return $this->response->setJSON(['message' => 'Invalid order or order is not confirmed'], 400);
+            // Return an error message with a 400 status
+            return $this->response->setStatusCode(400)->setJSON(['message' => 'Invalid order or order is not confirmed']);
         }
     }
+    
     public function declineOrder($orderId)
     {
         $ordersModel = new OrdersModel();
         $notificationModel = new NotificationModel();
-
+    
+        // Find the order
         $order = $ordersModel->find($orderId);
-
+    
         if ($order && $order['order_status'] === 'pending') {
-            // Update the order status to 'declined'
+            // Update order status
             $ordersModel->update($orderId, ['order_status' => 'declined']);
-
-            // Insert decline notification into the database
+    
+            // Add a decline notification
             $notificationData = [
                 'id' => $order['id'],
                 'message' => 'Your order has been declined.'
             ];
             $notificationModel->insert($notificationData);
-
-            // Optional: You can perform additional actions specific to declining orders here
-
-            return $this->response->setJSON(['message' => 'Order declined successfully']);
+    
+            // Return a success response
+            return $this->response->setStatusCode(200)->setJSON(['message' => 'Order declined successfully']);
         } else {
-            return $this->response->setJSON(['message' => 'Invalid order or order is not pending'], 400);
+            // Return an error response
+            return $this->response->setStatusCode(400)->setJSON(['message' => 'Invalid order or order is not pending']);
         }
     }
-
-
-
+    
     public function confirmOrder($orderId)
     {
         $ordersModel = new OrdersModel();
         $notificationModel = new NotificationModel();
-
+    
         // Find the order
         $order = $ordersModel->find($orderId);
-
+    
         if ($order && $order['order_status'] === 'pending') {
-            // Update the order status to 'accepted'
+            // Update order status to confirmed
             $ordersModel->update($orderId, ['order_status' => 'confirmed']);
-
-            // Insert accept notification into the database
+    
+            // Add a confirmation notification
             $notificationData = [
                 'id' => $order['id'],
                 'message' => 'Your order has been accepted.'
             ];
             $notificationModel->insert($notificationData);
-
-            return $this->response->setJSON(['message' => 'Order accepted successfully']);
+    
+            // Return a success response
+            return $this->response->setStatusCode(200)->setJSON(['message' => 'Order accepted successfully']);
         } else {
-            return $this->response->setJSON(['message' => 'Invalid order or order is not pending'], 400);
+            // Return an error response
+            return $this->response->setStatusCode(400)->setJSON(['message' => 'Invalid order or order is not pending']);
         }
     }
+
 
     public function saveShop()
     {
@@ -2370,7 +2519,7 @@ public function deleteAmenity($id = null)
     
     public function handleImageUpload($image, $imageName)
     {
-        $uploadPath = 'uploads';
+        $uploadPath = 'backend/public/uploads';
         $image->move($uploadPath, $imageName);
         return $imageName;
     }
@@ -2418,34 +2567,67 @@ public function handleRoomImageUpload($image, $imageName)
     $image->move($uploadPath, $imageName);
                 return  $imageName;
 }
-    public function updateShop($shop_id = null)
-    {
-        $request = $this->request;
+public function updateShop($shop_id = null)
+{
+    $request = $this->request;
 
-        $shopModel = new ShopModel();
-        $existingData = $shopModel->find($shop_id);
+    $shopModel = new ShopModel();
+    $existingData = $shopModel->find($shop_id);
 
-        if (empty($existingData)) {
-            return $this->respond(["message" => "Record not found"], 404);
-        }
-
-        $data = [
-            'prod_name' => $request->getVar('prod_name') ?? $existingData['prod_name'],
-            'prod_desc' => $request->getVar('prod_desc') ?? $existingData['prod_desc'],
-            'prod_price' => $request->getVar('prod_price') ?? $existingData['prod_price'],
-        ];
-
-        try {
-            if ($data !== array_intersect_key($existingData, $data)) {
-                $shopModel->update($shop_id, $data);
-                return $this->respond(["message" => "Data updated successfully"], 200);
-            } else {
-                return $this->respond(["message" => "No changes detected, data not updated"], 200);
-            }
-        } catch (\Exception $e) {
-            return $this->respond(["message" => "Failed to update data: " . $e->getMessage()], 500);
-        }
+    if (empty($existingData)) {
+        return $this->respond(["message" => "Record not found"], 404);
     }
+
+    $data = [
+        'prod_name' => $request->getPost('prod_name') ?? $existingData['prod_name'],
+        'prod_desc' => $request->getPost('prod_desc') ?? $existingData['prod_desc'],
+        'prod_price' => $request->getPost('prod_price') ?? $existingData['prod_price'],
+    ];
+
+    // Check for uploaded image
+    $image = $request->getFile('prod_img');
+    if ($image && $image->isValid()) {
+        // Generate a unique name for the image
+        $imageName = $this->generateUniqueImageName($image->getName());
+        
+        // Move the uploaded file to the desired directory
+        $image->move(FCPATH . 'backend/public/uploads/', $imageName);
+        
+        // Add the new image name to the data array
+        $data['prod_img'] = $imageName;
+
+        // Optionally delete the old image from the server
+        $this->deleteOldShopImage($existingData['prod_img']);
+    }
+
+    try {
+        // Update the shop information
+        if ($data !== array_intersect_key($existingData, $data)) {
+            $shopModel->update($shop_id, $data);
+            return $this->respond(["message" => "Data updated successfully"], 200);
+        } else {
+            return $this->respond(["message" => "No changes detected, data not updated"], 200);
+        }
+    } catch (\Exception $e) {
+        return $this->respond(["message" => "Failed to update data: " . $e->getMessage()], 500);
+    }
+}
+
+// Function to generate a unique name for the uploaded image
+private function generateUniqueImageName($originalName)
+{
+    return uniqid() . '_' . pathinfo($originalName, PATHINFO_FILENAME) . '.' . pathinfo($originalName, PATHINFO_EXTENSION);
+}
+
+// Function to delete the old image from the server
+private function deleteOldShopImage($imageName)
+{
+    $filePath = FCPATH . 'uploads/' . $imageName;
+    if (is_file($filePath)) {
+        unlink($filePath); // Delete the file
+    }
+}
+
     public function updateRoom($room_id = null)
     {
         $request = $this->request;
@@ -2509,7 +2691,7 @@ public function handleRoomImageUpload($image, $imageName)
     
     public function handleStaffImageUpload($image, $imageName)
     {
-        $uploadPath = 'uploads';
+        $uploadPath = 'backend/public/uploads';
     
         $image->move($uploadPath, $imageName);
                     return  $imageName;
@@ -2674,21 +2856,32 @@ public function handleRoomImageUpload($image, $imageName)
     }
     public function getUserOrders()
     {
-        $userModel = new UserModel();
-        $ordersModel = new OrdersModel();
-        $shopModel = new ShopModel();
-
-        $orders = $ordersModel->select('orders.*, order_list.*, shop.*, user.name as user_name')
-            ->join('order_list', 'order_list.order_id = orders.order_id')
-            ->join('shop', 'shop.shop_id = order_list.shop_id')
-            ->join('user', 'user.id = orders.id')
-            ->where('orders.order_status !=', 'paid')
-            ->where('orders.order_status !=', 'declined')
-
-            ->findAll();
-
-        return $this->response->setJSON(['orders' => $orders]);
+        $db = \Config\Database::connect();
+        $builder = $db->table('orders');
+    
+        // Select additional field downpayment_proof
+        $builder->select('orders.order_id, user.name AS user_name, orders.total_price, orders.order_status, orders.downpayment_proof, GROUP_CONCAT(CONCAT(shop.prod_name, " (x", order_list.quantity, ")") SEPARATOR ", ") AS items');
+    
+        $builder->join('user', 'user.id = orders.id', 'left');
+        $builder->join('order_list', 'order_list.order_id = orders.order_id', 'left');
+        $builder->join('shop', 'shop.shop_id = order_list.shop_id', 'left');
+    
+        $builder->whereNotIn('orders.order_status', ['paid', 'declined']);
+    
+        $builder->groupBy('orders.order_id');
+        $builder->orderBy('orders.created_at', 'DESC');
+    
+        $query = $builder->get();
+        $data['orders'] = $query->getResultArray();
+    
+        return $this->response->setJSON($data);
     }
+    
+    
+    
+    
+    
+    
 
 
 
@@ -2769,47 +2962,46 @@ public function handleRoomImageUpload($image, $imageName)
 
         return $this->respond($data, 200);
     }
-    public function acceptBooking($booking_id)
+    public function acceptBookingByGroup($groupId)
     {
         $roomModel = new RoomModel();
         $bookingModel = new BookingModel();
         $notificationModel = new NotificationModel();
-
-        $booking = $bookingModel->find($booking_id);
-
-        if ($booking) {
-            // Retrieve the room details associated with the booking
-            $room = $roomModel->find($booking['room_id']);
-
-            if ($room) {
-                $updatedBooking = $bookingModel->update($booking['book_id'], ['booking_status' => 'confirmed']);
-
-                if ($updatedBooking) {
-                    $updatedRoom = $roomModel->update($booking['room_id'], ['room_status' => 'booked']);
-
-                    if ($updatedRoom) {
-                        // Insert accept notification into the database
-                        $notificationData = [
-                            'id' => $booking['id'],
-                            'message' => 'Your booking for ' . $room['room_name'] . ' has been accepted.',
-                        ];
-                        $notificationModel->insert($notificationData);
-
-                        return $this->respond(['message' => 'Booking and room status updated successfully', 'booking_id' => $booking['book_id']], 200);
-                    } else {
-                        $bookingModel->update($booking['book_id'], ['booking_status' => 'pending']);
-                        return $this->respond(['message' => 'Failed to update room status'], 500);
-                    }
-                } else {
-                    return $this->respond(['message' => 'Failed to update booking status'], 500);
+        $bookingGroupBookingsModel = new BookingGroupBookings();
+    
+        // Fetch all booking IDs for the given group_id
+        $groupBookings = $bookingGroupBookingsModel->where('group_id', $groupId)->findAll();
+    
+        if (count($groupBookings) > 0) {
+            $bookingIds = [];
+            $roomIds = [];
+    
+            foreach ($groupBookings as $groupBooking) {
+                $booking = $bookingModel->find($groupBooking['book_id']);
+                if ($booking) {
+                    $bookingIds[] = $booking['book_id'];
+                    $roomIds[] = $booking['room_id'];
+    
+                    // Insert notification for each booking
+                    $notificationData = [
+                        'id' => $booking['id'],
+                        'message' => 'Your booking for room ' . $booking['room_id'] . ' has been accepted.',
+                    ];
+                    $notificationModel->insert($notificationData);
                 }
-            } else {
-                return $this->respond(['message' => 'Room not found'], 404);
             }
+    
+            // Update bookings and rooms
+            $bookingModel->update($bookingIds, ['booking_status' => 'confirmed']);
+            $roomModel->update($roomIds, ['room_status' => 'booked']);
+    
+            return $this->respond(['message' => 'All bookings in group ' . $groupId . ' accepted successfully'], 200);
         } else {
-            return $this->respond(['message' => 'Booking not found'], 404);
+            return $this->respond(['message' => 'No bookings found for group ' . $groupId], 404);
         }
     }
+    
+    
     
     public function assignAmenitiesToRoom($roomId)
     {
@@ -2889,48 +3081,45 @@ public function handleRoomImageUpload($image, $imageName)
         return $this->respond($amenities, 200);
     }
     
-            
-        
-    public function declineBooking($booking_id)
+    public function declineBookingByGroup($groupId)
     {
         $roomModel = new RoomModel();
         $bookingModel = new BookingModel();
         $notificationModel = new NotificationModel();
-
-        $booking = $bookingModel->find($booking_id);
-
-        if ($booking) {
-            // Check if the booking status is 'pending'
-            if ($booking['booking_status'] === 'pending') {
-                // Update the booking status to 'declined' and add a message
-                $updatedBooking = $bookingModel->update($booking['book_id'], [
-                    'booking_status' => 'declined',
-                    'message' => 'Booking declined.'
-                ]);
-
-                if ($updatedBooking) {
+        $bookingGroupBookingsModel = new BookingGroupBookings();
+    
+        // Fetch all booking IDs for the given group_id
+        $groupBookings = $bookingGroupBookingsModel->where('group_id', $groupId)->findAll();
+    
+        if (count($groupBookings) > 0) {
+            foreach ($groupBookings as $groupBooking) {
+                $booking = $bookingModel->find($groupBooking['book_id']);
+                if ($booking && $booking['booking_status'] === 'pending') {
+                    // Update each booking's status to 'declined'
+                    $bookingModel->update($booking['book_id'], [
+                        'booking_status' => 'declined',
+                        'message' => 'Booking declined.'
+                    ]);
+    
                     // Insert decline notification into the database
                     $notificationData = [
                         'id' => $booking['id'],
                         'message' => 'Your booking has been declined.'
                     ];
                     $notificationModel->insert($notificationData);
-
-                    // Optional: Update the room status or perform any other necessary actions
-                    $updatedRoom = $roomModel->update($booking['room_id'], ['room_status' => 'Available']);
-
-                    // Return the response
-                    return $this->respond(['message' => 'Booking declined successfully', 'booking_id' => $booking['book_id']], 200);
-                } else {
-                    return $this->respond(['message' => 'Failed to decline booking'], 500);
+    
+                    // Update room status to 'Available'
+                    $roomModel->update($booking['room_id'], ['room_status' => 'Available']);
                 }
-            } else {
-                return $this->respond(['message' => 'Cannot decline booking with the current status'], 400);
             }
+    
+            return $this->respond(['message' => 'All bookings in group ' . $groupId . ' declined successfully'], 200);
         } else {
-            return $this->respond(['message' => 'Booking not found'], 404);
+            return $this->respond(['message' => 'No bookings found for group ' . $groupId], 404);
         }
     }
+    
+    
 
     public function acceptEnrolling($enroll_id)
     {

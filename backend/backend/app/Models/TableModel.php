@@ -12,7 +12,7 @@ class TableModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['table_name', 'table_description', 'table_price'];
+    protected $allowedFields    = ['table_name', 'table_description'];
 
     // Dates
     protected $useTimestamps = false;

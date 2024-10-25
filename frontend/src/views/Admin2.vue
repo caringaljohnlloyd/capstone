@@ -55,126 +55,107 @@
 
 
         <div class="row">
-  <!-- Table Product -->
-  <div class="col-12">
-    <div class="card card-default">
-      <div class="card-header">
-        <h2>Shop Inventory</h2>
-        <button
-          type="button"
-          class="btn btn-custom"
-          @click="openAddModal"
-        >
-          Add Item
-        </button>
-      </div>
-      <div class="card-body">
-        <div class="table-responsive">
-          <table
-            id="productsTable"
-            class="table table-hover table-product"
-            style="width: 100%"
-          >
-            <thead>
-              <tr>
-                <th>Product Image</th>
-                <th>Product Name</th>
-                <th>Quantity</th>
-                <th>Description</th>
-                <th>Price</th>
-                <th>Total Price</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(info, index) in infos" :key="info.id">
-                <td>{{ info.prod_img }}</td>
-                <td>{{ info.prod_name }}</td>
-                <td>{{ info.prod_quantity }}</td>
-                <td>{{ info.prod_desc }}</td>
-                <td>{{ info.prod_price }}</td>
-                <td>{{ info.prod_quantity * info.prod_price }}</td>
-                <td class="action-buttons">
-                  <button class="btn btn-custom" @click="openQuantityModal(info)">Add Quantity</button>
-                  <router-link 
-                    class="btn btn-custom" 
-                    :to="{ name: 'auditHistory', params: { shopId: info.shop_id }}" 
-                  >
-                    Audit History
-                  </router-link>
-                  <button class="btn btn-custom" @click="openEditModal(info)">Edit</button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <!-- Quantity Modal -->
-        <div
-          v-if="quantityModalVisible"
-          class="modal"
-          tabindex="-1"
-          role="dialog"
-          style="display: block"
-        >
-          <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title">Add Quantity</h5>
-                <button
-                  type="button"
-                  class="close"
-                  @click="closeQuantityModal"
-                  aria-label="Close"
-                >
-                  <span aria-hidden="true">&times;</span>
+    <!-- Table Product -->
+    <div class="col-12">
+        <div class="card card-default">
+            <div class="card-header">
+                <h2 class="fa-solid fa-shop"> Shop Inventory</h2><br>
+                <button type="button" class="btn btn-custom" @click="openAddModal">
+                    Add Item
                 </button>
-              </div>
-              <div class="modal-body">
-              
-                <div class="form-group">
-                  <label for="productName" class="label">Product Name:</label>
-                  <p id="productName">{{ selectedProduct.prod_name }}</p>
-                </div>
-                <div class="form-group">
-                  <label for="currentQuantity" class="label">Current Quantity:</label>
-                  <p id="currentQuantity">{{ selectedProduct.prod_quantity }}</p>
-                </div>
-                <div class="form-group">
-                  <label for="addQuantity" class="label">Add Quantity:</label>
-                  <input
-                    type="number"
-                    class="form-control"
-                    id="addQuantity"
-                    v-model="quantityToAdd"
-                  />
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button
-                  type="button"
-                  class="btn btn-custom"
-                  @click="addQuantity"
-                >
-                  Add
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-custom "  style="background:#0F172B; border:none; "
-                  @click="closeQuantityModal"
-                >
-                  Close
-                </button>
-              </div>
             </div>
-          </div>
+            <div class="card-body">
+                <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+                    <table id="productsTable" class="table table-product" style="width: 100%">
+                        <thead>
+                            <tr>
+                                <th>Product Image</th>
+                                <th>Product Name</th>
+                                <th>Quantity</th>
+                                <th>Description</th>
+                                <th>Price</th>
+                                <th>Total Price</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(info, index) in infos" :key="info.id">
+                                <td>
+                                    <img 
+                                        class="img-fluid product-image" 
+                                        :src="`https://eduardos-resort.online/backend/backend/public/uploads/${info.prod_img}`" 
+                                        alt="Product Image" 
+                                        style="max-width: 80px; height: auto; object-fit: cover;"
+                                    />
+                                </td>
+                                <td>{{ info.prod_name }}</td>
+                                <td>{{ info.prod_quantity }}</td>
+                                <td>{{ info.prod_desc }}</td>
+                                <td>{{ info.prod_price }}</td>
+                                <td>{{ info.prod_quantity * info.prod_price }}</td>
+                                <td class="action-buttons">
+                                    <button class="btn btn-custom" @click="openQuantityModal(info)">Add Quantity</button>
+                                    <router-link 
+                                        class="btn btn-custom" 
+                                        :to="{ name: 'auditHistory', params: { shopId: info.shop_id }}" 
+                                    >
+                                        Audit History
+                                    </router-link>
+                                    <button class="btn btn-custom" @click="openEditModal(info)">Edit</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Quantity Modal -->
+                <div v-if="quantityModalVisible" class="modal" tabindex="-1" role="dialog" style="display: block">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Add Quantity</h5>
+                                <button type="button" class="close" @click="closeQuantityModal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="productName" class="label">Product Name:</label>
+                                    <p id="productName">{{ selectedProduct.prod_name }}</p>
+                                </div>
+                                <div class="form-group">
+                                    <label for="currentQuantity" class="label">Current Quantity:</label>
+                                    <p id="currentQuantity">{{ selectedProduct.prod_quantity }}</p>
+                                </div>
+                                <div class="form-group">
+                                    <label for="addQuantity" class="label">Add Quantity:</label>
+                                    <input
+                                        type="number"
+                                        class="form-control"
+                                        id="addQuantity"
+                                        v-model="quantityToAdd"
+                                    />
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-custom" @click="addQuantity">
+                                    Add
+                                </button>
+                                <button type="button" class="btn btn-custom" style="background:#0F172B; border:none;" @click="closeQuantityModal">
+                                    Close
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Success Message -->
+                <div v-if="successMessage" class="alert alert-success" role="alert">
+                    {{ successMessage }}
+                </div>
+            </div>
         </div>
-        <!-- Success Message -->
-        <div v-if="successMessage" class="alert alert-success" role="alert">
-          {{ successMessage }}
-        </div>
-      </div>
     </div>
-  </div>
 </div>
 
     <!-- Edit Modal -->
@@ -185,62 +166,72 @@
       role="dialog"
       style="display: block"
     >
-      <div class="modal-dialog modal-dialog-centered" role="document">
+<!-- Edit Modal -->
+<div v-if="editModalVisible" class="modal" tabindex="-1" role="dialog" style="display: block">
+    <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Edit Product</h5>
-            <button type="button" class="close" @click="closeEditModal">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <!-- Edit form -->
-            <form @submit.prevent="saveEdit">
-              <div class="form-group">
-                <label for="edit_prod_name">Product Name</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="Name"
-                  v-model="editedInfo.prod_name"
-                />
-              </div>
-              <div class="form-group">
-                <label for="edit_prod_desc">Product Description</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="Description"
-                  v-model="editedInfo.prod_desc"
-                />
-              </div>
-              <div class="form-group">
-                <label for="edit_prod_price">Product Price</label>
-                <input
-                  type="number"
-                  class="form-control"
-                  placeholder="Price"
-                  v-model="editedInfo.prod_price"
-                />
-              </div>
-           
-
-              <div class="modal-footer">
-                <button
-                  type="button"
-                  class="btn btn-custom "  style="background:#0F172B; border:none; "
-                  @click="closeEditModal"
-                >
-                  Close
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Product</h5>
+                <button type="button" class="close" @click="closeEditModal">
+                    <span aria-hidden="true">&times;</span>
                 </button>
-                <button type="submit" class="btn btn-custom">
-                  Save Changes
-                </button>
-              </div>
-            </form>
-          </div>
+            </div>
+            <div class="modal-body">
+                <!-- Edit form -->
+                <form @submit.prevent="saveEdit">
+                    <div class="form-group">
+                        <label for="edit_prod_name">Product Name</label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            placeholder="Name"
+                            v-model="editedInfo.prod_name"
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_prod_desc">Product Description</label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            placeholder="Description"
+                            v-model="editedInfo.prod_desc"
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_prod_price">Product Price</label>
+                        <input
+                            type="number"
+                            class="form-control"
+                            placeholder="Price"
+                            v-model="editedInfo.prod_price"
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_prod_img">Change Product Image</label>
+                        <input type="file" ref="editImageInput" @change="handleEditImageUpload" />
+                    </div>
+                    <div class="modal-footer">
+                        <button
+                            type="button"
+                            class="btn btn-custom"
+                            style="background:#0F172B; border:none;"
+                            @click="closeEditModal"
+                        >
+                            Close
+                        </button>
+                        <button type="submit" class="btn btn-custom">
+                            Save Changes
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
-      </div>
+    </div>
+    <div v-if="successMessage" class="alert alert-success" role="alert">
+        {{ successMessage }}
+    </div>
+</div>
+
       <div v-if="successMessage" class="alert alert-success" role="alert">
         {{ successMessage }}
       </div>
@@ -327,54 +318,64 @@
       {{ successMessage }}
     </div>
   </div>
-<!--shoppee kain muna -->
+
+<!-- Shoppee Kain Muna -->
 <div class="row">
     <div class="col-12">
-      <div class="card card-default">
-        <div class="card-header">
-          <h2 class="mdi mdi-desktop-mac">Rooms</h2>
-          <button type="button" class="btn btn-custom" @click="openAddRoomModal">
-            Add Room
-          </button>
+        <div class="card card-default">
+            <div class="card-header">
+                <h2 class="fa-solid fa-house"> Rooms</h2><br>
+                <button type="button" class="btn btn-custom" @click="openAddRoomModal">
+                    Add Room
+                </button>
+            </div>
+            <div class="card-body pt-26">
+                <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+                    <table class="table table-product">
+                        <thead>
+                            <tr>
+                                <th>Room ID</th>
+                                <th>Image</th>
+                                <th>Room Name</th>
+                                <th>Price</th>
+                                <th>Number of Packs</th>
+                                <th>Description</th>
+                                <th>Room Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="room in room" :key="room.room_id">
+                                <td>{{ room.room_id }}</td>
+                                <td>
+                                    <img
+                                        class="img-fluid room-image"
+                                        :src="`https://eduardos-resort.online/backend/backend/public/uploads/${room.image}`"
+                                        alt="Room Image"
+                                        style="max-width: 80px; height: auto; object-fit: cover;"
+                                    />
+                                </td>
+                                <td>{{ room.room_name }}</td>
+                                <td>{{ room.price }}</td>
+                                <td>{{ room.packs }}</td>
+                                <td>{{ room.description }}</td>
+                                <td>{{ room.room_status }}</td>
+                                <td>
+                                    <button class="btn btn-custom" @click="openRoomEditModal(room)">Edit</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-        <div class="card-body pt-26">
-          <div class="table-responsive">
-            <table class="table table-hover table-product" >
-              <thead>
-                <tr>
-                  <th>Room ID</th>
-                  <th>Image</th>
-                  <th>Room Name</th>
-                  <th>Price</th>
-                  <th>Number of Packs</th>
-                  <th>Description</th>
-                  <th>Room Status</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="room in room" :key="room.room_id">
-                  <td>{{ room.room_id }}</td>
-                  <td>{{ room.image }}</td>
-                  <td>{{ room.room_name }}</td>
-                  <td>{{ room.price }}</td>
-                  <td>{{ room.packs }}</td>
-                  <td>{{ room.description }}</td>
-                  <td>{{ room.room_status }}</td>
-                  <td>
-                    <button class="edit-btn" @click="openRoomEditModal(room)">Edit</button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
     </div>
+    <!-- Success Message -->
     <div v-if="successMessage" class="alert alert-success" role="alert">
-      {{ successMessage }}
+        {{ successMessage }}
     </div>
-  </div>
+</div>
+
   <!-- Edit Room Modal -->
   <div v-if="editRoomModalVisible" class="modal" tabindex="-1" role="dialog" style="display: block">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -531,7 +532,7 @@
     <div class="col-12">
       <div class="card card-default">
         <div class="card-header">
-          <h2>Table Inventory</h2>
+          <h2 class=" fa-solid fa-utensils"> Table Inventory</h2><br>
           <button
             type="button"
             class="btn btn-custom"
@@ -540,8 +541,8 @@
             Add Table
           </button>
         </div>
-        <div class="card-body">
-          <div class="table-responsive">
+        <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+          <div class="table table-product">
             <table
               id="tablesInventory"
               class="table table-hover"
@@ -551,7 +552,6 @@
                 <tr>
                   <th>Table Name</th>
                   <th>Description</th>
-                  <th>Price</th>
                   <th>Action</th>
                 </tr>
               </thead>
@@ -559,7 +559,6 @@
                 <tr v-for="(table, index) in tables" :key="table.table_id">
                   <td>{{ table.table_name }}</td>
                   <td>{{ table.table_description }}</td>
-                  <td>{{ table.table_price }}</td>
                   <td class="action-buttons">
                     <button class="btn btn-custom" @click="openEditTableModal(table)">Edit</button>
                   </td>
@@ -589,10 +588,7 @@
                 <label for="edit_table_description">Description</label>
                 <input type="text" class="form-control" v-model="editedTable.table_description" required />
               </div>
-              <div class="form-group">
-                <label for="edit_table_price">Price</label>
-                <input type="number" class="form-control" v-model="editedTable.table_price" required />
-              </div>
+
               <div class="modal-footer">
                 <button type="button" class="btn btn-custom" @click="closeEditTableModal">Close</button>
                 <button type="submit" class="btn btn-custom">Save Changes</button>
@@ -621,10 +617,7 @@
                 <label for="table_description">Description</label>
                 <input type="text" class="form-control" v-model="table_description" required />
               </div>
-              <div class="form-group">
-                <label for="table_price">Price</label>
-                <input type="number" class="form-control" v-model="table_price" required />
-              </div>
+
               <div class="modal-footer">
                 <button type="button" class="btn btn-custom" @click="closeAddTableModal">Close</button>
                 <button type="submit" class="btn btn-custom">Add Table</button>
@@ -640,19 +633,19 @@
  <div class="col-12">
       <div class="card card-default">
         <div class="card-header">
-          <h2>Menu Management</h2>
+          <h2 class="fa-solid fa-utensils"> Menu Management</h2><br>
           <button
             type="button"
-            class="btn btn-primary"
+            class="btn btn-custom"
             @click="openAddItemModal"
           >
             Add Menu Item
           </button>
         </div>
         <div class="card-body">
-          <div class="table-responsive">
+          <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
             <table
-              class="table table-hover table-product"
+              class="table  table-product"
               style="width: 100%"
             >
               <thead>
@@ -669,7 +662,7 @@
                   <td>{{ item.item_category }}</td>
                   <td>{{ item.item_price }}</td>
                   <td>
-                    <button @click="openEditItemModal(item)" class="btn btn-primary" >Edit</button>
+                    <button @click="openEditItemModal(item)" class="btn btn-custom" >Edit</button>
                     <!-- <button @click="deleteItem(item.menu_id)" class="btn btn-primary">Delete</button> -->
                   </td>
                 </tr>
@@ -681,6 +674,16 @@
     </div>
 
   </div>
+<!-- Add Modal -->
+<div v-if="addModalItemVisible" class="modal fade show" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add Menu Item</h5>
+        <button type="button" class="close" @click="closeAddItemModal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
 <!-- Add Modal -->
 <div v-if="addModalItemVisible" class="modal fade show" tabindex="-1" role="dialog">
   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -716,12 +719,22 @@
             <label for="item_price">Price</label>
             <input type="number" id="item_price" class="form-control" v-model="item_price" required />
           </div>
+          <div class="form-group">
+            <label for="item_image">Item Image</label>
+            <input type="file" id="item_image" class="form-control" @change="onFileChange" required />
+          </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" @click="closeAddItemModal">Close</button>
             <button type="submit" class="btn btn-primary">Add Item</button>
           </div>
         </form>
       </div>
+    </div>
+  </div>
+  <div v-if="successMessage" class="alert alert-success" role="alert">
+    {{ successMessage }}
+  </div>
+</div>
     </div>
   </div>
   <div v-if="successMessage" class="alert alert-success" role="alert">
@@ -740,115 +753,90 @@
   {{ errorMessage }}
 </div>
 
-<!-- Edit Modal -->
-<div v-if="editModalItemVisible" class="modal fade show" tabindex="-1" role="dialog" style="display: block;">
+<!-- Edit Menu Item Modal -->
+<div v-if="editMenuItemModalVisible" class="modal" tabindex="-1" role="dialog" style="display: block">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Edit Menu Item</h5>
-        <button type="button" class="close" @click="closeEditItemModal">
+        <button type="button" class="close" @click="closeMenuItemEditModal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <form @submit.prevent="updateMenuItem">
-          <div class="form-group">
-            <label for="editItem_name">Item Name</label>
-            <input
-              type="text"
-              class="form-control"
-              v-model="currentItem.item_name"
-              required
-            />
-          </div>
-          <div class="form-group">
-  <label for="editItem_category">Category</label>
-  <select
-    id="editItem_category"
-    class="form-control"
-    v-model="currentItem.item_category"
-    required
-  >
-    <option value="" disabled>Select a category</option>
-    <option value="breakfast">Breakfast</option>
-    <option value="rice">Rice</option>
-    <option value="noodles">Noodles</option>
-    <option value="asian curry">Asian Curry</option>
-    <option value="soup">Soup</option>
-    <option value="refreshments">Refreshments</option>
-    <option value="sizzling">Sizzling</option>
-    <option value="filipino style">Filipino Style</option>
-    <option value="vegetables">Vegetables</option>
-  </select>
-</div>
-
-          <div class="form-group">
-            <label for="editItem_price">Price</label>
-            <input
-              type="number"
-              class="form-control"
-              v-model="currentItem.item_price"
-              required
-            />
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" @click="closeEditItemModal">Close</button>
-            <button type="button" class="btn btn-primary" @click="updateMenuItem">Update</button>
-          </div>
-        </form>
+        <div class="form-group">
+          <label for="editItemName" class="label">Item Name:</label>
+          <input v-model="editedMenuItem.item_name" type="text" class="form-control" id="editItemName" />
+        </div>
+        <div class="form-group">
+          <label for="editItemCategory" class="label">Category:</label>
+          <input v-model="editedMenuItem.item_category" type="text" class="form-control" id="editItemCategory" />
+        </div>
+        <div class="form-group">
+          <label for="editItemPrice" class="label">Price:</label>
+          <input v-model="editedMenuItem.item_price" type="number" class="form-control" id="editItemPrice" />
+        </div>
+        <div class="form-group">
+          <label for="editItemImage" class="label">Change Image:</label>
+          <input type="file" ref="editMenuItemImageInput" @change="handleMenuItemImageUpload" />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-custom" @click="saveMenuItemEdit">Save Changes</button>
+        <button type="button" class="btn btn-custom" @click="closeMenuItemEditModal">Close</button>
       </div>
     </div>
   </div>
 </div>
+
+
 
 <div class="row">
-    <!-- Cottage Inventory Table -->
-    <div class="col-12">
-      <div class="card card-default">
-        <div class="card-header">
-          <h2>Cottage Inventory</h2>
-          <button
-            type="button"
-            class="btn btn-custom"
-            @click="openCottageAddModal"
-          >
-            Add Cottage
-          </button>
-        </div>
-        <div class="card-body">
-          <div class="table-responsive">
-            <table
-              id="cottagesTable"
-              class="table table-hover table-product"
-              style="width: 100%"
-            >
-              <thead>
-                <tr>
-                  <th>Cottage Image</th>
-                  <th>Cottage Name</th>
-                  <th>Description</th>
-                  <th>Price</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="(cottage, index) in cottages" :key="cottage.cottage_id">
-                  <td>{{ cottage.cottage_image }}</td>
-                  <td>{{ cottage.cottage_name }}</td>
-                  <td>{{ cottage.cottage_description }}</td>
-                  <td>{{ cottage.cottage_price }}</td>
-                  <td class="action-buttons">
-                    <button class="btn btn-custom" @click="openCottageEditModal(cottage)">Edit</button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
+  <!-- Cottage Inventory Table -->
+  <div class="col-12">
+    <div class="card card-default">
+      <div class="card-header">
+        <h2 class="fa-solid fa-book-open-reader"> Cottage Inventory</h2><br>
+        <button type="button" class="btn btn-custom" @click="openCottageAddModal">
+          Add Cottage
+        </button>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+          <table id="cottagesTable" class="table table-hover table-product" style="width: 100%">
+            <thead>
+              <tr>
+                <th>Cottage Image</th>
+                <th>Cottage Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(cottage, index) in cottages" :key="cottage.cottage_id">
+                <td class="align-middle">
+                  <img
+                    class="img-fluid cottage-image"
+                    :src="`https://eduardos-resort.online/backend/backend/public/uploads/${cottage.cottage_image}`"
+                    alt="Cottage Image"
+                  />
+                </td>
+                <td>{{ cottage.cottage_name }}</td>
+                <td>{{ cottage.cottage_description }}</td>
+                <td>{{ cottage.cottage_price }}</td>
+                <td class="action-buttons">
+                  <button class="btn btn-custom" @click="openCottageEditModal(cottage)">Edit</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
   </div>
+</div>
+
 
   <!-- Add Cottage Modal -->
   <div v-if="addCottageModalVisible" class="modal" tabindex="-1" role="dialog" style="display: block">
@@ -957,270 +945,429 @@
   </div>
 
   <div class="row">
-    <!-- Table Product -->
-    <div class="col-12">
-      <div class="card card-default">
-        <div class="card-header">
-          <h2>Booking Inventory</h2>
-        </div>
-        <div class="card-body">
-          <div class="table-responsive">
-            <table id="productsTable" class="table table-hover table-product" style="width: 100%">
-              <thead>
-                <tr>
-                  <th>Booking Id</th>
-                  <th>User</th>
-                  <th>Checkin</th>
-                  <th>Checkout</th>
-                  <th>Special Request</th>
-                  <th>Room</th>
-                  <th>Booking Status</th>
-                  <th>Booking Payment</th>
-                  <th>Down Payment</th>
-                  <th>Proof of Payment</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="book in book" :key="book.book_id">
-                  <td>{{ book.book_id }}</td>
-                  <td>{{ book.name }}</td>
-                  <td>{{ book.checkin }}</td>
-                  <td>{{ book.checkout }}</td>
-                  <td>{{ book.specialRequest }}</td>
-                  <td>{{ book.room_name }}</td>
-                  <td>{{ book.booking_status }}</td>
-                  <td>{{ book.payment_method }}</td>
-                  <td>{{ book.downpayment }}</td>
-                  <td>
-                    <img
-                      class="img-fluid menu"
-                      style="width: 100%; max-width: 150px; height: auto;"
-                      :src="`http://localhost:8080/uploads/${book.downpaymentProof}`"
-                      alt="Downpayment Proof"
-                    />
-                  </td>
-                  <td>
-                    <div class="dropdown">
-                      <div class="select" @click="toggleDropdown(book.book_id)">
-                        <span class="selected">Actions</span>
-                        <div class="caret" :class="{ 'caret-rotate': openDropdown === book.book_id }"></div>
-                      </div>
-                      <ul class="menu" :class="{ 'menu-open': openDropdown === book.book_id }">
-                        <li @click="handleDropdownAction('markAsPaid', book.book_id)">Mark as Paid</li>
-                        <li @click="handleDropdownAction('acceptBooking', book.book_id)">Confirm Booking</li>
-                        <li @click="handleDropdownAction('declineBooking', book.book_id)">Decline Booking</li>
-                      </ul>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <!-- Success Message -->
-            <div v-if="successMessage" class="alert alert-success" role="alert">
-              {{ successMessage }}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-    <div class="row">
   <!-- Table Product -->
   <div class="col-12">
     <div class="card card-default">
       <div class="card-header">
-        <h2>Cottage Booking Inventory</h2>
+        <h2 class="fa-solid fa-book"> Booking Inventory</h2><br>
       </div>
       <div class="card-body">
-        <div class="table-responsive">
-      <table id="cottageBookingTable" class="table table-hover table-product" style="width: 100%">
-        <thead>
-          <tr>
-            <th>Booking Id</th>
-            <th>User Id</th>
-            <th>Checkin</th>
-            <th>Checkout</th>
-            <th>Booking Status</th>
-            <th>Cottage Id</th>
-            <th>Created At</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="booking in bookings" :key="booking.cottagebooking_id">
-            <td>{{ booking.cottagebooking_id }}</td>
-            <td>{{ booking.user_id }}</td>
-            <td>{{ booking.selectedTime }}</td>
-            <td>{{ booking.selectedTimeout }}</td>
-            <td>{{ booking.cottagebooking_status }}</td>
-            <td>{{ booking.cottage_id }}</td>
-            <td>{{ booking.created_at }}</td>
-            <td>
-  <div class="btn-group" role="group" aria-label="Booking Actions">
-    <button 
-      @click="confirmCottageBooking(booking.cottagebooking_id)" 
-      class="btn btn-primary"
-    >
-      Confirm
-    </button>
-    <button 
-      @click="declineCottageBooking(booking.cottagebooking_id)" 
-      class="btn btn-danger" 
-      :disabled="booking.cottagebooking_status === 'confirmed'" 
-      :class="{ 'disabled': booking.cottagebooking_status === 'confirmed' }"
-    >
-      Decline
-    </button>
-    <button 
-      @click="markCottageBookingAsPaid(booking.cottagebooking_id)" 
-      class="btn btn-primary"
-    >
-      Mark as Paid
-    </button>
-  </div>
-</td>
+        <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+          <table id="productsTable" class="table table-product" style="width: 100%">
+            <thead>
+              <tr>
+                <th>Group Id</th>
+                <th>User</th>
+                <th>Checkin</th>
+                <th>Checkout</th>
+                <th>Special Request</th>
+                <th>Rooms</th>
+                <th>Booking Status</th>
+                <th>Booking Payment</th>
+                <th>Down Payment</th>
+                <th>Proof of Payment</th>
+                <th class="actions-header">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="book in book" :key="book.group_id">
+                <td>{{ book.group_id }}</td>
+                <td>{{ book.name }}</td>
+                <td>{{ book.checkin }}</td>
+                <td>{{ book.checkout }}</td>
+                <td>{{ book.specialRequest }}</td>
+                <td>{{ book.room_names }}</td>
+                <td>{{ book.booking_status }}</td>
+                <td>{{ book.payment_method }}</td>
+                <td>{{ book.downpayment }}</td>
+                <td class="align-middle">
+                  <button
+                    class="btn btn-info"
+                    @click="openProofModal(book.downpaymentProof)"
+                  >
+                    View Proof
+                  </button>
+                </td>
+                <td>
+                  <div class="dropdown">
+                    <div class="select" @click="toggleDropdown(book.group_id)">
+                      <span class="selected">Actions</span>
+                      <div
+                        class="caret"
+                        :class="{ 'caret-rotate': openDropdown === book.group_id }"
+                      ></div>
+                    </div>
+                    <ul
+                      class="menu"
+                      :class="{ 'menu-open': openDropdown === book.group_id }"
+                    >
+                      <li @click="handleDropdownAction('markAsPaid', book.group_id)">
+                        Mark as Paid
+                      </li>
+                      <li @click="handleDropdownAction('acceptBooking', book.group_id)">
+                        Confirm Booking
+                      </li>
+                      <li @click="handleDropdownAction('declineBooking', book.group_id)">
+                        Decline Booking
+                      </li>
+                    </ul>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
 
-
-
-          </tr>
-        </tbody>
-      </table>
-    </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-        
-        <div class="row">
-  <!-- Reservation List -->
-  <div class="col-12">
-  <div class="card card-default">
-    <div class="card-header">
-      <h2>Reservations</h2>
-    </div>
-    <div class="card-body">
-      <div class="table-responsive">
-        <table id="reservationsTable" class="table table-hover" style="width: 100%">
-          <thead>
-            <tr>
-              <th>Reservation ID</th>
-              <th>User</th>
-              <th>Table</th>
-              <th>Order Items</th>
-              <th>Status</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(reservation, index) in reservations" :key="reservation.reservation_id">
-              <td>{{ reservation.reservation_id }}</td>
-              <td>{{ reservation.user.name }}</td>
-              <td>{{ reservation.table.table_name }}</td>
-              <td>
-                <ul>
-                  <li v-for="item in reservation.order_items" :key="item.id">
-                    {{ item.item_name }} ({{ item.quantity }})
-                  </li>
-                </ul>
-              </td>
-              <td>{{ reservation.status }}</td>
-              <td class="action-buttons">
-
-
-                <!-- View Details Button -->
-                <button class="btn btn-custom" @click="viewDetails(reservation)">
-                  View Details
-                </button>
-
-                <!-- Accept Reservation Button -->
-                <button class="btn btn-success" @click="acceptReservation(reservation.reservation_id)">
-                  Accept
-                </button>
-
-                <!-- Decline Reservation Button -->
-                <button class="btn btn-danger" @click="declineReservation(reservation.reservation_id)">
-                  Decline
-                </button>
-
-                <!-- Mark as Paid Button -->
-                <button class="btn btn-warning" @click="markReservationAsPaid(reservation.reservation_id)">
-                  Mark as Paid
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <!-- Details Modal -->
-      <div v-if="detailsModalVisible" class="modal fade show" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">Reservation Details</h5>
-              <button type="button" class="close" @click="closeDetailsModal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <div class="form-group">
-                <label for="reservationId">Reservation ID:</label>
-                <p id="reservationId">{{ selectedReservation.reservation_id }}</p>
-              </div>
-              <div class="form-group">
-                <label for="user">User:</label>
-                <p id="user">{{ selectedReservation.user.name }}</p>
-              </div>
-              <div class="form-group">
-                <label for="table">Table:</label>
-                <p id="table">{{ selectedReservation.table.table_name }}</p>
-              </div>
-              <div class="form-group">
-                <label for="orderItems">Order Items:</label>
-                <ul>
-                  <li v-for="item in selectedReservation.order_items" :key="item.id">
-                    {{ item.item_name }} ({{ item.quantity }})
-                  </li>
-                </ul>
-              </div>
-              <div class="form-group">
-                <label for="status">Status:</label>
-                <p id="status">{{ selectedReservation.status }}</p>
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-custom" @click="closeDetailsModal">
-                Close
-              </button>
-            </div>
+          <!-- Success Message -->
+          <div v-if="successMessage" class="alert alert-success" role="alert">
+            {{ successMessage }}
           </div>
         </div>
       </div>
+    </div>
+  </div>
 
-      <!-- Success and Error Messages -->
-      <div v-if="successMessage" class="alert alert-success" role="alert">
-        {{ successMessage }}
+  <!-- Proof of Payment Modal -->
+  <div v-if="isProofModalOpen" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5>Proof of Downpayment</h5>
+        <button @click="closeProofModal" class="close-button">&times;</button>
       </div>
-      <div v-if="errorMessage" class="alert alert-danger" role="alert">
-        {{ errorMessage }}
+      <div class="modal-body">
+        <img
+          :src="selectedProofImage"
+          class="img-fluid"
+          alt="Proof of Downpayment"
+        />
+      </div>
+      <div class="modal-footer">
+        <button @click="closeProofModal" class="btn btn-secondary">Close</button>
       </div>
     </div>
   </div>
 </div>
 
+
+
+<div class="row">
+  <!-- Table Product -->
+  <div class="col-12">
+    <div class="card card-default">
+      <div class="card-header">
+        <h2 class="fa-solid fa-house"> Cottage Booking Inventory</h2><br>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+          <table id="cottageBookingTable" class="table table-product" style="width: 100%">
+            <thead>
+              <tr>
+                <th>Booking Id</th>
+                <th>User Name</th> <!-- Changed from User Id -->
+                <th>Check-in</th>
+                <th>Check-out</th>
+                <th>Booking Status</th>
+                <th>Cottage Id</th>
+                <th>Created At</th>
+                <th>Proof of Downpayment</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="booking in bookings" :key="booking.cottagebooking_id">
+                <td>{{ booking.cottagebooking_id }}</td>
+                <td>{{ booking.name }}</td> <!-- Display user name -->
+                <td>{{ booking.selectedTime }}</td>
+                <td>{{ booking.selectedTimeout }}</td>
+                <td>{{ booking.cottagebooking_status }}</td>
+                <td>{{ booking.cottage_id }}</td>
+                <td>{{ booking.created_at }}</td>
+                <td class="align-middle">
+                  <button 
+                    class="btn btn-info" 
+                    @click="openModal(booking.proofOfDownpayment)">
+                    View Proof
+                  </button>
+                </td>
+                <td class="action-buttons">
+                  <button class="btn btn-primary"
+                    @click="confirmCottageBooking(booking.cottagebooking_id)">
+                    Confirm
+                  </button>
+                  <button 
+                    @click="declineCottageBooking(booking.cottagebooking_id)" 
+                    class="btn btn-secondary" 
+                    :disabled="booking.cottagebooking_status === 'confirmed'" 
+                    :class="{ 'disabled': booking.cottagebooking_status === 'confirmed' }">
+                    Decline
+                  </button>
+                  <button 
+                    @click="markCottageBookingAsPaid(booking.cottagebooking_id)" 
+                    class="btn btn-tertiary">
+                    Mark as Paid
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Component -->
+  <div v-if="isModalOpen" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5>Proof of Downpayment</h5>
+        <button @click="closeModal" class="close-button">&times;</button>
+      </div>
+      <div class="modal-body">
+        <img :src="selectedProofImage" class="img-fluid" alt="Proof of Downpayment" />
+      </div>
+      <div class="modal-footer">
+        <button @click="closeModal" class="btn btn-secondary">Close</button>
+      </div>
+    </div>
+  </div>
 </div>
-    <div class="row">
+
+
+
+
+<div class="row">
+  <!-- Reservation List -->
+  <div class="col-12">
+    <div class="card card-default">
+      <div class="card-header">
+        <h2>Reservations</h2>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table id="reservationsTable" class="table table-hover" style="width: 100%">
+            <thead>
+              <tr>
+                <th>Reservation ID</th>
+                <th>User</th>
+                <th>Table</th>
+                <th>Order Items</th>
+                <th>Status</th>
+                <th>Proof of Payment</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(reservation, index) in reservations" :key="reservation.reservation_id">
+                <td>{{ reservation.reservation_id }}</td>
+                <td>{{ reservation.user.name }}</td>
+                <td>{{ reservation.table.table_name }}</td>
+                <td>
+                  <ul>
+                    <li v-for="item in reservation.order_items" :key="item.id">
+                      {{ item.item_name }} ({{ item.quantity }})
+                    </li>
+                  </ul>
+                </td>
+                <td>{{ reservation.status }}</td>
+
+                <!-- Proof of Payment Button -->
+                <td>
+                  <button
+                    class="btn btn-info"
+                    @click="openProofModalReservation(reservation.proof_of_payment)"
+                  >
+                    View Proof
+                  </button>
+                </td>
+
+                <td class="action-buttons">
+                  <!-- View Details Button -->
+                  <button class="btn btn-custom" @click="viewDetails(reservation)">
+                    View Details
+                  </button>
+
+                  <!-- Accept Reservation Button -->
+                  <button
+                    class="btn btn-success"
+                    @click="acceptReservation(reservation.reservation_id)"
+                  >
+                    Accept
+                  </button>
+
+                  <!-- Decline Reservation Button -->
+                  <button
+                    class="btn btn-danger"
+                    @click="declineReservation(reservation.reservation_id)"
+                    :disabled="reservation.status === 'confirmed'"
+                  >
+                    Decline
+                  </button>
+
+                  <!-- Mark as Paid Button -->
+                  <button
+                    class="btn btn-warning"
+                    @click="markReservationAsPaid(reservation.reservation_id)"
+                  >
+                    Mark as Paid
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Proof of Payment Modal -->
+        <div v-if="isReservationProofModalOpen" class="modal fade show" tabindex="-1" role="dialog">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Proof of Payment</h5>
+                <button type="button" class="close" @click="closeReservationProofModal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <img
+                  :src="selectedProofImage"
+                  class="img-fluid"
+                  alt="Proof of Payment"
+                />
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" @click="closeReservationProofModal">
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Success and Error Messages -->
+        <div v-if="successMessage" class="alert alert-success" role="alert">
+          {{ successMessage }}
+        </div>
+        <div v-if="errorMessage" class="alert alert-danger" role="alert">
+          {{ errorMessage }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <!-- Table Product -->
+  <div class="col-12">
+    <div class="card card-default">
+      <div class="card-header">
+        <h2>Orders Inventory</h2>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table id="ordersTable" class="table table-hover table-product" style="width: 100%">
+            <thead>
+              <tr>
+                <th>User</th>
+                <th>Total Price</th>
+                <th>Items</th>
+                <th>Status</th>
+                <th>Proof Of Payment</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="order in orders" :key="order.order_id">
+                <td>{{ order.user_name }}</td>
+                <td>{{ order.total_price }}</td>
+                <td>{{ order.items }}</td>
+                <td>{{ order.order_status }}</td>
+
+                <!-- Proof of Payment Button -->
+                <td class="align-middle">
+                  <button
+                    class="btn btn-info"
+                    @click="openProofOfPaymentModal(order.downpayment_proof)"
+                    v-if="order.downpayment_proof"
+                  >
+                    View Proof
+                  </button>
+                  <span v-else>No Proof Available</span>
+                </td>
+
+                <!-- Action Buttons -->
+                <td class="action-buttons">
+                  <button class="btn btn-primary" @click="confirmOrder(order.order_id)">
+                    Confirm
+                  </button>
+                  <button
+                    @click="declineOrder(order.order_id)"
+                    class="btn btn-secondary"
+                    :disabled="order.order_status === 'confirmed'"
+                  >
+                    Decline
+                  </button>
+                  <button
+                    @click="markOrderPaid(order.order_id)"
+                    class="btn btn-tertiary"
+                  >
+                    Mark as Paid
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- Loading Indicator -->
+          <div v-if="loading" class="text-center mt-3">
+            <div class="spinner-border" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+
+          <!-- Success Message -->
+          <div v-if="successMessage" class="alert alert-success mt-3" role="alert">
+            {{ successMessage }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Unique Proof of Payment Modal -->
+  <div v-if="isProofOfPaymentModalOpen" class="modal fade show" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Order Proof of Payment</h5>
+          <button type="button" class="close" @click="closeProofOfPaymentModal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <img
+            :src="selectedProofImage"
+            class="img-fluid"
+            alt="Proof of Payment"
+          />
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" @click="closeProofOfPaymentModal">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
     <!-- Table Product -->
     <div class="col-12">
       <div class="card card-default">
         <div class="card-header">
-          <h2>Swimming Inventory</h2>
+          <h2 class="fa-solid fa-person-swimming"> Swimming Inventory</h2><br>
         </div>
         <div class="card-body">
-          <div class="table-responsive">
-            <table id="productsTable" class="table table-hover table-product" style="width: 100%">
+          <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+            <table id="productsTable" class="table  table-product" style="width: 100%">
               <thead>
                 <tr>
                   <th>Enroll Id</th>
@@ -1271,77 +1418,9 @@
   </div>
 
 
-    <div class="row">
-      <!-- Table Product -->
-      <div class="col-12">
-        <div class="card card-default">
-          <div class="card-header">
-            <h2>Orders Inventory</h2>
-          </div>
-          <div class="card-body">
-            <div class="table-responsive">
-            <table
-              id="ordersTable"
-              class="table table-hover table-product"
-              style="width: 100%"
-            >
-              <!-- Table headers -->
-              <thead>
-                <tr>
-                  <th>Order ID</th>
-                  <th>User</th>
-                  <th>Total Price</th>
-                  <th>Shop</th>
-                  <th>Quantity</th>
-                  <th>status</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                <!-- Loop through orders and display rows -->
-                <tr v-for="order in orders" :key="order.order_id">
-                  <td>{{ order.order_id }}</td>
-                  <td>{{ order.user_name }}</td>
-                  <td>{{ order.final_price }}</td>
-                  <td>{{ order.prod_name }}</td>
-                  <td>{{ order.quantity }}</td>
-                  <td>{{ order.order_status }}</td>
 
-                  <td>
-                    <div class="dropdown">
-                      <div class="select" @click="toggleDropdown(order.order_id)">
-                        <span class="selected">Actions</span>
-                        <div class="caret" :class="{ 'caret-rotate': openDropdown === order.order_id }"></div>
-                      </div>
-                      <ul class="menu" :class="{ 'menu-open': openDropdown === order.order_id }">
-                        <li @click="handleDropdownAction('markOrderPaid', order.order_id)">Mark as Paid</li>
-                        <li @click="handleDropdownAction('confirmOrder', order.order_id)">Confirm Order</li>
-                        <li @click="handleDropdownAction('declineOrder', order.order_id)">Decline Order</li>
-                      </ul>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <!-- Loading Indicator -->
-            <div v-if="loading" class="text-center mt-3">
-              <div class="spinner-border" role="status">
-                <span class="sr-only">Loading...</span>
-              </div>
-            </div>
-            <!-- Success Message -->
-            <div
-              v-if="successMessage"
-              class="alert alert-success mt-3"
-              role="alert"
-            >
-              {{ successMessage }}
-          </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+
+
   </div>
 
   <div class="row">
@@ -1349,14 +1428,14 @@
     <div class="col-12">
       <div class="card card-default">
         <div class="card-header">
-          <h2>Swimming Lesson Date Inventory</h2>
+          <h2  class="fa-solid fa-person-swimming"> Swimming Lesson Date Inventory</h2><br>
           <button type="button" class="btn btn-custom" @click="openAddDateModal">
             Add Date
           </button>
         </div>
         <div class="card-body">
-          <div class="table-responsive">
-            <table id="productsTable" class="table table-hover table-product" style="width: 100%">
+          <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+            <table id="productsTable" class="table  table-product" style="width: 100%">
               <thead>
                 <tr>
                   <th>Date</th>
@@ -1368,10 +1447,7 @@
                 </tr>
               </tbody>
             </table>
-            <!-- Success Message -->
-            <div v-if="successMessageDate" class="alert alert-success" role="alert">
-              {{ successMessageDate }}
-            </div>
+           
           </div>
         </div>
       </div>
@@ -1434,6 +1510,14 @@ components: {
 },
 data() {
   return {
+    selectedProofImage: "", // URL for the selected proof image
+      isProofOfPaymentModalOpen: false, // State for the proof of payment modal
+    selectedProofImage: "", // URL for the selected proof of payment image
+    isReservationProofModalOpen: false, // Tracks if the proof modal is open
+    selectedProofImage: "", // Holds the selected proof image URL
+    isProofModalOpen: false, // Tracks the modal's open state
+    selectedProofImage: "", // Stores the selected proof image URL
+      isModalOpen: false, // Tracks if the modal is open
     cottages: [],
       cottage_name: '',
       cottage_description: '',
@@ -1446,7 +1530,6 @@ data() {
     tables: [],              // Holds table inventory data
       table_name: '',          // New table name
       table_description: '',   // New table description
-      table_price: '',         // New table price
       editedTable: null,       // Stores table data for editing
       addTableModalVisible: false,  // Controls visibility of Add Table modal
       editTableModalVisible: false, // Controls visibility of Edit Table modal
@@ -1459,6 +1542,8 @@ data() {
       successMessage: '',
       errorMessage: '',
     menuItems: [],
+    selectedImage: null,
+
     currentItem: {
         menu_id: null,
         item_name: '',
@@ -1466,8 +1551,14 @@ data() {
         item_price: ''
       },
       addModalItemVisible: false,
-      editModalItemVisible: false,
-      item_name: '',
+      
+      editMenuItemModalVisible: false,
+  editedMenuItem: {
+    item_name: '',
+    item_category: '',
+    item_price: '',
+    item_image: null,  // Holds the uploaded file
+  },      item_name: '',
     item_category: '',
     item_price: '',
       successMessage: '',
@@ -1565,6 +1656,41 @@ created() {
 },
 
 methods: {
+  openProofOfPaymentModal(proofImage) {
+      // Set the selected proof image and open the modal
+      this.selectedProofImage = `https://eduardos-resort.online/backend/backend/public/uploads/${proofImage}`;
+      this.isProofOfPaymentModalOpen = true;
+    },
+    closeProofOfPaymentModal() {
+      // Close the proof of payment modal
+      this.isProofOfPaymentModalOpen = false;
+    },
+  openProofModalReservation(proof_of_payment) {
+      // Set the selected proof image and open the modal
+      this.selectedProofImage = `https://eduardos-resort.online/backend/backend/public/uploads/${proof_of_payment}`;
+      this.isReservationProofModalOpen = true;
+    },
+    closeReservationProofModal() {
+      // Close the proof of payment modal
+      this.isReservationProofModalOpen = false;
+    },
+  openProofModal(downpaymentProof) {
+      // Set the selected image URL and open the modal
+      this.selectedProofImage = `https://eduardos-resort.online/backend/backend/public/uploads/${downpaymentProof}`;
+      this.isProofModalOpen = true;
+    },
+    closeProofModal() {
+      // Close the modal
+      this.isProofModalOpen = false;
+    },
+  openModal(proofImage) {
+      // Set the selected image and open the modal
+      this.selectedProofImage = `https://eduardos-resort.online/backend/backend/public/uploads/${proofImage}`;
+      this.isModalOpen = true;},
+      closeModal() {
+      // Close the modal
+      this.isModalOpen = false;
+    },
 // Handle Image Upload for Add Cottage
 handleCottageImageUpload() {
     const fileInput = this.$refs.cottageImageInput;
@@ -1732,7 +1858,6 @@ async fetchTables() {
         const data = {
           table_name: this.table_name,
           table_description: this.table_description,
-          table_price: this.table_price,
         };
 
         await axios.post('/addTable', data);
@@ -1750,7 +1875,6 @@ async fetchTables() {
         const data = {
           table_name: this.editedTable.table_name,
           table_description: this.editedTable.table_description,
-          table_price: this.editedTable.table_price,
         };
 
         await axios.post(`/updateTable/${this.editedTable.table_id}`, data);
@@ -1795,7 +1919,6 @@ async fetchTables() {
     clearTableForm() {
       this.table_name = '';
       this.table_description = '';
-      this.table_price = '';
     },
   async declineCottageBooking(cottagebooking_id) {
   try {
@@ -1854,15 +1977,28 @@ async markCottageBookingAsPaid(cottagebooking_id) {
 },
 
 async fetchCottageBookings() {
-  try {
-    const response = await axios.get('api/cottage-bookings'); // Update with your API endpoint
-    this.bookings = response.data; // Assuming you have a `bookings` data property
-  } catch (error) {
-    console.error('Error fetching cottage bookings:', error);
-    this.errorMessage = 'Failed to load cottage booking data.'; // Assuming you have an `errorMessage` property
-  }
-},
+      try {
+        const [bookingsResponse, usersResponse] = await Promise.all([
+          axios.get('api/cottage-bookings'), // Booking data
+          axios.get('/getData'), // User data
+        ]);
 
+        const bookings = bookingsResponse.data;
+        const users = usersResponse.data;
+
+        // Map user names into bookings
+        this.bookings = bookings.map((booking) => {
+          const user = users.find((u) => u.id === booking.user_id);
+          return {
+            ...booking,
+            name: user ? user.name : 'Unknown User', // Fallback if user not found
+          };
+        });
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        this.errorMessage = 'Failed to load cottage bookings.';
+      }
+    },
   async fetchReservations() {
       try {
         const response = await axios.get('/admin/reservations'); // Update with your API endpoint
@@ -1931,25 +2067,6 @@ async markReservationAsPaid(reservation_id) {
 },
 
 
-// async updateReservationStatus() {
-//   try {
-//     const response = await axios.put(`/admin/reservations/updateStatus/${this.selectedReservation.reservation_id}`, {
-//       status: this.statusToUpdate
-//     });
-
-//     if (response.status === 200) {
-//       this.showSuccessNotification(`Reservation ${this.selectedReservation.reservation_id} status updated to ${this.statusToUpdate}`);
-//       this.fetchReservations(); // Refresh the list
-//       this.closeStatusModal();
-//     } else {
-//       console.error("Failed to update status:", response.data.message);
-//       this.errorMessage = `Failed to update status: ${response.data.message}`;
-//     }
-//   } catch (error) {
-//     console.error('Error updating status:', error);
-//     this.errorMessage = 'Failed to update status. Please try again.';
-//   }
-// },
   showSuccessNotification(message) {
     // Implementation for showing success notifications
     console.log(`Success: ${message}`);
@@ -1975,46 +2092,51 @@ async markReservationAsPaid(reservation_id) {
     closeAddItemModal() {
       this.addModalItemVisible = false;
     },
+    onFileChange(event) {
+    const file = event.target.files[0];
+    if (file) {
+      this.item_image = file; // Store the selected file
+    }
+  },
     async addMenuItem() {
-  try {
-    const response = await axios.post("http://localhost:8080/api/menu", {
-      item_name: this.item_name,
-      item_category: this.item_category,
-      item_price: this.item_price
-    });
+    const formData = new FormData();
+    formData.append('item_name', this.item_name);
+    formData.append('item_category', this.item_category);
+    formData.append('item_price', this.item_price);
 
-    if (response.data.status === "success") {
-      this.showSuccessNotification(response.data.message);
-      this.clearForm();
-      this.closeAddItemModal();
-      // Optionally fetch the updated menu list
-      this.fetchMenuItems();
-    } else {
-      console.error("Error from server:", response.data.message, response.data.errors);
-      this.showErrorNotification(response.data.message);
+    if (this.item_image) {
+        formData.append('item_image', this.item_image);
     }
-  } catch (error) {
-    console.error("An error occurred:", error);
-    if (error.response) {
-      console.error("Server responded with a status:", error.response.status);
-      console.error("Response data:", error.response.data);
-      console.error("Response headers:", error.response.headers);
-      this.showErrorNotification(`Server error: ${error.response.data.message}`);
-    } else if (error.request) {
-      console.error("No response received:", error.request);
-      this.showErrorNotification("No response received from server.");
-    } else {
-      console.error("Error setting up request:", error.message);
-      this.showErrorNotification("Error setting up request: " + error.message);
+
+    try {
+        const response = await axios.post("https://eduardos-resort.online/backend/api/menu", formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+
+        if (response.data.status === "success") {
+            this.showSuccessNotification(response.data.message);
+            this.clearForm();
+            this.closeAddItemModal();
+            // Optionally fetch the updated menu list
+            this.fetchMenuItems();
+        } else {
+            console.error("Error from server:", response.data.message, response.data.errors);
+            this.showErrorNotification(response.data.message);
+        }
+    } catch (error) {
+        console.error("An error occurred:", error);
+        this.handleError(error);
     }
-  }
 },
 
 clearForm() {
-  this.item_name = '';
-  this.item_category = '';
-  this.item_price = '';
-},
+    this.item_name = '';
+    this.item_category = '';
+    this.item_price = '';
+    this.item_image = null; // Clear the image file
+  },
 
     showSuccessNotification(message) {
       this.successMessage = message;
@@ -2029,58 +2151,78 @@ clearForm() {
       }, 5000); // Clear the message after 5 seconds
     },
     openEditItemModal(item) {
+  // Check if the item has a valid menu ID
   if (!item.menu_id) {
     console.error('Item ID is missing.');
     this.showErrorNotification('Item ID is missing.');
     return;
   }
-  this.currentItem = { ...item };
-  console.log('Selected item:', this.currentItem); // Check the contents of currentItem
-  this.editModalItemVisible = true;
+  
+  // Initialize the editedMenuItem with the selected item's data
+  this.editedMenuItem = {
+    menu_id: item.menu_id, // Assuming menu_id is needed for the update
+    item_name: item.item_name,
+    item_category: item.item_category,
+    item_price: item.item_price,
+    item_image: null, // Reset the item_image for potential upload
+  };
+
+  console.log('Selected item for editing:', this.editedMenuItem); // Check the contents of editedMenuItem
+
+  // Open the modal for editing
+  this.editMenuItemModalVisible = true;
 },
-  closeEditItemModal() {
-    this.editModalItemVisible = false;
-  },
-  async updateMenuItem() {
-  try {
-    // Prepare the data to be sent in the request
-    const data = {
-      item_name: this.currentItem.item_name,
-      item_category: this.currentItem.item_category,
-      item_price: this.currentItem.item_price,
-    };
 
-    // Construct the API URL
-    const apiUrl = `/api/menu/${this.currentItem.menu_id}`;
+closeMenuItemEditModal() {
+  this.editMenuItemModalVisible = false;
+  this.editedMenuItem = { // Reset editedMenuItem for future edits
+    item_name: '',
+    item_category: '',
+    item_price: '',
+    item_image: null,
+  };
+},
 
-    // Make an API call to update the menu item
-    const response = await axios.put(apiUrl, data);
+handleMenuItemImageUpload() {
+    const fileInput = this.$refs.editMenuItemImageInput; // Reference to the input file element
+    const file = fileInput.files[0]; // Get the first file selected
 
-    // Log success and notify user
-    console.log("Item updated successfully:", response.data);
-    this.showSuccessNotification(response.data.message || 'Item updated successfully!');
-
-    // Close the modal and refresh the menu items list
-    this.closeEditItemModal();
-    this.fetchMenuItems(); // Refresh the list of menu items
-
-    // Emit an event to notify other components
-    this.$emit("item-updated");
-  } catch (error) {
-    console.error("Error updating item:", error);
-    if (error.response) {
-      console.error("Server responded with a status:", error.response.status);
-      console.error("Response data:", error.response.data);
-      this.showErrorNotification(`Server error: ${error.response.data.message || 'Unknown server error'}`);
-    } else if (error.request) {
-      console.error("No response received:", error.request);
-      this.showErrorNotification('No response received from server.');
-    } else {
-      console.error("Error setting up request:", error.message);
-      this.showErrorNotification('Error setting up request: ' + error.message);
+    // Check if a file was selected
+    if (file) {
+        this.editedMenuItem.item_image = file; // Store the file directly for upload
+        console.log("Selected image file:", file); // Debug: Check if the file is captured correctly
     }
-  }
 },
+
+async saveMenuItemEdit() {
+    try {
+        const formData = new FormData();
+        formData.append("item_name", this.editedMenuItem.item_name);
+        formData.append("item_category", this.editedMenuItem.item_category);
+        formData.append("item_price", this.editedMenuItem.item_price);
+        
+        // Append the image file if it exists
+        if (this.editedMenuItem.item_image) {
+            formData.append("item_image", this.editedMenuItem.item_image);
+        }
+
+        // Make the PUT request to update the menu item
+        const response = await axios.post(`https://eduardos-resort.online/backend/api/menu/${this.editedMenuItem.menu_id}`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data', // Set the content type for FormData
+            }
+        });
+
+        console.log("Item updated successfully:", response.data);
+        this.showSuccessNotification(response.data.message || 'Item updated successfully!');
+        this.closeMenuItemEditModal();
+        this.fetchMenuItems(); // Refresh the list of menu items
+    } catch (error) {
+        console.error("Error updating item:", error);
+        this.showErrorNotification('Failed to update item.');
+    }
+},
+
 
 
     showSuccessNotification(message) {
@@ -2176,23 +2318,6 @@ clearForm() {
         }, 1000); 
       }
     },
-  async declineOrder(orderId) {
-    try {
-      const response = await axios.post(`/api/decline-order/${orderId}`);
-
-      if (response.status === 200) {
-        this.showSuccessNotification(`Order ${orderId} Declined`);
-        this.fetchOrdersForAllUsers();
-        this.getInfo();
-
-        this.$emit("data-saved");
-      } else {
-        console.error("Failed to decline order:", response.data.message);
-      }
-    } catch (error) {
-      console.error("Error declining order:", error);
-    }
-  },
 
   async getBook() {
     try {
@@ -2202,48 +2327,51 @@ clearForm() {
       console.error('Error fetching books:', error);
     }
   },
-  async declineBooking(booking_id) {
+  async markAsPaidByGroup(group_id) {
     try {
-      const response = await axios.post(`/api/decline-booking/${booking_id}`);
-
-      if (response.status === 200) {
-        this.showSuccessNotification(`Booking ${booking_id} Declined`);
-        this.getBook(); // Ensure this method is defined
-      } else {
-        console.error("Failed to decline booking:", response.data.message);
-      }
+        const response = await axios.post(`/api/mark-as-paid-group/${group_id}`);
+        if (response.status === 200) {
+            this.showSuccessNotification(`All bookings in group ${group_id} marked as Paid`);
+            this.getBook(); // Refresh the booking list
+        } else {
+            console.error("Failed to mark bookings as paid:", response.data.message);
+        }
     } catch (error) {
-      console.error("Error declining booking:", error);
+        console.error("Error marking bookings as paid:", error);
     }
-  },
-  async markAsPaid(booking_id) {
+},
+
+async acceptBookingByGroup(group_id) {
     try {
-      const response = await axios.post(`/mark-as-paid/${booking_id}`);
-
-      if (response.status === 200) {
-        this.showSuccessNotification(`Booking ${booking_id} Marked as Paid`);
-        this.getBook(); // Ensure this method is defined
-      } else {
-        console.error("Failed to mark as paid:", response.data.message);
-      }
+        const response = await axios.post(`/api/accept-booking-group/${group_id}`);
+        if (response.status === 200) {
+            this.showSuccessNotification(`All bookings in group ${group_id} accepted`);
+            this.getBook(); // Refresh the booking list
+        } else {
+            console.error("Failed to accept bookings:", response.data.message);
+        }
     } catch (error) {
-      console.error("Error marking as paid:", error);
+        console.error("Error accepting bookings:", error);
     }
-  },
-  async acceptBooking(booking_id) {
+},
+
+async declineBookingByGroup(group_id) {
     try {
-      const response = await axios.post(`/accept-booking/${booking_id}`);
-
-      if (response.status === 200) {
-        this.showSuccessNotification(`Booking ${booking_id} Accepted`);
-        this.getBook(); // Ensure this method is defined
-      } else {
-        console.error("Failed to accept booking:", response.data.message);
-      }
+        const response = await axios.post(`/api/decline-booking-group/${group_id}`);
+        if (response.status === 200) {
+            this.showSuccessNotification(`All bookings in group ${group_id} declined`);
+            this.getBook(); // Refresh the booking list
+        } else {
+            console.error("Failed to decline bookings:", response.data.message);
+        }
     } catch (error) {
-      console.error("Error accepting booking:", error);
+        console.error("Error declining bookings:", error);
     }
-  },
+},
+
+toggleDropdown(group_id) {
+    this.openDropdown = this.openDropdown === group_id ? null : group_id; // Toggles the dropdown
+},
   async declineenrolling(enroll_id) {
     try {
       const response = await axios.post(`/api/decline-enroll/${enroll_id}`);
@@ -2264,7 +2392,7 @@ clearForm() {
   fetchOrdersForAllUsers() {
     this.loading = true;
     axios
-      .get(`/api/user-orders/`)
+      .get(`/api/orders`)
       .then((response) => {
         console.log(response.data); // Add this line to log the response
         this.orders = response.data.orders;
@@ -2279,28 +2407,38 @@ clearForm() {
   },
 
   markOrderPaid(orderId) {
-    axios
-      .post(`/api/mark-order-paid/${orderId}`)
+    axios.post(`/api/mark-order-paid/${orderId}`)
       .then((response) => {
-        console.log(response.data);
+        console.log('Mark order paid response:', response.data);
         this.fetchOrdersForAllUsers();
       })
       .catch((error) => {
-        console.error("Error marking order as paid:", error);
+        console.error('Error marking order as paid:', error.response ? error.response.data : error);
       });
   },
 
   confirmOrder(orderId) {
-    axios
-      .post(`/api/confirm-order/${orderId}`)
+    axios.post(`/api/confirm-order/${orderId}`)
       .then((response) => {
-        console.log(response.data);
+        console.log('Confirm order response:', response.data);
         this.fetchOrdersForAllUsers();
       })
       .catch((error) => {
-        console.error("Error confirming order:", error);
+        console.error('Error confirming order:', error.response ? error.response.data : error);
       });
   },
+
+  declineOrder(orderId) {
+    axios.post(`/api/decline-order/${orderId}`)
+      .then((response) => {
+        console.log('Decline order response:', response.data);
+        this.fetchOrdersForAllUsers();
+      })
+      .catch((error) => {
+        console.error('Error declining order:', error.response ? error.response.data : error);
+      });
+  },
+
   openRoomEditModal(room) {
     this.editedRoom = { ...room };
     this.editRoomModalVisible = true;
@@ -2448,25 +2586,26 @@ clearForm() {
     },
     handleDropdownAction(action, order_id) {
    
-      if (action === 'markOrderPaid') {
-        this.markOrderPaid(order_id);
-      } else if (action === 'confirmOrder') {
-        this.confirmOrder(order_id);
-      } else if (action === 'declineOrder') {
-        this.declineOrder(order_id);
-      }
-      this.openDropdown = null; 
-    },
-    handleDropdownAction(action, book_id) {
-      if (action === 'markAsPaid') {
-        this.markAsPaid(book_id);
-      } else if (action === 'acceptBooking') {
-        this.acceptBooking(book_id);
-      } else if (action === 'declineBooking') {
-        this.declineBooking(book_id);
-      }
-      this.openDropdown = null; 
-    },
+   if (action === 'markOrderPaid') {
+     this.markOrderPaid(order_id);
+   } else if (action === 'confirmOrder') {
+     this.confirmOrder(order_id);
+   } else if (action === 'declineOrder') {
+     this.declineOrder(order_id);
+   }
+   this.openDropdown = null; 
+ },
+ handleDropdownAction(action, group_id) {
+    if (action === 'markAsPaid') {
+        this.markAsPaidByGroup(group_id); // Call the new group method
+    } else if (action === 'acceptBooking') {
+        this.acceptBookingByGroup(group_id); // Call the new group method
+    } else if (action === 'declineBooking') {
+        this.declineBookingByGroup(group_id); // Call the new group method
+    }
+    this.openDropdown = null; 
+},
+
 
     showSuccessNotification(message) {
       this.successMessage = message;
@@ -2505,12 +2644,14 @@ clearForm() {
   },
   async saveDate() {
     try {
-        const response = await axios.post("http://localhost:8080/saveDate", {
+        const response = await axios.post("https://eduardos-resort.online/backend/saveDate", {
             swimming_date: this.swimming_date,
         });
         this.successMessageDate = response.data.message;
         this.dates.push(this.swimming_date); // Assuming you want to add it to the dates list
         this.closeAddDateModal(); // Close the modal
+        this.showNotification("Date Added Successfully", "success");
+
     } catch (error) {
         console.error("Error saving date:", error);
         // Check if error response exists
@@ -2698,37 +2839,46 @@ clearForm() {
   },
   async saveEdit() {
     try {
-      const data = {
-        prod_name: this.editedInfo.prod_name,
-        prod_desc: this.editedInfo.prod_desc,
-        prod_price: this.editedInfo.prod_price,
-      };
+        const formData = new FormData(); // Use FormData to handle image uploads
+        formData.append("prod_name", this.editedInfo.prod_name);
+        formData.append("prod_desc", this.editedInfo.prod_desc);
+        formData.append("prod_price", this.editedInfo.prod_price);
+        
+        // Append the new image if it exists
+        if (this.editedInfo.newImage) {
+            formData.append("prod_img", this.editedInfo.newImage);
+        }
 
-      const apiUrl = `/updateShop/${this.editedInfo.shop_id}`;
-      const response = await axios.put(apiUrl, data);
+        const apiUrl = `/updateShop/${this.editedInfo.shop_id}`;
+        const response = await axios.post(apiUrl, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data' // Set content type to multipart/form-data
+            }
+        });
 
-      console.log("Product updated successfully:", response.data);
-      this.closeEditModal();
-      this.showSuccessNotification("Product Updated Successfully");
+        console.log("Product updated successfully:", response.data);
+        this.closeEditModal();
+        this.showSuccessNotification("Product Updated Successfully");
 
-      this.getInfo();
+        this.getInfo();
 
-      this.$emit("data-saved");
+        this.$emit("data-saved");
     } catch (error) {
-      console.error("Error updating product:", error);
+        console.error("Error updating product:", error);
     }
-  },
+},
 
-  handleEditImageUpload() {
+
+handleEditImageUpload() {
     const fileInput = this.$refs.editImageInput;
     const file = fileInput.files[0];
 
-    this.editedInfo.newImage = file;
-  },
+    this.editedInfo.newImage = file; // Store the file directly for upload
+},
+
 },
 };
 </script>
-
 
 
 <style scoped>
@@ -2881,10 +3031,11 @@ span{
 }
 
 .card-body .modal-body, .card-body .alert, th , .modal-body {
-  font-family: "Edu AU VIC WA NT Hand", cursive;
-  font-weight: bold; 
-  font-size: 17px; 
-  
+  font-family: "Poppins", sans-serif;
+  font-weight: 800;
+  font-style: normal;
+  font-size: large;
+  color:#0F172B;
 }
 
 .modal {
@@ -2919,12 +3070,15 @@ span{
   width: 100%;
 }
 
-.table-product tbody td.action-buttons button,
-.table-product tbody td.action-buttons a, td {
-  font-family: "Edu AU VIC WA NT Hand", cursive;
-  margin-top:20px;
-  margin-bottom:20px;
+
+.table-product tbody  td {
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+  color:#0F172B;
 }
+
+
 .table-product tbody td.action-buttons {
   display: flex;
   flex-direction: row;
@@ -2932,32 +3086,39 @@ span{
   justify-content: flex-start;
   gap: 10px;
   white-space: nowrap;
-  padding: 0; /* Remove padding */
-  margin: 0; /* Remove margin */
+  
+
 }
 .table-product tbody td {
   padding: 12px; /* Ensure padding is consistent */
-  margin: 0; /* Ensure margin is consistent */
+
 
 }
-
-.table-product tbody tr {
-  margin: 0;
-  padding: 0;
- 
+td img {
+  display: block; /* Make sure the image is block-level to avoid being clipped */
+  max-width: 100%; /* Ensure image fits inside the cell */
+  height: auto;
 }
+.table-responsive {
+  max-height: none; /* Or increase the max-height to allow space for images */
+  overflow-y: visible; /* To ensure images are not cut off */
+}
+table {
+  table-layout: auto;
+}
+
+
 .table-product tbody tr:hover {
-  background-color: #ff9933; /* Change background color on hover */
+  background-color: rgb(253, 253, 221); /* Change background color on hover */
 }
 /* Header alignment for actions column */
 .actions-header {
   text-align: center;
-  
+  overflow: hidden; /* Ensures no scrollbars appear */
+  white-space: nowrap; /* Prevents wrapping */
 }
 
-.table-product td {
-  vertical-align: middle; /* Align the "Actions" button vertically */
-}
+
 
 .dropdown {
 
@@ -3014,6 +3175,7 @@ span{
   transition: opacity 0.2s;
   z-index: 9999; /* Ensure the dropdown appears above other elements */
   display: none;
+  
 }
 .menu-open {
   display: block;
@@ -3045,7 +3207,7 @@ menu.no-scroll {
   border-radius:5px;
  
 }
-.btn-custom, .edit-btn {
+.btn-custom {
   background-color: #fea116; /* Same as Add Item button */
   border: none;
   color: white;
@@ -3056,27 +3218,71 @@ menu.no-scroll {
   align-items: center;
   text-decoration: none;
   transition: background-color 0.3s, transform 0.3s;
-  font-family: "Edu AU VIC WA NT Hand", cursive;
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  font-style: normal;
 padding: 10px;  
+}
+.btn-primary {
+  background-color: #046f09; /* Same as Add Item button */
+  border: none;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  transition: background-color 0.3s, transform 0.3s;
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+padding: 10px;  
+}
+.btn-secondary {
+  background-color: #e21604; /* Same as Add Item button */
+  border: none;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  transition: background-color 0.3s, transform 0.3s;
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+padding: 10px;  
+}.btn-tertiary {
+  background-color: #fea116; /* Same as Add Item button */
+  border: none;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  transition: background-color 0.3s, transform 0.3s;
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+padding: 10px;  
+}
 
+
+
+.btn-custom:hover{
+color:white;
 }
-.edit-btn{
-  padding: 12px;
-  font-size: 15px;
-  width: 65px;
-  font-family: "Edu AU VIC WA NT Hand", cursive;
- 
-}
+
 .btn:hover {
   background-color: #0F172B;
   transform: scale(1.10);
   border:none;
 }
-.edit-btn:hover{
-  background-color: #0F172B;
-  transform: scale(1.10);
-  border:none;
-}
+
 
 
 /* Sidebar styles */
@@ -3222,4 +3428,152 @@ padding: 10px;
   }
   
 }
+
+/* Image in Table Styling */
+.cottage-image {
+  max-width: 100px; /* Adjust the size as needed */
+  height: auto;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.cottage-image:hover {
+  transform: scale(1.05);
+  transition: transform 0.2s;
+}
+.room-image {
+        max-width: 80px;
+        height: auto;
+        object-fit: cover;
+        border-radius: 5px;
+    }
+
+    .table-product {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+
+
+    .alert {
+        margin-top: 10px;
+    }
+    .modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1050;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 500px;
+  max-width: 90%;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1050;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 500px;
+  max-width: 90%;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.caret {
+  margin-left: 10px;
+  transition: transform 0.3s;
+}
+
+.caret-rotate {
+  transform: rotate(180deg);
+}
+
+.menu {
+  display: none;
+  position: absolute;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-top: 5px;
+  padding: 5px 0;
+  list-style: none;
+}
+
+.menu-open {
+  display: block;
+}
+
+.menu li {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.menu li:hover {
+  background-color: #f0f0f0;
+}
+.modal.fade.show {
+  display: block;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.modal-dialog {
+  max-width: 500px;
+  width: 100%;
+}
+
+.modal-header .close {
+  border: none;
+  background: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
 </style>

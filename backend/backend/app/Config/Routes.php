@@ -8,6 +8,7 @@ use CodeIgniter\Router\RouteCollection;
 
 $routes->get('/', 'Home::index');
 $routes->get('/getData','MainController::getData');
+$routes->get('/fetchUser/(:num)', 'MainController::fetchUser/$1'); // Ensure your route allows for an ID parameter
 $routes->get('/getDataShop','MainController::getDataShop');
 $routes->post('/saveShop','MainController::saveShop');
 $routes->post('/register','MainController::register');
@@ -45,7 +46,9 @@ $routes->put('updateQuantity/(:num)', 'MainController::updateQuantity/$1');
 $routes->post('updateQuantity', 'MainController::updateQuantity');
 $routes->get('api/auditHistory/(:num)', 'MainController::getAuditHistory/$1');
 $routes->post('/api/feedback/delete/(:num)', 'MainController::deleteFeedback/$1');
-$routes->post('/accept-booking/(:num)', 'MainController::acceptBooking/$1');
+$routes->post('api/mark-as-paid-group/(:any)', 'MainController::markAsPaidByGroup/$1');
+$routes->post('api/accept-booking-group/(:any)', 'MainController::acceptBookingByGroup/$1');
+$routes->post('api/decline-booking-group/(:any)', 'MainController::declineBookingByGroup/$1');
 $routes->post('/accept-enrolling/(:num)', 'MainController::acceptEnrolling/$1');
 $routes->post('/mark-as-paid/(:num)', 'MainController::markAsPaid/$1');
 $routes->post('/mark-this-paid/(:num)', 'MainController::markthisPaid/$1');
@@ -53,7 +56,7 @@ $routes->get('/getInvoices/(:num)', 'MainController::getInvoices/$1');
 $routes->get('/getImage/(:segment)', 'MainController::getImage/$1');
 $routes->post('/saveShop', 'MainController::saveShop');
 $routes->post('/saveDate', 'MainController::saveDate');
-$routes->put('/updateShop/(:num)', 'MainController::updateShop/$1');
+$routes->post('/updateShop/(:num)', 'MainController::updateShop/$1');
 $routes->put('/updateRoom/(:num)', 'MainController::updateRoom/$1');
 $routes->get('/getStaff','MainController::getStaff');
 $routes->post('/saveStaff', 'MainController::saveStaff');
@@ -65,7 +68,7 @@ $routes->post('/api/feedback/hide/(:num)', 'MainController::deleteFeedback/$1');
 $routes->post('/api/staffback/hide/(:num)', 'MainController::hideStaff/$1');
 $routes->post('/checkoutpos', 'MainController::checkoutpos');
 $routes->post('/saveRoom', 'MainController::saveRoom');
-$routes->get('/api/user-orders', 'MainController::getUserOrders');
+$routes->get('/api/orders', 'MainController::getUserOrders');
 $routes->post('/api/mark-order-paid/(:num)', 'MainController::markOrderPaid/$1');
 $routes->post('/api/confirm-order/(:num)', 'MainController::confirmOrder/$1');
 $routes->post('/api/decline-booking/(:num)', 'MainController::declineBooking/$1');
@@ -79,8 +82,10 @@ $routes->get('/pack3','MainController::pack3');
 $routes->get('/pack4','MainController::pack4');
 $routes->get('/pack6','MainController::pack6');
 $routes->match(['post','get'],'/sendVerificationEmail', 'EmailController::sendVerificationEmail');
-$routes->match(['post','get'],'/resendVerificationEmail', 'EmailController::resendVerificationEmail');
+$routes->match(['post', 'get'], '/resendVerificationEmail', 'EmailController::resendVerificationEmail');
 $routes->get('/verify','EmailController::verify_email');
+$routes->get('/fetchEmail/(:segment)', 'EmailController::fetchEmail/$1'); // Fetch email by a segment (e.g., email string)
+
 $routes->get('/rooms/total_pax/(:num)', 'MainController::getRoomByTotalPax/$1');
 $routes->post('enroll', 'MainController::enroll');
 $routes->get('/getAvailableDates','MainController::getAvailableDates');
@@ -106,7 +111,7 @@ $routes->group('api', ['namespace' => 'App\Controllers'], function ($routes) {
 $routes->group('api', ['namespace' => 'App\Controllers'], function ($routes) {
     $routes->post('update-password', 'MainController::updatePassword');
 });
-$routes->put('api/menu/(:num)', 'MainController::updateMenuItem/$1');
+$routes->post('api/menu/(:num)', 'MainController::updateMenuItem/$1');
 
 
 $routes->group('api', function($routes) {
@@ -124,6 +129,7 @@ $routes->group('api', function($routes) {
     // Delete a menu item by ID
     $routes->delete('menu/(:num)', 'MainController::deleteMenuItem/$1');
 });
+$routes->post('api/send-email', 'EmailController::sendEmail');
 
 
 $routes->post('/reservations', 'MainController::createReservation'); // Create a new reservation

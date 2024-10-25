@@ -26,7 +26,8 @@
               </td>
               <td class="align-middle">
                 <div class="product-item">
-                  <img class="img-fluid menu" :src="`http://localhost:8080/uploads/${getImg(cart).prod_img}`" alt="Product" />
+                  <img class="img-fluid menu" :src="`https://eduardos-resort.online/backend/backend/public/uploads/${getImg(cart).prod_img}`" 
+                  alt="Product" />
                   <div class="product-info">
                     <h4 class="product-title">{{ getInfo(cart).prod_name }}</h4>
                   </div>
@@ -83,15 +84,15 @@
 
       <div>
         <label>
-          <input type="radio" v-model="paymentMethod" value="cash"> GCash
+          <input type="radio" v-model="paymentMethod" value="gcash"> GCash
         </label>
       </div>
 
       <!-- Downpayment Proof Upload Section -->
-      <h4>Upload Downpayment Proof:</h4>
+      <h4>Upload Fullpayment Proof:</h4>
       <div class="d-flex align-items-center mb-3">
         <div class="col-md-6">
-          <input type="file" @change="handleFileUpload" accept="image/*" class="form-control" />
+          <input type="file" @change="handleFileUpload" accept="image/*" class="form-control" required />
         </div>
         <div class="col-md-3 ms-2">
           <button type="button" class="btn btn-info w-100" @click="openGcashQRCode">
@@ -572,15 +573,6 @@ export default {
 
   return subtotal;
 },
-
-
-
-
-
-
-
-
-
 
 check(cartId) {
   const index = this.checkedItems.indexOf(cartId);

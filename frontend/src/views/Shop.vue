@@ -51,8 +51,8 @@
 				<div v-for="shop in shop" class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
 					<div class="room-item shadow rounded overflow-hidden">
 						<div class="position-relative">
-              <img class="img-fluid menu" style="width: 200%; max-width: 500px; height: 330px;"
-     :src="`http://localhost:8080/uploads/${shop.prod_img}`" alt="" />
+							<img class="custom-image" :src="`https://eduardos-resort.online/backend/backend/public/uploads/${shop.prod_img}`" alt="" />
+
 
 
 							<small class="position-absolute start-0 top-100 translate-middle-y bg-primary text-white rounded py-1 px-3 ms-4">
@@ -134,6 +134,12 @@
 	.room { background-image: url('~@/assets/img/shop.jpg'); background-size:
 	cover; background-repeat: no-repeat; background-position: center center;
 	width: 100%; height: 338px; }
+	.custom-image {
+    width: 100%;
+    height: 330px;
+    object-fit: cover;
+}
+
 </style>
 <script>
 import Top from '@/components/Top.vue';

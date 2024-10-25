@@ -11,7 +11,7 @@ class MenuModel extends Model
     protected $useAutoIncrement = true;
     protected $returnType = 'array';
     protected $useSoftDeletes = false;
-    protected $allowedFields = ['item_name', 'item_category', 'item_price'];
+    protected $allowedFields = ['item_name', 'item_category', 'item_price','item_image'];
 
     // Dates
     protected $useTimestamps = true;

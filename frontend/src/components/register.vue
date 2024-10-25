@@ -9,10 +9,16 @@
         </div>
 
         <form @submit.prevent="register" ref="registerForm">
-          <!-- Name Input with Floating Label -->
+          <!-- First Name Input with Floating Label -->
           <div class="form-floating mb-3">
-            <input type="text" class="form-control" name="name" v-model="name" required placeholder=" ">
-            <label for="name" class="form-label">Name</label>
+            <input type="text" class="form-control" name="firstName" v-model="firstName" required placeholder=" ">
+            <label for="firstName" class="form-label">First Name</label>
+          </div>
+
+          <!-- Last Name Input with Floating Label -->
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" name="lastName" v-model="lastName" required placeholder=" ">
+            <label for="lastName" class="form-label">Last Name</label>
           </div>
 
           <!-- Email Input with Floating Label -->
@@ -123,12 +129,15 @@
 </template>
 
 
+
 <script>
 import axios from 'axios';
 
 export default {
   data() {
     return {
+      firstName: "", // New data property for first name
+      lastName: "", 
       name: "",
       email: "",
       password: "",
@@ -192,7 +201,7 @@ export default {
     async register() {
   try {
     const res = await axios.post("register", {
-      name: this.name,
+      name: `${this.firstName} ${this.lastName}`,
       email: this.email,
       password: this.password,
       number: this.number,
@@ -201,6 +210,8 @@ export default {
 
     // Clear form fields
     this.name = "";
+    this.firstName = "";
+    this.Lastname = "";
     this.email = "";
     this.password = "";
     this.confirmpassword = "";

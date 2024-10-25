@@ -54,12 +54,12 @@
       <div class="content">
         <div class="card card-default">
           <div class="card-header">
-            <h2>Staff List</h2>
+            <h2  class="fa-solid fa-user-tie"> Staff List</h2><br>
             <button type="button" class="btn btn-secondary" @click="openAddModal">Add Staff</button>
           </div>
           <div class="card-body">
             <div class="table-responsive">
-            <table class="table ">
+            <table class="table table-product">
               <thead>
                 <tr>
                   <th>ID</th>
@@ -79,8 +79,8 @@
                   <td>{{ staff.staff_email }}</td>
                   <td>{{ staff.contactNum }}</td>
                   <td>
-                    <button class="edit-btn" @click="openStaffEditModal(staff)">Edit</button> |
-                    <button class="edit-btn" @click="hidestaff(staff.staff_id)">Hide</button>
+                    <button class="btn btn-custom" @click="openStaffEditModal(staff)">EDIT</button> |
+                    <button class="btn btn-custom" @click="hidestaff(staff.staff_id)">HIDE</button>
                   </td>
                 </tr>
               </tbody>
@@ -190,204 +190,6 @@
 </div>
 </div>
 </div>
-<div>
-    <h2>Assign Amenities to Rooms</h2>
-
-    <!-- Table for Assigning Amenities -->
-    <table>
-      <thead>
-        <tr>
-          <th>Room Name</th>
-          <th>Select Amenities</th>
-          <th>Assigned Amenities</th> <!-- New column for assigned amenities -->
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="room in rooms" :key="room.room_id">
-          <td>{{ room.room_name }}</td>
-          <td>
-            <!-- Dropdown with Checkboxes -->
-            <div class="dropdown">
-              <button class="dropdown-button" @click="toggleDropdown(room.room_id)">
-                Select Amenities
-              </button>
-              <div v-if="isDropdownOpen(room.room_id)" class="dropdown-content">
-                <div v-for="amenity in amenities" :key="amenity.amenity_id">
-                  <input
-                    type="checkbox"
-                    :id="`dropdown-amenity-${room.room_id}-${amenity.amenity_id}`"
-                    :value="amenity.amenity_id"
-                    :checked="room.amenities.includes(amenity.amenity_id)"
-                    @change="toggleAmenity(room.room_id, amenity.amenity_id)"
-                  />
-                  <label :for="`dropdown-amenity-${room.room_id}-${amenity.amenity_id}`">{{ amenity.amenity_name }}</label>
-                </div>
-              </div>
-            </div>
-          </td>
-          <td>
-            <!-- Display assigned amenities -->
-            <ul>
-              <li v-for="amenity in room.assignedAmenities" :key="amenity.amenity_id">{{ amenity.amenity_name }}</li>
-            </ul>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-
-    <Notification :show="notification.show" :type="notification.type" :message="notification.message" />
-  </div>
-  <div class="row">
-  <!-- Table Amenities -->
-  <div class="col-12">
-    <div class="card card-default">
-      <div class="card-header">
-        <h2>Amenities Inventory</h2>
-        <button type="button" class="btn btn-custom" @click="openAddAmenitiesModal">
-          Add Amenity
-        </button>
-      </div>
-      <div class="card-body">
-        <div class="table-responsive">
-          <table id="amenitiesTable" class="table table-hover" style="width: 100%">
-            <thead>
-              <tr>
-                <th>Amenity Name</th>
-                <th>Description</th>
-                <th>Stocks</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-                <tr v-for="(amenity, index) in amenities" :key="amenity.amenity_id">
-    <td>{{ amenity.amenity_name }}</td>
-    <td>{{ amenity.description }}</td>
-    <td>{{ amenity.stock }}</td>
-    <td class="action-buttons">
-      <button class="btn btn-custom" @click="openAddStockModal(amenity)">Add Stock</button>
-      <button class="btn btn-custom" @click="openEditAmenitiesModal(amenity)">Edit</button>
-      <button class="btn btn-danger" @click="deleteAmenity(amenity.amenity_id)">Delete</button>
-      <button class="btn btn-info" @click="goToAudit(amenity.amenity_id)">View Audit</button>
-    </td>
-              </tr>
-
-</tbody>
-
-          </table>
-        </div>
-
-        <!-- Success Message -->
-        <div v-if="successMessage" class="alert alert-success" role="alert">
-          {{ successMessage }}
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Edit Modal -->
-  <div v-if="editAmenitiesModalVisible" class="modal" tabindex="-1" role="dialog" style="display: block">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Edit Amenity</h5>
-          <button type="button" class="close" @click="closeEditAmenitiesModal">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <!-- Edit form -->
-          <form @submit.prevent="saveEditAmenities">
-            <div class="form-group">
-              <label for="edit_amenity_name">Amenity Name</label>
-              <input type="text" class="form-control" placeholder="Name" v-model="editedAmenity.amenity_name" />
-            </div>
-            <div class="form-group">
-              <label for="edit_amenity_desc">Amenity Description</label>
-              <input type="text" class="form-control" placeholder="Description" v-model="editedAmenity.description" />
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-custom" style="background:#0F172B; border:none;" @click="closeEditAmenitiesModal">
-                Close
-              </button>
-              <button type="submit" class="btn btn-custom">Save Changes</button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-<!-- Add Stock Modal -->
-<div v-if="addStockModalVisible" class="modal" tabindex="-1" role="dialog" style="display: block">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Add Stock</h5>
-                <button type="button" class="close" @click="closeAddStockModal">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form @submit.prevent="saveAddStock">
-                    <div class="form-group">
-                        <label for="stock_amount">Stock Amount</label>
-                        <input
-                            type="number"
-                            class="form-control"
-                            v-model="newStock.amount"
-                            min="1" 
-                            required 
-                        />
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-custom" @click="closeAddStockModal">Close</button>
-                        <button type="submit" class="btn btn-custom">Add Stock</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-  <!-- Add Amenity Modal -->
-  <div v-if="addAmenitiesModalVisible" class="modal" tabindex="-1" role="dialog" style="display: block">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Add Amenity</h5>
-          <button type="button" class="close" @click="closeAddAmenitiesModal">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <!-- Add form -->
-          <form @submit.prevent="saveAddAmenities">
-            <div class="form-group">
-              <label for="new_amenity_name">Amenity Name</label>
-              <input type="text" class="form-control" placeholder="Name" v-model="newAmenity.amenity_name" />
-            </div>
-            <div class="form-group">
-              <label for="new_amenity_desc">Amenity Description</label>
-              <input type="text" class="form-control" placeholder="Description" v-model="newAmenity.description" />
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-custom" style="background:#0F172B; border:none;" @click="closeAddAmenitiesModal">
-                Close
-              </button>
-              <button type="submit" class="btn btn-custom">Add Amenity</button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Success Message -->
-  <div v-if="successMessage" class="alert alert-success" role="alert">
-    {{ successMessage }}
-  </div>
-</div>
-
 </div>
 
   <Notification :show="notification.show" :type="notification.type" :message="notification.message" />
@@ -408,27 +210,6 @@ components: {
 },
 data() {
   return {
-
-    addStockModalVisible: false,
-        newStock: { amount: 0 },
-    amenities: [], // List of amenities
-    newAmenity: { amenity_name: '', description: '' }, // For adding a new amenity
-    editedAmenity: {}, // For editing an existing amenity
-    addAmenitiesModalVisible: false, // Add modal visibility
-    editAmenitiesModalVisible: false, // Edit modal visibility
-    notification: { show: false, type: '', message: '' }, // Notification state
-    rooms: [], // List of rooms with assigned amenities
-      amenities: [], // List of available amenities
-      newAmenity: {
-        name: '',
-        description: ''
-      },
-      notification: {
-        show: false,
-        type: "",
-        message: "",
-      },
-      openDropdowns: {}, // Track open/close state of dropdowns
     isSidebarCollapsed: false,
   staff: [],
   addModalVisible: false,
@@ -450,241 +231,8 @@ data() {
 },
 mounted() {
   this.getStaff();
-  this.fetchRoomsAndAmenities();
-
 },
 methods: {
-      goToAudit(amenityId) {
-    this.$router.push({ name: 'AmenitiesAudit', params: { amenityId } });
-  },
-// Open the Add Stock Modal
-openAddStockModal(amenity) {
-    this.newStock.amount = 0; // Reset amount
-    this.editedAmenity = amenity; // Store the amenity to which the stock is being added
-    this.addStockModalVisible = true;
-},
-
-// Close the Add Stock Modal
-closeAddStockModal() {
-    this.addStockModalVisible = false;
-},
-
-async saveAddStock() {
-    try {
-        const response = await axios.post(`/api/amenities/${this.editedAmenity.amenity_id}/stock`, this.newStock);
-        if (response.data.status === 'success') {
-            this.fetchAmenities(); // Refresh the amenities list
-            this.closeAddStockModal();
-            this.showNotification('success', response.data.message);
-        } else {
-            throw new Error(response.data.message || 'Unknown error occurred');
-        }
-    } catch (error) {
-        console.error('Error adding stock:', error);
-        this.showNotification('error', error.response?.data?.message || 'Failed to add stock');
-    }
-},
-
-async fetchAmenities() {
-    try {
-        const response = await axios.get('/api/amenities');
-        this.amenities = response.data;
-    } catch (error) {
-        console.error('Error fetching amenities:', error);
-        this.showNotification('error', 'Error fetching amenities');
-    }
-},
-
-// Open the Add Amenities Modal
-openAddAmenitiesModal() {
-    this.newAmenity = { amenity_name: '', description: '' };
-    this.addAmenitiesModalVisible = true;
-},
-
-// Close the Add Amenities Modal
-closeAddAmenitiesModal() {
-    this.addAmenitiesModalVisible = false;
-},
-
-// Save the new amenity to the backend
-async saveAddAmenities() {
-    try {
-        const response = await axios.post('/api/amenities', this.newAmenity);
-        if (response.data.status === 'success') {
-            this.fetchAmenities(); // Refresh the amenities list
-            this.closeAddAmenitiesModal();
-            this.showNotification('success', response.data.message);
-        }
-    } catch (error) {
-        console.error('Error adding amenity:', error);
-        this.showNotification('error', 'Error adding amenity');
-    }
-},
-
-// Open the Edit Amenities Modal
-openEditAmenitiesModal(amenity) {
-    this.editedAmenity = { ...amenity }; // Clone the selected amenity for editing
-    this.editAmenitiesModalVisible = true;
-},
-
-// Close the Edit Amenities Modal
-closeEditAmenitiesModal() {
-    this.editAmenitiesModalVisible = false;
-},
-
-// Save the edited amenity to the backend
-async saveEditAmenities() {
-    try {
-        const response = await axios.put(`/api/amenities/${this.editedAmenity.amenity_id}`, this.editedAmenity);
-        if (response.data.status === 'success') {
-            this.fetchAmenities(); // Refresh the amenities list
-            this.closeEditAmenitiesModal();
-            this.showNotification('success', response.data.message);
-        }
-    } catch (error) {
-        console.error('Error updating amenity:', error);
-        this.showNotification('error', 'Error updating amenity');
-    }
-},
-
-// Show Notification
-showNotification(type, message) {
-    this.notification.type = type;
-    this.notification.message = message;
-    this.notification.show = true;
-
-    // Automatically hide the notification after 2 seconds
-    setTimeout(() => {
-        this.notification.show = false;
-    }, 2000); // Change to 2000 milliseconds (2 seconds)
-},
-
-// Delete an amenity from the backend
-async deleteAmenity(id) {
-    try {
-        const response = await axios.delete(`/api/amenities/${id}`);
-        if (response.data.status === 'success') {
-            this.fetchAmenities(); // Refresh the amenities list
-            this.showNotification('success', response.data.message);
-        } else {
-            this.showNotification('error', response.data.message || 'Failed to delete amenity.');
-        }
-    } catch (error) {
-        console.error('Error deleting amenity:', error);
-        this.showNotification('error', 'Error deleting amenity: ' + error.message);
-    }
-},
-
-  fetchRoomsAndAmenities() {
-      axios.get('/getRoom')
-        .then(response => {
-          console.log('Rooms data:', response.data);
-          this.rooms = response.data.map(room => ({
-            ...room,
-            amenities: room.amenities ? room.amenities.map(a => a.amenity_id) : [],
-            assignedAmenities: [] // Initialize with empty list
-          }));
-          // Fetch amenities for each room
-          this.rooms.forEach(room => this.getAmenitiesForRoom(room.room_id));
-        })
-        .catch(error => {
-          console.error('Error fetching rooms:', error);
-        });
-
-      axios.get('/getAllAmenities')
-        .then(response => {
-          console.log('Amenities data:', response.data);
-          this.amenities = response.data;
-        })
-        .catch(error => {
-          console.error('Error fetching amenities:', error);
-        });
-    },
-    toggleAmenity(roomId, amenityId) {
-      const room = this.rooms.find(r => r.room_id === roomId);
-      const index = room.amenities.indexOf(amenityId);
-      if (index > -1) {
-        room.amenities.splice(index, 1);
-      } else {
-        room.amenities.push(amenityId);
-      }
-      this.updateRoomAmenities(roomId, room.amenities);
-    },
-    updateRoomAmenities(roomId, amenities) {
-      axios.post(`/assignAmenitiesToRoom/${roomId}`, { amenities })
-        .then(response => {
-          if (response.data.status !== 'success') {
-            this.showNotification('error', 'Failed to update amenities');
-          } else {
-            // Refresh assigned amenities for the room
-            this.getAmenitiesForRoom(roomId);
-          }
-        })
-        .catch(error => {
-          console.error('Error updating room amenities:', error);
-          this.showNotification('error', 'Failed to update amenities');
-        });
-    },
-    addAmenity() {
-    const newAmenity = { 
-      amenity_name: this.newAmenity.name, 
-      description: this.newAmenity.description 
-    };
-
-    axios.post('/addAmenity', newAmenity)
-      .then(response => {
-        if (response.data.status === 'success') {
-          this.fetchRoomsAndAmenities(); // Refresh the amenities list
-          this.newAmenity.name = '';
-          this.newAmenity.description = '';
-          this.showNotification('success', 'Amenity added successfully');
-        } else {
-          this.showNotification('error', 'Failed to add amenity');
-        }
-      })
-      .catch(error => {
-        console.error('Error adding amenity:', error);
-        this.showNotification('error', 'Failed to add amenity');
-      });
-  },
-  
-  showNotification(type, message) {
-    this.notification = {
-      show: true,
-      type,
-      message
-    };
-    
-    // Hide notification after 5 seconds
-    setTimeout(() => {
-      this.notification.show = false;
-    }, 2000);
-  },
-    toggleDropdown(roomId) {
-      this.openDropdowns = {
-        ...this.openDropdowns,
-        [roomId]: !this.openDropdowns[roomId]
-      };
-    },
-    isDropdownOpen(roomId) {
-      return !!this.openDropdowns[roomId];
-    },
-    getAmenitiesForRoom(roomId) {
-      axios.get(`/getAmenitiesForRoom/${roomId}`)
-  .then(response => {
-    console.log('Amenities response:', response.data); // Log the response
-    const room = this.rooms.find(r => r.room_id === roomId);
-    if (room) {
-      room.assignedAmenities = response.data; // Update assigned amenities
-    }
-  })
-  .catch(error => {
-    console.error('Error fetching amenities for room:', error);
-  });
-
-    },
-
-
   toggleSidebar() {
       this.isSidebarCollapsed = !this.isSidebarCollapsed;
     },
@@ -869,70 +417,6 @@ this.editStaffModalVisible = true;
 
 
 <style scoped>
-.room {
-  margin-bottom: 20px;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-table, th, td {
-  border: 1px solid #ddd;
-}
-
-th, td {
-  padding: 8px;
-  text-align: left;
-}
-
-th {
-  background-color: #f4f4f4;
-}
-
-/* Dropdown Styling */
-.dropdown {
-  position: relative;
-  display: inline-block;
-}
-
-.dropdown-button {
-  background-color: #4CAF50;
-  color: white;
-  padding: 10px;
-  border: none;
-  cursor: pointer;
-}
-
-.dropdown-content {
-  display: block;
-  position: absolute;
-  background-color: #f9f9f9;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
-  max-height: 200px;
-  overflow-y: auto;
-}
-
-.dropdown-content input[type="checkbox"] {
-  margin-right: 5px;
-}
-
-.dropdown-content div {
-  padding: 8px;
-  cursor: pointer;
-}
-
-.dropdown-content div:hover {
-  background-color: #f1f1f1;
-}
-
-.add-amenity {
-  margin-top: 20px;
-}
-
 /* Existing styles */
 h1 {
   color: white;
@@ -1095,9 +579,11 @@ span{
 }
 
  .modal-body, .card-body .alert, th {
-  font-family: "Edu AU VIC WA NT Hand", cursive;
-  font-weight: bold; 
-  font-size: 17px; 
+  font-family: "Poppins", sans-serif;
+  font-weight: 800;
+  font-style: normal;
+  font-size: large;
+  color:#0F172B; 
 }
 .table-product tbody td.action-buttons button,
 .table-product tbody td.action-buttons a, td {
@@ -1116,6 +602,10 @@ span{
   margin: 0; /* Remove margin */
 }
 .table-product tbody td {
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+  color:#0F172B;
   padding: 12px; /* Ensure padding is consistent */
   margin: 0; /* Ensure margin is consistent */
 }
@@ -1125,8 +615,9 @@ span{
   padding: 0;
 }
 .table-product tbody tr:hover {
-  background-color: #ff9933; /* Change background color on hover */
+  background-color: rgb(253, 253, 221); /* Change background color on hover */
 }
+
 /* Header alignment for actions column */
 .actions-header {
   text-align: center;
@@ -1149,7 +640,7 @@ span{
   border-radius:5px;
  
 }
-.btn-custom, .edit-btn {
+.btn-custom {
   background-color: #fea116; /* Same as Add Item button */
   border:none;
   color: white;
@@ -1160,13 +651,17 @@ span{
   align-items: center;
   text-decoration: none;
   transition: background-color 0.3s, transform 0.3s;
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+
 }
 .edit-btn{
   padding: 12px;
   font-size: 15px;
   width: 65px;
-  font-family: "Edu AU VIC WA NT Hand", cursive;
-margin: 5px;
+  margin: 5px;
+ 
 
 }
 .btn-secondary{
@@ -1190,7 +685,7 @@ margin: 5px;
   vertical-align: middle; /* Align the "Actions" button vertically */
 }
 .table tbody tr:hover {
-  background-color: #ff9933; /* Change background color on hover */
+  background-color: rgb(253, 253, 221); /* Change background color on hover */
 }
 .add-item-btn, .table tbody tr td button, .btn-secondary {
   font-family: 'Edu AU VIC WA NT Hand', cursive;

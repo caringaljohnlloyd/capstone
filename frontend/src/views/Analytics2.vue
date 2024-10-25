@@ -56,8 +56,8 @@
   
                     
               
-                          <section class="card-main">
-                            <h2>Sales Report</h2>
+                          <section class="card-main"><br>
+                            <h2 class="fa-solid fa-chart-line"> Sales Report</h2><br>
                             <button class="btn-custom" @click="printSalesReport">Print Sales Report</button>
                             <div class="card-main">
                               <button class="btn-custom" @click="updateChart('daily')">Daily</button>
@@ -72,7 +72,7 @@
                 <div class="card-wrapper">
                   <div class="card card-default card-size carding ">
                     <div class="card-header">
-                      <h2>Users</h2>
+                      <h2  class="fa-solid fa-user"> Users</h2><br>
                     </div>
                     <div class="card-body">
                       <div v-if="loading">Loading...</div>
@@ -90,7 +90,7 @@
                 <div class="card-wrapper">
                   <div class="card card-default card-size carding ">
                     <div class="card-header">
-                      <h2>E-Shop</h2>
+                      <h2 class="fa-solid fa-cart-shopping"> E-Shop</h2><br> 
                     </div>
                     <div class="card-body">
                       <div class="bg-primary d-flex justify-content-between flex-wrap p-4 text-white align-items-lg-end carding" style="height: 100%; width: 100%">
@@ -105,7 +105,7 @@
                 <div class="card-wrapper">
                   <div class="card card-default card-size carding">
                     <div class="card-header">
-                      <h2>Booking Count</h2>
+                      <h2  class="fa-solid fa-address-book"> Booking Count</h2><br>
                     </div>
                     <div class="card-body">
                       <div class="bg-primary d-flex justify-content-between flex-wrap p-4 text-white align-items-lg-end carding" style="height: 100%; width: 100%">
@@ -120,7 +120,7 @@
                 <div class="card-wrapper" style="padding: 0;">
                   <div class="card card-default" id="user-acquisition" >
                     <div class="card-header border-bottom pb-0">
-                      <h2>User Acquisition</h2>
+                      <h2 class="fa-solid fa-user-pen"> User Acquisition</h2><br>
                       <table class="table">
                         <thead>
                           <tr>
@@ -148,10 +148,10 @@
                 <div class="card-wrapper">
                   <div class="card card-default">
                     <div class="card-header">
-                      <h2>Orders Inventory</h2>
+                      <h2  class="fa-solid fa-burger"> Orders Inventory</h2><br>
                     </div>
                     <div class="card-body" style="padding: 0;">
-                      <table id="ordersTable" class="table table-hover table-product" style="width: 100%">
+                      <table id="ordersTable" class=" table-product" style="width: 100%">
                         <thead>
                           <tr>
                             <th>Room ID</th>
@@ -744,13 +744,17 @@ span{
 }
 
 .card-body .modal-body, .card-body .alert, th {
-  font-family: "Edu AU VIC WA NT Hand", cursive;
-  font-weight: bold; 
-  font-size: 17px; 
+  font-family: "Poppins", sans-serif;
+  font-weight: 800;
+  font-style: normal;
+  font-size: large;
+  color:#0F172B; 
 }
 .table-product tbody td.action-buttons button,
 .table-product tbody td.action-buttons a, td {
-  font-family: "Edu AU VIC WA NT Hand", cursive;
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  font-style: normal;
   margin-top:20px;
   margin-bottom:20px;
 }
@@ -772,9 +776,10 @@ span{
 .table-product tbody tr {
   margin: 0;
   padding: 0;
+  color:black;
 }
 .table-product tbody tr:hover {
-  background-color: #ff9933; /* Change background color on hover */
+  background-color: rgb(253, 253, 221); /* Change background color on hover */
 }
 /* Header alignment for actions column */
 .actions-header {
@@ -868,20 +873,24 @@ menu.no-scroll {
   color: white;
   cursor: pointer;
   border-radius: 5px;
-  font-size: 14px;
+  font-size: 15px;
   display: inline-flex;
   align-items: center;
   text-decoration: none;
   transition: background-color 0.3s, transform 0.3s;
   padding: 10px;
   margin: 5px;
-  font-family: "Edu AU VIC WA NT Hand", cursive;
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  font-style: normal;
 }
 .edit-btn{
   padding: 12px;
   font-size: 15px;
   width: 65px;
-  font-family: "Edu AU VIC WA NT Hand", cursive;
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  font-style: normal;
  
 }
 .btn-custom:hover {

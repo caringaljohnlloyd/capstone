@@ -43,14 +43,14 @@
     <div class="card-main">
       <div class="content">
         <div class="row">
-          <h2>POS</h2>
+          <h2 class="fa-solid fa-cart-plus"> POS</h2><br>
 
           <div class="row g-4 ">
             <div v-for="shop in shop" class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
               <div class="room-item shadow rounded overflow-hidden card-menu">
                 <div class="position-relative">
                   <img class="img-fluid menu" style="width: 200%; max-width: 500px; height: 330px"
-                  :src="`http://localhost:8080/uploads/${shop.prod_img}`" alt="" />
+                  :src="`https://eduardos-resort.online/backend/backend/public/uploads/${shop.prod_img}`"  alt="Product"  />
                   <small
                     class="position-absolute start-0 top-100 translate-middle-y bg-primary text-white rounded py-1 px-3 ms-4">
                     Php. {{ shop.prod_price }}
@@ -113,7 +113,7 @@
                 <input type="checkbox" :id="'checkbox_' + cart.cart_id" v-model="checkedItems" :value="cart.cart_id" @click="check(cart.cart_id)" />
                 <label class="custom-control-label" :for="'checkbox_' + cart.cart_id"></label>
               </div>
-              <a><img class="img-fluid menu" style="width: 100%; max-width: 250px; height: 200px; margin-top: 5px;" :src="require('@/assets/img/' + getImg(cart).prod_img)" alt="Product" /></a>
+              <a><img class="img-fluid menu" style="width: 100%; max-width: 250px; height: 200px; margin-top: 5px;" :src="`https://eduardos-resort.online/backend/backend/public/uploads/${getImg(cart).prod_img}`"  alt="Product" /></a>
               <div class="product-info">
                 <h4 class="product-title">{{ getInfo(cart).prod_name }}</h4>
               </div>
@@ -796,7 +796,16 @@ export default {
   }
 
   .logout-logo-btn i {
-    margin-right: 5px;
+    margin-right: -30px;
+    padding-left: 2px;
+  }
+  .form-control{
+
+    font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-style: normal;
+  font-size: large;
+  color:#090909;
   }
 
   .card {
@@ -823,9 +832,11 @@ export default {
   }
 
   .card-body .modal-body, .card-body .alert, th, .modal-body {
-    font-family: "Edu AU VIC WA NT Hand", cursive;
-    font-weight: bold;
-    font-size: 17px;
+    font-family: "Poppins", sans-serif;
+  font-weight: 800;
+  font-style: normal;
+  font-size: large;
+  color:#0F172B;
   }
 
   .table-product tbody td.action-buttons button, .table-product tbody td.action-buttons a, td {
@@ -892,14 +903,42 @@ export default {
     padding: 10px;
     margin-bottom: 20px;
   }
+  .border-end{
+    font-family: "Poppins", sans-serif;
+  font-weight: 800;
+  font-style: normal;
+  font-size: large;
+  color:#0F172B;
+  }
+  .mb-0{
+    font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-style: normal;
+  font-size: large;
+  color:#0F172B;
+  }
 
   small, h5, p {
     font-family: "Edu AU VIC WA NT Hand", cursive;
+  }
+  .text-body{
+    font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-style: normal;
+  font-size: large;
+  color:#0a0a0a;
   }
 
   .btn-dark:hover {
     background-color: #0F172B;
     transform: scale(1.10);
+  }
+  .align-middle{
+    font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-style: normal;
+  font-size: large;
+  color:#080808;
   }
 
   .btn-add {
@@ -909,12 +948,19 @@ export default {
     padding: 5px;
     margin-left: 5px;
   }
+  .text-medium{
+    font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-style: normal;
+  font-size: large;
+  color:#b40404;
+  }
 
   .add-cart {
     padding: 0;
     margin: 0;
   }
-
+ 
   .btn:hover {
     background-color: #0F172B;
     transform: scale(1.10);
@@ -1089,7 +1135,11 @@ export default {
   .logout-logo-btn {
     position: absolute;
     bottom: 10px; /* Ensure it stays at the bottom */
-    right: 20px; /* Align to the right side */
+    right: 20px;
+    font-family: "Poppins", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+    color:#f8f8f9; /* Align to the right side */
   }
   
 }

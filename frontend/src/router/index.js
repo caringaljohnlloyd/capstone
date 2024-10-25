@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import axios from 'axios';
 import IndexPage from '../views/IndexPage.vue';
 import AboutView from '../views/AboutView.vue';
 import HomeView from '../views/HomeView.vue';
@@ -13,30 +14,22 @@ import Table from '../views/Table.vue';
 import Booking from '../views/Booking.vue';
 import Team from '../views/Team.vue';
 import Testimonial from '../views/Testimonial.vue';
-import Admin from '../views/Admin.vue';
 import Admin2 from '../views/Admin2.vue';
-import Analytics from '../views/Analytics.vue';
 import Analytics2 from '../views/Analytics2.vue';
-import Chat from '../views/Chat.vue';
-import Contacts from '../views/Contacts.vue';
-import TeamAdmin from '../views/TeamAdmin.vue';
 import TeamAdmin2 from '../views/TeamAdmin2.vue';
-import monitorusers from '../views/Calendar.vue';
 import monitorusers2 from '../views/Calendar2.vue';
-import Email_inbox from '../views/Email_inbox.vue';
 import ForgotPassword from '../views/ForgotPassword.vue';
 import UpdatePassword from '../views/UpdatePassword.vue';
 import Cart from '../views/Cart.vue';
 import AuditHistory from '@/views/AuditHistory.vue';
 import Invoice from '@/components/Invoice.vue';
 import Home from '../views/Home.vue';
-import pos from '../views/Pos.vue';
 import pos2 from '../views/Pos2.vue';
-import packs3 from '@/components/packs.vue';
-import packs4 from '@/components/pack4.vue';
-import packs6 from '@/components/packs6.vue';
 import SwimmingLesson from '@/components/SwimmingLesson.vue';
 import AmenitiesAudit from '../views/AmenitiesAudit.vue';
+import TokenExpired from '../views/token-expired.vue';
+import AccessDenied from '../views/AccessDenied.vue'; // Import the Access Denied component
+
 
 const routes = [
   {
@@ -44,8 +37,17 @@ const routes = [
     redirect: '/user'  // Redirect to user page
   },
   {
+    path: '/auth/access',
+    component: AccessDenied,
+  },
+  {
     path: '/user',
     component: Include
+  },
+  {
+    path: '/token-expired',
+    name: 'TokenExpired',
+    component: TokenExpired,
   },
   {
     path: '/login',
@@ -93,24 +95,6 @@ const routes = [
     meta: { requiresAuth: true } // Require login for booking actions
   },
   {
-    path: '/packs/:packs',
-    component: packs3,
-    name: 'packs3',
-    meta: { requiresAuth: true } // Require login for packs
-  },
-  {
-    path: '/packs/:packs',
-    component: packs4,
-    name: 'packs4',
-    meta: { requiresAuth: true } // Require login for packs
-  },
-  {
-    path: '/packs/:packs',
-    component: packs6,
-    name: 'packs6',
-    meta: { requiresAuth: true } // Require login for packs
-  },
-  {
     path: '/team',
     component: Team
   },
@@ -128,77 +112,38 @@ const routes = [
     component: register
   },
   {
-    path: '/admin',
-    component: Admin,
-    meta: { requiresAuth: true, role: 'admin' }
-  },
-  {
     path: '/admin2',
     component: Admin2,
-    meta: { requiresAuth: true, role: 'admin2' }
+    meta: { requiresAuth: true, roles: ['admin', 'admin2'] } // Allow both admin and admin2
   },
-  {
-    path: '/analytics',
-    component: Analytics,
-    meta: { requiresAuth: true, role: 'admin' }
-  },
+  
   {
     path: '/analytics2',
     component: Analytics2,
-    meta: { requiresAuth: true, role: 'admin2' }
+    meta: { requiresAuth: true, roles: ['admin', 'admin2'] } // Allow both admin and admin2
   },
   {
     path: '/amenitiesAudit/:amenityId',
     name: 'AmenitiesAudit',
     component: AmenitiesAudit,
-    meta: { requiresAuth: true, role: 'admin2' }
-
-  },
-  
-  {
-    path: '/chat',
-    component: Chat,
-    meta: { requiresAuth: true, role: 'admin' }
-  },
-  {
-    path: '/contacts',
-    component: Contacts,
-    meta: { requiresAuth: true, role: 'admin' }
-  },
-  {
-    path: '/teamadmin',
-    component: TeamAdmin,
-    meta: { requiresAuth: true, role: 'admin' }
+    meta: { requiresAuth: true, roles: ['admin', 'admin2'] } // Allow both admin and admin2
   },
   {
     path: '/teamadmin2',
     component: TeamAdmin2,
-    meta: { requiresAuth: true, role: 'admin2' }
+    meta: { requiresAuth: true, roles: ['admin', 'admin2'] } // Allow both admin and admin2
   },
-  {
-    path: '/monitorusers',
-    component: monitorusers,
-    meta: { requiresAuth: true, role: 'admin' }
-  },
+
   {
     path: '/monitorusers2',
     component: monitorusers2,
-    meta: { requiresAuth: true, role: 'admin2' }
+    meta: { requiresAuth: true, roles: ['admin', 'admin2'] } // Allow both admin and admin2
   },
-  {
-    path: '/pos',
-    component: pos,
-    meta: { requiresAuth: true, role: 'admin' }
-  },
+
   {
     path: '/pos2',
     component: pos2,
-    meta: { requiresAuth: true, role: 'admin2' }
-  },
-  {
-    path: '/email_inbox',
-    component: Email_inbox,
-    meta: { requiresAuth: true, role: 'admin' }
+    meta: { requiresAuth: true, roles: ['admin', 'admin2'] } // Allow both admin and admin2
   },
   {
     path: '/reset-password',
@@ -213,7 +158,7 @@ const routes = [
     name: 'auditHistory',
     component: AuditHistory,
     props: true,
-    meta: { requiresAuth: true, role: 'admin2' }
+    meta: { requiresAuth: true, roles: ['admin', 'admin2'] } // Allow both admin and admin2
   },
   {
     path: '/getInvoices/:invoice_id',
@@ -227,40 +172,75 @@ const routes = [
   }
 ];
 
+const userType = { value: null }; // This will store the user's role from the backend
+
+// Fetch the user's role and other details from the backend using the `id`
+const fetchUserData = async () => {
+  try {
+    const id = sessionStorage.getItem("id"); // Use "id" directly from sessionStorage
+    const response = await axios.get(`/fetchUser/${id}`); // API call to get user data
+    console.log('API Response:', response.data);
+
+    // Assign user role from the response
+    userType.value = response.data.role; // Set user role (assumed to be "role" in response)
+
+    // Log the assigned user role
+    console.log('Assigned user role:', userType.value);
+  } catch (error) {
+    console.error('Error fetching user data:', error);
+  }
+};
+
+
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
 });
 
-router.beforeEach((to, from, next) => {
-  const isLoggedin = checkUserLogin();
-  const isAdmin = checkAdminRole();
+router.beforeEach(async (to, from, next) => {
+  const isLoggedin = checkUserLogin(); // Check if the user is logged in
+  console.log(`User login status: ${isLoggedin}`);
+  console.log(`Attempting to access: ${to.path}`);
 
+  // Check if the route requires authentication
   if (to.matched.some((record) => record.meta.requiresAuth)) {
-    if (!isLoggedin) {
-      // Redirect to login page if not logged in
-      next('/login');
-    } else {
-      // Check if user has admin role if required
-      if (to.meta.role === 'admin' && !isAdmin) {
-        next('/user'); // Redirect to user landing page if not admin
+    console.log('Route requires authentication');
+
+    if (isLoggedin) {
+      console.log('User is authenticated. Proceeding to fetch user data.');
+      
+      // Fetch the user data (role) from the backend
+      await fetchUserData();
+      const role = userType.value; // Get the user role
+      console.log(`User role: ${role}`);
+
+      const allowedRoles = to.meta.roles || []; // Allowed roles for the route
+      console.log(`Allowed roles for this route: ${allowedRoles}`);
+
+      // Check if the user's role is allowed to access the route
+      if (allowedRoles.length === 0 || allowedRoles.includes(role)) {
+        next(); // Proceed if the user has access
       } else {
-        next(); // Allow navigation if logged in and role matches
+        console.log('User does not have the required role. Redirecting to unauthorized page.');
+        next('/auth/access'); // Redirect to unauthorized page
       }
+    } else {
+      console.log('User is not authenticated. Redirecting to login.');
+      next("/auth/login"); // Redirect to login page
     }
   } else {
-    next(); // Allow navigation if no authentication is required
+    console.log('No authentication required. Proceeding to route.');
+    next(); // Proceed if the route does not require authentication
   }
 });
 
-function checkUserLogin() {
-  const userToken = sessionStorage.getItem("token");
-  return !!userToken;
-}
 
-function checkAdminRole() {
-  const userRole = sessionStorage.getItem("role");
-  return userRole === "admin";
+// Function to check if the user is logged in (token exists in sessionStorage)
+function checkUserLogin() {
+  const userToken = sessionStorage.getItem('token'); // Check for token
+  const isLoggedIn = !!userToken; // Convert to boolean
+  console.log(`User login status: ${isLoggedIn}`);
+  return isLoggedIn;
 }
 
 export default router;
