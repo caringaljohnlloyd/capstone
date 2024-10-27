@@ -1,36 +1,50 @@
 <template>
-  <div class="row">
-    <div class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 mt-5 pt-3 pb-3 bg-dark form-wrapper">
-      <div class="container">
-        <h3 class="text-primary">Update Password</h3>
-        <hr />
+  <div class="login-container">
+    <div class="overlay">
+      <div class="form-container">
+        <div class="logo text-end">
+          <img src="~@/assets/logo-login.png" alt="Eduardo's Resort Logo" />
+        </div>
+        <h2 class="login-title">Update Password</h2>
         <form @submit.prevent="updatePassword" class="form">
           <div class="form-floating mb-3">
-            <input type="password" class="form-control" v-model="newPassword" required minlength="8" :class="{ 'is-invalid': newPasswordError }" />
+            <input
+              type="password"
+              class="form-control"
+              v-model="newPassword"
+              required
+              minlength="8"
+              :class="{ 'is-invalid': newPasswordError }"
+              placeholder="New Password"
+            />
             <label for="newPassword" class="form-label">New Password</label>
             <div class="invalid-feedback">Password must be at least 8 characters.</div>
           </div>
           <div class="form-floating mb-3">
-            <input type="password" class="form-control" v-model="confirmPassword" required minlength="8" :class="{ 'is-invalid': confirmPasswordError }" />
+            <input
+              type="password"
+              class="form-control"
+              v-model="confirmPassword"
+              required
+              minlength="8"
+              :class="{ 'is-invalid': confirmPasswordError }"
+              placeholder="Confirm Password"
+            />
             <label for="confirmPassword" class="form-label">Confirm Password</label>
             <div class="invalid-feedback">Passwords do not match.</div>
           </div>
-          <p class="alert-danger" v-if="errorMessage">{{ errorMessage }}</p>
+          <p class="alert alert-danger" v-if="errorMessage">{{ errorMessage }}</p>
 
-          <button type="submit" class="btn btn-primary mx-auto w-100 mb-3">Update Password</button>
+          <button type="submit" class="btn btn-login w-100 mb-3">Update Password</button>
 
-          <router-link to="/" class="text-muted">Back to Login</router-link>
+          <div class="text-center">
+            <router-link to="/login" class="link">Back to Login</router-link>
+          </div>
         </form>
       </div>
     </div>
-    <Notification
-      :show="successmessage !== '' || errorMessage !== ''"
-      :type="successmessage !== '' ? 'success' : 'error'"
-      :message="successmessage !== '' ? successmessage : errorMessage"
-    ></Notification>
   </div>
 </template>
-  
 
 <script>
 import axios from 'axios';
@@ -42,13 +56,11 @@ export default {
     Notification,
   },
   data() {
-    
     return {
       newPassword: '',
       confirmPassword: '',
       errorMessage: '',
-      successmessage:'',
-
+      successMessage: '',
     };
   },
   methods: {
@@ -67,9 +79,8 @@ export default {
         .post('/api/update-password', data)
         .then((response) => {
           if (response.data.message === 'Password updated successfully') {
-            this.$router.successfullyUpdatedPassword = true;
-            router.push('/');
-            this.successmessage = 'Password updated successfully';
+            this.successMessage = 'Password updated successfully';
+            router.push('/login');
           }
         })
         .catch((error) => {
@@ -80,32 +91,99 @@ export default {
   },
 };
 </script>
-  <style scoped>
-  .form-wrapper {
-    border-radius: 10px;
-    transition: box-shadow 0.3s ease-in-out;
-  }
 
-.form-wrapper {
+<style scoped>
+.login-container {
+  background: url('~@/assets/background-image.png') center/cover no-repeat;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.overlay {
+  background: rgba(0, 0, 0, 0.7);
+  padding: 20px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-container {
+  background: rgba(15, 23, 43, 0.7);
+  padding: 40px;
   border-radius: 10px;
-  transition: box-shadow 0.3s ease-in-out;
+  width: 100%;
+  max-width: 400px;
 }
 
-.form-wrapper:hover {
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+.logo img {
+  width: 120px;
+  margin-bottom: 10px;
 }
 
-.text-primary {
-  color: #007bff;
+.login-title {
+  font-size: 2rem;
+  color: #ffbb00;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.form-floating .form-control {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #ddd;
+  border: none;
+  border-radius: 5px;
+}
+
+.form-floating .form-control:focus {
+  background-color: rgba(255, 255, 255, 0.3);
+  color: #fff;
+  box-shadow: none;
+}
+
+.form-floating label {
+  color: #ccc;
 }
 
 .alert-danger {
-  color: #dc3545;
-  border-color: #dc3545;
-  transition: opacity 0.3s ease-in-out;
+  color: #ff4444;
+  background-color: transparent;
+  border: none;
 }
 
-.text-muted {
-  color: #6c757d;
+.btn-login {
+  background-color: #fea116;
+  border: none;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 14px;
+  text-decoration: none;
+  transition: background-color 0.3s, transform 0.3s;
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  padding: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-login:hover {
+  color: white;
+  background-color: #0F172B;
+  transform: scale(1.10);
+  border: none;
+}
+
+.link {
+  color: #ddd;
+  font-size: 0.9rem;
+}
+
+.link:hover {
+  color: #ffbb00;
 }
 </style>

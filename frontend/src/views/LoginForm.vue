@@ -1,17 +1,20 @@
 <template>
-  <div class="container mt-5">
-    <div class="row justify-content-center">
-      <div class="col-12 col-sm-8 col-md-6 col-lg-4 mt-3 p-4 form-wrapper bg-dark shadow">
-        <h2 class="text-primary text-center mb-4">Welcome Back!</h2>
+  <div class="login-container">
+    <div class="overlay">
+      <div class="form-container">
+        <div class="logo text-end">
+          <img src="~@/assets/logo-login.png" alt="Eduardo's Resort Logo" />
+        </div>
+        <h2 class="login-title">Login</h2>
 
         <form @submit.prevent="login">
-          <!-- Email Input -->
+     
           <div class="form-floating mb-3">
             <input type="email" class="form-control" v-model="email" required placeholder="Email" />
-            <label for="email" class="form-label">Email address</label>
+            <label for="email" class="form-label">Email Address</label>
           </div>
 
-          <!-- Password Input -->
+       
           <div class="form-floating mb-3 position-relative">
             <input :type="showPassword ? 'text' : 'password'" class="form-control" v-model="password" required minlength="8" placeholder="Password" />
             <label for="password" class="form-label">Password</label>
@@ -20,17 +23,17 @@
             </span>
           </div>
 
-          <!-- Error Message -->
+ 
           <p class="alert alert-danger text-center" v-if="errorMessage">{{ errorMessage }}</p>
 
-          <!-- Submit Button -->
-          <button type="submit" class="btn btn-primary w-100 mb-3">Sign in</button>
 
-          <!-- Links -->
+          <button type="submit" class="btn btn-login w-100 mb-3">Sign In</button>
+
+    
           <div class="text-center">
-            <router-link class="text-muted" to="/register">Don't have an account yet?</router-link>
+            <router-link class="link" to="/register">Don't have an account yet?</router-link>
             <span class="mx-2">|</span>
-            <router-link class="text-muted" to="/reset-password">Forgot Password?</router-link>
+            <router-link class="link" to="/reset-password">Forgot Password?</router-link>
           </div>
         </form>
       </div>
@@ -39,43 +42,112 @@
 </template>
 
 <style scoped>
-  .form-wrapper {
-    border-radius: 10px;
-  }
+.login-container {
+  background: url('~@/assets/background-image.png') center/cover no-repeat;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-  .form-wrapper:hover {
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-  }
+.overlay {
+  background: rgba(0, 0, 0, 0.7);
+  padding: 20px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-  .text-primary {
-    color: #007bff;
-  }
+.form-container {
+  background: rgba(15, 23, 43, 0.7); 
+  padding: 40px;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 400px;
+}
 
-  .alert-danger {
-    color: #dc3545;
-    border-color: #dc3545;
-  }
 
-  .text-muted {
-    color: #6c757d;
-  }
+.logo img {
+  width: 120px;
+  margin-bottom: 10px;
+}
 
-  .position-relative {
-    position: relative;
-  }
+.login-title {
+  font-size: 2rem;
+  color: #ffbb00;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+}
 
-  .password-toggle {
-    position: absolute;
-    top: 50%;
-    right: 10px;
-    transform: translateY(-50%);
+.form-floating .form-control {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #ddd;
+  border: none;
+  border-radius: 5px;
+}
+
+.form-floating .form-control:focus {
+  background-color: rgba(255, 255, 255, 0.3);
+  color: #fff;
+  box-shadow: none;
+}
+
+.form-floating label {
+  color: #ccc;
+}
+
+.password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #ddd;
+}
+
+.password-toggle:hover {
+  color: #ffbb00;
+}
+
+.btn-login {
+    background-color: #fea116; 
+    border: none;
+    color: white;
     cursor: pointer;
-    color: #6c757d;
+    border-radius: 5px;
+    font-size: 14px;
+  align-items: center;
+  justify-content: center;
+    transition: background-color 0.3s, transform 0.3s;
+    font-family: "Poppins", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+  padding: 10px;  
+  }
+  .btn-login:hover {
+    color: white;
+    background-color: #0F172B;
+    transform: scale(1.10);
+    border:none;
   }
 
-  .password-toggle:hover {
-    color: #007bff;
-  }
+.alert-danger {
+  color: #ff4444;
+  background-color: transparent;
+  border: none;
+}
+
+.link {
+  color: #ddd;
+  font-size: 0.9rem;
+}
+
+.link:hover {
+  color: #ffbb00;
+}
 </style>
 
 <script>
@@ -116,10 +188,8 @@ export default {
             sessionStorage.setItem("book_id", response.data.book_id);
 
             if (response.data.role === 'admin') {
-              console.log('Redirecting to admin panel');
               router.push('/admin2');
             } else {
-              console.log('Redirecting to user panel');
               router.push('/user');
             }
           }

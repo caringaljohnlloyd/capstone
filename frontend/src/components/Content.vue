@@ -1,12 +1,14 @@
 <template>
   <!-- Carousel Start -->
-  <div class="container-xxl py-5">
+
+  <div class="container-xxl py-5 "> 
+
   <div class="row justify-content-center">
-     <div class="col-md-15">
+     <div class="col-md-15" style="margin: 0;padding: 0;">
       <div id="header-carousel" class="carousel slide mt-n5" data-bs-ride="carousel">
   <div class="carousel-inner">
     <div class="carousel-item active">
-      <img :src="require('../assets/img/pool4.jpg')" class="w-100" alt="Image" style="height: 600px; object-fit: cover;" />
+      <img :src="require('../assets/img/pool4.jpg')" class="w-100" alt="Image" style="height: 100vh; object-fit: cover;" />
       <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
         <div class="p-3" style="max-width: 700px">
           <h6 class="section-title text-white text-uppercase mb-3 animated slideInDown">
@@ -19,8 +21,9 @@
         </div>
       </div>
     </div>
+
     <div class="carousel-item">
-      <img :src="require('../assets/img/eagleview.jpg')" class="w-100" alt="Image" style="height: 600px; object-fit: cover;" />
+      <img :src="require('../assets/img/eagleview.jpg')" class="w-100" alt="Image" style="height: 100vh; object-fit: cover;" />
       <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
         <div class="p-3" style="max-width: 700px">
           <h6 class="section-title text-white text-uppercase mb-3 animated slideInDown">
@@ -35,52 +38,52 @@
     </div>
   </div>
 
-  <!-- Modal for Event Booking -->
   <div v-if="eventBookingFormVisible" class="modal fade show" tabindex="-1" role="dialog" style="display: block;">
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Event Booking Form</h5>
-          <button type="button" class="close" @click="closeEventBookingForm">
-            <span aria-hidden="true">&times;</span>
-          </button>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title">EVENT BOOKING FORM </h1 >
+                <button type="button" class="close" @click="closeEventBookingForm">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form @submit.prevent="submitEventBookingForm">
+                    <div class="mb-3">
+                        <h5 >Name: {{ username }}</h5>
+                        <h5>Email: {{ email }}</h5>
+                        <h5>Address: {{ address }}</h5>
+                        <h5>Number: {{ number }}</h5>
+                    </div>
+                    <div class="mb-3 text-dark">
+                        <label for="eventName" class="visually-hidden">Event Name</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Event Name" v-model="eventName" required>
+                        </div>
+                    </div>
+                    <div class="mb-3 text-dark">
+                        <label for="eventTheme" class="visually-hidden">Event Theme</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Event Theme" v-model="eventTheme" required>
+                        </div>
+                    </div>
+                    <div class="mb-3 text-dark">
+                        <label for="eventDate" class="visually-hidden">Event Date and Time</label>
+                        <div class="input-group">
+                            <input type="datetime-local" class="form-control" v-model="eventDate" :min="minDate" :max="maxDate" required>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
         </div>
-        <div class="modal-body">
-          <form @submit.prevent="submitEventBookingForm">
-            <div class="mb-3">
-              <h3>Name: {{ username }}</h3>
-              <h5>Email: {{ email }}</h5>
-              <h5>Address: {{ address }}</h5>
-              <h5>Number: {{ number }}</h5>
-            </div>
-            <div class="mb-3 text-dark">
-              <label for="eventName" class="visually-hidden">Event Name</label>
-              <div class="input-group">
-                <input type="text" class="form-control" placeholder="Event Name" v-model="eventName" required>
-              </div>
-            </div>
-            <div class="mb-3 text-dark">
-              <label for="eventTheme" class="visually-hidden">Event Theme</label>
-              <div class="input-group">
-                <input type="text" class="form-control" placeholder="Event Theme" v-model="eventTheme" required>
-              </div>
-            </div>
-            <div class="mb-3 text-dark">
-              <label for="eventDate" class="visually-hidden">Event Date and Time</label>
-              <div class="input-group">
-                <input type="datetime-local" class="form-control" v-model="eventDate" :min="minDate" :max="maxDate" required>
-              </div>
-            </div>
-            <div class="text-center">
-              <button type="submit" class="btn btn-primary">Submit</button>
-            </div>
-          </form>
-        </div>
-      </div>
     </div>
-  </div>
+</div>
 
-  <button class="carousel-control-prev" type="button" data-bs-target="#header-carousel" data-bs-slide="prev">
+
+  <button class="carousel-control-prev" type="button" data-bs-target="#header-carousel" data-bs-slide="prev" >
     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
     <span class="visually-hidden">Previous</span>
   </button>
@@ -634,3 +637,79 @@ export default {
 };
 </script>
 
+<style scope>
+/* Overall modal customization */
+.modal-content {
+    background-color: #f9f9f9;  /* Light background */
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Header styling */
+.modal-header {
+    background-color: #0F172B;
+    color: white;
+border-radius: 10px;
+    padding: 15px;
+    text-align: center;
+}
+
+.modal-title {
+    font-size: 1.5rem; /* Adjust as needed for a heading size */
+    font-weight: bold;
+    margin: 0; /* Remove default margin to center align properly */
+    width: 100%; /* Ensures the title aligns fully to the center */
+    color:white;
+}
+
+
+/* Body styling */
+.modal-body {
+    padding: 20px;
+    color: #333;
+    text-align: left; /* Center-aligns content in modal body */
+}
+
+
+/* Close button styling */
+.modal-header .close {
+    color: white;
+    font-size: 1.2rem;
+}
+
+
+/* Form field styling */
+.form-control {
+    border-radius: 5px;
+    box-shadow: none;
+    border: 1px solid #ddd;
+}
+
+.form-control:focus {
+    border-color: #FEA116;
+    box-shadow: 0 0 5px rgba(254, 161, 22, 0.5);
+}
+
+/* Labels styling */
+.modal-body h3, .modal-body h5 {
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* Submit button styling */
+.btn-primary {
+    background-color: #FEA116;
+    border-color: #FEA116;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #e09116;  /* Darker on hover */
+    border-color: #e09116;
+}
+
+</style>

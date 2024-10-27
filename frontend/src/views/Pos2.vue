@@ -49,7 +49,7 @@
             <div v-for="shop in shop" class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
               <div class="room-item shadow rounded overflow-hidden card-menu">
                 <div class="position-relative">
-                  <img class="img-fluid menu" style="width: 200%; max-width: 500px; height: 330px"
+                  <img class="custom-image" 
                   :src="`https://eduardos-resort.online/backend/backend/public/uploads/${shop.prod_img}`"  alt="Product"  />
                   <small
                     class="position-absolute start-0 top-100 translate-middle-y bg-primary text-white rounded py-1 px-3 ms-4">
@@ -122,11 +122,11 @@
 
           <td class="align-middle text-center">
             <div class="count-input">
-              <button @click="updateQuantity(cart, 'decrement')" class="btn btn-primary btn-option" :disabled="cart.quantity <= 1">
+              <button @click="updateQuantity(cart, 'decrement')" class="btn btn-primary btn-option rounded-circle" :disabled="cart.quantity <= 1">
                 <span class="fas fa-minus"></span>
               </button>
               <span class="quantity">{{ cart.quantity }}</span>
-              <button @click="updateQuantity(cart, 'increment')" class="btn btn-primary btn-option" :disabled="cart.quantity >= getMaxQuantity(cart)">
+              <button @click="updateQuantity(cart, 'increment')" class="btn btn-primary btn-option rounded-circle" :disabled="cart.quantity >= getMaxQuantity(cart)">
                 <span class="fas fa-plus"></span>
               </button>
             </div>
@@ -171,7 +171,7 @@
         <div class="column checkout-button-section">
           <div class="shopping-cart-footer">
             <div class="column">
-              <a class="btn btn-dark" @click="checkout">Proceed to Checkout</a>
+              <a class="btn btn-add" @click="checkout">Proceed to Checkout</a>
             </div>
           </div>
         </div>
@@ -987,6 +987,8 @@ export default {
     border-radius: 70px;
     margin: 5px;
     border: none;
+    padding:0;
+    transition: background-color 0.3s, transform 0.3s;
   }
   .card-default{
     margin-top: 75px;
@@ -1094,7 +1096,11 @@ export default {
   display: block;
   transition: 0.3s;
 }
-
+.custom-image {
+    width: 100%;
+    height: 330px;
+    object-fit: cover;
+}
 @media (max-width: 768px) { 
   .header {
     display: flex;

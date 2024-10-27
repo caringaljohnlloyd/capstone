@@ -49,7 +49,7 @@
               <td class="align-middle text-center text-lg text-medium">{{ getPrice(cart).prod_price }}</td>
               <td class="align-middle text-center text-lg text-medium">{{ getTotal(cart) }}</td>
               <td class="align-middle text-center">
-                <button @click="deleteCart(cart.cart_id)" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                <button @click="deleteCart(cart.cart_id)" class="btn-trash btn-danger"><i class="fa fa-trash"></i></button>
               </td>
             </tr>
           </tbody>
@@ -95,7 +95,7 @@
           <input type="file" @change="handleFileUpload" accept="image/*" class="form-control" required />
         </div>
         <div class="col-md-3 ms-2">
-          <button type="button" class="btn btn-info w-100" @click="openGcashQRCode">
+          <button type="button" class="btn-gcash btn-info w-100" @click="openGcashQRCode">
             <i class="fas fa-qrcode"></i> GCASH
           </button>
         </div>

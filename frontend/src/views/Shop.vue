@@ -33,7 +33,7 @@
 		</div>
 	</div>
 	<!-- Shopt -->
-	<div class="container-xxl py-5">
+	<div class=" container-xxl py-5">
 		<div class="container">
 			<div class="text-center wow fadeInUp" data-wow-delay="0.1s">
 				<h6 class="section-title text-center text-primary text-uppercase">
@@ -46,10 +46,10 @@
 					</span>
 				</h1>
 			</div>
-			<div class="row g-4">
+			<div class=" row g-4">
 				
 				<div v-for="shop in shop" class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-					<div class="room-item shadow rounded overflow-hidden">
+					<div class="room-item shadow rounded overflow-hidden card-menu" >
 						<div class="position-relative">
 							<img class="custom-image" :src="`https://eduardos-resort.online/backend/backend/public/uploads/${shop.prod_img}`" alt="" />
 
@@ -80,11 +80,10 @@
 								<div class="input-group">
   <input type="number" class="form-control text-center" v-model="selectedQuantity" min="1">
 </div>
-<button class="btn text-primary btn-lg-square rounded-circle mx-2" @click="addCart(shop.shop_id)">
-  <i class="fa fa-shopping-cart">
-    Add to Cart
-  </i>
+<button class="btn btn-add" @click="addCart(shop.shop_id)" >
+  <i class="fa fa-shopping-cart"> Add to Cart </i>
 </button>
+
 </div>
 					</div>
 				</div>

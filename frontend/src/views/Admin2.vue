@@ -66,7 +66,7 @@
             </div>
             <div class="card-body">
                 <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
-                    <table id="productsTable" class="table table-product" style="width: 100%">
+                    <table id="productsTable" class="table table-product">
                         <thead>
                             <tr>
                                 <th>Product Image</th>
@@ -542,12 +542,8 @@
           </button>
         </div>
         <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
-          <div class="table table-product">
-            <table
-              id="tablesInventory"
-              class="table table-hover"
-              style="width: 100%"
-            >
+          <div class="table ">
+            <table  class="table-product" >
               <thead>
                 <tr>
                   <th>Table Name</th>
@@ -559,7 +555,7 @@
                 <tr v-for="(table, index) in tables" :key="table.table_id">
                   <td>{{ table.table_name }}</td>
                   <td>{{ table.table_description }}</td>
-                  <td class="action-buttons">
+                  <td >
                     <button class="btn btn-custom" @click="openEditTableModal(table)">Edit</button>
                   </td>
                 </tr>
@@ -803,7 +799,7 @@
       </div>
       <div class="card-body">
         <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
-          <table id="cottagesTable" class="table table-hover table-product" style="width: 100%">
+          <table id="cottagesTable" class="table  table-product">
             <thead>
               <tr>
                 <th>Cottage Image</th>
@@ -825,7 +821,7 @@
                 <td>{{ cottage.cottage_name }}</td>
                 <td>{{ cottage.cottage_description }}</td>
                 <td>{{ cottage.cottage_price }}</td>
-                <td class="action-buttons">
+                <td >
                   <button class="btn btn-custom" @click="openCottageEditModal(cottage)">Edit</button>
                 </td>
               </tr>
@@ -980,11 +976,10 @@
                 <td>{{ book.booking_status }}</td>
                 <td>{{ book.payment_method }}</td>
                 <td>{{ book.downpayment }}</td>
-                <td class="align-middle">
+                <td class="action-buttons">
                   <button
                     class="btn btn-info"
-                    @click="openProofModal(book.downpaymentProof)"
-                  >
+                    @click="openProofModal(book.downpaymentProof)" >
                     View Proof
                   </button>
                 </td>
@@ -1062,7 +1057,7 @@
             <thead>
               <tr>
                 <th>Booking Id</th>
-                <th>User Name</th> <!-- Changed from User Id -->
+                <th>User Name</th> 
                 <th>Check-in</th>
                 <th>Check-out</th>
                 <th>Booking Status</th>
@@ -1081,8 +1076,8 @@
                 <td>{{ booking.cottagebooking_status }}</td>
                 <td>{{ booking.cottage_id }}</td>
                 <td>{{ booking.created_at }}</td>
-                <td class="align-middle">
-                  <button 
+                <td >
+                  <button style="margin-top: 14px;"
                     class="btn btn-info" 
                     @click="openModal(booking.proofOfDownpayment)">
                     View Proof
@@ -1139,11 +1134,11 @@
   <div class="col-12">
     <div class="card card-default">
       <div class="card-header">
-        <h2>Reservations</h2>
+        <h2 class="fa-solid fa-book-bookmark">  Reservations</h2>
       </div>
       <div class="card-body">
-        <div class="table-responsive">
-          <table id="reservationsTable" class="table table-hover" style="width: 100%">
+        <div class="table-responsive "  style="max-height: 400px; overflow-y: auto;">
+          <table id="reservationsTable" class="table table-product"  style="width: 100%">
             <thead>
               <tr>
                 <th>Reservation ID</th>
@@ -1152,7 +1147,7 @@
                 <th>Order Items</th>
                 <th>Status</th>
                 <th>Proof of Payment</th>
-                <th>Actions</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -1169,12 +1164,10 @@
                 </td>
                 <td>{{ reservation.status }}</td>
 
-                <!-- Proof of Payment Button -->
-                <td>
+                <td >
                   <button
                     class="btn btn-info"
-                    @click="openProofModalReservation(reservation.proof_of_payment)"
-                  >
+                    @click="openProofModalReservation(reservation.proof_of_payment)" >
                     View Proof
                   </button>
                 </td>
@@ -1187,7 +1180,7 @@
 
                   <!-- Accept Reservation Button -->
                   <button
-                    class="btn btn-success"
+                    class="btn btn-primary"
                     @click="acceptReservation(reservation.reservation_id)"
                   >
                     Accept
@@ -1195,7 +1188,7 @@
 
                   <!-- Decline Reservation Button -->
                   <button
-                    class="btn btn-danger"
+                    class="btn btn-secondary"
                     @click="declineReservation(reservation.reservation_id)"
                     :disabled="reservation.status === 'confirmed'"
                   >
@@ -1204,7 +1197,7 @@
 
                   <!-- Mark as Paid Button -->
                   <button
-                    class="btn btn-warning"
+                    class="btn btn-custom"
                     @click="markReservationAsPaid(reservation.reservation_id)"
                   >
                     Mark as Paid
@@ -1213,10 +1206,26 @@
               </tr>
             </tbody>
           </table>
-        </div>
+          
 
-        <!-- Proof of Payment Modal -->
-        <div v-if="isReservationProofModalOpen" class="modal fade show" tabindex="-1" role="dialog">
+
+      
+
+        <!-- Success and Error Messages -->
+        <div v-if="successMessage" class="alert alert-success" role="alert">
+          {{ successMessage }}
+        </div>
+        <div v-if="errorMessage" class="alert alert-danger" role="alert">
+          {{ errorMessage }}
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
+
+  <!-- Proof of Payment Modal -->
+  <div v-if="isReservationProofModalOpen" class="modal fade show" tabindex="-1" role="dialog">
           <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
               <div class="modal-header">
@@ -1241,28 +1250,16 @@
           </div>
         </div>
 
-        <!-- Success and Error Messages -->
-        <div v-if="successMessage" class="alert alert-success" role="alert">
-          {{ successMessage }}
-        </div>
-        <div v-if="errorMessage" class="alert alert-danger" role="alert">
-          {{ errorMessage }}
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
 <div class="row">
   <!-- Table Product -->
   <div class="col-12">
     <div class="card card-default">
       <div class="card-header">
-        <h2>Orders Inventory</h2>
+        <h2  class="fa-solid fa-clipboard-list">  Orders Inventory</h2>
       </div>
       <div class="card-body">
-        <div class="table-responsive">
-          <table id="ordersTable" class="table table-hover table-product" style="width: 100%">
+        <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+          <table id="ordersTable" class="table  table-product" style="width: 100%">
             <thead>
               <tr>
                 <th>User</th>
@@ -1281,8 +1278,8 @@
                 <td>{{ order.order_status }}</td>
 
                 <!-- Proof of Payment Button -->
-                <td class="align-middle">
-                  <button
+                <td >
+                 <button style="margin-top: 14px;"
                     class="btn btn-info"
                     @click="openProofOfPaymentModal(order.downpayment_proof)"
                     v-if="order.downpayment_proof"
@@ -3076,6 +3073,8 @@ span{
   font-weight: 700;
   font-style: normal;
   color:#0F172B;
+  margin: 0;
+  padding: 0;
 }
 
 
@@ -3086,8 +3085,9 @@ span{
   justify-content: flex-start;
   gap: 10px;
   white-space: nowrap;
-  
-
+  margin: 0;
+  padding: 0;
+  margin-top: 25px;
 }
 .table-product tbody td {
   padding: 12px; /* Ensure padding is consistent */
@@ -3222,6 +3222,23 @@ menu.no-scroll {
   font-weight: 700;
   font-style: normal;
 padding: 10px;  
+}
+.btn-info{
+  background-color: #0077b6; /* Same as Add Item button */
+  border: none;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  transition: background-color 0.3s, transform 0.3s;
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+padding: 10px; 
+
 }
 .btn-primary {
   background-color: #046f09; /* Same as Add Item button */

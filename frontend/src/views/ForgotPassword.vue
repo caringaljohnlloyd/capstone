@@ -1,22 +1,23 @@
 <template>
-  <div class="container mt-5">
-    <div class="row justify-content-center">
-      <div class="col-12 col-sm-8 col-md-6 col-lg-4 mt-3 p-4 form-wrapper bg-dark shadow">
-        <h3 class="text-primary text-center">Forgot Password</h3>
-        <hr />
+  <div class="login-container">
+    <div class="overlay">
+      <div class="form-container">
+        <div class="logo text-end">
+          <img src="~@/assets/logo-login.png" alt="Eduardo's Resort Logo" />
+        </div>
+        <h2 class="login-title">Forgot Password</h2>
         <form @submit.prevent="resetPassword">
-      
           <div class="form-floating mb-3">
             <input type="email" class="form-control" v-model="email" required placeholder="Email" />
             <label for="email" class="form-label">Email address</label>
           </div>
-      
-          <p class="alert-danger text-center">{{ errorMessage }}</p>
-          
-          <button type="submit" class="btn btn-primary w-100 mb-3">Reset Password</button>
-        
+
+          <p class="alert alert-danger text-center">{{ errorMessage }}</p>
+
+          <button type="submit" class="btn btn-login w-100 mb-3">Reset Password</button>
+
           <div class="text-center">
-            <router-link class="text-muted" to="/">Remembered your password? Sign in</router-link>
+            <router-link class="link" to="/login">Remembered your password? Sign in</router-link>
           </div>
         </form>
       </div>
@@ -63,27 +64,100 @@ export default {
   },
 };
 </script>
-  <style scoped>
-  .form-wrapper {
-    border-radius: 10px;
-    transition: box-shadow 0.3s ease-in-out;
-  }
 
-  .form-wrapper:hover {
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-  }
 
-  .text-primary {
-    color: #007bff;
-  }
+<style scoped>
+.login-container {
+  background: url('~@/assets/background-image.png') center/cover no-repeat;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-  .alert-danger {
-    color: #dc3545;
-    border-color: #dc3545;
-    transition: opacity 0.3s ease-in-out;
-  }
+.overlay {
+  background: rgba(0, 0, 0, 0.7);
+  padding: 20px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-  .text-muted {
-    color: #6c757d;
-  }
-  </style>
+.form-container {
+  background: rgba(15, 23, 43, 0.7);
+  padding: 40px;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 400px;
+}
+
+.logo img {
+  width: 120px;
+  margin-bottom: 10px;
+}
+
+.login-title {
+  font-size: 2rem;
+  color: #ffbb00;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.form-floating .form-control {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #ddd;
+  border: none;
+  border-radius: 5px;
+}
+
+.form-floating .form-control:focus {
+  background-color: rgba(255, 255, 255, 0.3);
+  color: #fff;
+  box-shadow: none;
+}
+
+.form-floating label {
+  color: #ccc;
+}
+
+.alert-danger {
+  color: #ff4444;
+  background-color: transparent;
+  border: none;
+}
+
+.btn-login {
+  background-color: #fea116;
+  border: none;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 14px;
+  text-decoration: none;
+  transition: background-color 0.3s, transform 0.3s;
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  padding: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-login:hover {
+  color: white;
+  background-color: #0F172B;
+  transform: scale(1.10);
+  border: none;
+}
+
+.link {
+  color: #ddd;
+  font-size: 0.9rem;
+}
+
+.link:hover {
+  color: #ffbb00;
+}
+</style>

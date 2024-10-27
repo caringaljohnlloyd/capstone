@@ -142,16 +142,13 @@
 
                   <div class="col-12">
                     <button
-                      type="submit"
-                      class="btn btn-primary w-100 py-3"
-                      style="
-                        color: white;
-                        background-color: #fea116;
-                        border-color: #fea116;
-                      "
-                    >
-                      Submit
-                    </button>
+                  type="submit"
+                  id="submitButton"
+                  class="btn w-100 py-3"
+         
+                >
+                  Submit
+                </button>
                   </div>
                 </div>
               </form>

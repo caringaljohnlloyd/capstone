@@ -18,38 +18,49 @@
             </div>
           </a>
         </div>
+
         <div class="col-lg-9">
           <div class="row gx-0 bg-white d-none d-lg-flex">
-            <div class="col-lg-7 px-5 text-start">
-              <div class="h-100 d-inline-flex align-items-center py-2 me-4">
-                <i class="fa fa-envelope text-primary me-2"></i>
-                <p class="mb-0">info@example.com</p>
-              </div>
-              <div class="h-100 d-inline-flex align-items-center py-2">
-                <i class="fa fa-phone-alt text-primary me-2"></i>
-                <p class="mb-0">Contact Number: (043) 288-7153</p>
-              </div>
-            </div>
-            <div class="col-lg-5 px-5 text-end">
-              <div class="d-inline-flex align-items-center py-2">
-                <button type="button" class="btn btn-link btn-floating mx-1">
-                  <div class="icon-group">
-                    <font-awesome-icon :icon="['fab', 'google']" />
-                    <font-awesome-icon :icon="['fab', 'facebook']" />
-                    <font-awesome-icon :icon="['fab', 'twitter']" />
-                  </div>
-                </button>
-              </div>
-            </div>
-          </div>
+            <div class="col-lg-7 px-8 ms-4 text-start">
+    <div class="d-inline-flex align-items-center py-2 justify-content-start">
+      <div class="d-inline-flex align-items-center me-4">
+        <i class="fa fa-envelope text-primary me-2"></i>
+        <p class="mb-0">eduardosresortreservation@gmail.com</p>
+      </div>
+      <div class="d-inline-flex align-items-center">
+        <i class="fa fa-phone-alt text-primary me-2"></i>
+        <p class="mb-0">Contact Number: (043) 288-7153</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4  text-end">
+    <div class="d-inline-flex align-items-center py-2">
+      <button  type="button" class="btn btn-link btn-floating mx-1">
+        <div  class="icon-group">
+          <font-awesome-icon :icon="['fab', 'google']" />
+          <font-awesome-icon :icon="['fab', 'facebook']" />
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+
+
+
           
           <nav class="navbar navbar-expand-lg bg-dark navbar-dark p-3 p-lg-0">
   <a href="/user" class="navbar-brand d-block d-lg-none">
     <h1 class="m-0 text-primary text-uppercase">Eduardo's</h1>
   </a>
-  <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+
+
+
+  <button style="background: #FEA116; border-style: solid; border-radius: 10px; border-width: 5px; width: 70px; height: 60px;  align-items: center; justify-content: center; padding: 0; margin: 0; justify-content: center; align-items: center" type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+
+  <h1 style="font-size: 55px; margin: 0; line-height: 1;">≡</h1>
+
+</button> 
+
 
   <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
     <!-- Left side of navbar (links) -->
@@ -85,8 +96,9 @@
       <router-link to="/contact" class="nav-item nav-link" :class="{ active: $route.path === '/contact' }">Contact</router-link>
     </div>
 
+
     <!-- Right side of navbar (notifications, cart, profile, auth) -->
-    <div class="d-flex align-items-center">
+    <div class="d-flex align-items-center ms-auto justify-content-end">
       <!-- Notifications -->
       <div class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="notificationDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -124,6 +136,7 @@
     </div>
   </div>
 </nav>
+
 
 <!-- Profile Modal -->
 <div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
@@ -279,7 +292,7 @@
                 <td>{{ booking.checkin }}</td>
                 <td>{{ booking.checkout }}</td>
                 <td v-if="booking.booking_status === 'pending'">
-                  <button class="btn btn-danger btn-sm" @click="cancelBooking(booking.book_id)">Cancel</button>
+                  <button class="btn-trash btn-danger btn-sm" @click="cancelBooking(booking.book_id)">Cancel</button>
                 </td>
               </tr>
             </tbody>
@@ -291,7 +304,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" @click="editUser">Edit Profile</button>
+        <button type="button" class="btn-editprofile " @click="editUser">Edit Profile</button>
       </div>
     </div>
   </div>
@@ -313,7 +326,8 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Select Number of Packs</h5>
+        <h5 class="modal-title">SELECT NUMBER OF PACKS</h5>
+     
         <button type="button" class="close" @click="closePackSelectionModal">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -324,6 +338,7 @@
             <label for="packs">Number of Packs</label>
             <input type="number" v-model="packs" class="form-control" id="packs" />
           </div>
+          <br>
           <button type="submit" class="btn btn-primary">Save</button>
         </form>
       </div>
@@ -341,12 +356,12 @@
           </button>
         </div>
         <div class="modal-body">
-          <div class="row">
+          <div class="row ">
             <div v-for="room in selectedRooms" :key="room.room_id" class="col-md-6 mb-4">
-              <div class="card h-100">
+              <div class="card h-100 card-menu">
                 <img class="img-fluid" style="height: 200px; object-fit: cover;" 
                      :src="`https://eduardos-resort.online/backend/backend/public/uploads/${room.image}`" alt="" />
-                <div class="card-body">
+                <div class="card-body ">
                   <h5 class="card-title">{{ room.room_name }}</h5>
                   <p class="card-text">{{ room.description }}</p>
                   <ul class="list-group list-group-flush">
@@ -387,7 +402,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Select Cottage</h5>
+          <h5 class="modal-title">SELECT COTTAGE</h5>
           <button type="button" class="close" @click="closeCottageModal">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -395,7 +410,7 @@
         <div class="modal-body">
           <div class="row">
             <div v-for="cottage in cottages" :key="cottage.cottage_id" class="col-md-6 mb-4">
-              <div class="card h-100">
+              <div class="card h-100 card-menu">
                 <img :src="`https://eduardos-resort.online/backend/backend/public/uploads/${cottage.cottage_image}`" class="card-img-top" :alt="cottage.cottage_name">
                 <div class="card-body">
                   <h5 class="card-title">{{ cottage.cottage_name }}</h5>
@@ -462,7 +477,7 @@
 
           <!-- GCASH Button -->
           <div class="d-flex justify-content-between mt-1">
-            <button type="button" class="btn btn-info" @click="openGcashQRCode">
+            <button type="button" class="btn-gcash btn-info" @click="openGcashQRCode">
               <i class="fas fa-qrcode"></i> GCASH
             </button>
           </div>
@@ -502,7 +517,7 @@
   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Select Table</h5>
+        <h5 class="modal-title">SELECT TABLE</h5>
         <button type="button" class="close" @click="closeTableModal">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -510,7 +525,7 @@
       <div class="modal-body">
         <div class="row">
           <div v-for="table in tables" :key="table.table_id" class="col-md-6 mb-4">
-            <div class="card h-100">
+            <div class="card h-100 card-menu">
               <div class="card-body">
                 <h5 class="card-title">{{ table.table_name }}</h5>
                 <p class="card-text">Description: {{ table.table_description }}</p>
@@ -556,7 +571,7 @@
                 <!-- Menu Items Grid -->
                 <div class="row menu-container" data-aos="fade-up" data-aos-delay="200" style="max-height: 400px; overflow-y: auto;">
                   <div v-for="item in filteredMenuItems" :key="item.menu_id" class="col-lg-4 col-md-6 col-sm-12 mb-4 d-flex align-items-stretch">
-                    <div class="card h-100 w-100">
+                    <div class="card h-100 w-100 card-menu">
                       <img :src="`https://eduardos-resort.online/backend/backend/public/uploads/${item.item_image}`" class="card-img-top img-fluid" 
                         alt="Menu Item Image" style="height: auto; max-height: 200px; object-fit: cover; width: 100%; display: block;">
                       <div class="card-body d-flex flex-column">
@@ -612,7 +627,8 @@
             <!-- Button Section for GCASH and PayPal -->
             <div class="d-flex justify-content-between mt-1">
               <div>
-                <button type="button" class="btn btn-info" @click="openGcashQRCode2">
+                <br>
+                <button type="button" class="btn-gcash btn-info" @click="openGcashQRCode2">
                   <i class="fas fa-qrcode"></i> GCASH
                 </button>
               </div>

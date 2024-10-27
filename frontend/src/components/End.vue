@@ -13,32 +13,36 @@
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-3">
-                        <h6 class="section-title text-start text-primary text-uppercase mb-4">Contact</h6>
-                        <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>Nautical Highway Bayanan II, Calapan City, Oriental Mindoro, Philippines</p>
-                        <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>Contact Number: (043) 288-7153 / Cell Phone Number: 0921 507 4378 / 0977 845 8144 / 0928 890 6708</p>
-                        <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
-                        <div class="d-flex pt-2">
-                            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
-                            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
-                            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-youtube"></i></a>
-                            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
-                        </div>
-                    </div>
+    <h6 class="section-title text-start text-primary text-uppercase mb-4">Contact</h6>
+    <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>Nautical Highway Bayanan II, Calapan City, Oriental Mindoro, Philippines</p>
+    <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>Contact Number: (043) 288-7153 / Cell Phone Number: 0921 507 4378 / 0977 845 8144 / 0928 890 6708</p>
+    <!-- Ensuring icon stays aligned with the email text -->
+    <p class="mb-2 d-flex align-items-center">
+        <i class="fa fa-envelope me-3"></i><span>eduardosresortreservation@gmail.com</span>
+    </p>
+    <div class="d-flex pt-2">
+       
+      <a class="btn btn-outline-light btn-social" href="https://www.facebook.com/eduardosresort" target="_blank"><i class="fab fa-facebook-f"></i></a>
+        <a class="btn btn-outline-light btn-social" href="https://accounts.google.com/"><i class="fa-regular fa-envelope"></i></a>
+       
+    </div>
+</div>
+
                     <div class="col-lg-5 col-md-12">
                         <div class="row gy-5 g-4">
                             <div class="col-md-6">
                                 <h6 class="section-title text-start text-primary text-uppercase mb-4">Company</h6>
-                                <a class="btn btn-link" href="/about">About Us</a>
-                                <a class="btn btn-link" href="/contact">Contact Us</a>
-                                <a class="btn btn-link" href="">Privacy Policy</a>
-                                <a class="btn btn-link" href="">Terms & Condition</a>
-                                <a class="btn btn-link" href="">Support</a>
+                                <a class="btn-wew btn-link" href="/about">About Us</a>
+                                <a class="btn-wew btn-link" href="/contact">Contact Us</a>
+                                <a class="btn-wew btn-link" href="">Privacy Policy</a>
+                                <a class="btn-wew btn-link" href="">Terms & Condition</a>
+                                <a class="btn-wew btn-link" href="">Support</a>
                             </div>
                             <div class="col-md-6">
                                 <h6 class="section-title text-start text-primary text-uppercase mb-4">Services</h6>
-                                <a class="btn btn-link" href="">Food & Restaurant</a>
-                                <a class="btn btn-link" href="">Swimming Lesson</a>
-                                <a class="btn btn-link" href="">Event & Party</a>
+                                <a class="btn-wew btn-link" href="">Food & Restaurant</a>
+                                <a class="btn-wew btn-link" href="">Swimming Lesson</a>
+                                <a class="btn-wew btn-link" href="">Event & Party</a>
                             </div>
                         </div>
                     </div>
@@ -55,20 +59,18 @@
                         </div>
                         <div class="col-md-6 text-center text-md-end">
                             <div class="footer-menu">
-                                <a href="">Home</a>
-                                <a href="">Cookies</a>
+                                <a href="/user">Home</a>
                                 <a href="">Help</a>
-                                <a href="">FQAs</a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- Footer End -->
+   
 
 
-        <!-- Back to Top -->
+    
         <a href="/user" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
     </div>
     

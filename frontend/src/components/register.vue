@@ -1,126 +1,122 @@
 <template>
-  <div class="row">
-    <div class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 mt-5 pt-3 pb-3 form-wrapper bg-dark shadow">
-      <div class="container">
-        
-        <!-- Logo Section -->
-        <div class="text-center mb-4">
-          <img src="@/assets/img/logo.png" alt="Logo" class="logo-img" />
+  <div class="login-container">
+    <div class="overlay">
+      <div class="form-container">
+        <div class="logo text-end mb-4">
+          <img src="~@/assets/logo-login.png" alt="Logo" class="logo-img" />
         </div>
 
+        <h2 class="login-title">Sign Up</h2>
+        
         <form @submit.prevent="register" ref="registerForm">
-          <!-- First Name Input with Floating Label -->
-          <div class="form-floating mb-3">
-            <input type="text" class="form-control" name="firstName" v-model="firstName" required placeholder=" ">
-            <label for="firstName" class="form-label">First Name</label>
+          <div class="form-row">
+     
+            <div class="form-floating mb-3 col">
+              <input type="text" class="form-control" name="firstName" v-model="firstName" required placeholder=" " />
+              <label for="firstName" class="form-label">First Name</label>
+            </div>
+        
+        
+            <div class="form-floating mb-3 col">
+              <input type="text" class="form-control" name="lastName" v-model="lastName" required placeholder=" " />
+              <label for="lastName" class="form-label">Last Name</label>
+            </div>
           </div>
 
-          <!-- Last Name Input with Floating Label -->
-          <div class="form-floating mb-3">
-            <input type="text" class="form-control" name="lastName" v-model="lastName" required placeholder=" ">
-            <label for="lastName" class="form-label">Last Name</label>
+          <div class="form-row">
+        
+            <div class="form-floating mb-3 col">
+              <input type="email" class="form-control" name="email" v-model="email" required placeholder=" " />
+              <label for="email" class="form-label">Email address</label>
+            </div>
+
+         
+            <div class="form-floating mb-3 col">
+              <input type="number" class="form-control" name="number" v-model="number" required placeholder=" " />
+              <label for="number" class="form-label">Mobile Number</label>
+            </div>
           </div>
 
-          <!-- Email Input with Floating Label -->
-          <div class="form-floating mb-3">
-            <input type="email" class="form-control" name="email" v-model="email" required placeholder=" ">
-            <label for="email" class="form-label">Email address</label>
+          <div class="form-row">
+
+            <div class="form-floating mb-3 position-relative col">
+              <input :type="showPassword ? 'text' : 'password'" class="form-control" name="password" v-model="password" required minlength="8" placeholder=" " />
+              <label for="password" class="form-label">Password</label>
+              <span class="password-toggle" @click="togglePassword('password')">
+                <i :class="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+              </span>
+            </div>
+
+   
+            <div class="form-floating mb-3 position-relative col">
+              <input :type="showConfirmPassword ? 'text' : 'password'" name="confirmpassword" id="confirmpassword" class="form-control" required v-model="confirmpassword" @input="checkMsg" placeholder=" " />
+              <label for="confirmpassword" class="form-label">Confirm Password</label>
+              <span class="password-toggle" @click="togglePassword('confirmPassword')">
+                <i :class="showConfirmPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+              </span>
+            </div>
           </div>
 
-          <!-- Password Input with Floating Label and Eye Icon -->
-          <div class="form-floating mb-3 position-relative">
-            <input :type="showPassword ? 'text' : 'password'" class="form-control" name="password" v-model="password" required minlength="8" placeholder=" ">
-            <label for="password" class="form-label">Password</label>
-            <span class="password-toggle" @click="togglePassword('password')">
-              <i :class="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
-            </span>
+          <div class="form-row">
+  <div class="form-floating mb-3 col">
+    <label for="islandGroup" class="label-island-group">Island Group</label>
+    <select class="form-select" v-model="selectedIslandGroup" @change="fetchRegions" required>
+      <option value="" disabled style="font-weight: bold;">Select Island Group:</option>
+      <option v-for="group in islandGroups" :key="group.code" :value="group.code"> {{ group.name }}</option>
+    </select>
+  </div>
+
+  <div v-if="selectedIslandGroup" class="form-floating mb-3 col">
+    <label for="region" class="label-island-group">Region</label>
+    <select class="form-select" v-model="selectedRegion" @change="fetchProvinces" required>
+      <option value="" disabled style="font-weight: bold;">Select Region:</option>
+      <option v-for="region in regions" :key="region.code" :value="region.code">{{ region.name }}</option>
+    </select>
+  </div>
+</div>
+
+<div class="form-row">
+  <div v-if="selectedRegion" class="form-floating mb-3 col">
+    <label for="province" class="label-island-group">Province</label>
+    <select class="form-select" v-model="selectedProvince" @change="fetchCities" required>
+      <option value="" disabled style="font-weight: bold;">Select Province:</option>
+      <option v-for="province in provinces" :key="province.code" :value="province.code"> {{ province.name }}</option>
+    </select>
+  </div>
+
+  <div v-if="selectedProvince" class="form-floating mb-3 col">
+    <label for="city" class="label-island-group">City</label>
+    <select class="form-select" v-model="selectedCity" @change="fetchBarangays" required>
+      <option value="" disabled style="font-weight: bold;">Select City:</option>
+      <option v-for="city in cities" :key="city.code" :value="city.code"> {{ city.name }}</option>
+    </select>
+  </div>
+</div>
+
+<div class="form-row">
+  <div v-if="selectedCity" class="form-floating mb-3 col">
+    <label for="barangay" class="label-island-group">Barangay</label>
+    <select class="form-select" v-model="selectedBarangay" required @change="updateFullAddress">
+      <option value="" disabled style="font-weight: bold;">Select Barangay</option>
+      <option v-for="barangay in barangays" :key="barangay.code" :value="barangay.code">{{ barangay.name }}</option>
+    </select>
+  </div>
+</div>
+
+
+          <div class="alert" :class="{ 'alert-danger': !isValid || !passwordsMatch || errorMessage, 'alert-success': passwordsMatch }" v-if="showMessage">
+            {{ errorMessage || message }}
           </div>
 
-          <!-- Confirm Password Input with Floating Label and Eye Icon -->
-          <div class="form-floating mb-3 position-relative">
-            <input :type="showConfirmPassword ? 'text' : 'password'" name="confirmpassword" id="confirmpassword" class="form-control" required v-model="confirmpassword" @input="checkMsg" placeholder=" ">
-            <label for="confirmpassword" class="form-label">Confirm Password</label>
-            <span class="password-toggle" @click="togglePassword('confirmPassword')">
-              <i :class="showConfirmPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
-            </span>
-          </div>
-
-          <!-- Number Input with Floating Label -->
-          <div class="form-floating mb-3">
-            <input type="number" class="form-control" name="number" v-model="number" required placeholder=" ">
-            <label for="number" class="form-label">Mobile Number</label>
-          </div>
-
-          <!-- Island Group Select Dropdown -->
-          <div class="form-floating mb-3">
-            <select class="form-select" v-model="selectedIslandGroup" @change="fetchRegions" required>
-              <option value="" disabled>Select Island Group</option>
-              <option v-for="group in islandGroups" :key="group.code" :value="group.code">
-                {{ group.name }}
-              </option>
-            </select>
-            <label for="islandGroup" class="form-label">Island Group</label>
-          </div>
-
-          <!-- Region Select Dropdown (conditionally rendered) -->
-          <div v-if="selectedIslandGroup" class="form-floating mb-3">
-            <select class="form-select" v-model="selectedRegion" @change="fetchProvinces" required>
-              <option value="" disabled>Select Region</option>
-              <option v-for="region in regions" :key="region.code" :value="region.code">
-                {{ region.name }}
-              </option>
-            </select>
-            <label for="region" class="form-label">Region</label>
-          </div>
-
-          <!-- Province Select Dropdown (conditionally rendered) -->
-          <div v-if="selectedRegion" class="form-floating mb-3">
-            <select class="form-select" v-model="selectedProvince" @change="fetchCities" required>
-              <option value="" disabled>Select Province</option>
-              <option v-for="province in provinces" :key="province.code" :value="province.code">
-                {{ province.name }}
-              </option>
-            </select>
-            <label for="province" class="form-label">Province</label>
-          </div>
-
-          <!-- City Select Dropdown (conditionally rendered) -->
-          <div v-if="selectedProvince" class="form-floating mb-3">
-            <select class="form-select" v-model="selectedCity" @change="fetchBarangays" required>
-              <option value="" disabled>Select City</option>
-              <option v-for="city in cities" :key="city.code" :value="city.code">
-                {{ city.name }}
-              </option>
-            </select>
-            <label for="city" class="form-label">City</label>
-          </div>
-
-          <!-- Barangay Select Dropdown (conditionally rendered) -->
-          <div v-if="selectedCity" class="form-floating mb-3">
-            <select class="form-select" v-model="selectedBarangay" required @change="updateFullAddress">
-              <option value="" disabled>Select Barangay</option>
-              <option v-for="barangay in barangays" :key="barangay.code" :value="barangay.code">
-                {{ barangay.name }}
-              </option>
-            </select>
-            <label for="barangay" class="form-label">Barangay</label>
-          </div>
-
-          <!-- Password Match Feedback -->
-          <div class="alert" :class="{ 'alert-danger': !isValid || !passwordsMatch || errorMessage, 'alert-success': passwordsMatch }" v-if="showMessage">{{ errorMessage || message }}</div>
-
-          <!-- Success Message -->
           <div class="alert alert-success" v-if="registered && !emailSent">Successfully registered! Please check your email for authentication.</div>
-
-          <!-- Email Sent Message -->
           <div class="alert alert-info" v-if="emailSent">Please check your email for authentication instructions.</div>
 
-          <!-- Submit Button with Hover Effect -->
-          <button type="submit" class="btn btn-primary mx-auto w-100 mb-3" :disabled="!passwordsMatch">Sign up</button>
+    
+          <button type="submit" class="btn btn-login w-100 mb-3" :disabled="!passwordsMatch">Sign up</button>
 
-          <!-- Links -->
+    
           <div class="mt-3 text-center">
-            <router-link to="/login">Already have an account</router-link>
+            <router-link to="/login" class="link">Already have an account?</router-link>
           </div>
         </form>
       </div>
@@ -136,14 +132,14 @@ import axios from 'axios';
 export default {
   data() {
     return {
-      firstName: "", // New data property for first name
+      firstName: "", 
       lastName: "", 
       name: "",
       email: "",
       password: "",
       confirmpassword: "",
       number: "",
-      fullAddress: "", // Full address
+      fullAddress: "", 
       showPassword: false,
       showConfirmPassword: false,
       showMessage: false,
@@ -154,12 +150,12 @@ export default {
       regions: [],
       cities: [],
       barangays: [],
-      provinces: [],  // New data property for provinces
+      provinces: [], 
       selectedIslandGroup: null,
       selectedRegion: null,
       selectedCity: null,
       selectedBarangay: null,
-      selectedProvince: null,  // New data property for selected province
+      selectedProvince: null,  
     };
   },
   computed: {
@@ -205,10 +201,10 @@ export default {
       email: this.email,
       password: this.password,
       number: this.number,
-      address: this.fullAddress, // Send the full address
+      address: this.fullAddress, 
     });
 
-    // Clear form fields
+ 
     this.name = "";
     this.firstName = "";
     this.Lastname = "";
@@ -296,6 +292,71 @@ export default {
 </script>
 
 <style scoped>
+.login-container {
+  background: url('~@/assets/background-image.png') center/cover no-repeat;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.overlay {
+  background: rgba(0, 0, 0, 0.7);
+  padding: 20px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-container {
+  background: rgba(15, 23, 43, 0.7);
+  padding: 40px;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 600px; /* Increase width to allow horizontal layout */
+}
+
+.logo-img {
+  width: 150px; /* Adjust this value to control the width */
+  height: auto; /* Maintain aspect ratio */
+  align-items: right;
+  justify-self: right;
+}
+
+.login-title {
+  font-size: 2rem;
+  color: #ffbb00;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.form-floating .form-control {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #ddd;
+  border: none;
+  border-radius: 5px;
+  width: 100%; /* Ensure inputs take full width */
+}
+
+.form-floating .form-control:focus {
+  background-color: rgba(255, 255, 255, 0.3);
+  color: #fff;
+  box-shadow: none;
+}
+
+.form-floating label {
+  color: #ccc;
+}
+
 .password-toggle {
   position: absolute;
   top: 10px;
@@ -303,24 +364,53 @@ export default {
   cursor: pointer;
   color: #999;
 }
+
 .password-toggle:hover {
   color: #666;
 }
-@media (max-width: 768px) {
-  .logo-img {
-    width: 100px; /* Smaller width for mobile screens */
-  }
-}
-.logo-img {
-  width: 150px; /* Adjust this value to control the width */
-  height: auto; /* Maintain aspect ratio */
-  margin: 0 auto; /* Center horizontally */
-  display: block; /* Ensure it's centered within the parent */
+
+.alert-danger {
+  color: #ff4444;
+  background-color: transparent;
+  border: none;
 }
 
-/* Optional: Add margin or padding adjustments if needed */
-.text-center.mb-4 {
-  padding: 10px 0; /* Adjust padding around the logo */
+.btn-login {
+  background-color: #fea116;
+  border: none;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 14px;
+  text-decoration: none;
+  transition: background-color 0.3s, transform 0.3s;
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  padding: 10px;
+  justify-content: center;
+  align-items: center;
 }
+
+.btn-login:hover {
+  color: white;
+  background-color: #0F172B;
+  transform: scale(1.05);
+  border: none;
+}
+.label-island-group {
+  font-family: 'Arial', sans-serif; /* Font family */
+  font-size: 1rem; /* Adjust size */
+  font-weight: bold; /* Make it bold for better visibility */
+  color: #ffffff; /* Set a white or high-contrast color */
+  opacity: 1; /* Ensure it’s fully opaque */
+  letter-spacing: 0.5px; /* Slightly space out letters */
+  margin-bottom: 5px; /* Space below the label */
+  text-shadow: 0 0 5px rgba(0.01, 0.01, 0.01, 0.01); /* Adds a shadow for better visibility */
+
+  padding: 0 2px; /* Add some padding for the background */
+  border-radius: 3px; /* Optional: rounded corners */
+}
+
+
 
 </style>
