@@ -39,10 +39,132 @@
 
 /*** Button ***/
 .btn {
-    font-weight: 500;
-    text-transform: uppercase;
-    transition: .5s;
+    background-color: #fea116; 
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    transition: background-color 0.3s, transform 0.3s;
+    font-family: "Poppins", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+  padding: 10px;  
+  }
+  .btn:hover {
+    color: white;
+    background-color: #0F172B;
+    transform: scale(1.10);
+    border:none;
+  }
+.btn-gcash{
+    background-color: #0077b6;
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+    text-decoration: none;
+    transition: background-color 0.3s, transform 0.3s;
+    font-family: "Poppins", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+  padding: 10px;  
 }
+.btn-trash{
+    background-color: rgb(200, 24, 24);
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+    text-decoration: none;
+    transition: background-color 0.3s, transform 0.3s;
+    font-family: "Poppins", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+  padding: 10px;  
+}
+.btn-editprofile{
+    background-color:green;
+
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+    text-decoration: none;
+    transition: background-color 0.3s, transform 0.3s;
+    font-family: "Poppins", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+  padding: 10px;  
+}
+.btn-gcash:hover {
+ 
+    transform: scale(1.10);
+    border:none;
+  }
+  .btn-trash:hover {
+    background-color: rgb(255, 46, 46);
+    transform: scale(1.10);
+    border:none;
+  }
+  .btn-editprofile:hover {
+    background-color:rgb(53, 214, 28);
+
+    transform: scale(1.10);
+    border:none;
+  }
+  .card-menu:hover {
+    transform: translateY(-30px);
+  }
+
+  .card-menu {
+    transition: transform 0.2s;
+  }
+#submitButton{
+    background-color: #fea116; /* Same as Add Item button */
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+
+    text-decoration: none;
+    transition: background-color 0.3s, transform 0.3s;
+    font-family: "Poppins", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+  padding: 10px; 
+}
+  #submitButton:hover {
+    background-color: #0F172B;
+    transform: scale(1.10);
+    border:none;
+  }
+
+  .btn-add {
+    border-radius: 5px;
+    background-color: #FEA116;
+    color: white;
+    padding: 5px;
+    margin-left: 5px;
+  }
+
+
+
+
+
+
+
+
+
+
+
 
 .btn.btn-primary,
 .btn.btn-secondary {
@@ -99,13 +221,36 @@
 }
 
 
+#header-carousel .carousel-item {
+
+    min-height: 450px;
+    overflow: hidden; 
+}
+
+#header-carousel .carousel-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute; 
+    top: 0;
+    left: 0;
+}
+#header-carousel {
+    width: 100%;
+    height: auto;
+}
+
+
+
+
+
 /*** Header ***/
 .carousel-caption {
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(15, 23, 43, .7);
+
     z-index: 1;
 }
 
@@ -123,7 +268,7 @@
 @media (max-width: 768px) {
     #header-carousel .carousel-item {
         position: relative;
-        min-height: 450px;
+      
     }
     
     #header-carousel .carousel-item img {
@@ -443,7 +588,7 @@
     color: var(--primary);
 }
 
-.footer .btn.btn-link {
+.footer .btn-wew.btn-link {
     display: block;
     margin-bottom: 5px;
     padding: 0;
@@ -455,7 +600,7 @@
     transition: .3s;
 }
 
-.footer .btn.btn-link::before {
+.footer .btn-wew.btn-link::before {
     position: relative;
     content: "\f105";
     font-family: "Font Awesome 5 Free";
@@ -463,7 +608,7 @@
     margin-right: 10px;
 }
 
-.footer .btn.btn-link:hover {
+.footer .btn-wew.btn-link:hover {
     letter-spacing: 1px;
     box-shadow: none;
 }
