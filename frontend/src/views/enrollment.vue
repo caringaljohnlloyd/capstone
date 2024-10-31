@@ -1,13 +1,13 @@
 <template>
-  <Notification
-  :show="notification.show"
-  :type="notification.type"
-  :message="notification.message"
-/>
-
-<div class="main-content">
-
-  <div class="sidebar" :class="{ 'collapsed': isSidebarCollapsed }">
+    <Notification
+    :show="notification.show"
+    :type="notification.type"
+    :message="notification.message"
+  />
+  
+  <div class="main-content">
+  
+    <div class="sidebar" :class="{ 'collapsed': isSidebarCollapsed }">
 
 <img :src="require('../assets/images/logo1.png.png')" alt="Mono" class="logo">
 <router-link to="/admin2">
@@ -43,365 +43,171 @@
   <i class="fa-solid fa-table-columns"></i><span>POS</span>
 </router-link>
 </div>
-
-    <div class="header">
-      <h1 class="h1-main">EDUARDO'S ADMIN</h1>
-
-      <!-- Navbar Toggler -->
-      <button
-        class="navbar-toggler"
-        type="button"
-        @click="toggleSidebar"
-      >
-      <i class="fa-solid fa-bars" style="padding: 5px; margin:5px; width: 40px;"></i>
-      </button>
-
-      <!-- Logout Button -->
-      <button @click="logout" class="btn btn-custom logout-logo-btn">
-        <i class="fas fa-power-off logout-icon"></i>
-        Logout
-      </button>
-    </div>
-
-
-
-
-    <div class="card-main">
-      <div class="content">
-
-
-
-<!-- Shoppee Kain Muna -->
-<div class="row">
-    <div class="col-12">
+  
+      <div class="header">
+        <h1 class="h1-main">EDUARDO'S ADMIN</h1>
+  
+        <!-- Navbar Toggler -->
+        <button
+          class="navbar-toggler"
+          type="button"
+          @click="toggleSidebar"
+        >
+        <i class="fa-solid fa-bars" style="padding: 5px; margin:5px; width: 40px;"></i>
+        </button>
+  
+        <!-- Logout Button -->
+        <button @click="logout" class="btn btn-custom logout-logo-btn">
+          <i class="fas fa-power-off logout-icon"></i>
+          Logout
+        </button>
+      </div>
+  
+  
+  
+  
+      <div class="card-main">
+        <div class="content">
+  
+  <div class="row">
+      <!-- Table Product -->
+      <div class="col-12">
         <div class="card card-default">
-            <div class="card-header">
-                <h2 class="fa-solid fa-house"> Rooms</h2><br>
-                <button type="button" class="btn btn-custom" @click="openAddRoomModal">
-                    Add Room
-                </button>
-            </div>
-            <div class="card-body pt-26">
-                <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
-                    <table class="table table-product">
-                        <thead>
-                            <tr>
-                                <th>Room ID</th>
-                                <th>Image</th>
-                                <th>Room Name</th>
-                                <th>Price</th>
-                                <th>Number of Packs</th>
-                                <th>Description</th>
-                                <th>Room Status</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="room in room" :key="room.room_id">
-                                <td>{{ room.room_id }}</td>
-                                <td>
-                                    <img
-                                        class="img-fluid room-image"
-                                        :src="`https://eduardos-resort.online/backend/backend/public/uploads/${room.image}`"
-                                        alt="Room Image"
-                                        style="max-width: 80px; height: auto; object-fit: cover;"
-                                    />
-                                </td>
-                                <td>{{ room.room_name }}</td>
-                                <td>{{ room.price }}</td>
-                                <td>{{ room.packs }}</td>
-                                <td>{{ room.description }}</td>
-                                <td>{{ room.room_status }}</td>
-                                <td>
-                                    <button class="btn btn-custom" @click="openRoomEditModal(room)">Edit</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Success Message -->
-    <div v-if="successMessage" class="alert alert-success" role="alert">
-        {{ successMessage }}
-    </div>
-</div>
-
-  <!-- Edit Room Modal -->
-  <div v-if="editRoomModalVisible" class="modal" tabindex="-1" role="dialog" style="display: block">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Edit Room</h5>
-          <button type="button" class="close" @click="closeRoomEditModal">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <!-- Edit form for rooms -->
-          <form @submit.prevent="saveRoomEdit">
-            <div class="row">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="room_name">Room Name</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="Name"
-                    v-model="editedRoom.room_name"
-                  />
-                </div>
-                <div class="form-group">
-                  <label for="price">Room Price</label>
-                  <div class="input-group">
-                    <input
-                      type="number"
-                      class="form-control"
-                      placeholder="Price"
-                      v-model="editedRoom.price"
-                    />
-                  </div>
-                </div>
-
+          <div class="card-header">
+            <h2 class="fa-solid fa-person-swimming"> Swimming Inventory</h2><br>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+              <table id="productsTable" class="table  table-product" style="width: 100%">
+                <thead>
+                  <tr>
+                    <th>Enroll Id</th>
+                    <th>Account Id</th>
+                    <th>FullName</th>
+                    <th>Age</th>
+                    <th>Contact Number</th>
+                    <th>Experience</th>
+                    <th>Lesson Date</th>
+                    <th>Status</th>
+                    <th class="actions-header">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="enroll in enroll" :key="enroll.enroll_id">
+                    <td>{{ enroll.enroll_id }}</td>
+                    <td>{{ enroll.id }}</td>
+                    <td>{{ enroll.fullname }}</td>
+                    <td>{{ enroll.age }}</td>
+                    <td>{{ enroll.contact_number }}</td>
+                    <td>{{ enroll.experience }}</td>
+                    <td>{{ enroll.lesson_date }}</td>
+                    <td>{{ enroll.enrollment_status }}</td>
+                    <td>
+                      <div class="dropdown">
+                        <div class="select" @click="toggleDropdown(enroll.enroll_id)">
+                          <span class="selected">Actions</span>
+                          <div class="caret" :class="{ 'caret-rotate': openDropdown === enroll.enroll_id }"></div>
+                        </div>
+                        <ul class="menu" :class="{ 'menu-open': openDropdown === enroll.enroll_id }">
+                          <li @click="handleDropdownAction('Paid', enroll.enroll_id)">Paid</li>
+                          <li @click="handleDropdownAction('Accept', enroll.enroll_id)">Accept</li>
+                          <li @click="handleDropdownAction('Decline', enroll.enroll_id)">Decline</li>
+                        </ul>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <!-- Success Message -->
+              <div v-if="successMessage" class="alert alert-success" role="alert">
+                {{ successMessage }}
               </div>
-              <div class="col-md-6">
-
-                <div class="form-group">
-                  <label for="description">Room Description</label>
-                  <textarea
-                    class="form-control"
-                    placeholder="Description"
-                    v-model="editedRoom.description"
-                  ></textarea>
-                </div>
-                <div class="form-group">
-                  <label for="room_status">Room Status</label>
-                  <select class="form-control" v-model="editedRoom.room_status">
-                    <option value="Available">Available</option>
-                    <option value="Booked">Booked</option>
-                  </select>
-                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  
+  
+  
+  
+    </div>
+  
+    <div class="row">
+      <!-- Table Date -->
+      <div class="col-12">
+        <div class="card card-default">
+          <div class="card-header">
+            <h2  class="fa-solid fa-person-swimming"> Swimming Lesson Date Inventory</h2><br>
+            <button type="button" class="btn btn-custom" @click="openAddDateModal">
+              Add Date
+            </button>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+              <table id="productsTable" class="table  table-product" style="width: 100%">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="date in dates" :key="date">
+                    <td>{{ date }}</td>
+                  </tr>
+                </tbody>
+              </table>
+             
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  
+    <!-- Modal for Adding -->
+    <div v-if="addDateModalVisible" class="modal show">
+      <!-- Modal content for adding -->
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Add Date</h5>
+            <button type="button" class="close" @click="closeAddDateModal">
+              &times;
+            </button>
+          </div>
+          <!-- Add form -->
+          <form @submit.prevent="saveDate" enctype="multipart/form-data">
+            <div class="modal-body">
+              <div class="form-group">
+                <label for="swimming_date">Swimming Date</label>
+                <input type="date" class="form-control" placeholder="Date" v-model="swimming_date" required />
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-custom "  style="background:#0F172B; border:none; " @click="closeRoomEditModal">
-                Close
-              </button>
-              <button type="submit" class="btn btn-custom">Save Changes</button>
+              <button type="button" class="btn btn-custom "  style="background:#0F172B; border:none; " @click="closeAddDateModal">Close</button>
+              <button type="submit" class="btn btn-custom">Add</button>
             </div>
           </form>
         </div>
       </div>
     </div>
-  </div>
-  <!-- Add Room Modal -->
-  <div v-if="addRoomModalVisible" class="modal" tabindex="-1" role="dialog" style="display: block">
-    <div class="modal-dialog modal-lg" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Add Room</h5>
-          <button type="button" class="close" @click="closeAddRoomModal">
-            &times;
-          </button>
-        </div>
-        <form @submit.prevent="saveRoom">
-          <div class="modal-body">
-            <div class="form-group">
-              <label for="image">Room Images</label>
-              <input
-                type="file"
-                ref="roomImageInput"
-                @change="handleRoomImageUpload"
-                class="form-control-file"
-                multiple
-                required
-              />
-            </div>
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                <label for="room_name">Room Name</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="Name"
-                  v-model="room_name"
-                  required
-                />
-              </div>
-              <div class="form-group col-md-6">
-                <label for="price">Room Price</label>
-                <input
-                  type="number"
-                  class="form-control"
-                  placeholder="Price"
-                  v-model="price"
-                  required
-                />
-              </div>
-              <div class="form-group col-md-6">
-                <label for="downpayment">Room Downpayment</label>
-                <input
-                  type="number"
-                  class="form-control"
-                  placeholder="Downpayment"
-                  v-model="downpayment"
-                  required
-                />
-              </div>
-              <div class="form-group col-md-6">
-                <label for="packs">Number of Pax</label>
-                <select class="form-control" v-model="packs">
-                  <option value="3">3 Pax</option>
-                  <option value="4">4 Pax</option>
-                  <option value="6">6 Pax</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="description">Room Description</label>
-              <textarea
-                class="form-control"
-                placeholder="Description"
-                v-model="description"
-                required
-              ></textarea>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-custom "  style="background:#0F172B; border:none; " @click="closeAddRoomModal">
-              Close
-            </button>
-            <button type="submit" class="btn btn-custom">Add</button>
-          </div>
-        </form>
-      </div>
+  
+      <Notification
+        :show="notification.show"
+        :type="notification.type"
+        :message="notification.message"
+        class="bottom-right-notification"
+      />
     </div>
   </div>
-
-
-  <div class="row">
-  <!-- Table Product -->
-  <div class="col-12">
-    <div class="card card-default">
-      <div class="card-header">
-        <h2 class="fa-solid fa-book"> Booking Inventory</h2><br>
-      </div>
-      <div class="card-body">
-        <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
-          <table id="productsTable" class="table table-product" style="width: 100%">
-            <thead>
-              <tr>
-                <th>Group Id</th>
-                <th>User</th>
-                <th>Checkin</th>
-                <th>Checkout</th>
-                <th>Special Request</th>
-                <th>Rooms</th>
-                <th>Booking Status</th>
-                <th>Booking Payment</th>
-                <th>Down Payment</th>
-                <th>Proof of Payment</th>
-                <th class="actions-header">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="book in book" :key="book.group_id">
-                <td>{{ book.group_id }}</td>
-                <td>{{ book.name }}</td>
-                <td>{{ book.checkin }}</td>
-                <td>{{ book.checkout }}</td>
-                <td>{{ book.specialRequest }}</td>
-                <td>{{ book.room_names }}</td>
-                <td>{{ book.booking_status }}</td>
-                <td>{{ book.payment_method }}</td>
-                <td>{{ book.downpayment }}</td>
-                <td class="action-buttons">
-                  <button
-                    class="btn btn-info"
-                    @click="openProofModal(book.downpaymentProof)" >
-                    View Proof
-                  </button>
-                </td>
-                <td>
-                  <div class="dropdown">
-                    <div class="select" @click="toggleDropdown(book.group_id)">
-                      <span class="selected">Actions</span>
-                      <div
-                        class="caret"
-                        :class="{ 'caret-rotate': openDropdown === book.group_id }"
-                      ></div>
-                    </div>
-                    <ul
-                      class="menu"
-                      :class="{ 'menu-open': openDropdown === book.group_id }"
-                    >
-                      <li @click="handleDropdownAction('markAsPaid', book.group_id)">
-                        Mark as Paid
-                      </li>
-                      <li @click="handleDropdownAction('acceptBooking', book.group_id)">
-                        Confirm Booking
-                      </li>
-                      <li @click="handleDropdownAction('declineBooking', book.group_id)">
-                        Decline Booking
-                      </li>
-                    </ul>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-
-          <!-- Success Message -->
-          <div v-if="successMessage" class="alert alert-success" role="alert">
-            {{ successMessage }}
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Proof of Payment Modal -->
-  <div v-if="isProofModalOpen" class="modal-overlay">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5>Proof of Downpayment</h5>
-        <button @click="closeProofModal" class="close-button">&times;</button>
-      </div>
-      <div class="modal-body">
-        <img
-          :src="selectedProofImage"
-          class="img-fluid"
-          alt="Proof of Downpayment"
-        />
-      </div>
-      <div class="modal-footer">
-        <button @click="closeProofModal" class="btn btn-secondary">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
-
-
-    <Notification
-      :show="notification.show"
-      :type="notification.type"
-      :message="notification.message"
-      class="bottom-right-notification"
-    />
-  </div>
-</div>
-</div>
-
-
-</template>
-
-
-<script>
+  
+  
+  </template>
+  
+  
+  <script>
 import axios from "axios";
 import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.min.css";
@@ -415,14 +221,6 @@ components: {
 },
 data() {
   return {
-    selectedProofImage: "", // URL for the selected proof image
-      isProofOfPaymentModalOpen: false, // State for the proof of payment modal
-    selectedProofImage: "", // URL for the selected proof of payment image
-    isReservationProofModalOpen: false, // Tracks if the proof modal is open
-    selectedProofImage: "", // Holds the selected proof image URL
-    isProofModalOpen: false, // Tracks the modal's open state
-    selectedProofImage: "", // Stores the selected proof image URL
-      isModalOpen: false, // Tracks if the modal is open
     cottages: [],
       cottage_name: '',
       cottage_description: '',
@@ -561,41 +359,6 @@ created() {
 },
 
 methods: {
-  openProofOfPaymentModal(proofImage) {
-      // Set the selected proof image and open the modal
-      this.selectedProofImage = `https://eduardos-resort.online/backend/backend/public/uploads/${proofImage}`;
-      this.isProofOfPaymentModalOpen = true;
-    },
-    closeProofOfPaymentModal() {
-      // Close the proof of payment modal
-      this.isProofOfPaymentModalOpen = false;
-    },
-  openProofModalReservation(proof_of_payment) {
-      // Set the selected proof image and open the modal
-      this.selectedProofImage = `https://eduardos-resort.online/backend/backend/public/uploads/${proof_of_payment}`;
-      this.isReservationProofModalOpen = true;
-    },
-    closeReservationProofModal() {
-      // Close the proof of payment modal
-      this.isReservationProofModalOpen = false;
-    },
-  openProofModal(downpaymentProof) {
-      // Set the selected image URL and open the modal
-      this.selectedProofImage = `https://eduardos-resort.online/backend/backend/public/uploads/${downpaymentProof}`;
-      this.isProofModalOpen = true;
-    },
-    closeProofModal() {
-      // Close the modal
-      this.isProofModalOpen = false;
-    },
-  openModal(proofImage) {
-      // Set the selected image and open the modal
-      this.selectedProofImage = `https://eduardos-resort.online/backend/backend/public/uploads/${proofImage}`;
-      this.isModalOpen = true;},
-      closeModal() {
-      // Close the modal
-      this.isModalOpen = false;
-    },
 // Handle Image Upload for Add Cottage
 handleCottageImageUpload() {
     const fileInput = this.$refs.cottageImageInput;
@@ -882,28 +645,15 @@ async markCottageBookingAsPaid(cottagebooking_id) {
 },
 
 async fetchCottageBookings() {
-      try {
-        const [bookingsResponse, usersResponse] = await Promise.all([
-          axios.get('api/cottage-bookings'), // Booking data
-          axios.get('/getData'), // User data
-        ]);
+  try {
+    const response = await axios.get('api/cottage-bookings'); // Update with your API endpoint
+    this.bookings = response.data; // Assuming you have a `bookings` data property
+  } catch (error) {
+    console.error('Error fetching cottage bookings:', error);
+    this.errorMessage = 'Failed to load cottage booking data.'; // Assuming you have an `errorMessage` property
+  }
+},
 
-        const bookings = bookingsResponse.data;
-        const users = usersResponse.data;
-
-        // Map user names into bookings
-        this.bookings = bookings.map((booking) => {
-          const user = users.find((u) => u.id === booking.user_id);
-          return {
-            ...booking,
-            name: user ? user.name : 'Unknown User', // Fallback if user not found
-          };
-        });
-      } catch (error) {
-        console.error('Error fetching data:', error);
-        this.errorMessage = 'Failed to load cottage bookings.';
-      }
-    },
   async fetchReservations() {
       try {
         const response = await axios.get('/admin/reservations'); // Update with your API endpoint
@@ -970,6 +720,7 @@ async markReservationAsPaid(reservation_id) {
     console.error("Error marking reservation as paid:", error);
   }
 },
+
 
 
   showSuccessNotification(message) {
@@ -1232,51 +983,48 @@ async saveMenuItemEdit() {
       console.error('Error fetching books:', error);
     }
   },
-  async markAsPaidByGroup(group_id) {
+  async declineBooking(booking_id) {
     try {
-        const response = await axios.post(`/api/mark-as-paid-group/${group_id}`);
-        if (response.status === 200) {
-            this.showSuccessNotification(`All bookings in group ${group_id} marked as Paid`);
-            this.getBook(); // Refresh the booking list
-        } else {
-            console.error("Failed to mark bookings as paid:", response.data.message);
-        }
-    } catch (error) {
-        console.error("Error marking bookings as paid:", error);
-    }
-},
+      const response = await axios.post(`/api/decline-booking/${booking_id}`);
 
-async acceptBookingByGroup(group_id) {
+      if (response.status === 200) {
+        this.showSuccessNotification(`Booking ${booking_id} Declined`);
+        this.getBook(); // Ensure this method is defined
+      } else {
+        console.error("Failed to decline booking:", response.data.message);
+      }
+    } catch (error) {
+      console.error("Error declining booking:", error);
+    }
+  },
+  async markAsPaid(booking_id) {
     try {
-        const response = await axios.post(`/api/accept-booking-group/${group_id}`);
-        if (response.status === 200) {
-            this.showSuccessNotification(`All bookings in group ${group_id} accepted`);
-            this.getBook(); // Refresh the booking list
-        } else {
-            console.error("Failed to accept bookings:", response.data.message);
-        }
-    } catch (error) {
-        console.error("Error accepting bookings:", error);
-    }
-},
+      const response = await axios.post(`/mark-as-paid/${booking_id}`);
 
-async declineBookingByGroup(group_id) {
+      if (response.status === 200) {
+        this.showSuccessNotification(`Booking ${booking_id} Marked as Paid`);
+        this.getBook(); // Ensure this method is defined
+      } else {
+        console.error("Failed to mark as paid:", response.data.message);
+      }
+    } catch (error) {
+      console.error("Error marking as paid:", error);
+    }
+  },
+  async acceptBooking(booking_id) {
     try {
-        const response = await axios.post(`/api/decline-booking-group/${group_id}`);
-        if (response.status === 200) {
-            this.showSuccessNotification(`All bookings in group ${group_id} declined`);
-            this.getBook(); // Refresh the booking list
-        } else {
-            console.error("Failed to decline bookings:", response.data.message);
-        }
-    } catch (error) {
-        console.error("Error declining bookings:", error);
-    }
-},
+      const response = await axios.post(`/accept-booking/${booking_id}`);
 
-toggleDropdown(group_id) {
-    this.openDropdown = this.openDropdown === group_id ? null : group_id; // Toggles the dropdown
-},
+      if (response.status === 200) {
+        this.showSuccessNotification(`Booking ${booking_id} Accepted`);
+        this.getBook(); // Ensure this method is defined
+      } else {
+        console.error("Failed to accept booking:", response.data.message);
+      }
+    } catch (error) {
+      console.error("Error accepting booking:", error);
+    }
+  },
   async declineenrolling(enroll_id) {
     try {
       const response = await axios.post(`/api/decline-enroll/${enroll_id}`);
@@ -1500,17 +1248,16 @@ toggleDropdown(group_id) {
    }
    this.openDropdown = null; 
  },
- handleDropdownAction(action, group_id) {
-    if (action === 'markAsPaid') {
-        this.markAsPaidByGroup(group_id); // Call the new group method
-    } else if (action === 'acceptBooking') {
-        this.acceptBookingByGroup(group_id); // Call the new group method
-    } else if (action === 'declineBooking') {
-        this.declineBookingByGroup(group_id); // Call the new group method
-    }
-    this.openDropdown = null; 
-},
-
+    handleDropdownAction(action, book_id) {
+      if (action === 'markAsPaid') {
+        this.markAsPaid(book_id);
+      } else if (action === 'acceptBooking') {
+        this.acceptBooking(book_id);
+      } else if (action === 'declineBooking') {
+        this.declineBooking(book_id);
+      }
+      this.openDropdown = null; 
+    },
 
     showSuccessNotification(message) {
       this.successMessage = message;
@@ -1549,14 +1296,12 @@ toggleDropdown(group_id) {
   },
   async saveDate() {
     try {
-        const response = await axios.post("https://eduardos-resort.online/backend/saveDate", {
+        const response = await axios.post("https://eduardos-resort.online/saveDate", {
             swimming_date: this.swimming_date,
         });
         this.successMessageDate = response.data.message;
         this.dates.push(this.swimming_date); // Assuming you want to add it to the dates list
         this.closeAddDateModal(); // Close the modal
-        this.showNotification("Date Added Successfully", "success");
-
     } catch (error) {
         console.error("Error saving date:", error);
         // Check if error response exists
@@ -1784,723 +1529,723 @@ handleEditImageUpload() {
 },
 };
 </script>
-
-
-<style scoped>
-.disabled {
-  pointer-events: none; /* Disable click events */
-  opacity: 0.5; /* Make it look inactive */
-}
-
-h1 {
-  color: white;
-  text-align: left;
-  margin: 0; /* Remove default margin */
-}
-
-i {
-  padding-right: 38px;
-  padding-left: 10px;
-}
-
-span{
-  padding: 0;
-  margin: 0;
-}
-
-/* Sidebar styles */
-.sidebar {
-  width: 93px;
-  height: 100vh;
-  position: fixed;
-  top: 0;
-  left: 0;
-  background-color: #0F172B;
-  color: #fff;
-  padding: 20px;
-  overflow-y: auto;
-  transition: width 0.5s; /* Smooth transition for the width */
-}
-
-.sidebar img.logo {
-  width: 50px; 
-  height: auto; 
-  display: block;
-  transition: width 0.5s; /* Smooth transition for the logo size */
-}
-
-.sidebar:hover img.logo {
-  width: 100px; 
-}
-
-.sidebar a, .sidebar router-link {
-  display: flex;
-  align-items: center;
-  color: #fff;
-  padding: 10px;
-  text-decoration: none;
-  margin: 5px 0;
-}
-
-.sidebar a:hover, .sidebar router-link:hover {
-  background-color: #FEA116;
-  transition: background-color 0.5s; /* Smooth transition for hover effect */
-}
-
-.sidebar:hover {
-  width: 200px;
-}
-
-
-/* Make sidebar responsive */
-@media (max-width: 768px) {
+  
+  
+  <style scoped>
+  .disabled {
+    pointer-events: none; /* Disable click events */
+    opacity: 0.5; /* Make it look inactive */
+  }
+  
+  h1 {
+    color: white;
+    text-align: left;
+    margin: 0; /* Remove default margin */
+  }
+  
+  i {
+    padding-right: 38px;
+    padding-left: 10px;
+  }
+  
+  span{
+    padding: 0;
+    margin: 0;
+  }
+  
+  /* Sidebar styles */
   .sidebar {
-    width: 100%; /* Full width on small screens */
-    height: auto; /* Height auto adjusts */
-    position: relative; /* Change position to relative */
-    overflow: hidden; /* Hide overflow on small screens */
+    width: 93px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #0F172B;
+    color: #fff;
+    padding: 20px;
+    overflow-y: auto;
+    transition: width 0.5s; /* Smooth transition for the width */
+  }
+  
+  .sidebar img.logo {
+    width: 50px; 
+    height: auto; 
+    display: block;
+    transition: width 0.5s; /* Smooth transition for the logo size */
+  }
+  
+  .sidebar:hover img.logo {
+    width: 100px; 
+  }
+  
+  .sidebar a, .sidebar router-link {
+    display: flex;
+    align-items: center;
+    color: #fff;
+    padding: 10px;
+    text-decoration: none;
+    margin: 5px 0;
+  }
+  
+  .sidebar a:hover, .sidebar router-link:hover {
+    background-color: #FEA116;
+    transition: background-color 0.5s; /* Smooth transition for hover effect */
+  }
+  
+  .sidebar:hover {
+    width: 200px;
+  }
+  
+  
+  /* Make sidebar responsive */
+  @media (max-width: 768px) {
+    .sidebar {
+      width: 100%; /* Full width on small screens */
+      height: auto; /* Height auto adjusts */
+      position: relative; /* Change position to relative */
+      overflow: hidden; /* Hide overflow on small screens */
+     
+    }
+  
+    .sidebar img.logo {
+      width: 80px; /* Adjust logo size for small screens */
+    }
+  
+    .sidebar:hover {
+      width: 100%; /* Full width on hover for small screens */
+    }
+  
+    .sidebar a, .sidebar router-link {
+      justify-content: center; /* Center items for small screens */
+    }
+  }
+  
+  .main-content {
+    margin-left: 93px; /* Default margin for the sidebar width */
+    padding: 0; /* Remove default padding */
+    transition: margin-left 0.5s; /* Smooth transition for the margin */
+  }
+  
+  
+  /* Adjust main content for smaller screens */
+  @media (max-width: 768px) {
+    .main-content {
+      margin-left: 0; /* Remove left margin for small screens */
+    }
+  }
+  
+  
+  
+  
+  .logout-logo-btn {
+    background-color: #FEA116;
+    border: none;
+    padding: 10px 15px;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    position: absolute;
+    bottom: 10px; /* Position at the bottom */
+    right: 20px; /* Align to the right */
+  }
+  
+  .logout-logo-btn i {
+    margin-right: 5px; /* Space between icon and text */
+  }
+  
+  .card-main {
+    background-color: #f4f4f4;
+    padding: 20px;
+    margin: 20px; /* Add margin around the card */
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow for better visibility */
+    transition: 0.5s;
+  }
+  .table-responsive {
+    width: 100%;
+    overflow-x: auto;
+  }
+  
+  .table-product {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .table-product th, .table-product td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .card-body .modal-body, .card-body .alert, th , .modal-body {
+    font-family: "Poppins", sans-serif;
+    font-weight: 800;
+    font-style: normal;
+    font-size: large;
+    color:#0F172B;
+  }
+  
+  .modal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    z-index: 1050; /* Ensure the modal backdrop is on top */
+  }
+  
+  /* Modal Dialog */
+  .modal-dialog {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100% - 1rem);
+  }
+  
+  /* Modal Content */
+  .modal-content {
+    border-radius: 0.3rem;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin: 1rem;
+    max-width: 500px; /* Adjust as needed */
+    width: 100%;
+  }
+  
+  
+  .table-product tbody  td {
+    font-family: "Poppins", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+    color:#0F172B;
+    margin: 0;
+    padding: 0;
+  }
+  
+  
+  .table-product tbody td.action-buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    white-space: nowrap;
+    margin: 0;
+    padding: 0;
+    margin-top: 25px;
+  }
+  .table-product tbody td {
+    padding: 12px; /* Ensure padding is consistent */
+  
+  
+  }
+  td img {
+    display: block; /* Make sure the image is block-level to avoid being clipped */
+    max-width: 100%; /* Ensure image fits inside the cell */
+    height: auto;
+  }
+  .table-responsive {
+    max-height: none; /* Or increase the max-height to allow space for images */
+    overflow-y: visible; /* To ensure images are not cut off */
+  }
+  table {
+    table-layout: auto;
+  }
+  
+  
+  .table-product tbody tr:hover {
+    background-color: rgb(253, 253, 221); /* Change background color on hover */
+  }
+  /* Header alignment for actions column */
+  .actions-header {
+    text-align: center;
+    overflow: hidden; /* Ensures no scrollbars appear */
+    white-space: nowrap; /* Prevents wrapping */
+  }
+  
+  
+  
+  .dropdown {
+  
+    position: relative;
+  }
+  .dropdown * {
+    box-sizing: border-box;
+  }
+  .select {
+    background: #fea116;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  
+    padding: 1em;
+    cursor: pointer;
+    transition: background 0.3s;
+    border-radius: 10px;
+  }
+  .select-clicked {
+    border: 2px #fea116 solid;
+    box-shadow: 0 0 0.8em #fea116;
+  }
+  .select:hover {
+    background: #0F172B;
+  }
+  
+  .caret {
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 6px solid white;
+    transition: 0.3s;
+  }
+  .caret-rotate {
+    transform: rotate(180deg);
+  }
+  .menu {
+    list-style: none;
+    padding: 0.2em 0.5em;
+    background: #fff;
+    border: 1px #fff solid;
+    box-shadow: 0 0.5em 1em rgba(0, 0, 0, 0.2);
+    border-radius: 0.5em;
+    color: #fea116;
+    position: absolute;
+    top: 3em;
+    left: 50%;
+    width: 100%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.2s;
+    z-index: 9999; /* Ensure the dropdown appears above other elements */
+    display: none;
+    
+  }
+  .menu-open {
+    display: block;
+    opacity: 1;
+  }
+  .menu li {
+    padding: 0.7em 0.5em;
+    margin: 0.3em 0;
+    border-radius: 0.5em;
+    cursor: pointer;
+  }
+  .menu li:hover {
+    background: #0F172B;
+  }
+  .active {
+    background: #fea116;
+  }
+  menu.no-scroll {
+    overflow: hidden;
+  }
+  
+  @media (max-width: 768px) {
+    .table-product th, .table-product td {
+      padding: 8px;
+    }
+  
+  }
+  .btn{
+    border-radius:5px;
    
   }
-
-  .sidebar img.logo {
-    width: 80px; /* Adjust logo size for small screens */
+  .btn-custom {
+    background-color: #fea116; /* Same as Add Item button */
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    transition: background-color 0.3s, transform 0.3s;
+    font-family: "Poppins", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+  padding: 10px;  
   }
-
-  .sidebar:hover {
-    width: 100%; /* Full width on hover for small screens */
-  }
-
-  .sidebar a, .sidebar router-link {
-    justify-content: center; /* Center items for small screens */
-  }
-}
-
-.main-content {
-  margin-left: 93px; /* Default margin for the sidebar width */
-  padding: 0; /* Remove default padding */
-  transition: margin-left 0.5s; /* Smooth transition for the margin */
-}
-
-
-/* Adjust main content for smaller screens */
-@media (max-width: 768px) {
-  .main-content {
-    margin-left: 0; /* Remove left margin for small screens */
-  }
-}
-
-
-
-
-.logout-logo-btn {
-  background-color: #FEA116;
-  border: none;
-  padding: 10px 15px;
-  color: white;
-  cursor: pointer;
-  border-radius: 5px;
-  font-size: 14px;
-  display: flex;
-  align-items: center;
-  position: absolute;
-  bottom: 10px; /* Position at the bottom */
-  right: 20px; /* Align to the right */
-}
-
-.logout-logo-btn i {
-  margin-right: 5px; /* Space between icon and text */
-}
-
-.card-main {
-  background-color: #f4f4f4;
-  padding: 20px;
-  margin: 20px; /* Add margin around the card */
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow for better visibility */
-  transition: 0.5s;
-}
-.table-responsive {
-  width: 100%;
-  overflow-x: auto;
-}
-
-.table-product {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.table-product th, .table-product td {
-  padding: 12px;
-  text-align: left;
-  border-bottom: 1px solid #ddd;
-}
-
-.card-body .modal-body, .card-body .alert, th , .modal-body {
-  font-family: "Poppins", sans-serif;
-  font-weight: 800;
-  font-style: normal;
-  font-size: large;
-  color:#0F172B;
-}
-
-.modal {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-  z-index: 1050; /* Ensure the modal backdrop is on top */
-}
-
-/* Modal Dialog */
-.modal-dialog {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: calc(100% - 1rem);
-}
-
-/* Modal Content */
-.modal-content {
-  border-radius: 0.3rem;
-  background-color: #fff;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  margin: 1rem;
-  max-width: 500px; /* Adjust as needed */
-  width: 100%;
-}
-
-
-.table-product tbody  td {
-  font-family: "Poppins", sans-serif;
-  font-weight: 700;
-  font-style: normal;
-  color:#0F172B;
-  margin: 0;
-  padding: 0;
-}
-
-
-.table-product tbody td.action-buttons {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 10px;
-  white-space: nowrap;
-  margin: 0;
-  padding: 0;
-  margin-top: 25px;
-}
-.table-product tbody td {
-  padding: 12px; /* Ensure padding is consistent */
-
-
-}
-td img {
-  display: block; /* Make sure the image is block-level to avoid being clipped */
-  max-width: 100%; /* Ensure image fits inside the cell */
-  height: auto;
-}
-.table-responsive {
-  max-height: none; /* Or increase the max-height to allow space for images */
-  overflow-y: visible; /* To ensure images are not cut off */
-}
-table {
-  table-layout: auto;
-}
-
-
-.table-product tbody tr:hover {
-  background-color: rgb(253, 253, 221); /* Change background color on hover */
-}
-/* Header alignment for actions column */
-.actions-header {
-  text-align: center;
-  overflow: hidden; /* Ensures no scrollbars appear */
-  white-space: nowrap; /* Prevents wrapping */
-}
-
-
-
-.dropdown {
-
-  position: relative;
-}
-.dropdown * {
-  box-sizing: border-box;
-}
-.select {
-  background: #fea116;
-  color: white;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  padding: 1em;
-  cursor: pointer;
-  transition: background 0.3s;
-  border-radius: 10px;
-}
-.select-clicked {
-  border: 2px #fea116 solid;
-  box-shadow: 0 0 0.8em #fea116;
-}
-.select:hover {
-  background: #0F172B;
-}
-
-.caret {
-  width: 0;
-  height: 0;
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-top: 6px solid white;
-  transition: 0.3s;
-}
-.caret-rotate {
-  transform: rotate(180deg);
-}
-.menu {
-  list-style: none;
-  padding: 0.2em 0.5em;
-  background: #fff;
-  border: 1px #fff solid;
-  box-shadow: 0 0.5em 1em rgba(0, 0, 0, 0.2);
-  border-radius: 0.5em;
-  color: #fea116;
-  position: absolute;
-  top: 3em;
-  left: 50%;
-  width: 100%;
-  transform: translateX(-50%);
-  opacity: 0;
-  transition: opacity 0.2s;
-  z-index: 9999; /* Ensure the dropdown appears above other elements */
-  display: none;
+  .btn-info{
+    background-color: #0077b6; /* Same as Add Item button */
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    transition: background-color 0.3s, transform 0.3s;
+    font-family: "Poppins", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+  padding: 10px; 
   
-}
-.menu-open {
-  display: block;
-  opacity: 1;
-}
-.menu li {
-  padding: 0.7em 0.5em;
-  margin: 0.3em 0;
-  border-radius: 0.5em;
-  cursor: pointer;
-}
-.menu li:hover {
-  background: #0F172B;
-}
-.active {
-  background: #fea116;
-}
-menu.no-scroll {
-  overflow: hidden;
-}
-
-@media (max-width: 768px) {
-  .table-product th, .table-product td {
-    padding: 8px;
   }
-
-}
-.btn{
-  border-radius:5px;
- 
-}
-.btn-custom {
-  background-color: #fea116; /* Same as Add Item button */
-  border: none;
-  color: white;
-  cursor: pointer;
-  border-radius: 5px;
-  font-size: 14px;
-  display: inline-flex;
-  align-items: center;
-  text-decoration: none;
-  transition: background-color 0.3s, transform 0.3s;
-  font-family: "Poppins", sans-serif;
-  font-weight: 700;
-  font-style: normal;
-padding: 10px;  
-}
-.btn-info{
-  background-color: #0077b6; /* Same as Add Item button */
-  border: none;
-  color: white;
-  cursor: pointer;
-  border-radius: 5px;
-  font-size: 14px;
-  display: inline-flex;
-  align-items: center;
-  text-decoration: none;
-  transition: background-color 0.3s, transform 0.3s;
-  font-family: "Poppins", sans-serif;
-  font-weight: 700;
-  font-style: normal;
-padding: 10px; 
-
-}
-.btn-primary {
-  background-color: #046f09; /* Same as Add Item button */
-  border: none;
-  color: white;
-  cursor: pointer;
-  border-radius: 5px;
-  font-size: 14px;
-  display: inline-flex;
-  align-items: center;
-  text-decoration: none;
-  transition: background-color 0.3s, transform 0.3s;
-  font-family: "Poppins", sans-serif;
-  font-weight: 700;
-  font-style: normal;
-padding: 10px;  
-}
-.btn-secondary {
-  background-color: #e21604; /* Same as Add Item button */
-  border: none;
-  color: white;
-  cursor: pointer;
-  border-radius: 5px;
-  font-size: 14px;
-  display: inline-flex;
-  align-items: center;
-  text-decoration: none;
-  transition: background-color 0.3s, transform 0.3s;
-  font-family: "Poppins", sans-serif;
-  font-weight: 700;
-  font-style: normal;
-padding: 10px;  
-}.btn-tertiary {
-  background-color: #fea116; /* Same as Add Item button */
-  border: none;
-  color: white;
-  cursor: pointer;
-  border-radius: 5px;
-  font-size: 14px;
-  display: inline-flex;
-  align-items: center;
-  text-decoration: none;
-  transition: background-color 0.3s, transform 0.3s;
-  font-family: "Poppins", sans-serif;
-  font-weight: 700;
-  font-style: normal;
-padding: 10px;  
-}
-
-
-
-.btn-custom:hover{
-color:white;
-}
-
-.btn:hover {
-  background-color: #0F172B;
-  transform: scale(1.10);
-  border:none;
-}
-
-
-
-/* Sidebar styles */
-.sidebar {
-  width: 93px;
-  height: 100vh;
-  position: fixed;
-  top: 0;
-  left: 0;
-  background-color: #0F172B;
-  color: #fff;
-  padding: 20px;
-  overflow-y: auto;
-
-
-}
-
-.sidebar img.logo {
-  width: 50px;
-  height: auto;
-  display: block;
-  transition: width 0.5s; /* Smooth transition for the logo size */
-}
-
-.sidebar:hover img.logo {
-  width: 100px;
-}
-
-
-.sidebar a,
-.sidebar router-link {
-  display: flex;
-  align-items: center;
-  color: #fff;
-  padding: 10px;
-  text-decoration: none;
-  margin: 5px 0;
-}
-
-.sidebar a:hover,
-.sidebar router-link:hover {
-  background-color: #FEA116;
-  transition: background-color 0.5s; 
-}
-
-
-.main-content {
-  margin-left: 93px; 
-  padding: 0;
-  transition: margin-left 0.5s; /* Smooth transition for the margin */
-  overflow-y: auto; /* Enable scrolling if the content is too long */
-  height: calc(100vh - 60px); 
-}
-.header {
-  background-color: #0F172B;
-  color: white;
-  padding: 10px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  top: 0;
-  z-index: 1;
-  transition: 0.5s;
-  position: relative;
-}
-.card-main {
-  background-color: #f4f4f4;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow for better visibility */
-  transition: 0.5s;
-}
-.sidebar:hover ~ .card-main {
-  margin-left: 200px;
+  .btn-primary {
+    background-color: #046f09; /* Same as Add Item button */
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    transition: background-color 0.3s, transform 0.3s;
+    font-family: "Poppins", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+  padding: 10px;  
+  }
+  .btn-secondary {
+    background-color: #e21604; /* Same as Add Item button */
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    transition: background-color 0.3s, transform 0.3s;
+    font-family: "Poppins", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+  padding: 10px;  
+  }.btn-tertiary {
+    background-color: #fea116; /* Same as Add Item button */
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    transition: background-color 0.3s, transform 0.3s;
+    font-family: "Poppins", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+  padding: 10px;  
+  }
   
-}
-.sidebar:hover ~ .header {
-  margin-left: 50px;
-}
-/* Navbar Toggler for Small Screens */
-.navbar-toggler {
-  display: none;
-  background-color: #FEA116;
-  border: none;
+  
+  
+  .btn-custom:hover{
   color:white;
-  cursor: pointer;
-  border-radius: 5px;
- padding: 0;
- margin:0;
-  position: absolute;
-  right: 20px;
-  align-items: center;
-}
-.navbar-toggler-icon{
-  padding: 0;
-  margin: 0;
-}
-.sidebar.collapsed + .navbar-toggler {
-  display: block;
-  transition: 0.3s;
-}
-
-@media (max-width: 768px) { 
-  .header {
-    display: flex;
-    align-items: center; /* Vertically center items */
-    position: relative; /* Ensure positioning context */
   }
   
-  /* Adjust header padding for smaller screens */
-
+  .btn:hover {
+    background-color: #0F172B;
+    transform: scale(1.10);
+    border:none;
+  }
+  
+  
+  
+  /* Sidebar styles */
   .sidebar {
-    width: 100%; /* Full width on small screens */
-    height: auto; /* Height auto adjusts */
-    position: fixed; 
-    overflow: hidden; /* Hide overflow on small screens */
-    transform: translateY(-100%); /* Hide sidebar by default on small screens */
+    width: 93px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #0F172B;
+    color: #fff;
+    padding: 20px;
+    overflow-y: auto;
+  
   
   }
-
-  .sidebar.collapsed {
-    transform: translateY(0); /* Show sidebar when toggled */
-    position: relative; 
-    transition: 0.2s;
-  }
-  .main-content {
-    margin-left: 0;
+  
+  .sidebar img.logo {
+    width: 50px;
     height: auto;
-
-  }
-
-  .navbar-toggler {
     display: block;
-    top: 10px;
-  } 
-  .header h1 {
-    margin-bottom: 50px; /* Adjust spacing for smaller screens */
-  }
-
-  .logout-logo-btn {
-    position: absolute;
-    bottom: 10px; /* Ensure it stays at the bottom */
-    right: 20px; /* Align to the right side */
+    transition: width 0.5s; /* Smooth transition for the logo size */
   }
   
-}
-
-/* Image in Table Styling */
-.cottage-image {
-  max-width: 100px; /* Adjust the size as needed */
-  height: auto;
-  border-radius: 5px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-}
-
-.cottage-image:hover {
-  transform: scale(1.05);
-  transition: transform 0.2s;
-}
-.room-image {
-        max-width: 80px;
-        height: auto;
-        object-fit: cover;
-        border-radius: 5px;
+  .sidebar:hover img.logo {
+    width: 100px;
+  }
+  
+  
+  .sidebar a,
+  .sidebar router-link {
+    display: flex;
+    align-items: center;
+    color: #fff;
+    padding: 10px;
+    text-decoration: none;
+    margin: 5px 0;
+  }
+  
+  .sidebar a:hover,
+  .sidebar router-link:hover {
+    background-color: #FEA116;
+    transition: background-color 0.5s; 
+  }
+  
+  
+  .main-content {
+    margin-left: 93px; 
+    padding: 0;
+    transition: margin-left 0.5s; /* Smooth transition for the margin */
+    overflow-y: auto; /* Enable scrolling if the content is too long */
+    height: calc(100vh - 60px); 
+  }
+  .header {
+    background-color: #0F172B;
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    top: 0;
+    z-index: 1;
+    transition: 0.5s;
+    position: relative;
+  }
+  .card-main {
+    background-color: #f4f4f4;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow for better visibility */
+    transition: 0.5s;
+  }
+  .sidebar:hover ~ .card-main {
+    margin-left: 200px;
+    
+  }
+  .sidebar:hover ~ .header {
+    margin-left: 50px;
+  }
+  /* Navbar Toggler for Small Screens */
+  .navbar-toggler {
+    display: none;
+    background-color: #FEA116;
+    border: none;
+    color:white;
+    cursor: pointer;
+    border-radius: 5px;
+   padding: 0;
+   margin:0;
+    position: absolute;
+    right: 20px;
+    align-items: center;
+  }
+  .navbar-toggler-icon{
+    padding: 0;
+    margin: 0;
+  }
+  .sidebar.collapsed + .navbar-toggler {
+    display: block;
+    transition: 0.3s;
+  }
+  
+  @media (max-width: 768px) { 
+    .header {
+      display: flex;
+      align-items: center; /* Vertically center items */
+      position: relative; /* Ensure positioning context */
     }
-
-    .table-product {
-        width: 100%;
-        margin-top: 10px;
+    
+    /* Adjust header padding for smaller screens */
+  
+    .sidebar {
+      width: 100%; /* Full width on small screens */
+      height: auto; /* Height auto adjusts */
+      position: fixed; 
+      overflow: hidden; /* Hide overflow on small screens */
+      transform: translateY(-100%); /* Hide sidebar by default on small screens */
+    
     }
-
-
-
-    .alert {
-        margin-top: 10px;
+  
+    .sidebar.collapsed {
+      transform: translateY(0); /* Show sidebar when toggled */
+      position: relative; 
+      transition: 0.2s;
     }
-    .modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1050;
-}
-
-.modal-content {
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
-  width: 500px;
-  max-width: 90%;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-}
-
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.close-button {
-  background: none;
-  border: none;
-  font-size: 24px;
-  cursor: pointer;
-}
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1050;
-}
-
-.modal-content {
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
-  width: 500px;
-  max-width: 90%;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-}
-
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.close-button {
-  background: none;
-  border: none;
-  font-size: 24px;
-  cursor: pointer;
-}
-
-.caret {
-  margin-left: 10px;
-  transition: transform 0.3s;
-}
-
-.caret-rotate {
-  transform: rotate(180deg);
-}
-
-.menu {
-  display: none;
-  position: absolute;
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  margin-top: 5px;
-  padding: 5px 0;
-  list-style: none;
-}
-
-.menu-open {
-  display: block;
-}
-
-.menu li {
-  padding: 8px 12px;
-  cursor: pointer;
-}
-
-.menu li:hover {
-  background-color: #f0f0f0;
-}
-.modal.fade.show {
-  display: block;
-  background: rgba(0, 0, 0, 0.5);
-}
-
-.modal-dialog {
-  max-width: 500px;
-  width: 100%;
-}
-
-.modal-header .close {
-  border: none;
-  background: none;
-  font-size: 24px;
-  cursor: pointer;
-}
-details {
+    .main-content {
+      margin-left: 0;
+      height: auto;
+  
+    }
+  
+    .navbar-toggler {
+      display: block;
+      top: 10px;
+    } 
+    .header h1 {
+      margin-bottom: 50px; /* Adjust spacing for smaller screens */
+    }
+  
+    .logout-logo-btn {
+      position: absolute;
+      bottom: 10px; /* Ensure it stays at the bottom */
+      right: 20px; /* Align to the right side */
+    }
+    
+  }
+  
+  /* Image in Table Styling */
+  .cottage-image {
+    max-width: 100px; /* Adjust the size as needed */
+    height: auto;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .cottage-image:hover {
+    transform: scale(1.05);
+    transition: transform 0.2s;
+  }
+  .room-image {
+          max-width: 80px;
+          height: auto;
+          object-fit: cover;
+          border-radius: 5px;
+      }
+  
+      .table-product {
+          width: 100%;
+          margin-top: 10px;
+      }
+  
+  
+  
+      .alert {
+          margin-top: 10px;
+      }
+      .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1050;
+  }
+  
+  .modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 500px;
+    max-width: 90%;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .close-button {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+  }
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1050;
+  }
+  
+  .modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 500px;
+    max-width: 90%;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .close-button {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+  }
+  
+  .caret {
+    margin-left: 10px;
+    transition: transform 0.3s;
+  }
+  
+  .caret-rotate {
+    transform: rotate(180deg);
+  }
+  
+  .menu {
+    display: none;
+    position: absolute;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-top: 5px;
+    padding: 5px 0;
+    list-style: none;
+  }
+  
+  .menu-open {
+    display: block;
+  }
+  
+  .menu li {
+    padding: 8px 12px;
+    cursor: pointer;
+  }
+  
+  .menu li:hover {
+    background-color: #f0f0f0;
+  }
+  .modal.fade.show {
+    display: block;
+    background: rgba(0, 0, 0, 0.5);
+  }
+  
+  .modal-dialog {
+    max-width: 500px;
+    width: 100%;
+  }
+  
+  .modal-header .close {
+    border: none;
+    background: none;
+    font-size: 24px;
+    cursor: pointer;
+  }
+  details {
   position: relative;
   display: inline-block;
 }
@@ -2534,4 +2279,4 @@ details[open] .dropdown-menu {
   color: #333;
 }
 
-</style>
+  </style>

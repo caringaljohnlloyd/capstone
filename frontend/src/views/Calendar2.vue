@@ -2,23 +2,40 @@
 
 <div class="main-content">
 
-<div class="sidebar" :class="{ 'collapsed': isSidebarCollapsed }">
+  <div class="sidebar" :class="{ 'collapsed': isSidebarCollapsed }">
 
 <img :src="require('../assets/images/logo1.png.png')" alt="Mono" class="logo">
 <router-link to="/admin2">
-<i class="fa-solid fa-chart-simple"></i><span>Business Dashboard</span>
+  <i class="fa-solid fa-chart-simple"></i><span>Business Dashboard</span>
 </router-link>
-<router-link to="/analytics2">
-<i class="fa-solid fa-chart-line"></i><span>Analytics Board</span>
-</router-link>
+<details>
+  <summary>
+    <i class="fa-solid fa-chart-line"></i> Inventory Options
+  </summary>
+  <div class="dropdown-menu">
+    <router-link to="/analytics2">
+      <i class="fa-solid fa-chart-line"></i><span>Room Inventory</span>
+    </router-link>
+    <router-link to="/shopinventory">
+      <i class="fa-solid fa-chart-line"></i><span>Shop Inventory</span>
+    </router-link>
+    <router-link to="/reservations">
+      <i class="fa-solid fa-chart-line"></i><span>Restaurant Reservations</span>
+    </router-link>
+    <router-link to="/enrollment">
+      <i class="fa-solid fa-chart-line"></i><span>Enrollment Inventory</span>
+    </router-link>
+  </div>
+</details>
+
 <router-link to="/teamadmin2">
-<i class="fa-solid fa-people-group"></i><span>Team</span>
+  <i class="fa-solid fa-people-group"></i><span>Team</span>
 </router-link>
 <router-link to="/monitorusers2">
-<i class="fas fa-user"></i><span>Users</span>
+  <i class="fas fa-user"></i><span>Users</span>
 </router-link>
 <router-link to="/pos2">
-<i class="fa-solid fa-table-columns"></i><span>POS</span>
+  <i class="fa-solid fa-table-columns"></i><span>POS</span>
 </router-link>
 </div>
 
@@ -144,6 +161,40 @@ export default {
 
 <style scoped>
 /* Existing styles */
+details {
+  position: relative;
+  display: inline-block;
+}
+
+details summary {
+  cursor: pointer;
+  padding: 10px;
+  font-weight: bold;
+}
+
+.dropdown-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  background-color: navy;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 10;
+  display: none;
+}
+
+details[open] .dropdown-menu {
+  display: block;
+}
+
+.dropdown-menu router-link {
+  text-decoration: none;
+  color: #333;
+}
+
 h1 {
   color: white;
   text-align: left;

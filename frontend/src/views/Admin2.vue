@@ -1,3 +1,4 @@
+
 <template>
   <Notification
   :show="notification.show"
@@ -13,9 +14,26 @@
 <router-link to="/admin2">
   <i class="fa-solid fa-chart-simple"></i><span>Business Dashboard</span>
 </router-link>
-<router-link to="/analytics2">
-  <i class="fa-solid fa-chart-line"></i><span>Analytics Board</span>
-</router-link>
+<details>
+  <summary>
+    <i class="fa-solid fa-chart-line"></i> Inventory Options
+  </summary>
+  <div class="dropdown-menu">
+    <router-link to="/analytics2">
+      <i class="fa-solid fa-chart-line"></i><span>Room Inventory</span>
+    </router-link>
+    <router-link to="/shopinventory">
+      <i class="fa-solid fa-chart-line"></i><span>Shop Inventory</span>
+    </router-link>
+    <router-link to="/reservations">
+      <i class="fa-solid fa-chart-line"></i><span>Restaurant Reservations</span>
+    </router-link>
+    <router-link to="/enrollment">
+      <i class="fa-solid fa-chart-line"></i><span>Enrollment Inventory</span>
+    </router-link>
+  </div>
+</details>
+
 <router-link to="/teamadmin2">
   <i class="fa-solid fa-people-group"></i><span>Team</span>
 </router-link>
@@ -45,2223 +63,211 @@
         Logout
       </button>
     </div>
-
-
-
-
-    <div class="card-main">
-      <div class="content">
-
-
-
-        <div class="row">
-    <!-- Table Product -->
-    <div class="col-12">
-        <div class="card card-default">
-            <div class="card-header">
-                <h2 class="fa-solid fa-shop"> Shop Inventory</h2><br>
-                <button type="button" class="btn btn-custom" @click="openAddModal">
-                    Add Item
-                </button>
-            </div>
-            <div class="card-body">
-                <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
-                    <table id="productsTable" class="table table-product">
-                        <thead>
-                            <tr>
-                                <th>Product Image</th>
-                                <th>Product Name</th>
-                                <th>Quantity</th>
-                                <th>Description</th>
-                                <th>Price</th>
-                                <th>Total Price</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="(info, index) in infos" :key="info.id">
-                                <td>
-                                    <img 
-                                        class="img-fluid product-image" 
-                                        :src="`https://eduardos-resort.online/backend/backend/public/uploads/${info.prod_img}`" 
-                                        alt="Product Image" 
-                                        style="max-width: 80px; height: auto; object-fit: cover;"
-                                    />
-                                </td>
-                                <td>{{ info.prod_name }}</td>
-                                <td>{{ info.prod_quantity }}</td>
-                                <td>{{ info.prod_desc }}</td>
-                                <td>{{ info.prod_price }}</td>
-                                <td>{{ info.prod_quantity * info.prod_price }}</td>
-                                <td class="action-buttons">
-                                    <button class="btn btn-custom" @click="openQuantityModal(info)">Add Quantity</button>
-                                    <router-link 
-                                        class="btn btn-custom" 
-                                        :to="{ name: 'auditHistory', params: { shopId: info.shop_id }}" 
-                                    >
-                                        Audit History
-                                    </router-link>
-                                    <button class="btn btn-custom" @click="openEditModal(info)">Edit</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- Quantity Modal -->
-                <div v-if="quantityModalVisible" class="modal" tabindex="-1" role="dialog" style="display: block">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">Add Quantity</h5>
-                                <button type="button" class="close" @click="closeQuantityModal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="form-group">
-                                    <label for="productName" class="label">Product Name:</label>
-                                    <p id="productName">{{ selectedProduct.prod_name }}</p>
-                                </div>
-                                <div class="form-group">
-                                    <label for="currentQuantity" class="label">Current Quantity:</label>
-                                    <p id="currentQuantity">{{ selectedProduct.prod_quantity }}</p>
-                                </div>
-                                <div class="form-group">
-                                    <label for="addQuantity" class="label">Add Quantity:</label>
-                                    <input
-                                        type="number"
-                                        class="form-control"
-                                        id="addQuantity"
-                                        v-model="quantityToAdd"
-                                    />
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-custom" @click="addQuantity">
-                                    Add
-                                </button>
-                                <button type="button" class="btn btn-custom" style="background:#0F172B; border:none;" @click="closeQuantityModal">
-                                    Close
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Success Message -->
-                <div v-if="successMessage" class="alert alert-success" role="alert">
-                    {{ successMessage }}
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-    <!-- Edit Modal -->
-    <div
-      v-if="editModalVisible"
-      class="modal"
-      tabindex="-1"
-      role="dialog"
-      style="display: block"
-    >
-<!-- Edit Modal -->
-<div v-if="editModalVisible" class="modal" tabindex="-1" role="dialog" style="display: block">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Edit Product</h5>
-                <button type="button" class="close" @click="closeEditModal">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <!-- Edit form -->
-                <form @submit.prevent="saveEdit">
-                    <div class="form-group">
-                        <label for="edit_prod_name">Product Name</label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            placeholder="Name"
-                            v-model="editedInfo.prod_name"
-                        />
-                    </div>
-                    <div class="form-group">
-                        <label for="edit_prod_desc">Product Description</label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            placeholder="Description"
-                            v-model="editedInfo.prod_desc"
-                        />
-                    </div>
-                    <div class="form-group">
-                        <label for="edit_prod_price">Product Price</label>
-                        <input
-                            type="number"
-                            class="form-control"
-                            placeholder="Price"
-                            v-model="editedInfo.prod_price"
-                        />
-                    </div>
-                    <div class="form-group">
-                        <label for="edit_prod_img">Change Product Image</label>
-                        <input type="file" ref="editImageInput" @change="handleEditImageUpload" />
-                    </div>
-                    <div class="modal-footer">
-                        <button
-                            type="button"
-                            class="btn btn-custom"
-                            style="background:#0F172B; border:none;"
-                            @click="closeEditModal"
-                        >
-                            Close
-                        </button>
-                        <button type="submit" class="btn btn-custom">
-                            Save Changes
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    <div v-if="successMessage" class="alert alert-success" role="alert">
-        {{ successMessage }}
-    </div>
-</div>
-
-      <div v-if="successMessage" class="alert alert-success" role="alert">
-        {{ successMessage }}
-      </div>
-    </div>
-
-    <!-- Modal for Adding -->
-  <div class="col-12">
-    <div v-if="addModalVisible" class="modal" tabindex="-1" role="dialog" style="display: block">
-      <!-- Modal content for adding -->
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Add Product</h5>
-            <button type="button" class="close" @click="closeAddModal">
-              &times;
-            </button>
-          </div>
-          <!-- Add form -->
-          <form @submit.prevent="saveShop('add')" enctype="multipart/form-data">
-            <div class="modal-body">
-              <!-- Your form inputs -->
-              <div class="form-group">
-                <label for="prod_image">Product Image</label>
-                <input
-                  type="file"
-                  ref="imageInput"
-                  @change="handleImageUpload"
-                  class="form-control"
-                  required
-                />
-              </div>
-              <div class="form-group">
-                <label for="prod_name">Product Name</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="Name"
-                  v-model="prod_name"
-                  required
-                />
-              </div>
-              <div class="form-group">
-                <label for="prod_quantity">Product Quantity</label>
-                <input
-                  type="number"
-                  class="form-control"
-                  placeholder="Quantity"
-                  v-model="prod_quantity"
-                  required
-                />
-              </div>
-              <div class="form-group">
-                <label for="prod_desc">Product Description</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="Description"
-                  v-model="prod_desc"
-                  required
-                />
-              </div>
-              <div class="form-group">
-                <label for="prod_price">Product Price</label>
-                <input
-                  type="number"
-                  class="form-control"
-                  placeholder="Price"
-                  v-model="prod_price"
-                  required
-                />
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-custom "  style="background:#0F172B; border:none; " @click="closeAddModal">
-                Close
-              </button>
-              <button type="submit" class="btn btn-custom">Add</button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-    <div v-if="successMessage" class="alert alert-success" role="alert">
-      {{ successMessage }}
-    </div>
-  </div>
-
-<!-- Shoppee Kain Muna -->
-<div class="row">
-    <div class="col-12">
-        <div class="card card-default">
-            <div class="card-header">
-                <h2 class="fa-solid fa-house"> Rooms</h2><br>
-                <button type="button" class="btn btn-custom" @click="openAddRoomModal">
-                    Add Room
-                </button>
-            </div>
-            <div class="card-body pt-26">
-                <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
-                    <table class="table table-product">
-                        <thead>
-                            <tr>
-                                <th>Room ID</th>
-                                <th>Image</th>
-                                <th>Room Name</th>
-                                <th>Price</th>
-                                <th>Number of Packs</th>
-                                <th>Description</th>
-                                <th>Room Status</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="room in room" :key="room.room_id">
-                                <td>{{ room.room_id }}</td>
-                                <td>
-                                    <img
-                                        class="img-fluid room-image"
-                                        :src="`https://eduardos-resort.online/backend/backend/public/uploads/${room.image}`"
-                                        alt="Room Image"
-                                        style="max-width: 80px; height: auto; object-fit: cover;"
-                                    />
-                                </td>
-                                <td>{{ room.room_name }}</td>
-                                <td>{{ room.price }}</td>
-                                <td>{{ room.packs }}</td>
-                                <td>{{ room.description }}</td>
-                                <td>{{ room.room_status }}</td>
-                                <td>
-                                    <button class="btn btn-custom" @click="openRoomEditModal(room)">Edit</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Success Message -->
-    <div v-if="successMessage" class="alert alert-success" role="alert">
-        {{ successMessage }}
-    </div>
-</div>
-
-  <!-- Edit Room Modal -->
-  <div v-if="editRoomModalVisible" class="modal" tabindex="-1" role="dialog" style="display: block">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Edit Room</h5>
-          <button type="button" class="close" @click="closeRoomEditModal">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <!-- Edit form for rooms -->
-          <form @submit.prevent="saveRoomEdit">
-            <div class="row">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="room_name">Room Name</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="Name"
-                    v-model="editedRoom.room_name"
-                  />
-                </div>
-                <div class="form-group">
-                  <label for="price">Room Price</label>
-                  <div class="input-group">
-                    <input
-                      type="number"
-                      class="form-control"
-                      placeholder="Price"
-                      v-model="editedRoom.price"
-                    />
-                  </div>
-                </div>
-
-              </div>
-              <div class="col-md-6">
-
-                <div class="form-group">
-                  <label for="description">Room Description</label>
-                  <textarea
-                    class="form-control"
-                    placeholder="Description"
-                    v-model="editedRoom.description"
-                  ></textarea>
-                </div>
-                <div class="form-group">
-                  <label for="room_status">Room Status</label>
-                  <select class="form-control" v-model="editedRoom.room_status">
-                    <option value="Available">Available</option>
-                    <option value="Booked">Booked</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-custom "  style="background:#0F172B; border:none; " @click="closeRoomEditModal">
-                Close
-              </button>
-              <button type="submit" class="btn btn-custom">Save Changes</button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- Add Room Modal -->
-  <div v-if="addRoomModalVisible" class="modal" tabindex="-1" role="dialog" style="display: block">
-    <div class="modal-dialog modal-lg" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Add Room</h5>
-          <button type="button" class="close" @click="closeAddRoomModal">
-            &times;
-          </button>
-        </div>
-        <form @submit.prevent="saveRoom">
-          <div class="modal-body">
-            <div class="form-group">
-              <label for="image">Room Images</label>
-              <input
-                type="file"
-                ref="roomImageInput"
-                @change="handleRoomImageUpload"
-                class="form-control-file"
-                multiple
-                required
-              />
-            </div>
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                <label for="room_name">Room Name</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="Name"
-                  v-model="room_name"
-                  required
-                />
-              </div>
-              <div class="form-group col-md-6">
-                <label for="price">Room Price</label>
-                <input
-                  type="number"
-                  class="form-control"
-                  placeholder="Price"
-                  v-model="price"
-                  required
-                />
-              </div>
-              <div class="form-group col-md-6">
-                <label for="downpayment">Room Downpayment</label>
-                <input
-                  type="number"
-                  class="form-control"
-                  placeholder="Downpayment"
-                  v-model="downpayment"
-                  required
-                />
-              </div>
-              <div class="form-group col-md-6">
-                <label for="packs">Number of Pax</label>
-                <select class="form-control" v-model="packs">
-                  <option value="3">3 Pax</option>
-                  <option value="4">4 Pax</option>
-                  <option value="6">6 Pax</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="description">Room Description</label>
-              <textarea
-                class="form-control"
-                placeholder="Description"
-                v-model="description"
-                required
-              ></textarea>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-custom "  style="background:#0F172B; border:none; " @click="closeAddRoomModal">
-              Close
-            </button>
-            <button type="submit" class="btn btn-custom">Add</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-  <div class="row">
-    <!-- Table Inventory -->
-    <div class="col-12">
-      <div class="card card-default">
-        <div class="card-header">
-          <h2 class=" fa-solid fa-utensils"> Table Inventory</h2><br>
-          <button
-            type="button"
-            class="btn btn-custom"
-            @click="openAddTableModal"
-          >
-            Add Table
-          </button>
-        </div>
-        <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
-          <div class="table ">
-            <table  class="table-product" >
-              <thead>
-                <tr>
-                  <th>Table Name</th>
-                  <th>Description</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="(table, index) in tables" :key="table.table_id">
-                  <td>{{ table.table_name }}</td>
-                  <td>{{ table.table_description }}</td>
-                  <td >
-                    <button class="btn btn-custom" @click="openEditTableModal(table)">Edit</button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Edit Table Modal -->
-    <div v-if="editTableModalVisible" class="modal" tabindex="-1" role="dialog" style="display: block">
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Edit Table</h5>
-            <button type="button" class="close" @click="closeEditTableModal">&times;</button>
-          </div>
-          <div class="modal-body">
-            <form @submit.prevent="updateTable">
-              <div class="form-group">
-                <label for="edit_table_name">Table Name</label>
-                <input type="text" class="form-control" v-model="editedTable.table_name" required />
-              </div>
-              <div class="form-group">
-                <label for="edit_table_description">Description</label>
-                <input type="text" class="form-control" v-model="editedTable.table_description" required />
-              </div>
-
-              <div class="modal-footer">
-                <button type="button" class="btn btn-custom" @click="closeEditTableModal">Close</button>
-                <button type="submit" class="btn btn-custom">Save Changes</button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Add Table Modal -->
-    <div v-if="addTableModalVisible" class="modal" tabindex="-1" role="dialog" style="display: block">
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Add Table</h5>
-            <button type="button" class="close" @click="closeAddTableModal">&times;</button>
-          </div>
-          <div class="modal-body">
-            <form @submit.prevent="saveTable">
-              <div class="form-group">
-                <label for="table_name">Table Name</label>
-                <input type="text" class="form-control" v-model="table_name" required />
-              </div>
-              <div class="form-group">
-                <label for="table_description">Description</label>
-                <input type="text" class="form-control" v-model="table_description" required />
-              </div>
-
-              <div class="modal-footer">
-                <button type="button" class="btn btn-custom" @click="closeAddTableModal">Close</button>
-                <button type="submit" class="btn btn-custom">Add Table</button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
- <!-- Menu Table -->
- <div class="row">
- <div class="col-12">
-      <div class="card card-default">
-        <div class="card-header">
-          <h2 class="fa-solid fa-utensils"> Menu Management</h2><br>
-          <button
-            type="button"
-            class="btn btn-custom"
-            @click="openAddItemModal"
-          >
-            Add Menu Item
-          </button>
-        </div>
-        <div class="card-body">
-          <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
-            <table
-              class="table  table-product"
-              style="width: 100%"
-            >
-              <thead>
-                <tr>
-                  <th>Item Name</th>
-                  <th>Category</th>
-                  <th>Price</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="(item, index) in menuItems" :key="item.menu_id">
-                  <td>{{ item.item_name }}</td>
-                  <td>{{ item.item_category }}</td>
-                  <td>{{ item.item_price }}</td>
-                  <td>
-                    <button @click="openEditItemModal(item)" class="btn btn-custom" >Edit</button>
-                    <!-- <button @click="deleteItem(item.menu_id)" class="btn btn-primary">Delete</button> -->
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </div>
-<!-- Add Modal -->
-<div v-if="addModalItemVisible" class="modal fade show" tabindex="-1" role="dialog">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Add Menu Item</h5>
-        <button type="button" class="close" @click="closeAddItemModal">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-<!-- Add Modal -->
-<div v-if="addModalItemVisible" class="modal fade show" tabindex="-1" role="dialog">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Add Menu Item</h5>
-        <button type="button" class="close" @click="closeAddItemModal">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form @submit.prevent="addMenuItem">
-          <div class="form-group">
-            <label for="item_name">Item Name</label>
-            <input type="text" id="item_name" class="form-control" v-model="item_name" required />
-          </div>
-          <div class="form-group">
-            <label for="item_category">Category</label>
-            <select id="item_category" class="form-control" v-model="item_category" required>
-              <option value="" disabled>Select a category</option>
-              <option value="breakfast">Breakfast</option>
-              <option value="rice">Rice</option>
-              <option value="noodles">Noodles</option>
-              <option value="asian curry">Asian Curry</option>
-              <option value="soup">Soup</option>
-              <option value="refreshments">Refreshments</option>
-              <option value="sizzling">Sizzling</option>
-              <option value="filipino style">Filipino Style</option>
-              <option value="vegetables">Vegetables</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="item_price">Price</label>
-            <input type="number" id="item_price" class="form-control" v-model="item_price" required />
-          </div>
-          <div class="form-group">
-            <label for="item_image">Item Image</label>
-            <input type="file" id="item_image" class="form-control" @change="onFileChange" required />
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" @click="closeAddItemModal">Close</button>
-            <button type="submit" class="btn btn-primary">Add Item</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-  <div v-if="successMessage" class="alert alert-success" role="alert">
-    {{ successMessage }}
-  </div>
-</div>
-    </div>
-  </div>
-  <div v-if="successMessage" class="alert alert-success" role="alert">
-    {{ successMessage }}
-  </div>
-</div>
-
-
-<!-- Success Notification -->
-<div v-if="successMessage" class="alert alert-success" role="alert">
-  {{ successMessage }}
-</div>
-
-<!-- Error Notification -->
-<div v-if="errorMessage" class="alert alert-danger" role="alert">
-  {{ errorMessage }}
-</div>
-
-<!-- Edit Menu Item Modal -->
-<div v-if="editMenuItemModalVisible" class="modal" tabindex="-1" role="dialog" style="display: block">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Edit Menu Item</h5>
-        <button type="button" class="close" @click="closeMenuItemEditModal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="form-group">
-          <label for="editItemName" class="label">Item Name:</label>
-          <input v-model="editedMenuItem.item_name" type="text" class="form-control" id="editItemName" />
-        </div>
-        <div class="form-group">
-          <label for="editItemCategory" class="label">Category:</label>
-          <input v-model="editedMenuItem.item_category" type="text" class="form-control" id="editItemCategory" />
-        </div>
-        <div class="form-group">
-          <label for="editItemPrice" class="label">Price:</label>
-          <input v-model="editedMenuItem.item_price" type="number" class="form-control" id="editItemPrice" />
-        </div>
-        <div class="form-group">
-          <label for="editItemImage" class="label">Change Image:</label>
-          <input type="file" ref="editMenuItemImageInput" @change="handleMenuItemImageUpload" />
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-custom" @click="saveMenuItemEdit">Save Changes</button>
-        <button type="button" class="btn btn-custom" @click="closeMenuItemEditModal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
-<div class="row">
-  <!-- Cottage Inventory Table -->
-  <div class="col-12">
-    <div class="card card-default">
-      <div class="card-header">
-        <h2 class="fa-solid fa-book-open-reader"> Cottage Inventory</h2><br>
-        <button type="button" class="btn btn-custom" @click="openCottageAddModal">
-          Add Cottage
-        </button>
-      </div>
-      <div class="card-body">
-        <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
-          <table id="cottagesTable" class="table  table-product">
-            <thead>
-              <tr>
-                <th>Cottage Image</th>
-                <th>Cottage Name</th>
-                <th>Description</th>
-                <th>Price</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(cottage, index) in cottages" :key="cottage.cottage_id">
-                <td class="align-middle">
-                  <img
-                    class="img-fluid cottage-image"
-                    :src="`https://eduardos-resort.online/backend/backend/public/uploads/${cottage.cottage_image}`"
-                    alt="Cottage Image"
-                  />
-                </td>
-                <td>{{ cottage.cottage_name }}</td>
-                <td>{{ cottage.cottage_description }}</td>
-                <td>{{ cottage.cottage_price }}</td>
-                <td >
-                  <button class="btn btn-custom" @click="openCottageEditModal(cottage)">Edit</button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-  <!-- Add Cottage Modal -->
-  <div v-if="addCottageModalVisible" class="modal" tabindex="-1" role="dialog" style="display: block">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Add Cottage</h5>
-          <button
-            type="button"
-            class="close"
-            @click="closeCottageAddModal"
-            aria-label="Close"
-          >
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div class="form-group">
-            <label for="cottageName" class="label">Cottage Name:</label>
-            <input v-model="cottage_name" type="text" class="form-control" id="cottageName" />
-          </div>
-          <div class="form-group">
-            <label for="cottageDescription" class="label">Description:</label>
-            <input v-model="cottage_description" type="text" class="form-control" id="cottageDescription" />
-          </div>
-          <div class="form-group">
-            <label for="cottagePrice" class="label">Price:</label>
-            <input v-model="cottage_price" type="number" class="form-control" id="cottagePrice" />
-          </div>
-          <div class="form-group">
-            <label for="cottageImage" class="label">Image:</label>
-            <input type="file" ref="cottageImageInput" class="form-control" id="cottageImage" @change="handleCottageImageUpload" />
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-custom"
-            @click="saveCottage('add')"
-          >
-            Save
-          </button>
-          <button
-            type="button"
-            class="btn btn-custom"
-            @click="closeCottageAddModal"
-          >
-            Close
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Edit Cottage Modal -->
-  <div v-if="editCottageModalVisible" class="modal" tabindex="-1" role="dialog" style="display: block">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Edit Cottage</h5>
-          <button
-            type="button"
-            class="close"
-            @click="closeCottageEditModal"
-            aria-label="Close"
-          >
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div class="form-group">
-            <label for="editCottageName" class="label">Cottage Name:</label>
-            <input v-model="editedCottage.cottage_name" type="text" class="form-control" id="editCottageName" />
-          </div>
-          <div class="form-group">
-            <label for="editCottageDescription" class="label">Description:</label>
-            <input v-model="editedCottage.cottage_description" type="text" class="form-control" id="editCottageDescription" />
-          </div>
-          <div class="form-group">
-            <label for="editCottagePrice" class="label">Price:</label>
-            <input v-model="editedCottage.cottage_price" type="number" class="form-control" id="editCottagePrice" />
-          </div>
-          <div class="form-group">
-            <label for="editCottageImage" class="label">Change Image:</label>
-            <input type="file" ref="editCottageImageInput" @change="handleEditCottageImageUpload" />
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-custom"
-            @click="saveCottageEdit"
-          >
-            Save Changes
-          </button>
-          <button
-            type="button"
-            class="btn btn-custom"
-            @click="closeCottageEditModal"
-          >
-            Close
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="row">
-  <!-- Table Product -->
-  <div class="col-12">
-    <div class="card card-default">
-      <div class="card-header">
-        <h2 class="fa-solid fa-book"> Booking Inventory</h2><br>
-      </div>
-      <div class="card-body">
-        <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
-          <table id="productsTable" class="table table-product" style="width: 100%">
-            <thead>
-              <tr>
-                <th>Group Id</th>
-                <th>User</th>
-                <th>Checkin</th>
-                <th>Checkout</th>
-                <th>Special Request</th>
-                <th>Rooms</th>
-                <th>Booking Status</th>
-                <th>Booking Payment</th>
-                <th>Down Payment</th>
-                <th>Proof of Payment</th>
-                <th class="actions-header">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="book in book" :key="book.group_id">
-                <td>{{ book.group_id }}</td>
-                <td>{{ book.name }}</td>
-                <td>{{ book.checkin }}</td>
-                <td>{{ book.checkout }}</td>
-                <td>{{ book.specialRequest }}</td>
-                <td>{{ book.room_names }}</td>
-                <td>{{ book.booking_status }}</td>
-                <td>{{ book.payment_method }}</td>
-                <td>{{ book.downpayment }}</td>
-                <td class="action-buttons">
-                  <button
-                    class="btn btn-info"
-                    @click="openProofModal(book.downpaymentProof)" >
-                    View Proof
-                  </button>
-                </td>
-                <td>
-                  <div class="dropdown">
-                    <div class="select" @click="toggleDropdown(book.group_id)">
-                      <span class="selected">Actions</span>
-                      <div
-                        class="caret"
-                        :class="{ 'caret-rotate': openDropdown === book.group_id }"
-                      ></div>
-                    </div>
-                    <ul
-                      class="menu"
-                      :class="{ 'menu-open': openDropdown === book.group_id }"
-                    >
-                      <li @click="handleDropdownAction('markAsPaid', book.group_id)">
-                        Mark as Paid
-                      </li>
-                      <li @click="handleDropdownAction('acceptBooking', book.group_id)">
-                        Confirm Booking
-                      </li>
-                      <li @click="handleDropdownAction('declineBooking', book.group_id)">
-                        Decline Booking
-                      </li>
-                    </ul>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-
-          <!-- Success Message -->
-          <div v-if="successMessage" class="alert alert-success" role="alert">
-            {{ successMessage }}
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Proof of Payment Modal -->
-  <div v-if="isProofModalOpen" class="modal-overlay">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5>Proof of Downpayment</h5>
-        <button @click="closeProofModal" class="close-button">&times;</button>
-      </div>
-      <div class="modal-body">
-        <img
-          :src="selectedProofImage"
-          class="img-fluid"
-          alt="Proof of Downpayment"
-        />
-      </div>
-      <div class="modal-footer">
-        <button @click="closeProofModal" class="btn btn-secondary">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
-<div class="row">
-  <!-- Table Product -->
-  <div class="col-12">
-    <div class="card card-default">
-      <div class="card-header">
-        <h2 class="fa-solid fa-house"> Cottage Booking Inventory</h2><br>
-      </div>
-      <div class="card-body">
-        <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
-          <table id="cottageBookingTable" class="table table-product" style="width: 100%">
-            <thead>
-              <tr>
-                <th>Booking Id</th>
-                <th>User Name</th> 
-                <th>Check-in</th>
-                <th>Check-out</th>
-                <th>Booking Status</th>
-                <th>Cottage Id</th>
-                <th>Created At</th>
-                <th>Proof of Downpayment</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="booking in bookings" :key="booking.cottagebooking_id">
-                <td>{{ booking.cottagebooking_id }}</td>
-                <td>{{ booking.name }}</td> <!-- Display user name -->
-                <td>{{ booking.selectedTime }}</td>
-                <td>{{ booking.selectedTimeout }}</td>
-                <td>{{ booking.cottagebooking_status }}</td>
-                <td>{{ booking.cottage_id }}</td>
-                <td>{{ booking.created_at }}</td>
-                <td >
-                  <button style="margin-top: 14px;"
-                    class="btn btn-info" 
-                    @click="openModal(booking.proofOfDownpayment)">
-                    View Proof
-                  </button>
-                </td>
-                <td class="action-buttons">
-                  <button class="btn btn-primary"
-                    @click="confirmCottageBooking(booking.cottagebooking_id)">
-                    Confirm
-                  </button>
-                  <button 
-                    @click="declineCottageBooking(booking.cottagebooking_id)" 
-                    class="btn btn-secondary" 
-                    :disabled="booking.cottagebooking_status === 'confirmed'" 
-                    :class="{ 'disabled': booking.cottagebooking_status === 'confirmed' }">
-                    Decline
-                  </button>
-                  <button 
-                    @click="markCottageBookingAsPaid(booking.cottagebooking_id)" 
-                    class="btn btn-tertiary">
-                    Mark as Paid
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal Component -->
-  <div v-if="isModalOpen" class="modal-overlay">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5>Proof of Downpayment</h5>
-        <button @click="closeModal" class="close-button">&times;</button>
-      </div>
-      <div class="modal-body">
-        <img :src="selectedProofImage" class="img-fluid" alt="Proof of Downpayment" />
-      </div>
-      <div class="modal-footer">
-        <button @click="closeModal" class="btn btn-secondary">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
-
-<div class="row">
-  <!-- Reservation List -->
-  <div class="col-12">
-    <div class="card card-default">
-      <div class="card-header">
-        <h2 class="fa-solid fa-book-bookmark">  Reservations</h2>
-      </div>
-      <div class="card-body">
-        <div class="table-responsive "  style="max-height: 400px; overflow-y: auto;">
-          <table id="reservationsTable" class="table table-product"  style="width: 100%">
-            <thead>
-              <tr>
-                <th>Reservation ID</th>
-                <th>User</th>
-                <th>Table</th>
-                <th>Order Items</th>
-                <th>Status</th>
-                <th>Proof of Payment</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(reservation, index) in reservations" :key="reservation.reservation_id">
-                <td>{{ reservation.reservation_id }}</td>
-                <td>{{ reservation.user.name }}</td>
-                <td>{{ reservation.table.table_name }}</td>
-                <td>
-                  <ul>
-                    <li v-for="item in reservation.order_items" :key="item.id">
-                      {{ item.item_name }} ({{ item.quantity }})
-                    </li>
-                  </ul>
-                </td>
-                <td>{{ reservation.status }}</td>
-
-                <td >
-                  <button
-                    class="btn btn-info"
-                    @click="openProofModalReservation(reservation.proof_of_payment)" >
-                    View Proof
-                  </button>
-                </td>
-
-                <td class="action-buttons">
-                  <!-- View Details Button -->
-                  <button class="btn btn-custom" @click="viewDetails(reservation)">
-                    View Details
-                  </button>
-
-                  <!-- Accept Reservation Button -->
-                  <button
-                    class="btn btn-primary"
-                    @click="acceptReservation(reservation.reservation_id)"
-                  >
-                    Accept
-                  </button>
-
-                  <!-- Decline Reservation Button -->
-                  <button
-                    class="btn btn-secondary"
-                    @click="declineReservation(reservation.reservation_id)"
-                    :disabled="reservation.status === 'confirmed'"
-                  >
-                    Decline
-                  </button>
-
-                  <!-- Mark as Paid Button -->
-                  <button
-                    class="btn btn-custom"
-                    @click="markReservationAsPaid(reservation.reservation_id)"
-                  >
-                    Mark as Paid
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          
-
-
       
+      <div class="card-main">
 
-        <!-- Success and Error Messages -->
-        <div v-if="successMessage" class="alert alert-success" role="alert">
-          {{ successMessage }}
-        </div>
-        <div v-if="errorMessage" class="alert alert-danger" role="alert">
-          {{ errorMessage }}
-        </div>
-      </div>
-    </div>
-    </div>
-  </div>
-</div>
+        <div class="content">
+          <div class="container-fluid">
+            <div class="card-container">
+              <div class="row">
 
-  <!-- Proof of Payment Modal -->
-  <div v-if="isReservationProofModalOpen" class="modal fade show" tabindex="-1" role="dialog">
-          <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title">Proof of Payment</h5>
-                <button type="button" class="close" @click="closeReservationProofModal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <img
-                  :src="selectedProofImage"
-                  class="img-fluid"
-                  alt="Proof of Payment"
-                />
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" @click="closeReservationProofModal">
-                  Close
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-<div class="row">
-  <!-- Table Product -->
-  <div class="col-12">
-    <div class="card card-default">
-      <div class="card-header">
-        <h2  class="fa-solid fa-clipboard-list">  Orders Inventory</h2>
-      </div>
-      <div class="card-body">
-        <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
-          <table id="ordersTable" class="table  table-product" style="width: 100%">
-            <thead>
-              <tr>
-                <th>User</th>
-                <th>Total Price</th>
-                <th>Items</th>
-                <th>Status</th>
-                <th>Proof Of Payment</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="order in orders" :key="order.order_id">
-                <td>{{ order.user_name }}</td>
-                <td>{{ order.total_price }}</td>
-                <td>{{ order.items }}</td>
-                <td>{{ order.order_status }}</td>
-
-                <!-- Proof of Payment Button -->
-                <td >
-                 <button style="margin-top: 14px;"
-                    class="btn btn-info"
-                    @click="openProofOfPaymentModal(order.downpayment_proof)"
-                    v-if="order.downpayment_proof"
-                  >
-                    View Proof
-                  </button>
-                  <span v-else>No Proof Available</span>
-                </td>
-
-                <!-- Action Buttons -->
-                <td class="action-buttons">
-                  <button class="btn btn-primary" @click="confirmOrder(order.order_id)">
-                    Confirm
-                  </button>
-                  <button
-                    @click="declineOrder(order.order_id)"
-                    class="btn btn-secondary"
-                    :disabled="order.order_status === 'confirmed'"
-                  >
-                    Decline
-                  </button>
-                  <button
-                    @click="markOrderPaid(order.order_id)"
-                    class="btn btn-tertiary"
-                  >
-                    Mark as Paid
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-
-          <!-- Loading Indicator -->
-          <div v-if="loading" class="text-center mt-3">
-            <div class="spinner-border" role="status">
-              <span class="sr-only">Loading...</span>
-            </div>
-          </div>
-
-          <!-- Success Message -->
-          <div v-if="successMessage" class="alert alert-success mt-3" role="alert">
-            {{ successMessage }}
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Unique Proof of Payment Modal -->
-  <div v-if="isProofOfPaymentModalOpen" class="modal fade show" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Order Proof of Payment</h5>
-          <button type="button" class="close" @click="closeProofOfPaymentModal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <img
-            :src="selectedProofImage"
-            class="img-fluid"
-            alt="Proof of Payment"
-          />
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" @click="closeProofOfPaymentModal">
-            Close
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="row">
-    <!-- Table Product -->
-    <div class="col-12">
-      <div class="card card-default">
-        <div class="card-header">
-          <h2 class="fa-solid fa-person-swimming"> Swimming Inventory</h2><br>
-        </div>
-        <div class="card-body">
-          <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
-            <table id="productsTable" class="table  table-product" style="width: 100%">
-              <thead>
-                <tr>
-                  <th>Enroll Id</th>
-                  <th>Account Id</th>
-                  <th>FullName</th>
-                  <th>Age</th>
-                  <th>Contact Number</th>
-                  <th>Experience</th>
-                  <th>Lesson Date</th>
-                  <th>Status</th>
-                  <th class="actions-header">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="enroll in enroll" :key="enroll.enroll_id">
-                  <td>{{ enroll.enroll_id }}</td>
-                  <td>{{ enroll.id }}</td>
-                  <td>{{ enroll.fullname }}</td>
-                  <td>{{ enroll.age }}</td>
-                  <td>{{ enroll.contact_number }}</td>
-                  <td>{{ enroll.experience }}</td>
-                  <td>{{ enroll.lesson_date }}</td>
-                  <td>{{ enroll.enrollment_status }}</td>
-                  <td>
-                    <div class="dropdown">
-                      <div class="select" @click="toggleDropdown(enroll.enroll_id)">
-                        <span class="selected">Actions</span>
-                        <div class="caret" :class="{ 'caret-rotate': openDropdown === enroll.enroll_id }"></div>
-                      </div>
-                      <ul class="menu" :class="{ 'menu-open': openDropdown === enroll.enroll_id }">
-                        <li @click="handleDropdownAction('Paid', enroll.enroll_id)">Paid</li>
-                        <li @click="handleDropdownAction('Accept', enroll.enroll_id)">Accept</li>
-                        <li @click="handleDropdownAction('Decline', enroll.enroll_id)">Decline</li>
-                      </ul>
+  
+                    
+              
+                          <section class="card-main"><br>
+                            <h2 class="fa-solid fa-chart-line"> Sales Report</h2><br>
+                            <button class="btn-custom" @click="printSalesReport">Print Sales Report</button>
+                            <div class="card-main">
+                              <button class="btn-custom" @click="updateChart('daily')">Daily</button>
+                              <button class="btn-custom" @click="updateChart('monthly')">Monthly</button>
+                              <button class="btn-custom" @click="updateChart('yearly')">Yearly</button>
+                            </div>
+                            <canvas class="card-main" ref="combinedCanvas"></canvas>
+                          </section>
+                   
+                
+          
+                <div class="card-wrapper">
+                  <div class="card card-default card-size carding ">
+                    <div class="card-header">
+                      <h2  class="fa-solid fa-user"> Users</h2><br>
                     </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <!-- Success Message -->
-            <div v-if="successMessage" class="alert alert-success" role="alert">
-              {{ successMessage }}
+                    <div class="card-body">
+                      <div v-if="loading">Loading...</div>
+                      <div v-else>
+                        <div class="bg-primary d-flex justify-content-between flex-wrap p-4 text-white align-items-lg-end carding" style="height: 100%; width: 100%">
+                          <div class="d-flex flex-column">
+                            <span class="h3 text-white">{{ numberOfClients }}</span>
+                            <span class="text-white">Total Clients</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-wrapper">
+                  <div class="card card-default card-size carding ">
+                    <div class="card-header">
+                      <h2 class="fa-solid fa-cart-shopping"> E-Shop</h2><br> 
+                    </div>
+                    <div class="card-body">
+                      <div class="bg-primary d-flex justify-content-between flex-wrap p-4 text-white align-items-lg-end carding" style="height: 100%; width: 100%">
+                        <div class="d-flex flex-column">
+                          <span class="h3 text-white">{{ numberOfItems }}</span>
+                          <span class="text-white">Items</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-wrapper">
+                  <div class="card card-default card-size carding">
+                    <div class="card-header">
+                      <h2  class="fa-solid fa-address-book"> Booking Count</h2><br>
+                    </div>
+                    <div class="card-body">
+                      <div class="bg-primary d-flex justify-content-between flex-wrap p-4 text-white align-items-lg-end carding" style="height: 100%; width: 100%">
+                        <div class="d-flex flex-column">
+                          <span class="h3 text-white">{{ numberOfbooking }}</span>
+                          <span class="text-white">Booking</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-wrapper" style="padding: 0;">
+                  <div class="card card-default" id="user-acquisition" >
+                    <div class="card-header border-bottom pb-0">
+                      <h2 class="fa-solid fa-user-pen"> User Acquisition</h2><br>
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th>User</th>
+                            <th>Feedback</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody v-for="feed in feed" :key="name.id">
+                          <tr>
+                            <td>{{ getName(feed).name }}</td>
+                            <td>{{ feed.feedback }}</td>
+                            <td>
+                              <button @click="hideFeed(feed.feed_id)">Hide</button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <div class="card-footer d-flex flex-wrap bg-white">
+                      <a href="#" class="text-uppercase py-3" >Acquisition Report</a>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-wrapper">
+                  <div class="card card-default">
+                    <div class="card-header">
+                      <h2  class="fa-solid fa-burger"> Orders Inventory</h2><br>
+                    </div>
+                    <div class="card-body" style="padding: 0;">
+                      <table id="ordersTable" class=" table-product" style="width: 100%">
+                        <thead>
+                          <tr>
+                            <th>Room ID</th>
+                            <th>Payment</th>
+                            <th>Status</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr v-for="book in book" :key="book.room_id">
+                            <td>{{ book.room_id }}</td>
+                            <td>{{ book.payment_method }}</td>
+                            <td>{{ book.booking_status }}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <div v-if="loading" class="text-center mt-3">
+                        <div class="spinner-border" role="status">
+                          <span class="sr-only">Loading...</span>
+                        </div>
+                      </div>
+                      <div v-if="successMessage" class="alert alert-success mt-3" role="alert">
+                        {{ successMessage }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>  
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-
-
-
-
-
-  </div>
-
-  <div class="row">
-    <!-- Table Date -->
-    <div class="col-12">
-      <div class="card card-default">
-        <div class="card-header">
-          <h2  class="fa-solid fa-person-swimming"> Swimming Lesson Date Inventory</h2><br>
-          <button type="button" class="btn btn-custom" @click="openAddDateModal">
-            Add Date
-          </button>
-        </div>
-        <div class="card-body">
-          <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
-            <table id="productsTable" class="table  table-product" style="width: 100%">
-              <thead>
-                <tr>
-                  <th>Date</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="date in dates" :key="date">
-                  <td>{{ date }}</td>
-                </tr>
-              </tbody>
-            </table>
-           
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-
-  <!-- Modal for Adding -->
-  <div v-if="addDateModalVisible" class="modal show">
-    <!-- Modal content for adding -->
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Add Date</h5>
-          <button type="button" class="close" @click="closeAddDateModal">
-            &times;
-          </button>
-        </div>
-        <!-- Add form -->
-        <form @submit.prevent="saveDate" enctype="multipart/form-data">
-          <div class="modal-body">
-            <div class="form-group">
-              <label for="swimming_date">Swimming Date</label>
-              <input type="date" class="form-control" placeholder="Date" v-model="swimming_date" required />
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-custom "  style="background:#0F172B; border:none; " @click="closeAddDateModal">Close</button>
-            <button type="submit" class="btn btn-custom">Add</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-
-    <Notification
-      :show="notification.show"
-      :type="notification.type"
-      :message="notification.message"
-      class="bottom-right-notification"
-    />
-  </div>
-</div>
-
 
 </template>
 
 
 <script>
 import axios from "axios";
-import flatpickr from "flatpickr";
-import "flatpickr/dist/flatpickr.min.css";
-import "bootstrap";
-import Notification from "@/components/Notification.vue";
-
+import { Chart, registerables } from "chart.js";
+Chart.register(...registerables);
 export default {
-name: 'admin2',
-components: {
-  Notification,
-},
-data() {
-  return {
-    selectedProofImage: "", // URL for the selected proof image
-      isProofOfPaymentModalOpen: false, // State for the proof of payment modal
-    selectedProofImage: "", // URL for the selected proof of payment image
-    isReservationProofModalOpen: false, // Tracks if the proof modal is open
-    selectedProofImage: "", // Holds the selected proof image URL
-    isProofModalOpen: false, // Tracks the modal's open state
-    selectedProofImage: "", // Stores the selected proof image URL
-      isModalOpen: false, // Tracks if the modal is open
-    cottages: [],
-      cottage_name: '',
-      cottage_description: '',
-      cottage_price: '',
-      cottage_img: null,
-      successMessage: '',
-      addCottageModalVisible: false,
-      editCottageModalVisible: false,
-      editedCottage: null,
-    tables: [],              // Holds table inventory data
-      table_name: '',          // New table name
-      table_description: '',   // New table description
-      editedTable: null,       // Stores table data for editing
-      addTableModalVisible: false,  // Controls visibility of Add Table modal
-      editTableModalVisible: false, // Controls visibility of Edit Table modal
-      successMessage: '',       // Success message state
-    reservations: [],
-      statusModalVisible: false,
-      detailsModalVisible: false,
-      selectedReservation: {},
-      statusToUpdate: '',
-      successMessage: '',
-      errorMessage: '',
-    menuItems: [],
-    selectedImage: null,
+  name: "analytics",
 
-    currentItem: {
-        menu_id: null,
-        item_name: '',
-        item_category: '',
-        item_price: ''
-      },
-      addModalItemVisible: false,
-      
-      editMenuItemModalVisible: false,
-  editedMenuItem: {
-    item_name: '',
-    item_category: '',
-    item_price: '',
-    item_image: null,  // Holds the uploaded file
-  },      item_name: '',
-    item_category: '',
-    item_price: '',
-      successMessage: '',
-      errorMessage: '',
-      currentItem: {},
-    addDateModalVisible: false,
-    successMessageDate: null,
-    successMessage: null,
-    flatpickrInstance: null,
-    selectedDate: null,
-    dates: [], // date of swimming
-    orders: [],
-    loading: false,
-    editRoomModalVisible: false,
-    editedRoom: null,
-    editModalVisible: false,
-    editedInfo: null,
-    room: [],
-    book: [],
-    enroll: [],
-    infos: [],
-    shop: [],
-    date: [],
-    swimming_date: "",
-    successMessage2: "",
-    addModalVisible: false,
-    prod_img: "",
-    prod_name: "",
-    prod_quantity: "",
-    prod_desc: "",
-    prod_price: "",
-    addingItemId: null,
-    quantityModalVisible: false,
-    selectedProduct: null,
-    quantityToAdd: 0,
-    successMessage: "",
-    notification: {
+  data() {
+    return {
+      isSidebarCollapsed: false,
+      successMessage: '', 
+      loading: '',
+      name: [],
+      feed: [],
+      book: [],
+      notification: {
       show: false,
       type: "",
       message: "",
     },
-    addRoomModalVisible: false,
-    room_name: "",
-    price: "",
-
-    packs: "3", // Default to 3 packs
-    description: "",
-    downpayment: "",
-    room_img: "",
-    ConfirmationVisible: false,
-    openDropdown: null, 
-    successMessage: '', 
-    bookings: [],
-      successMessage: '',
-      errorMessage: '',
-      notification: {
-      show: false,
-      type: 'success',  // Default notification type (e.g., success, error, etc.)
-      message: '',
-    },
-  };
-},
-mounted() {
-  this.getCottages();
-  this.fetchTables();
-  this.fetchCottageBookings(); // Fetch bookings when component is mounted
-  this.fetchReservations();
-  this.fetchMenuItems();
-  this.getBook(); // This will work if getBook() is defined in methods
-  this.initializeDropdowns();
+      numberOfClients: 0,
+      numberOfItems: 0,
+      numberOfbooking: 0,
+      dailySales: {},
+      monthlySales: {},
+      yearlySales: {},
+      dailyChart: null,
+      monthlyChart: null,
+      yearlyChart: null,
+      combinedChart: null,
+      currentReportType: "daily", // default to daily
+      reportData: {}, // Initialize as an empty object instead of null
+      monthNames: [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+      ],
+    };
   },
-  beforeDestroy() {
-    this.$nextTick(() => {
-      const dropdowns = document.querySelectorAll('.dropdown');
-      dropdowns.forEach(dropdown => {
-        const select = dropdown.querySelector('.select');
-        const options = dropdown.querySelectorAll('.menu li');
-        select.removeEventListener('click', this.handleDropdownClick);
-        options.forEach(option => {
-          option.removeEventListener('click', this.handleOptionClick);
-        });
-      });
-    });
-  
-  this.getDate();
-},
-
-created() {
-  this.getInfo();
-  this.getRoom();
-  this.getBook();
-  this.getenroll();
-  this.getDate();
-  this.fetchOrdersForAllUsers();
-},
-
-methods: {
-  openProofOfPaymentModal(proofImage) {
-      // Set the selected proof image and open the modal
-      this.selectedProofImage = `https://eduardos-resort.online/backend/backend/public/uploads/${proofImage}`;
-      this.isProofOfPaymentModalOpen = true;
-    },
-    closeProofOfPaymentModal() {
-      // Close the proof of payment modal
-      this.isProofOfPaymentModalOpen = false;
-    },
-  openProofModalReservation(proof_of_payment) {
-      // Set the selected proof image and open the modal
-      this.selectedProofImage = `https://eduardos-resort.online/backend/backend/public/uploads/${proof_of_payment}`;
-      this.isReservationProofModalOpen = true;
-    },
-    closeReservationProofModal() {
-      // Close the proof of payment modal
-      this.isReservationProofModalOpen = false;
-    },
-  openProofModal(downpaymentProof) {
-      // Set the selected image URL and open the modal
-      this.selectedProofImage = `https://eduardos-resort.online/backend/backend/public/uploads/${downpaymentProof}`;
-      this.isProofModalOpen = true;
-    },
-    closeProofModal() {
-      // Close the modal
-      this.isProofModalOpen = false;
-    },
-  openModal(proofImage) {
-      // Set the selected image and open the modal
-      this.selectedProofImage = `https://eduardos-resort.online/backend/backend/public/uploads/${proofImage}`;
-      this.isModalOpen = true;},
-      closeModal() {
-      // Close the modal
-      this.isModalOpen = false;
-    },
-// Handle Image Upload for Add Cottage
-handleCottageImageUpload() {
-    const fileInput = this.$refs.cottageImageInput;
-    const file = fileInput.files[0];
-
-    const formData = new FormData();
-    formData.append("cottage_image", file);
-
-    this.cottage_img = formData;
+  mounted() {
+    this.getData();
+    this.getShop();
+    this.getFeed();
+    this.getName();
+    this.getbook();
+    this.getHistory();
+    this.fetchCombinedSalesData();
   },
-
-  // Save a new cottage
-  async saveCottage(mode) {
-    try {
-      let data = {};
-
-      if (mode === "add") {
-        if (this.cottage_img instanceof FormData) {
-          data = this.cottage_img;
-          data.append("cottage_name", this.cottage_name);
-          data.append("cottage_description", this.cottage_description);
-          data.append("cottage_price", this.cottage_price);
-        } else {
-          data = {
-            cottage_name: this.cottage_name,
-            cottage_description: this.cottage_description,
-            cottage_price: this.cottage_price,
-          };
-        }
-      }
-
-      const response = await axios.post("/cottages", data);
-
-      if (mode === "add") {
-        this.closeCottageAddModal();
-        this.cottage_name = "";
-        this.cottage_description = "";
-        this.cottage_price = "";
-        this.getCottages();
-        this.showNotification("Cottage Added Successfully", "success");
-      }
-    } catch (error) {
-      console.error(error);
-      this.showNotification("Error adding cottage", "error");
-    }
-  },
-
-  // Open Edit Cottage Modal
-  openCottageEditModal(cottage) {
-    this.editedCottage = { ...cottage };
-    this.editCottageModalVisible = true;
-  },
-
-  // Close Edit Cottage Modal
-  closeCottageEditModal() {
-    this.editedCottage = null;
-    this.editCottageModalVisible = false;
-    this.showNotification("Cottage Updated Successfully", "success");
-  },
-
-  // Save the edited cottage details
-  async saveCottageEdit() {
-  try {
-    const formData = new FormData();
-
-    // Append cottage details
-    formData.append("cottage_name", this.editedCottage.cottage_name);
-    formData.append("cottage_description", this.editedCottage.cottage_description);
-    formData.append("cottage_price", this.editedCottage.cottage_price);
-
-    // Append image file if a new image was selected
-    if (this.editedCottage.newImage) {
-      formData.append("cottage_image", this.editedCottage.newImage);
-    }
-
-    const apiUrl = `/cottages/update/${this.editedCottage.cottage_id}`;
-    
-    // Send the request with form data
-    const response = await axios.post(apiUrl, formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-
-    this.closeCottageEditModal();
-    this.getCottages();
-    this.showNotification("Cottage Updated Successfully", "success");
-  } catch (error) {
-    console.error("Error updating cottage:", error);
-    this.showNotification("Error updating cottage", "error");
-  }
-},
-
-handleEditCottageImageUpload() {
-  const fileInput = this.$refs.editCottageImageInput;
-  const file = fileInput.files[0];
-
-  // Assign the new image to the editedCottage object
-  this.editedCottage.newImage = file;
-},
-
-  // Show success notification
-  // showCottageSuccessNotification(message) {
-  //   this.notification.message = message;
-  //   this.notification.type = 'success';
-  //   this.notification.show = true;
-
-  //   setTimeout(() => {
-  //     this.notification.show = false;
-  //   }, 3000);  // Hide after 3 seconds
-  // },
-
-  // Show error notification
-  // showCottageErrorNotification(message) {
-  //   this.notification.message = message;
-  //   this.notification.type = 'error';
-  //   this.notification.show = true;
-
-  //   setTimeout(() => {
-  //     this.notification.show = false;
-  //   }, 3000);  // Hide after 3 seconds
-  // },  
-
-    // Fetch all cottages
-    async getCottages() {
-      try {
-        const response = await axios.get("/cottages");
-        this.cottages = response.data;
-      } catch (error) {
-        console.error("Error fetching cottages:", error);
-      }
+  methods: {
+    toggleSidebar() {
+      this.isSidebarCollapsed = !this.isSidebarCollapsed;
     },
-
-    // Show success notifications for cottage operations
-    showCottageSuccessNotification(message) {
-      this.successMessage = message;
-      setTimeout(() => {
-        this.successMessage = '';
-      }, 3000);
-    },
-
-    // Open Add Cottage Modal
-    openCottageAddModal() {
-      this.addCottageModalVisible = true;
-    },
-
-    // Close Add Cottage Modal
-    closeCottageAddModal() {
-      this.addCottageModalVisible = false;
-    },
-
-
-
-async fetchTables() {
-      try {
-        const response = await axios.get('/getTables');
-        this.tables = response.data;
-      } catch (error) {
-        console.error('Error fetching tables:', error);
-      }
-    },
-
-    async saveTable() {
-      try {
-        const data = {
-          table_name: this.table_name,
-          table_description: this.table_description,
-        };
-
-        await axios.post('/addTable', data);
-        this.closeAddTableModal();
-        this.fetchTables();
-
-        this.showNotification("Table added successfully!", "success");
-      } catch (error) {
-        console.error('Error saving table:', error);
-      }
-    },
-
-    async updateTable() {
-      try {
-        const data = {
-          table_name: this.editedTable.table_name,
-          table_description: this.editedTable.table_description,
-        };
-
-        await axios.post(`/updateTable/${this.editedTable.table_id}`, data);
-        this.closeEditTableModal();
-        this.fetchTables();
-
-        this.showNotification("Table updated successfully!", "success");
-      } catch (error) {
-        console.error('Error updating table:', error);
-      }
-    },
-
-    showNotification(message, type) {
-      this.notification.message = message;
-      this.notification.type = type;
-      this.notification.show = true;
-
-      // Hide notification after 3 seconds
-      setTimeout(() => {
-        this.notification.show = false;
-      }, 3000);
-    },
-
-    openAddTableModal() {
-      this.addTableModalVisible = true;
-    },
-
-    closeAddTableModal() {
-      this.addTableModalVisible = false;
-      this.clearTableForm();
-    },
-
-    openEditTableModal(table) {
-      this.editedTable = { ...table };  
-      this.editTableModalVisible = true;
-    },
-
-    closeEditTableModal() {
-      this.editTableModalVisible = false;
-    },
-
-    clearTableForm() {
-      this.table_name = '';
-      this.table_description = '';
-    },
-  async declineCottageBooking(cottagebooking_id) {
-  try {
-    const response = await axios.post(`api/cottage-bookings/decline/${cottagebooking_id}`);
-
-    if (response.status === 200) {
-      this.showSuccessNotification(`Cottage booking ${cottagebooking_id} has been declined.`);
-      this.fetchCottageBookings(); // Refresh the booking list
-    } else {
-      console.error("Failed to decline cottage booking:", response.data.message);
-      this.showErrorNotification(`Failed to decline booking: ${response.data.message}`);
-    }
-  } catch (error) {
-    if (error.response && error.response.status === 400) {
-      this.showErrorNotification("Cannot decline a confirmed booking.");
-    } else {
-      console.error("Error declining cottage booking:", error);
-      this.showErrorNotification("An error occurred while declining the cottage booking.");
-    }
-  }
-},
-
-
-async confirmCottageBooking(cottagebooking_id) {
-  try {
-    const response = await axios.post(`api/cottage-bookings/confirm/${cottagebooking_id}`);
-
-    if (response.status === 200) {
-      this.showSuccessNotification(`Cottage booking ${cottagebooking_id} has been confirmed.`);
-      this.fetchCottageBookings(); // Refresh the booking list
-    } else {
-      console.error("Failed to confirm cottage booking:", response.data.message);
-      this.showErrorNotification(`Failed to confirm booking: ${response.data.message}`);
-    }
-  } catch (error) {
-    console.error("Error confirming cottage booking:", error);
-    this.showErrorNotification("An error occurred while confirming the cottage booking.");
-  }
-},
-
-async markCottageBookingAsPaid(cottagebooking_id) {
-  try {
-    const response = await axios.post(`api/cottage-bookings/mark-paid/${cottagebooking_id}`);
-
-    if (response.status === 200) {
-      this.showSuccessNotification(`Cottage booking ${cottagebooking_id} marked as paid.`);
-      this.fetchCottageBookings(); // Refresh the booking list
-    } else {
-      console.error("Failed to mark cottage booking as paid:", response.data.message);
-      this.showErrorNotification(`Failed to mark booking as paid: ${response.data.message}`);
-    }
-  } catch (error) {
-    console.error("Error marking cottage booking as paid:", error);
-    this.showErrorNotification("An error occurred while marking the cottage booking as paid.");
-  }
-},
-
-async fetchCottageBookings() {
-      try {
-        const [bookingsResponse, usersResponse] = await Promise.all([
-          axios.get('api/cottage-bookings'), // Booking data
-          axios.get('/getData'), // User data
-        ]);
-
-        const bookings = bookingsResponse.data;
-        const users = usersResponse.data;
-
-        // Map user names into bookings
-        this.bookings = bookings.map((booking) => {
-          const user = users.find((u) => u.id === booking.user_id);
-          return {
-            ...booking,
-            name: user ? user.name : 'Unknown User', // Fallback if user not found
-          };
-        });
-      } catch (error) {
-        console.error('Error fetching data:', error);
-        this.errorMessage = 'Failed to load cottage bookings.';
-      }
-    },
-  async fetchReservations() {
-      try {
-        const response = await axios.get('/admin/reservations'); // Update with your API endpoint
-        this.reservations = response.data;
-      } catch (error) {
-        console.error('Error fetching reservations:', error);
-        this.errorMessage = 'Failed to load reservation data.';
-      }
-    },
-    openStatusModal(reservation) {
-      this.selectedReservation = reservation;
-      this.statusToUpdate = reservation.status;
-      this.statusModalVisible = true;
-    },
-    closeStatusModal() {
-      this.statusModalVisible = false;
-    },
-    async declineReservation(reservation_id) {
-  try {
-    const response = await axios.post(`reservation/decline/${reservation_id}`);
-
-    if (response.status === 200) {
-      this.showSuccessNotification(`Reservation ${reservation_id} has been declined.`);
-      this.fetchReservations(); // Refresh the reservation list
-    } else {
-      console.error("Failed to decline reservation:", response.data.message);
-      this.showErrorNotification(`Failed to decline reservation: ${response.data.message}`);
-    }
-  } catch (error) {
-    console.error("Error declining reservation:", error);
-    this.showErrorNotification("An error occurred while declining the reservation.");
-  }
-},
-
-async acceptReservation(reservation_id) {
-  try {
-    const response = await axios.post(`reservation/confirm/${reservation_id}`);
-
-    if (response.status === 200) {
-      this.showSuccessNotification(`Reservation ${reservation_id} has been accepted.`);
-      this.fetchReservations(); // Refresh the reservation list
-    } else {
-      console.error("Failed to accept reservation:", response.data.message);
-      this.showErrorNotification(`Failed to accept reservation: ${response.data.message}`);
-    }
-  } catch (error) {
-    console.error("Error accepting reservation:", error);
-    this.showErrorNotification("An error occurred while accepting the reservation.");
-  }
-},
-
-
-async markReservationAsPaid(reservation_id) {
-  try {
-    const response = await axios.post(`reservation/paid/${reservation_id}`);
-
-    if (response.status === 200) {
-      this.showSuccessNotification(`Reservation ${reservation_id} Marked as Paid`);
-      this.fetchReservations(); // Refresh the reservation list
-    } else {
-      console.error("Failed to mark reservation as paid:", response.data.message);
-    }
-  } catch (error) {
-    console.error("Error marking reservation as paid:", error);
-  }
-},
-
-
-  showSuccessNotification(message) {
-    // Implementation for showing success notifications
-    console.log(`Success: ${message}`);
-  },
-    viewDetails(reservation) {
-      this.selectedReservation = reservation;
-      this.detailsModalVisible = true;
-    },
-    closeDetailsModal() {
-      this.detailsModalVisible = false;
-    },
-  async fetchMenuItems() {
-      try {
-        const response = await axios.get('/api/menu');
-        this.menuItems = response.data;
-      } catch (error) {
-        console.error(error);
-      }
-    },
-    openAddItemModal() {
-      this.addModalItemVisible = true;
-    },
-    closeAddItemModal() {
-      this.addModalItemVisible = false;
-    },
-    onFileChange(event) {
-    const file = event.target.files[0];
-    if (file) {
-      this.item_image = file; // Store the selected file
-    }
-  },
-    async addMenuItem() {
-    const formData = new FormData();
-    formData.append('item_name', this.item_name);
-    formData.append('item_category', this.item_category);
-    formData.append('item_price', this.item_price);
-
-    if (this.item_image) {
-        formData.append('item_image', this.item_image);
-    }
-
-    try {
-        const response = await axios.post("https://eduardos-resort.online/backend/api/menu", formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-        });
-
-        if (response.data.status === "success") {
-            this.showSuccessNotification(response.data.message);
-            this.clearForm();
-            this.closeAddItemModal();
-            // Optionally fetch the updated menu list
-            this.fetchMenuItems();
-        } else {
-            console.error("Error from server:", response.data.message, response.data.errors);
-            this.showErrorNotification(response.data.message);
-        }
-    } catch (error) {
-        console.error("An error occurred:", error);
-        this.handleError(error);
-    }
-},
-
-clearForm() {
-    this.item_name = '';
-    this.item_category = '';
-    this.item_price = '';
-    this.item_image = null; // Clear the image file
-  },
-
-    showSuccessNotification(message) {
-      this.successMessage = message;
-      setTimeout(() => {
-        this.successMessage = '';
-      }, 3000); // Clear the message after 3 seconds
-    },
-    showErrorNotification(message) {
-      this.errorMessage = message;
-      setTimeout(() => {
-        this.errorMessage = '';
-      }, 5000); // Clear the message after 5 seconds
-    },
-    openEditItemModal(item) {
-  // Check if the item has a valid menu ID
-  if (!item.menu_id) {
-    console.error('Item ID is missing.');
-    this.showErrorNotification('Item ID is missing.');
-    return;
-  }
-  
-  // Initialize the editedMenuItem with the selected item's data
-  this.editedMenuItem = {
-    menu_id: item.menu_id, // Assuming menu_id is needed for the update
-    item_name: item.item_name,
-    item_category: item.item_category,
-    item_price: item.item_price,
-    item_image: null, // Reset the item_image for potential upload
-  };
-
-  console.log('Selected item for editing:', this.editedMenuItem); // Check the contents of editedMenuItem
-
-  // Open the modal for editing
-  this.editMenuItemModalVisible = true;
-},
-
-closeMenuItemEditModal() {
-  this.editMenuItemModalVisible = false;
-  this.editedMenuItem = { // Reset editedMenuItem for future edits
-    item_name: '',
-    item_category: '',
-    item_price: '',
-    item_image: null,
-  };
-},
-
-handleMenuItemImageUpload() {
-    const fileInput = this.$refs.editMenuItemImageInput; // Reference to the input file element
-    const file = fileInput.files[0]; // Get the first file selected
-
-    // Check if a file was selected
-    if (file) {
-        this.editedMenuItem.item_image = file; // Store the file directly for upload
-        console.log("Selected image file:", file); // Debug: Check if the file is captured correctly
-    }
-},
-
-async saveMenuItemEdit() {
-    try {
-        const formData = new FormData();
-        formData.append("item_name", this.editedMenuItem.item_name);
-        formData.append("item_category", this.editedMenuItem.item_category);
-        formData.append("item_price", this.editedMenuItem.item_price);
-        
-        // Append the image file if it exists
-        if (this.editedMenuItem.item_image) {
-            formData.append("item_image", this.editedMenuItem.item_image);
-        }
-
-        // Make the PUT request to update the menu item
-        const response = await axios.post(`https://eduardos-resort.online/backend/api/menu/${this.editedMenuItem.menu_id}`, formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data', // Set the content type for FormData
-            }
-        });
-
-        console.log("Item updated successfully:", response.data);
-        this.showSuccessNotification(response.data.message || 'Item updated successfully!');
-        this.closeMenuItemEditModal();
-        this.fetchMenuItems(); // Refresh the list of menu items
-    } catch (error) {
-        console.error("Error updating item:", error);
-        this.showErrorNotification('Failed to update item.');
-    }
-},
-
-
-
-    showSuccessNotification(message) {
-      this.successMessage = message;
-      setTimeout(() => this.successMessage = '', 3000);
-    },
-    showErrorNotification(message) {
-      this.errorMessage = message;
-      setTimeout(() => this.errorMessage = '', 5000);
-    },
-    clearForm() {
-      this.currentItem = {
-        menu_id: null,
-        item_name: '',
-        item_category: '',
-        item_price: ''
-      };
-    },
-    async deleteItem(itemId) {
-      try {
-        await axios.delete(`/api/menu/${itemId}`);
-        this.successMessage = 'Item deleted successfully!';
-        this.fetchMenuItems();
-      } catch (error) {
-        console.error(error);
-      }
-    },
-  isActive(route) {
-      return this.$route.path === route;
-    },
-  openAddDateModal() {
-    this.addDateModalVisible = true;
-  },
-
-  closeAddDateModal() {
-
-    this.addDateModalVisible = false;
-  },
-  openDatePicker() {
-    this.flatpickrInstance.open();
-  },
-  async logout() {
+    async logout() {
       try {
         const response = await axios.post("/logout");
 
@@ -2269,621 +275,330 @@ async saveMenuItemEdit() {
           console.log("Logout successful");
 
           sessionStorage.removeItem("token");
-          sessionStorage.removeItem("id");
 
-          localStorage.clear();
-
-          this.userInfo = {}; 
-          this.user = []; 
-          this.notifications = []; 
-          this.eventName = ""; 
-          this.eventTheme = "";
-          this.eventDate = "";
-          this.manifest = ""; 
-          this.hasBooking = false; 
-          this.feed = []; 
-          document.cookie.split(";").forEach((cookie) => {
-            document.cookie = cookie
-              .replace(/^ +/, "")
-              .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
-          });
-
-          this.notification = {
-            show: true,
-            type: 'success',
-            message: 'You have been logged out successfully.'
-          };
-
-          setTimeout(() => {
-            this.$router.push('/'); 
-          }, 1000); 
-          
-        } else {
-          throw new Error("Logout failed");
+          this.$router.push("/");
         }
       } catch (error) {
         console.error("Error during logout", error);
-
-        this.notification = {
-          show: true,
-          type: 'error',
-          message: 'Logout failed. Please try again.'
-        };
-
-        setTimeout(() => {
-          this.notification.show = false;
-        }, 1000); 
       }
     },
+    printSalesReport() {
+  const printWindow = window.open('', '_blank');
+  printWindow.document.write(`
+    <html>
+      <head>
+        <title>Sales Report</title>
+        <style>
+          @media print {
+            /* Hide header and footer on print */
+            #header, #footer {
+              display: none;
+            }
+          }
+          table {
+            border-collapse: collapse;
+            width: 100%;
+          }
+          th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+          }
+          th {
+            background-color: #f2f2f2;
+          }
+          #header, #footer {
+            position: fixed;
+            left: 0;
+            right: 0;
+            color: #777;
+          }
+          #header {
+            top: 0;
+            text-align: center;
+          }
+          #footer {
+            bottom: 0;
+            text-align: center;
+          }
+        </style>
+      </head>
+      <body>
+        <div id="header">
+  <img src="https://example.com/your-image.jpg" alt="Header Image" style="width: 100%;" />
+</div>
 
-  async getBook() {
-    try {
-      const response = await axios.get('/getbook');
-      this.book = response.data;
-    } catch (error) {
-      console.error('Error fetching books:', error);
-    }
-  },
-  async markAsPaidByGroup(group_id) {
-    try {
-        const response = await axios.post(`/api/mark-as-paid-group/${group_id}`);
-        if (response.status === 200) {
-            this.showSuccessNotification(`All bookings in group ${group_id} marked as Paid`);
-            this.getBook(); // Refresh the booking list
-        } else {
-            console.error("Failed to mark bookings as paid:", response.data.message);
-        }
-    } catch (error) {
-        console.error("Error marking bookings as paid:", error);
-    }
+        <h2 style="text-align: center;">Sales Report</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Total Sales</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${this.generateTableRows()} 
+          </tbody>
+        </table>
+        <div id="footer">
+          <img src="../assets/img/pool3.jpg" alt="Footer Image" style="width: 100%;" />
+        </div>
+      </body>
+    </html>
+  `);
+  printWindow.document.close();
+  printWindow.print(); // Trigger print dialog
 },
 
-async acceptBookingByGroup(group_id) {
-    try {
-        const response = await axios.post(`/api/accept-booking-group/${group_id}`);
-        if (response.status === 200) {
-            this.showSuccessNotification(`All bookings in group ${group_id} accepted`);
-            this.getBook(); // Refresh the booking list
-        } else {
-            console.error("Failed to accept bookings:", response.data.message);
-        }
-    } catch (error) {
-        console.error("Error accepting bookings:", error);
-    }
+generateTableRows() {
+  let rows = '';
+  // Generate table rows dynamically based on chart data
+  const chartData = this.reportData[this.currentReportType + 'Sales'];
+  if (chartData) {
+    chartData.forEach(sale => {
+      rows += `
+        <tr>
+          <td>${this.getDateLabel(sale)}</td>
+          <td>${sale.total_sales}</td>
+        </tr>
+      `;  
+    });
+  }
+  return rows;
+},
+getDateLabel(sale) {
+  if (this.currentReportType === 'monthly') {
+    return `${this.monthNames[parseInt(sale.month) - 1]} ${sale.year}`;
+  } else if (this.currentReportType === 'yearly') {
+    return sale.year.toString();
+  } else {
+    return sale.date;
+  }
 },
 
-async declineBookingByGroup(group_id) {
-    try {
-        const response = await axios.post(`/api/decline-booking-group/${group_id}`);
-        if (response.status === 200) {
-            this.showSuccessNotification(`All bookings in group ${group_id} declined`);
-            this.getBook(); // Refresh the booking list
-        } else {
-            console.error("Failed to decline bookings:", response.data.message);
-        }
-    } catch (error) {
-        console.error("Error declining bookings:", error);
-    }
-},
-
-toggleDropdown(group_id) {
-    this.openDropdown = this.openDropdown === group_id ? null : group_id; // Toggles the dropdown
-},
-  async declineenrolling(enroll_id) {
-    try {
-      const response = await axios.post(`/api/decline-enroll/${enroll_id}`);
-
-      if (response.status === 200) {
-        this.showSuccessNotification(`Enrolling ${enroll_id} Declined`);
-        this.getenroll();
-
-        this.$emit("data-saved");
-      } else {
-        console.error("Failed to decline enroll:", response.data.message);
+    fetchCombinedSalesData() {
+      axios
+        .get("generateAllReports")
+        .then((response) => {
+          this.reportData = response.data; // Store the data
+          console.log("Fetched report data:", this.reportData);
+          this.updateChart(this.currentReportType); // Render chart initially with default data
+        })
+        .catch((error) => {
+          console.error("Failed to fetch sales data", error);
+        });
+    },
+    renderCombinedChart() {
+      const ctx = this.$refs.combinedCanvas.getContext("2d");
+      if (this.combinedChart) {
+        this.combinedChart.destroy(); // Destroy the existing chart if it exists
       }
-    } catch (error) {
-      console.error("Error declining enroll:", error);
-    }
-  },
-
-  fetchOrdersForAllUsers() {
-    this.loading = true;
-    axios
-      .get(`/api/orders`)
-      .then((response) => {
-        console.log(response.data); // Add this line to log the response
-        this.orders = response.data.orders;
-        return this.orders.filter((order) => order.order_status !== "paid");
-      })
-      .catch((error) => {
-        console.error("Error fetching orders:", error);
-      })
-      .finally(() => {
-        this.loading = false;
+      const dataConfig = this.getDataConfig();
+      this.combinedChart = new Chart(ctx, {
+        type: "bar", // or line, depending on your preference
+        data: dataConfig.data,
+        options: dataConfig.options,
       });
-  },
+    },
 
-  markOrderPaid(orderId) {
-    axios.post(`/api/mark-order-paid/${orderId}`)
-      .then((response) => {
-        console.log('Mark order paid response:', response.data);
-        this.fetchOrdersForAllUsers();
-      })
-      .catch((error) => {
-        console.error('Error marking order as paid:', error.response ? error.response.data : error);
-      });
-  },
+    getDataConfig() {
+      const config = {
+        daily: {
+          data: {
+            labels: this.reportData.dailySales.map((sale) => sale.date),
+            datasets: [
+              {
+                label: "Daily Sales",
+                data: this.reportData.dailySales.map(
+                  (sale) => sale.total_sales
+                ),
+                backgroundColor: "rgba(54, 162, 235, 0.5)",
+                borderColor: "rgba(54, 162, 235, 1)",
+                borderWidth: 1,
+              },
+            ],
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true,
+              },
+            },
+          },
+        },
+        monthly: {
+          data: {
+            labels: this.reportData.monthlySales.map(
+              (month) =>
+                `${this.monthNames[parseInt(month.month) - 1]} ${month.year}`
+            ), // Concatenate month name and year
+            datasets: [
+              {
+                label: "Monthly Sales",
+                data: this.reportData.monthlySales.map(
+                  (month) => month.total_sales
+                ),
+                backgroundColor: "rgba(255, 99, 132, 0.5)",
+                borderColor: "rgba(255, 99, 132, 1)",
+                borderWidth: 1,
+              },
+            ],
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true,
+              },
+            },
+          },
+        },
 
-  confirmOrder(orderId) {
-    axios.post(`/api/confirm-order/${orderId}`)
-      .then((response) => {
-        console.log('Confirm order response:', response.data);
-        this.fetchOrdersForAllUsers();
-      })
-      .catch((error) => {
-        console.error('Error confirming order:', error.response ? error.response.data : error);
-      });
-  },
-
-  declineOrder(orderId) {
-    axios.post(`/api/decline-order/${orderId}`)
-      .then((response) => {
-        console.log('Decline order response:', response.data);
-        this.fetchOrdersForAllUsers();
-      })
-      .catch((error) => {
-        console.error('Error declining order:', error.response ? error.response.data : error);
-      });
-  },
-
-  openRoomEditModal(room) {
-    this.editedRoom = { ...room };
-    this.editRoomModalVisible = true;
-  },
-
-  closeRoomEditModal() {
-    this.editedRoom = null;
-    this.editRoomModalVisible = false;
-  },
-
-  async saveRoomEdit() {
-    try {
-      const data = {
-        room_name: this.editedRoom.room_name,
-        price: this.editedRoom.price,
-        downpayment: this.editedRoom.downpayment,
-        description: this.editedRoom.description,
-        room_status: this.editedRoom.room_status, // Add room_status to the data object
+        yearly: {
+          data: {
+            labels: this.reportData.yearlySales.map((sale) =>
+              sale.year.toString()
+            ),
+            datasets: [
+              {
+                label: "Yearly Sales",
+                data: this.reportData.yearlySales.map(
+                  (sale) => sale.total_sales
+                ),
+                backgroundColor: "rgba(75, 192, 192, 0.5)",
+                borderColor: "rgba(75, 192, 192, 1)",
+                borderWidth: 1,
+              },
+            ],
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true,
+              },
+              x: {
+                ticks: {
+                  autoSkip: false,
+                },
+              },
+            },
+          },
+        },
       };
 
-      const apiUrl = `/updateRoom/${this.editedRoom.room_id}`;
-      const response = await axios.put(apiUrl, data);
-
-      console.log("Room updated successfully:", response.data);
-      this.closeRoomEditModal();
-      this.showSuccessNotification("Room Updated Successfully");
-      this.getRoom();
-    } catch (error) {
-      console.error("Error updating room:", error);
-      this.showErrorNotification("Failed to update room");
-    }
-  },
-
-  openAddRoomModal() {
-    this.addRoomModalVisible = true;
-  },
-  closeAddRoomModal() {
-    this.addRoomModalVisible = false;
-  },
-  handleRoomImageUpload() {
-    const fileInput = this.$refs.roomImageInput;
-    const file = fileInput.files[0];
-
-    const formData = new FormData();
-    formData.append("image", file);
-
-    this.room_img = formData;
-  },
-  async saveRoom() {
-    try {
-      // Use FormData for room image uploads
-      const data = this.room_img;
-      data.append("room_name", this.room_name);
-      data.append("price", this.price);
-      data.append("downpayment", this.downpayment);
-      data.append("packs", this.packs);
-      data.append("description", this.description);
-      this.showSuccessNotification("Room Added Successfully");
-
-      const ins = await axios.post("saveRoom", data);
-
-      this.closeAddRoomModal();
-      this.room_img = "";
-      this.room_name = "";
-      this.price = "";
-      this.downpayment = "";
-      this.packs = "";
-      this.description = "";
-
-      this.getRoom();
-      this.getbook();
-    } catch (error) {
-      console.error(error);
-    }
-  },
-
-  async markthisPaid(enroll_id) {
-    try {
-      const response = await axios.post(`/mark-this-paid/${enroll_id}`);
-
-      if (response.status === 200) {
-        this.showSuccessNotification(
-          `enrollment ${enroll_id} Marked this Paid`
-        );
-
-        this.$emit("data-saved");
-      } else {
-        console.error("Failed to mark this paid:", response.data.message);
-      }
-    } catch (error) {
-      console.error("Error marking this paid:", error);
-    }
-  },
-  initializeDropdowns() {
-      this.$nextTick(() => {
-        const dropdowns = document.querySelectorAll('.dropdown');
-        
-        dropdowns.forEach(dropdown => {
-          const select = dropdown.querySelector('.select');
-          const caret = dropdown.querySelector('.caret');
-          const menu = dropdown.querySelector('.menu');
-          const options = dropdown.querySelectorAll('.menu li');
-          const selected = dropdown.querySelector('.selected');
-    
-          select.addEventListener('click', () => {
-            select.classList.toggle('select-clicked');
-            caret.classList.toggle('caret-rotate');
-            menu.classList.toggle('menu-open');
-          });
-    
-          options.forEach(option => {
-            option.addEventListener('click', () => {
-              selected.innerText = option.innerText;
-              select.classList.remove('select-clicked');
-              caret.classList.remove('caret-rotate');
-              menu.classList.remove('menu-open');
-              options.forEach(opt => {
-                opt.classList.remove('active');
-              });
-              option.classList.add('active');
-            });
-          });
-        });
-      });
-    },
- toggleDropdown(enroll_id) {
-      this.openDropdown = this.openDropdown === enroll_id ? null : enroll_id;
-    },
-    toggleDropdown(order_id) {
-      this.openDropdown = this.openDropdown === order_id ? null : order_id;
-    },
-    toggleDropdown(book_id) {
-      this.openDropdown = this.openDropdown === book_id ? null : book_id;
-    },
-    handleDropdownAction(action, enroll_id) {
-   
-      if (action === 'Paid') {
-        this.markthisPaid(enroll_id);
-      } else if (action === 'Accept') {
-        this.acceptenrolling(enroll_id);
-      } else if (action === 'Decline') {
-        this.declineenrolling(enroll_id);
-      }
-      this.openDropdown = null; 
-    },
-    handleDropdownAction(action, order_id) {
-   
-   if (action === 'markOrderPaid') {
-     this.markOrderPaid(order_id);
-   } else if (action === 'confirmOrder') {
-     this.confirmOrder(order_id);
-   } else if (action === 'declineOrder') {
-     this.declineOrder(order_id);
-   }
-   this.openDropdown = null; 
- },
- handleDropdownAction(action, group_id) {
-    if (action === 'markAsPaid') {
-        this.markAsPaidByGroup(group_id); // Call the new group method
-    } else if (action === 'acceptBooking') {
-        this.acceptBookingByGroup(group_id); // Call the new group method
-    } else if (action === 'declineBooking') {
-        this.declineBookingByGroup(group_id); // Call the new group method
-    }
-    this.openDropdown = null; 
-},
-
-
-    showSuccessNotification(message) {
-      this.successMessage = message;
-      setTimeout(() => {
-        this.successMessage = '';
-      }, 3000);
+      return config[this.currentReportType]; // Return config based on current report type
     },
 
-  async acceptenrolling(enroll_id) {
-    try {
-      const response = await axios.post(`/accept-enrolling/${enroll_id}`);
-
-      if (response.status === 200) {
-        const updatedEnrollingId = response.data.enroll_id;
-        this.showSuccessNotification(
-          `Enrolling ${updatedEnrollingId} Accepted`
-        );
-        this.getenroll();
-        this.$emit("data-saved");
-      } else {
-        console.error("Failed to accept enrolling:", response.data.message);
-      }
-    } catch (error) {
-      console.error("Error accepting enrolling:", error);
-    }
-  },
-
-  async getRoom() {
-    const r = await axios.get("/getRoom");
-    this.room = r.data;
-    this.getBook();
-  },
-  async getenroll() {
-    const b = await axios.get("/getenroll");
-    this.enroll = b.data;
-  },
-  async saveDate() {
-    try {
-        const response = await axios.post("https://eduardos-resort.online/backend/saveDate", {
-            swimming_date: this.swimming_date,
-        });
-        this.successMessageDate = response.data.message;
-        this.dates.push(this.swimming_date); // Assuming you want to add it to the dates list
-        this.closeAddDateModal(); // Close the modal
-        this.showNotification("Date Added Successfully", "success");
-
-    } catch (error) {
-        console.error("Error saving date:", error);
-        // Check if error response exists
-        const errorMessage = error.response ? error.response.data.message : "Unknown error occurred.";
-        this.successMessageDate = "Failed to save date: " + errorMessage;
-    }
-},
-
-
-
-
-    async getDate() {
-      try {
-        const response = await axios.get("/getDate");
-        if (response && response.status === 200) {
-          if (response.data && Array.isArray(response.data)) {
-            this.dates = response.data;
-            this.initFlatpickr();
-          } else {
-            console.error("Error fetching dates: Response data is empty or not an array");
-          }
-        } else {
-          console.error("Error fetching dates: Invalid response status");
-        }
-      } catch (error) {
-        console.error("Error fetching dates:", error);
-      }
+    updateChart(type) {
+      this.currentReportType = type;
+      this.renderCombinedChart();
     },
-    initFlatpickr() {
-      this.flatpickrInstance = flatpickr(this.$refs.datepicker, {
-        dateFormat: 'Y-m-d',
-        enable: this.dates,
-        onClose: selectedDates => {
-          this.selectedDate = selectedDates[0];
-        },
-      });
-    },
-  
+    async hideFeed(feedId) {
+      const confirmResult = window.confirm("Do you want to HIDE this item?");
 
-  navigateToAuditHistory(info) {
-    const shopId = info.shop_id;
-    this.$router.push({ name: "auditHistory", params: { shopId } });
-  },
-
-  async getAuditHistory(shopId) {
-    try {
-      const response = await axios.get(`/api/audit/history/${shopId}`);
-      this.auditHistory = response.data;
-    } catch (error) {
-      console.error("Error fetching audit history:", error);
-    }
-  },
-
-  openQuantityModal(info) {
-    this.selectedProduct = info;
-    this.quantityToAdd = 0;
-    this.quantityModalVisible = true;
-  },
-
-  closeQuantityModal() {
-    this.selectedProduct = null;
-    this.quantityToAdd = 0;
-    this.quantityModalVisible = false;
-  },
-
-  async addQuantity() {
-    const updatedProduct = { ...this.selectedProduct };
-    updatedProduct.prod_quantity += parseInt(this.quantityToAdd);
-    const response = await axios.put(
-      `/updateQuantity/${updatedProduct.shop_id}`,
-      {
-        id: updatedProduct.id,
-        quantity: this.quantityToAdd,
-      }
-    );
-    const index = this.infos.findIndex(
-      (product) => product.id === updatedProduct.id
-    );
-    this.infos[index] = updatedProduct;
-    this.closeQuantityModal();
-    this.showSuccessNotification("Quantity Updated Successfully");
-    this.getInfo();
-    this.$emit("data-saved");
-  },
-
-  showSuccessNotification(message) {
-    this.notification = {
-      show: true,
-      type: "success",
-      message: message,
-    };
-
-    setTimeout(() => {
-      this.notification.show = false;
-    }, 2000);
-  },
-
-  showErrorNotification(message) {
-    this.notification = {
-      show: true,
-      type: "error",
-      message: message,
-    };
-
-    setTimeout(() => {
-      this.notification.show = false;
-    }, 2000);
-  },
-
-  async getInfo() {
-    try {
-      const inf = await axios.get("getDataShop");
-      this.infos = inf.data;
-      this.shop = inf.data;
-    } catch (error) {
-      console.log(error);
-    }
-  },
-
-  openAddModal() {
-    this.addModalVisible = true;
-  },
-
-  closeAddModal() {
-    this.addModalVisible = false;
- 
-  },
-  handleImageUpload() {
-    const fileInput = this.$refs.imageInput;
-    const file = fileInput.files[0];
-
-    const formData = new FormData();
-    formData.append("prod_image", file);
-
-    this.prod_img = formData;
-  },
-
-    async saveShop(mode) {
-      try {
-        let data = {};
-        if (mode === "add") {
-          
-          if (this.prod_img instanceof FormData) {
-            data = this.prod_img;
-            data.append("prod_name", this.prod_name);
-            data.append("prod_quantity", this.prod_quantity);
-            data.append("prod_desc", this.prod_desc);
-            data.append("prod_price", this.prod_price);
-            this.showSuccessNotification("Product Added Successfully");
-          } else {
-            data = {
-              prod_name: this.prod_name,
-              prod_quantity: this.prod_quantity,
-              prod_desc: this.prod_desc,
-              prod_price: this.prod_price,
-            };
-          }
-        }
-
-        const ins = await axios.post("saveShop", data);
-
-        if (mode === "add") {
-          this.closeAddModal();
-          this.prod_img = "";
-          this.prod_name = "";
-          this.prod_quantity = "";
-          this.prod_desc = "";
-          this.prod_price = "";
-          this.getInfo();
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    },
-
-  openEditModal(info) {
-    this.editedInfo = { ...info };
-    this.editModalVisible = true;
-  },
-
-  closeEditModal() {
-    this.editedInfo = null;
-    this.editModalVisible = false;
-    this.showSuccessNotification("Product Updated Successfully");
-  },
-  async saveEdit() {
-    try {
-        const formData = new FormData(); // Use FormData to handle image uploads
-        formData.append("prod_name", this.editedInfo.prod_name);
-        formData.append("prod_desc", this.editedInfo.prod_desc);
-        formData.append("prod_price", this.editedInfo.prod_price);
-        
-        // Append the new image if it exists
-        if (this.editedInfo.newImage) {
-            formData.append("prod_img", this.editedInfo.newImage);
-        }
-
-        const apiUrl = `/updateShop/${this.editedInfo.shop_id}`;
-        const response = await axios.post(apiUrl, formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data' // Set content type to multipart/form-data
+      if (confirmResult) {
+        try {
+          await axios.post(`/api/feedback/hide/${feedId}`);
+          this.feed = this.feed.map((feed) => {
+            if (feed.feed_id === feedId) {
+              return { ...feed, is_hidden: 1 };
             }
+            return feed;
+          });
+          console.log("Feedback hidden successfully");
+          this.getFeed();
+        } catch (error) {
+          console.error("Error hiding feedback:", error);
+        }
+      }
+    },
+
+    async getFeed() {
+      const [g, n] = await Promise.all([
+        axios.get("/getFeedback"),
+        axios.get("/getData"),
+      ]);
+      this.feed = g.data;
+      this.name = n.data;
+    },
+
+    getName(g) {
+      return this.name.find((n) => n.id === g.id) || {};
+    },
+
+    async getData() {
+      const response = await axios.get("/getData");
+      this.data = response.data;
+      this.numberOfClients = this.data.length;
+    },
+
+    async getShop() {
+      const items = await axios.get("/getShop");
+      this.data = items.data;
+      this.numberOfItems = this.data.length;
+    },
+    async getHistory() {
+      const b = await axios.get("/getBookingHistory");
+      this.book = b.data;
+    },
+    async getbook() {
+      const items = await axios.get("/getbook");
+      this.data = items.data;
+      this.numberOfbooking = this.data.length;
+    },
+    fetchDailySales() {
+      axios
+        .get("/sales-report/daily")
+        .then((response) => {
+          this.dailySales = response.data;
+        })
+        .catch((error) => {
+          console.error("Error fetching daily sales:", error);
         });
+    },
+    fetchMonthlySales() {
+      axios
+        .get("/sales-report/monthly")
+        .then((response) => {
+          this.monthlySales = response.data;
+        })
+        .catch((error) => {
+          console.error("Error fetching monthly sales:", error);
+        });
+    },
+    fetchYearlySales() {
+      axios
+        .get("/sales-report/yearly")
+        .then((response) => {
+          this.yearlySales = response.data;
+        })
+        .catch((error) => {
+          console.error("Error fetching yearly sales:", error);
+        });
+    },
+  },
+  filters: {
+    currency(value) {
+      const number = parseFloat(value);
+      return new Intl.NumberFormat("en-PH", {
+        style: "currency",
+        currency: "PHP",
+      }).format(number);
+    },
+  },
+  created() {
+    this.fetchDailySales();
+    this.fetchMonthlySales();
+    this.fetchYearlySales();
+  },
 
-        console.log("Product updated successfully:", response.data);
-        this.closeEditModal();
-        this.showSuccessNotification("Product Updated Successfully");
-
-        this.getInfo();
-
-        this.$emit("data-saved");
-    } catch (error) {
-        console.error("Error updating product:", error);
-    }
-},
 
 
-handleEditImageUpload() {
-    const fileInput = this.$refs.editImageInput;
-    const file = fileInput.files[0];
 
-    this.editedInfo.newImage = file; // Store the file directly for upload
-},
-
-},
 };
 </script>
 
-
 <style scoped>
-.disabled {
-  pointer-events: none; /* Disable click events */
-  opacity: 0.5; /* Make it look inactive */
-}
-
+/* Existing styles */
 h1 {
   color: white;
   text-align: left;
@@ -2899,11 +614,10 @@ span{
   padding: 0;
   margin: 0;
 }
-
 /* Sidebar styles */
 .sidebar {
   width: 93px;
-  height: 100vh;
+  height: 100%;
   position: fixed;
   top: 0;
   left: 0;
@@ -2944,72 +658,84 @@ span{
 }
 
 
-/* Make sidebar responsive */
-@media (max-width: 768px) {
-  .sidebar {
-    width: 100%; /* Full width on small screens */
-    height: auto; /* Height auto adjusts */
-    position: relative; /* Change position to relative */
-    overflow: hidden; /* Hide overflow on small screens */
-   
-  }
-
-  .sidebar img.logo {
-    width: 80px; /* Adjust logo size for small screens */
-  }
-
-  .sidebar:hover {
-    width: 100%; /* Full width on hover for small screens */
-  }
-
-  .sidebar a, .sidebar router-link {
-    justify-content: center; /* Center items for small screens */
-  }
-}
-
 .main-content {
   margin-left: 93px; /* Default margin for the sidebar width */
   padding: 0; /* Remove default padding */
   transition: margin-left 0.5s; /* Smooth transition for the margin */
 }
 
-
-/* Adjust main content for smaller screens */
-@media (max-width: 768px) {
-  .main-content {
-    margin-left: 0; /* Remove left margin for small screens */
-  }
+.sidebar:hover ~ .main-content {
+  margin-left: 200px; /* Adjust margin when sidebar is expanded */
 }
 
 
 
+.header {
+  background-color: #0F172B;
+  color: white;
+  padding: 10px 20px; /* Adjust padding for space */
+  display: flex;
+  justify-content: space-between; /* Distribute space between header elements */
+  align-items: center; /* Vertically center items */
+  position: sticky;
+  top: 0;
+  z-index: 1; /* Ensure the header stays on top of other content */
+  margin-left: 0; /* Remove left margin */
+  width: 100%;
+}
+
+
 
 .logout-logo-btn {
-  background-color: #FEA116;
-  border: none;
-  padding: 10px 15px;
-  color: white;
-  cursor: pointer;
-  border-radius: 5px;
-  font-size: 14px;
+  background-color: #FEA116; /* Background color for the logout button */
+  border: none; /* Remove default border */
+  padding: 10px 15px; /* Add some padding */
+  color: white; /* Text color */
+  cursor: pointer; /* Pointer cursor on hover */
+  border-radius: 5px; /* Rounded corners */
+  font-size: 14px; /* Adjust font size */
   display: flex;
   align-items: center;
-  position: absolute;
-  bottom: 10px; /* Position at the bottom */
-  right: 20px; /* Align to the right */
 }
 
 .logout-logo-btn i {
   margin-right: 5px; /* Space between icon and text */
 }
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
 
-.card-main {
+.card-wrapper {
+  flex: 1;
+  min-width: 300px;
+}
+.card {
   background-color: #f4f4f4;
-  padding: 20px;
-  margin: 20px; /* Add margin around the card */
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow for better visibility */
-  transition: 0.5s;
+  border-radius: 10px;
+  margin: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+
+}
+.card:hover {
+  transform: translateY(-20px);
+}
+
+.card-header {
+  background-color: #f2f2f2;
+  padding: 5px;
+  border-bottom: 1px solid #ddd;
+}
+.table {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.table th, .table td {
+  padding: 10px;
+  text-align: left;
 }
 .table-responsive {
   width: 100%;
@@ -3026,58 +752,30 @@ span{
   text-align: left;
   border-bottom: 1px solid #ddd;
 }
+.card-body {
+  flex: 1 1 auto;
+  min-height: 1px;
+ 
+}
+.card-default .card-body {
+  padding-top: 1rem;
+}
 
-.card-body .modal-body, .card-body .alert, th , .modal-body {
+.card-body .modal-body, .card-body .alert, th {
   font-family: "Poppins", sans-serif;
   font-weight: 800;
   font-style: normal;
   font-size: large;
-  color:#0F172B;
+  color:#0F172B; 
 }
-
-.modal {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-  z-index: 1050; /* Ensure the modal backdrop is on top */
-}
-
-/* Modal Dialog */
-.modal-dialog {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: calc(100% - 1rem);
-}
-
-/* Modal Content */
-.modal-content {
-  border-radius: 0.3rem;
-  background-color: #fff;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  margin: 1rem;
-  max-width: 500px; /* Adjust as needed */
-  width: 100%;
-}
-
-
-.table-product tbody  td {
+.table-product tbody td.action-buttons button,
+.table-product tbody td.action-buttons a, td {
   font-family: "Poppins", sans-serif;
   font-weight: 700;
   font-style: normal;
-  color:#0F172B;
-  margin: 0;
-  padding: 0;
+  margin-top:20px;
+  margin-bottom:20px;
 }
-
-
 .table-product tbody td.action-buttons {
   display: flex;
   flex-direction: row;
@@ -3085,40 +783,31 @@ span{
   justify-content: flex-start;
   gap: 10px;
   white-space: nowrap;
-  margin: 0;
-  padding: 0;
-  margin-top: 25px;
+  padding: 0; /* Remove padding */
+  margin: 0; /* Remove margin */
 }
 .table-product tbody td {
   padding: 12px; /* Ensure padding is consistent */
-
-
-}
-td img {
-  display: block; /* Make sure the image is block-level to avoid being clipped */
-  max-width: 100%; /* Ensure image fits inside the cell */
-  height: auto;
-}
-.table-responsive {
-  max-height: none; /* Or increase the max-height to allow space for images */
-  overflow-y: visible; /* To ensure images are not cut off */
-}
-table {
-  table-layout: auto;
+  margin: 0; /* Ensure margin is consistent */
 }
 
-
+.table-product tbody tr {
+  margin: 0;
+  padding: 0;
+  color:black;
+}
 .table-product tbody tr:hover {
   background-color: rgb(253, 253, 221); /* Change background color on hover */
 }
 /* Header alignment for actions column */
 .actions-header {
   text-align: center;
-  overflow: hidden; /* Ensures no scrollbars appear */
-  white-space: nowrap; /* Prevents wrapping */
+  
 }
 
-
+.table-product td {
+  vertical-align: middle; /* Align the "Actions" button vertically */
+}
 
 .dropdown {
 
@@ -3173,9 +862,8 @@ table {
   transform: translateX(-50%);
   opacity: 0;
   transition: opacity 0.2s;
-  z-index: 9999; /* Ensure the dropdown appears above other elements */
+  z-index: 1;
   display: none;
-  
 }
 .menu-open {
   display: block;
@@ -3197,110 +885,323 @@ menu.no-scroll {
   overflow: hidden;
 }
 
-@media (max-width: 768px) {
-  .table-product th, .table-product td {
-    padding: 8px;
-  }
-
+.btn-custom, .edit-btn {
+  background-color: #fea116; /* Same as Add Item button */
+  border: none;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 15px;
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  transition: background-color 0.3s, transform 0.3s;
+  padding: 10px;
+  margin: 5px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  font-style: normal;
 }
-.btn{
-  border-radius:5px;
+.edit-btn{
+  padding: 12px;
+  font-size: 15px;
+  width: 65px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  font-style: normal;
  
 }
-.btn-custom {
-  background-color: #fea116; /* Same as Add Item button */
-  border: none;
-  color: white;
-  cursor: pointer;
-  border-radius: 5px;
-  font-size: 14px;
-  display: inline-flex;
-  align-items: center;
-  text-decoration: none;
-  transition: background-color 0.3s, transform 0.3s;
-  font-family: "Poppins", sans-serif;
-  font-weight: 700;
-  font-style: normal;
-padding: 10px;  
-}
-.btn-info{
-  background-color: #0077b6; /* Same as Add Item button */
-  border: none;
-  color: white;
-  cursor: pointer;
-  border-radius: 5px;
-  font-size: 14px;
-  display: inline-flex;
-  align-items: center;
-  text-decoration: none;
-  transition: background-color 0.3s, transform 0.3s;
-  font-family: "Poppins", sans-serif;
-  font-weight: 700;
-  font-style: normal;
-padding: 10px; 
-
-}
-.btn-primary {
-  background-color: #046f09; /* Same as Add Item button */
-  border: none;
-  color: white;
-  cursor: pointer;
-  border-radius: 5px;
-  font-size: 14px;
-  display: inline-flex;
-  align-items: center;
-  text-decoration: none;
-  transition: background-color 0.3s, transform 0.3s;
-  font-family: "Poppins", sans-serif;
-  font-weight: 700;
-  font-style: normal;
-padding: 10px;  
-}
-.btn-secondary {
-  background-color: #e21604; /* Same as Add Item button */
-  border: none;
-  color: white;
-  cursor: pointer;
-  border-radius: 5px;
-  font-size: 14px;
-  display: inline-flex;
-  align-items: center;
-  text-decoration: none;
-  transition: background-color 0.3s, transform 0.3s;
-  font-family: "Poppins", sans-serif;
-  font-weight: 700;
-  font-style: normal;
-padding: 10px;  
-}.btn-tertiary {
-  background-color: #fea116; /* Same as Add Item button */
-  border: none;
-  color: white;
-  cursor: pointer;
-  border-radius: 5px;
-  font-size: 14px;
-  display: inline-flex;
-  align-items: center;
-  text-decoration: none;
-  transition: background-color 0.3s, transform 0.3s;
-  font-family: "Poppins", sans-serif;
-  font-weight: 700;
-  font-style: normal;
-padding: 10px;  
-}
-
-
-
-.btn-custom:hover{
-color:white;
-}
-
-.btn:hover {
+.btn-custom:hover {
   background-color: #0F172B;
   transform: scale(1.10);
   border:none;
 }
+.edit-btn:hover{
+  background-color: #0F172B;
+  transform: scale(1.10);
+  border:none;
+}
+.btn:hover{
+  background-color: #0F172B;
+  transform: scale(1.10);
+  border:none;
+}
+.btn-custom i {
+  margin-right: 5px; /* Space between icon and text */
+}
 
 
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column; /* Stack header items vertically on small screens */
+    align-items: flex-start; /* Align items to the start on small screens */
+  }
+  .main-content {
+    margin-left: 0; /* Remove left margin for small screens */
+  }
+}
+@media (max-width: 768px) {
+  .table-product th, .table-product td {
+    padding: 8px; /* Adjust padding for smaller screens */
+  }
+  .card-body {
+    padding: 1rem; /* Adjust padding for smaller screens */
+  }
+  .card-default{
+    padding: 1rem;
+  }
+  .car-header{
+    padding: 1rem;
+  }
+  .carding{
+    padding: 1rem;
+  }
+  .header {
+    flex-direction: column; /* Stack header items vertically */
+    align-items: flex-start; /* Align items to the start */
+  }
+
+  .logout-logo-btn {
+    margin-top: 10px; /* Add margin-top for spacing */
+  }
+
+}
+@media (max-width: 576px) {
+  .sidebar {
+    width: 60px;
+    padding: 10px;
+  }
+
+  .sidebar:hover {
+    width: 40px;/* Ensure width stays consistent */
+  }
+  .sidebar a, .sidebar router-link {
+    padding: 5px;
+    font-size: 14px;
+  }
+  .sidebar img.logo {
+    width: 30px; /* Smaller logo for mobile */
+  }
+
+  .main-content {
+    margin-left: 60px;
+    padding: 10px; /* Adjust margin for reduced sidebar width */
+  }
+
+  .sidebar:hover ~ .main-content {
+    margin-left: 50px; /* Ensure margin stays consistent */
+  }
+
+  .card {
+    margin: 10px; /* Reduce margin for smaller screens */
+  }
+
+  .card-body {
+    padding: 0.5rem; /* Adjust padding for smaller screens */
+  }
+  .header {
+    padding: 10px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .logout-logo-btn {
+    margin-top: 10px;
+  }
+
+  .card-container {
+    flex-direction: column;
+  }
+
+  .card-wrapper {
+    min-width: 100%;
+  }
+}
+.btn {
+  border-radius: 5px;
+  padding: 8px 12px; /* Adjust padding for small screens */
+}
+
+@media (max-width: 768px) {
+  .card-big {
+    padding-left: 0; /* Remove extra padding for smaller screens */
+  }
+  .content section {
+    padding: 10px; /* Add padding to the section for better spacing */
+  }
+  .content button {
+    display: block; /* Stack buttons vertically */
+    margin-bottom: 10px;
+  }
+  canvas {
+    width: 100% !important; /* Ensure canvas takes full width */
+    height: auto !important; /* Adjust height automatically */
+  }
+  /* Card Styles */
+.card {
+  margin: 5px 0; /* Reduce margin for smaller screens */
+  width: 100%; /* Ensure cards take full width */
+}
+
+
+/* Adjust padding and font sizes */
+.card-header h2 {
+  font-size: 18px; /* Adjust header font size */
+}
+.card-body {
+  padding: 10px; /* Adjust padding */
+}
+}
+@media (max-width: 320px) {
+  #user-acquisition {
+    margin: 5px 0; /* Further reduced margin */
+  }
+
+  table {
+    width: 100%; /* Ensure table takes full width */
+    font-size: 12px; /* Adjust font size for small screens */
+  }
+
+  th, td {
+    padding: 6px; /* Further reduced padding */
+    text-align: left;
+  }
+  .header {
+    flex-direction: column; /* Stack header items vertically */
+    align-items: flex-start; /* Align items to the start */
+  }
+  
+  .logout-logo-btn {
+    margin-top: 10px; /* Add margin-top for spacing */
+  }
+  canvas {
+    width: 100% !important; /* Ensure canvas takes full width */
+    height: auto !important; /* Adjust height automatically */
+  }
+}
+/* User Acquisition Table */
+@media (max-width: 768px) {
+  #user-acquisition {
+    margin: 10px 0; /* Reduce margin */
+  }
+  table {
+    width: 100%; /* Ensure table takes full width */
+    font-size: 14px; /* Adjust font size */
+  }
+  th, td {
+    padding: 8px; /* Reduce padding */
+    text-align: left; /* Align text to the left */
+  }
+}
+
+/* Orders Inventory Table */
+@media (max-width: 768px) {
+  .table-product {
+    width: 100%; /* Ensure table takes full width */
+    overflow-x: auto; /* Allow horizontal scrolling */
+  }
+  .table-product th, .table-product td {
+    padding: 8px; /* Reduce padding */
+    font-size: 14px; /* Adjust font size */
+  }
+}
+/* General Responsive Adjustments */
+@media (max-width: 768px) {
+  .main-content {
+    margin-left: 0; /* Remove margin on smaller screens */
+  }
+  .sidebar {
+    width: 100%; /* Full width sidebar on small screens */
+    height: auto; /* Adjust height automatically */
+
+  }
+  .sidebar:hover {
+    width: 100%; /* Full width on hover */
+  }
+  .header {
+    flex-direction: column; /* Stack header items vertically */
+    align-items: flex-start; /* Align items to the start */
+  }
+  .logout-logo-btn {
+    margin-top: 10px; /* Add margin-top for spacing */
+  }
+  .btn-custom, .edit-btn {
+    font-size: 12px; /* Adjust font size */
+    padding: 8px; /* Adjust padding */
+  }
+
+}
+
+
+@media (max-width: 945px) {
+  .sidebar {
+    width: 100%; /* Full width on small screens */
+    height: auto; /* Height auto adjusts */
+    position: relative; /* Change position to relative */
+    overflow: hidden; /* Hide overflow on small screens */
+  }
+
+  .sidebar img.logo {
+    width: 80px; /* Adjust logo size for small screens */
+  }
+
+  .sidebar:hover {
+    width: 100%; /* Full width on hover for small screens */
+  }
+
+  .sidebar a, .sidebar router-link {
+    justify-content: center; /* Center items for small screens */
+  }
+  .card-default, .card-body, .card-header , th , tr , td , table{
+    width: auto;
+  }
+  .table-product {
+    width: 100%; /* Ensure table takes full width */
+    overflow-x: auto; /* Allow horizontal scrolling */
+  }
+  .table-product th, .table-product td {
+    padding: 8px; /* Reduce padding */
+    font-size: 14px; /* Adjust font size */
+  }
+  .main-content {
+    margin-left: 0; /* Remove margin on smaller screens */
+  }
+  .sidebar {
+    width: 100%; /* Full width sidebar on small screens */
+    height: auto; /* Adjust height automatically */
+
+  }
+  .sidebar:hover {
+    width: 100%; /* Full width on hover */
+  }
+  .header {
+    flex-direction: column; /* Stack header items vertically */
+    align-items: flex-start; /* Align items to the start */
+  }
+  .logout-logo-btn {
+    margin-top: 10px; /* Add margin-top for spacing */
+  }
+  .btn-custom, .edit-btn {
+    font-size: 12px; /* Adjust font size */
+    padding: 8px; /* Adjust padding */
+  }
+  .header {
+    flex-direction: column; /* Stack header items vertically on small screens */
+    align-items: flex-start; /* Align items to the start on small screens */
+  }
+  .main-content {
+    margin-left: 0; /* Remove left margin for small screens */
+  }
+  .card-big {
+    padding-left: 0; /* Remove extra padding for smaller screens */
+  }
+}
+
+@media (max-width: 1045px) {
+  .card-default, .card-body, .card-header , th , tr , td , table{
+    width: auto;
+  }
+}
 
 /* Sidebar styles */
 .sidebar {
@@ -3445,152 +1346,38 @@ color:white;
   }
   
 }
-
-/* Image in Table Styling */
-.cottage-image {
-  max-width: 100px; /* Adjust the size as needed */
-  height: auto;
-  border-radius: 5px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+details {
+  position: relative;
+  display: inline-block;
 }
 
-.cottage-image:hover {
-  transform: scale(1.05);
-  transition: transform 0.2s;
-}
-.room-image {
-        max-width: 80px;
-        height: auto;
-        object-fit: cover;
-        border-radius: 5px;
-    }
-
-    .table-product {
-        width: 100%;
-        margin-top: 10px;
-    }
-
-
-
-    .alert {
-        margin-top: 10px;
-    }
-    .modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1050;
-}
-
-.modal-content {
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
-  width: 500px;
-  max-width: 90%;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-}
-
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.close-button {
-  background: none;
-  border: none;
-  font-size: 24px;
+details summary {
   cursor: pointer;
+  padding: 10px;
+  font-weight: bold;
 }
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
+
+.dropdown-menu {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1050;
-}
-
-.modal-content {
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
-  width: 500px;
-  max-width: 90%;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-}
-
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.close-button {
-  background: none;
-  border: none;
-  font-size: 24px;
-  cursor: pointer;
-}
-
-.caret {
-  margin-left: 10px;
-  transition: transform 0.3s;
-}
-
-.caret-rotate {
-  transform: rotate(180deg);
-}
-
-.menu {
-  display: none;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  background-color: navy;
   position: absolute;
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  margin-top: 5px;
-  padding: 5px 0;
-  list-style: none;
+  top: 100%;
+  left: 0;
+  z-index: 10;
+  display: none;
 }
 
-.menu-open {
+details[open] .dropdown-menu {
   display: block;
 }
 
-.menu li {
-  padding: 8px 12px;
-  cursor: pointer;
-}
-
-.menu li:hover {
-  background-color: #f0f0f0;
-}
-.modal.fade.show {
-  display: block;
-  background: rgba(0, 0, 0, 0.5);
-}
-
-.modal-dialog {
-  max-width: 500px;
-  width: 100%;
-}
-
-.modal-header .close {
-  border: none;
-  background: none;
-  font-size: 24px;
-  cursor: pointer;
+.dropdown-menu router-link {
+  text-decoration: none;
+  color: #333;
 }
 
 </style>
