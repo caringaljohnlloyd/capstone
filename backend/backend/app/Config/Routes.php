@@ -5,6 +5,9 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
+$routes->get('/api/bookings/pending-confirmed', 'MainController::getPendingAndConfirmedBookings');
+
+$routes->get('api/cottage/pending-confirmed', 'MainController::getPendingAndConfirmedCottageBookings');
 
 $routes->get('/', 'Home::index');
 $routes->get('/getData','MainController::getData');
@@ -35,7 +38,8 @@ $routes->get('/getFeedback','MainController::getFeedback');
 $routes->post('booking','MainController::booking');
 $routes->get('/getbook','MainController::getbook');
 $routes->get('/getBooking/(:num)', 'MainController::getBooking/$1');
-
+$routes->post('/notifications/mark-read', 'MainController::markAsRead');
+    
 $routes->get('/getenroll','MainController::getenroll');
 $routes->get('/getDate','MainController::getDate');
 $routes->post('/submit-rating','MainController::submitRating');
@@ -77,6 +81,9 @@ $routes->post('/api/decline-enroll/(:num)', 'MainController::declineEnroll/$1');
 $routes->get('getNotif', 'MainController::getNotifications');
 $routes->post( '/confirmRes/(:num)', 'MainController::confirmRes/$1');
 $routes->get('/getBookingHistory', 'MainController::getBookingHistory');
+$routes->get('/getRoomBookingHistory', 'MainController::getRoomBookingHistory');
+$routes->get('/getCottageHistory', 'MainController::getCottageHistory');
+$routes->get('/getReservationHistory', 'MainController::getReservationHistory');
 $routes->get('getNotif/(:num)', 'MainController::notif/$1');
 $routes->get('/pack3','MainController::pack3');
 $routes->get('/pack4','MainController::pack4');
@@ -188,5 +195,19 @@ $routes->group('api', function($routes) {
 // Fetch audit history for a specific amenity
 $routes->get('api/amenitiesAuditHistory/(:num)', 'MainController::getAmenitiesAuditHistory/$1');
 
-// Update stock for a specific amenity
-// $routes->post('api/updateAmenityStock/(:num)', 'YourControllerName::updateStock/$1');
+$routes->get('/api/analytics/getMostUsedRooms', 'AnalyticsController::getMostUsedRooms');
+$routes->get('/api/analytics/getMonthlyBookings', 'AnalyticsController::getMonthlyBookings');
+$routes->get('/api/analytics/getTotalRevenue', 'AnalyticsController::getTotalRevenue');
+$routes->get('analytics/most-used-cottages', 'AnalyticsController::getMostUsedCottages');
+$routes->get('analytics/monthly-bookings', 'AnalyticsController::getMonthlyCottageBookings');
+
+
+// Define API routes for Inventory
+
+$routes->get('/inventory', 'InventoryController::index');         // List all inventory items
+$routes->post('/addinventory', 'InventoryController::store');        // Create a new inventory item
+$routes->post('/updateinventory/(:num)', 'InventoryController::update/$1'); // Update an existing inventory item
+$routes->delete('/deleteinventory/(:num)', 'InventoryController::delete/$1'); // Delete an inventory item
+
+$routes->post('/updateTable/(:num)', 'MainController::updateTable/$1');
+

@@ -1,60 +1,77 @@
-
 <template>
   <Notification
-  :show="notification.show"
-  :type="notification.type"
-  :message="notification.message"
-/>
+    :show="notification.show"
+    :type="notification.type"
+    :message="notification.message"
+  />
 
-<div class="main-content">
+  <div class="main-content">
+    <div class="sidebar" :class="{ collapsed: isSidebarCollapsed }">
+      <img
+        :src="require('../assets/images/logo1.png.png')"
+        alt="Mono"
+        class="logo"
+      />
+      <router-link to="/admin2">
+        <i class="fa-solid fa-chart-simple"></i><span>Business Dashboard</span>
+      </router-link>
+      <details>
+        <summary class="inventory-summary">
+          <i style="padding: 10px; margin: 0" class="fa-solid fa-table"></i>
+          <span style="padding: 0; margin: 0" class="dropdown-icon">▾</span>
+          <span style="padding: 0; margin: 0">Inventory Options</span>
+        </summary>
+        <div class="dropdown-menu">
+          <router-link to="/analytics2">
+            <i style="padding-right: 20px" class="fa-solid fa-house"></i
+            ><span>Room Inventory</span>
+          </router-link>
+          <router-link to="/shopinventory">
+            <i style="padding-right: 20px" class="fa-solid fa-shop"></i
+            ><span>Shop Inventory</span>
+          </router-link>
+          <router-link to="/cottagebooking">
+            <i style="padding-right: 20px" class="fa-solid fa-shop"></i
+            ><span>Cottage Inventory</span>
+          </router-link>
+          <router-link to="/reservations">
+            <i style="padding-right: 20px" class="fa-solid fa-utensils"></i
+            ><span>Restaurant Reservations</span>
+          </router-link>
 
-  <div class="sidebar" :class="{ 'collapsed': isSidebarCollapsed }">
+          <router-link to="/enrollment">
+            <i
+              style="padding-right: 20px"
+              class="fa-solid fa-person-swimming"
+            ></i
+            ><span>Enrollment Inventory</span>
+          </router-link>
+        </div>
+      </details>
 
-<img :src="require('../assets/images/logo1.png.png')" alt="Mono" class="logo">
-<router-link to="/admin2">
-  <i class="fa-solid fa-chart-simple"></i><span>Business Dashboard</span>
-</router-link>
-<details>
-  <summary>
-    <i class="fa-solid fa-chart-line"></i> Inventory Options
-  </summary>
-  <div class="dropdown-menu">
-    <router-link to="/analytics2">
-      <i class="fa-solid fa-chart-line"></i><span>Room Inventory</span>
-    </router-link>
-    <router-link to="/shopinventory">
-      <i class="fa-solid fa-chart-line"></i><span>Shop Inventory</span>
-    </router-link>
-    <router-link to="/reservations">
-      <i class="fa-solid fa-chart-line"></i><span>Restaurant Reservations</span>
-    </router-link>
-    <router-link to="/enrollment">
-      <i class="fa-solid fa-chart-line"></i><span>Enrollment Inventory</span>
-    </router-link>
-  </div>
-</details>
-
-<router-link to="/teamadmin2">
-  <i class="fa-solid fa-people-group"></i><span>Team</span>
-</router-link>
-<router-link to="/monitorusers2">
-  <i class="fas fa-user"></i><span>Users</span>
-</router-link>
-<router-link to="/pos2">
-  <i class="fa-solid fa-table-columns"></i><span>POS</span>
-</router-link>
-</div>
+      <router-link to="/teamadmin2">
+        <i class="fa-solid fa-people-group"></i><span>Team</span>
+      </router-link>
+      <router-link to="/monitorusers2">
+        <i class="fas fa-user"></i><span>Users</span>
+      </router-link>
+      <router-link to="/pos2">
+        <i class="fa-solid fa-cart-plus"></i><span>POS</span>
+      </router-link>
+      <router-link to="/history">
+        <i class="fa-solid fa-cart-plus"></i><span>History</span>
+      </router-link>
+    </div>
 
     <div class="header">
       <h1 class="h1-main">EDUARDO'S ADMIN</h1>
 
       <!-- Navbar Toggler -->
-      <button
-        class="navbar-toggler"
-        type="button"
-        @click="toggleSidebar"
-      >
-      <i class="fa-solid fa-bars" style="padding: 5px; margin:5px; width: 40px;"></i>
+      <button class="navbar-toggler" type="button" @click="toggleSidebar">
+        <i
+          class="fa-solid fa-bars"
+          style="padding: 5px; margin: 5px; width: 40px"
+        ></i>
       </button>
 
       <!-- Logout Button -->
@@ -63,148 +80,242 @@
         Logout
       </button>
     </div>
-      
+
+    <div class="card-main">
+      <div class="card-wrapper">
+        <!-- Total Revenue Display -->
+        <div class="card card-default">
+          <div class="card-header">
+            <h2 class="fa-solid fa-dollar-sign">Total Revenue</h2>
+            <br />
+          </div>
+          <div class="card-body">
+            <span class="h3 text-black">{{ totalRevenue | currency }}</span>
+          </div>
+        </div>
+      </div>
+
       <div class="card-main">
+    <!-- Most Used Cottages Display as Bar Chart -->
+    <div class="card-wrapper">
+      <div class="card card-default">
+        <div class="card-header">
+          <h2 class="fa-solid fa-campground">Most Used Cottages</h2>
+        </div>
+        <div class="card-body">
+          <canvas ref="mostUsedCottagesChart"></canvas>
+        </div>
+      </div>
+    </div>
 
-        <div class="content">
-          <div class="container-fluid">
-            <div class="card-container">
-              <div class="row">
+    <!-- Monthly Cottage Bookings Display as Line Chart -->
+    <div class="card-wrapper">
+      <div class="card card-default">
+        <div class="card-header">
+          <h2 class="fa-solid fa-calendar-alt">Peak Monthly Cottage Bookings</h2>
+        </div>
+        <div class="card-body">
+          <canvas ref="monthlyCottageBookingsChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
 
-  
-                    
-              
-                          <section class="card-main"><br>
-                            <h2 class="fa-solid fa-chart-line"> Sales Report</h2><br>
-                            <button class="btn-custom" @click="printSalesReport">Print Sales Report</button>
-                            <div class="card-main">
-                              <button class="btn-custom" @click="updateChart('daily')">Daily</button>
-                              <button class="btn-custom" @click="updateChart('monthly')">Monthly</button>
-                              <button class="btn-custom" @click="updateChart('yearly')">Yearly</button>
-                            </div>
-                            <canvas class="card-main" ref="combinedCanvas"></canvas>
-                          </section>
-                   
-                
-          
-                <div class="card-wrapper">
-                  <div class="card card-default card-size carding ">
-                    <div class="card-header">
-                      <h2  class="fa-solid fa-user"> Users</h2><br>
-                    </div>
-                    <div class="card-body">
-                      <div v-if="loading">Loading...</div>
-                      <div v-else>
-                        <div class="bg-primary d-flex justify-content-between flex-wrap p-4 text-white align-items-lg-end carding" style="height: 100%; width: 100%">
-                          <div class="d-flex flex-column">
-                            <span class="h3 text-white">{{ numberOfClients }}</span>
-                            <span class="text-white">Total Clients</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+      <div class="card-wrapper">
+        <!-- Most Used Rooms Display as Bar Chart -->
+        <div class="card card-default">
+          <div class="card-header">
+            <h2 class="fa-solid fa-bed">Most Used Rooms</h2>
+          </div>
+          <div class="card-body">
+            <canvas ref="roomsChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-wrapper">
+        <!-- Monthly Bookings Display as Line Chart -->
+        <div class="card card-default">
+          <div class="card-header">
+            <h2 class="fa-solid fa-calendar-alt">Peak Monthly Bookings</h2>
+          </div>
+          <div class="card-body">
+            <canvas ref="bookingsChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="container-fluid">
+          <div class="card-container">
+            <div class="row">
+              <section class="card-main">
+                <br />
+                <h2 class="fa-solid fa-chart-line">Sales Report</h2>
+                <br />
+                <button class="btn-custom" @click="printSalesReport">
+                  Print Sales Report
+                </button>
+                <div class="card-main">
+                  <button class="btn-custom" @click="updateChart('daily')">
+                    Daily
+                  </button>
+                  <button class="btn-custom" @click="updateChart('monthly')">
+                    Monthly
+                  </button>
+                  <button class="btn-custom" @click="updateChart('yearly')">
+                    Yearly
+                  </button>
                 </div>
-                <div class="card-wrapper">
-                  <div class="card card-default card-size carding ">
-                    <div class="card-header">
-                      <h2 class="fa-solid fa-cart-shopping"> E-Shop</h2><br> 
-                    </div>
-                    <div class="card-body">
-                      <div class="bg-primary d-flex justify-content-between flex-wrap p-4 text-white align-items-lg-end carding" style="height: 100%; width: 100%">
+                <canvas class="card-main2" ref="combinedCanvas"></canvas>
+              </section>
+
+              <div class="card-wrapper">
+                <div class="card card-default card-size carding">
+                  <div class="card-header">
+                    <h2 class="fa-solid fa-user">Users</h2>
+                    <br />
+                  </div>
+                  <div class="card-body">
+                    <div v-if="loading">Loading...</div>
+                    <div v-else>
+                      <div
+                        class="bg-primary d-flex justify-content-between flex-wrap p-4 text-white align-items-lg-end carding"
+                        style="height: 100%; width: 100%"
+                      >
                         <div class="d-flex flex-column">
-                          <span class="h3 text-white">{{ numberOfItems }}</span>
-                          <span class="text-white">Items</span>
+                          <span class="h3 text-white">{{
+                            numberOfClients
+                          }}</span>
+                          <span class="text-white">Total Clients</span>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="card-wrapper">
-                  <div class="card card-default card-size carding">
-                    <div class="card-header">
-                      <h2  class="fa-solid fa-address-book"> Booking Count</h2><br>
-                    </div>
-                    <div class="card-body">
-                      <div class="bg-primary d-flex justify-content-between flex-wrap p-4 text-white align-items-lg-end carding" style="height: 100%; width: 100%">
-                        <div class="d-flex flex-column">
-                          <span class="h3 text-white">{{ numberOfbooking }}</span>
-                          <span class="text-white">Booking</span>
-                        </div>
+              </div>
+
+              <div class="card-wrapper">
+                <div class="card card-default card-size carding">
+                  <div class="card-header">
+                    <h2 class="fa-solid fa-cart-shopping">E-Shop</h2>
+                    <br />
+                  </div>
+                  <div class="card-body">
+                    <div
+                      class="bg-primary d-flex justify-content-between flex-wrap p-4 text-white align-items-lg-end carding"
+                      style="height: 100%; width: 100%"
+                    >
+                      <div class="d-flex flex-column">
+                        <span class="h3 text-white">{{ numberOfItems }}</span>
+                        <span class="text-white">Items</span>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="card-wrapper" style="padding: 0;">
-                  <div class="card card-default" id="user-acquisition" >
-                    <div class="card-header border-bottom pb-0">
-                      <h2 class="fa-solid fa-user-pen"> User Acquisition</h2><br>
-                      <table class="table">
-                        <thead>
-                          <tr>
-                            <th>User</th>
-                            <th>Feedback</th>
-                            <th>Action</th>
-                          </tr>
-                        </thead>
-                        <tbody v-for="feed in feed" :key="name.id">
-                          <tr>
-                            <td>{{ getName(feed).name }}</td>
-                            <td>{{ feed.feedback }}</td>
-                            <td>
-                              <button @click="hideFeed(feed.feed_id)">Hide</button>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                    <div class="card-footer d-flex flex-wrap bg-white">
-                      <a href="#" class="text-uppercase py-3" >Acquisition Report</a>
-                    </div>
+              </div>
+              <div class="card-wrapper">
+                <div class="card card-default card-size carding">
+                  <div class="card-header">
+                    <h2 class="fa-solid fa-address-book">Booking Count</h2>
+                    <br />
                   </div>
-                </div>
-                <div class="card-wrapper">
-                  <div class="card card-default">
-                    <div class="card-header">
-                      <h2  class="fa-solid fa-burger"> Orders Inventory</h2><br>
-                    </div>
-                    <div class="card-body" style="padding: 0;">
-                      <table id="ordersTable" class=" table-product" style="width: 100%">
-                        <thead>
-                          <tr>
-                            <th>Room ID</th>
-                            <th>Payment</th>
-                            <th>Status</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr v-for="book in book" :key="book.room_id">
-                            <td>{{ book.room_id }}</td>
-                            <td>{{ book.payment_method }}</td>
-                            <td>{{ book.booking_status }}</td>
-                          </tr>
-                        </tbody>
-                      </table>
-                      <div v-if="loading" class="text-center mt-3">
-                        <div class="spinner-border" role="status">
-                          <span class="sr-only">Loading...</span>
-                        </div>
-                      </div>
-                      <div v-if="successMessage" class="alert alert-success mt-3" role="alert">
-                        {{ successMessage }}
+                  <div class="card-body">
+                    <div
+                      class="bg-primary d-flex justify-content-between flex-wrap p-4 text-white align-items-lg-end carding"
+                      style="height: 100%; width: 100%"
+                    >
+                      <div class="d-flex flex-column">
+                        <span class="h3 text-white">{{ numberOfbooking }}</span>
+                        <span class="text-white">Booking</span>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>  
+              </div>
+              <div class="card-wrapper" style="padding: 0">
+                <div class="card card-default" id="user-acquisition">
+                  <div class="card-header border-bottom pb-0">
+                    <h2 class="fa-solid fa-user-pen">User Acquisition</h2>
+                    <br />
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>User</th>
+                          <th>Feedback</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody v-for="feed in feed" :key="name.id">
+                        <tr>
+                          <td>{{ getName(feed).name }}</td>
+                          <td>{{ feed.feedback }}</td>
+                          <td>
+                            <button @click="hideFeed(feed.feed_id)">
+                              Hide
+                            </button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="card-footer d-flex flex-wrap bg-white">
+                    <a href="#" class="text-uppercase py-3"
+                      >Acquisition Report</a
+                    >
+                  </div>
+                </div>
+              </div>
+              <br />
+              <div class="card-wrapper">
+                <div class="card card-default">
+                  <div class="card-header">
+                    <h2 class="fa-solid fa-burger">Orders Inventory</h2>
+                    <br />
+                  </div>
+                  <div class="card-body" style="padding: 0">
+                    <table
+                      id="ordersTable"
+                      class="table-product"
+                      style="width: 100%"
+                    >
+                      <thead>
+                        <tr>
+                          <th>Room ID</th>
+                          <th>Payment</th>
+                          <th>Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr v-for="book in book" :key="book.room_id">
+                          <td>{{ book.room_id }}</td>
+                          <td>{{ book.payment_method }}</td>
+                          <td>{{ book.booking_status }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <div v-if="loading" class="text-center mt-3">
+                      <div class="spinner-border" role="status">
+                        <span class="sr-only">Loading...</span>
+                      </div>
+                    </div>
+                    <div
+                      v-if="successMessage"
+                      class="alert alert-success mt-3"
+                      role="alert"
+                    >
+                      {{ successMessage }}
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-
+  </div>
 </template>
-
 
 <script>
 import axios from "axios";
@@ -215,17 +326,26 @@ export default {
 
   data() {
     return {
+      mostUsedCottages: [],
+      monthlyCottageBookings: [],
+      revenueChart: null,
+      roomsChart: null,
+      bookingsChart: null,
+      totalRevenueData: [],
+      mostUsedRooms: [],
+      monthlyBookings: [],
+      totalRevenue: 0,
       isSidebarCollapsed: false,
-      successMessage: '', 
-      loading: '',
+      successMessage: "",
+      loading: "",
       name: [],
       feed: [],
       book: [],
       notification: {
-      show: false,
-      type: "",
-      message: "",
-    },
+        show: false,
+        type: "",
+        message: "",
+      },
       numberOfClients: 0,
       numberOfItems: 0,
       numberOfbooking: 0,
@@ -262,8 +382,211 @@ export default {
     this.getbook();
     this.getHistory();
     this.fetchCombinedSalesData();
+    this.fetchAnalyticsData(); 
+    this.fetchCottageAnalyticsData(); 
+
   },
   methods: {
+    fetchCottageAnalyticsData() {
+      this.getMostUsedCottages().then(() => this.initializeMostUsedCottagesChart());
+      this.getMonthlyCottageBookings().then(() => this.initializeMonthlyCottageBookingsChart());
+    },
+
+    async getMostUsedCottages() {
+      try {
+        const response = await axios.get("analytics/most-used-cottages");
+        this.mostUsedCottages = response.data;
+      } catch (error) {
+        console.error("Error fetching most used cottages:", error);
+      }
+    },
+
+    async getMonthlyCottageBookings() {
+      try {
+        const response = await axios.get("analytics/monthly-bookings");
+        this.monthlyCottageBookings = response.data;
+      } catch (error) {
+        console.error("Error fetching monthly cottage bookings:", error);
+      }
+    },
+
+    initializeMostUsedCottagesChart() {
+      if (!this.$refs.mostUsedCottagesChart) return;
+      const ctx = this.$refs.mostUsedCottagesChart.getContext("2d");
+      if (this.mostUsedCottagesChart) this.mostUsedCottagesChart.destroy();
+      this.mostUsedCottagesChart = new Chart(ctx, {
+        type: "bar",
+        data: {
+          labels: this.mostUsedCottages.map((cottage) => cottage.cottage_name),
+          datasets: [
+            {
+              label: "Total Cottage Bookings",
+              data: this.mostUsedCottages.map((cottage) => cottage.total_bookings),
+              backgroundColor: "rgba(54, 162, 235, 0.5)",
+              borderColor: "rgba(54, 162, 235, 1)",
+              borderWidth: 1,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: { beginAtZero: true },
+          },
+        },
+      });
+    },
+
+    initializeMonthlyCottageBookingsChart() {
+      if (!this.$refs.monthlyCottageBookingsChart) return;
+      const ctx = this.$refs.monthlyCottageBookingsChart.getContext("2d");
+      this.monthlyCottageBookingsChart = new Chart(ctx, {
+        type: "line",
+        data: {
+          labels: this.monthlyCottageBookings.map((month) => this.monthNames[month.month - 1]),
+          datasets: [
+            {
+              label: "Bookings Count",
+              data: this.monthlyCottageBookings.map((month) => month.bookings_count),
+              backgroundColor: "rgba(75, 192, 192, 0.5)",
+              borderColor: "rgba(75, 192, 192, 1)",
+              fill: true,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: { beginAtZero: true },
+          },
+        },
+      });
+    },
+    initializeRevenueChart() {
+      if (!this.$refs.revenueChart) return; // Check if ref exists
+      const ctx = this.$refs.revenueChart.getContext("2d");
+      if (this.revenueChart) this.revenueChart.destroy();
+      this.revenueChart = new Chart(ctx, {
+        type: "doughnut",
+        data: {
+          labels: ["Total Revenue"],
+          datasets: [
+            {
+              data: [this.totalRevenue],
+              backgroundColor: ["#4caf50"],
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+        },
+      });
+    },
+
+    initializeRoomsChart() {
+    if (!this.$refs.roomsChart) return; // Check if ref exists
+    const ctx = this.$refs.roomsChart.getContext("2d");
+    if (this.roomsChart) this.roomsChart.destroy();
+    this.roomsChart = new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels: this.mostUsedRooms.map((room) => room.room_name),
+            datasets: [
+                {
+                    label: "Total Room Bookings",
+                    data: this.mostUsedRooms.map((room) => room.total_bookings),
+                    backgroundColor: "rgba(75, 192, 192, 0.5)",
+                    borderColor: "rgba(75, 192, 192, 1)",
+                    borderWidth: 1,
+                },
+            ],
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        precision: 0, // Ensures whole numbers only
+                    },
+                },
+            },
+        },
+    });
+},
+
+    initializeBookingsChart() {
+      if (!this.$refs.bookingsChart) return; // Check if ref exists
+      const ctx = this.$refs.bookingsChart.getContext("2d");
+      if (this.bookingsChart) this.bookingsChart.destroy();
+      this.bookingsChart = new Chart(ctx, {
+        type: "line",
+        data: {
+          labels: this.monthlyBookings.map(
+            (month) => this.monthNames[month.month - 1]
+          ),
+          datasets: [
+            {
+              label: "Monthly Bookings",
+              data: this.monthlyBookings.map((month) => month.bookings_count),
+              backgroundColor: "rgba(255, 99, 132, 0.5)",
+              borderColor: "rgba(255, 99, 132, 1)",
+              fill: true,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: { beginAtZero: true },
+          },
+        },
+      });
+    },
+
+    fetchAnalyticsData() {
+      this.getMostUsedRooms().then(() => {
+        this.initializeRoomsChart();
+      });
+      this.getMonthlyBookings().then(() => {
+        this.initializeBookingsChart();
+      });
+      this.getTotalRevenue().then(() => {
+        this.initializeRevenueChart();
+      });
+    },
+    async getMostUsedRooms() {
+      try {
+        const response = await axios.get("/api/analytics/getMostUsedRooms");
+        this.mostUsedRooms = response.data;
+      } catch (error) {
+        console.error("Error fetching most used rooms:", error);
+      }
+    },
+
+    async getMonthlyBookings() {
+      try {
+        const response = await axios.get("/api/analytics/getMonthlyBookings");
+        this.monthlyBookings = response.data;
+      } catch (error) {
+        console.error("Error fetching monthly bookings:", error);
+      }
+    },
+
+    async getTotalRevenue() {
+      try {
+        const response = await axios.get("/api/analytics/getTotalRevenue");
+        this.totalRevenue = response.data.total_revenue;
+      } catch (error) {
+        console.error("Error fetching total revenue:", error);
+      }
+    },
+
     toggleSidebar() {
       this.isSidebarCollapsed = !this.isSidebarCollapsed;
     },
@@ -283,8 +606,8 @@ export default {
       }
     },
     printSalesReport() {
-  const printWindow = window.open('', '_blank');
-  printWindow.document.write(`
+      const printWindow = window.open("", "_blank");
+      printWindow.document.write(`
     <html>
       <head>
         <title>Sales Report</title>
@@ -346,35 +669,35 @@ export default {
       </body>
     </html>
   `);
-  printWindow.document.close();
-  printWindow.print(); // Trigger print dialog
-},
+      printWindow.document.close();
+      printWindow.print(); // Trigger print dialog
+    },
 
-generateTableRows() {
-  let rows = '';
-  // Generate table rows dynamically based on chart data
-  const chartData = this.reportData[this.currentReportType + 'Sales'];
-  if (chartData) {
-    chartData.forEach(sale => {
-      rows += `
+    generateTableRows() {
+      let rows = "";
+      // Generate table rows dynamically based on chart data
+      const chartData = this.reportData[this.currentReportType + "Sales"];
+      if (chartData) {
+        chartData.forEach((sale) => {
+          rows += `
         <tr>
           <td>${this.getDateLabel(sale)}</td>
           <td>${sale.total_sales}</td>
         </tr>
-      `;  
-    });
-  }
-  return rows;
-},
-getDateLabel(sale) {
-  if (this.currentReportType === 'monthly') {
-    return `${this.monthNames[parseInt(sale.month) - 1]} ${sale.year}`;
-  } else if (this.currentReportType === 'yearly') {
-    return sale.year.toString();
-  } else {
-    return sale.date;
-  }
-},
+      `;
+        });
+      }
+      return rows;
+    },
+    getDateLabel(sale) {
+      if (this.currentReportType === "monthly") {
+        return `${this.monthNames[parseInt(sale.month) - 1]} ${sale.year}`;
+      } else if (this.currentReportType === "yearly") {
+        return sale.year.toString();
+      } else {
+        return sale.date;
+      }
+    },
 
     fetchCombinedSalesData() {
       axios
@@ -391,13 +714,17 @@ getDateLabel(sale) {
     renderCombinedChart() {
       const ctx = this.$refs.combinedCanvas.getContext("2d");
       if (this.combinedChart) {
-        this.combinedChart.destroy(); // Destroy the existing chart if it exists
+        this.combinedChart.destroy();
       }
       const dataConfig = this.getDataConfig();
       this.combinedChart = new Chart(ctx, {
-        type: "bar", // or line, depending on your preference
+        type: "bar",
         data: dataConfig.data,
-        options: dataConfig.options,
+        options: {
+          responsive: true,
+          maintainAspectRatio: true,
+          aspectRatio: 4,
+        },
       });
     },
 
@@ -541,7 +868,7 @@ getDateLabel(sale) {
       this.book = b.data;
     },
     async getbook() {
-      const items = await axios.get("/getbook");
+      const items = await axios.get("/getBookingHistory");
       this.data = items.data;
       this.numberOfbooking = this.data.length;
     },
@@ -590,10 +917,6 @@ getDateLabel(sale) {
     this.fetchMonthlySales();
     this.fetchYearlySales();
   },
-
-
-
-
 };
 </script>
 
@@ -610,10 +933,11 @@ i {
   padding-left: 10px;
 }
 
-span{
+span {
   padding: 0;
   margin: 0;
 }
+
 /* Sidebar styles */
 .sidebar {
   width: 93px;
@@ -621,7 +945,7 @@ span{
   position: fixed;
   top: 0;
   left: 0;
-  background-color: #0F172B;
+  background-color: #0f172b;
   color: #fff;
   padding: 20px;
   overflow-y: auto;
@@ -629,17 +953,18 @@ span{
 }
 
 .sidebar img.logo {
-  width: 50px; 
-  height: auto; 
+  width: 50px;
+  height: auto;
   display: block;
   transition: width 0.5s; /* Smooth transition for the logo size */
 }
 
 .sidebar:hover img.logo {
-  width: 100px; 
+  width: 100px;
 }
 
-.sidebar a, .sidebar router-link {
+.sidebar a,
+.sidebar router-link {
   display: flex;
   align-items: center;
   color: #fff;
@@ -648,15 +973,15 @@ span{
   margin: 5px 0;
 }
 
-.sidebar a:hover, .sidebar router-link:hover {
-  background-color: #FEA116;
+.sidebar a:hover,
+.sidebar router-link:hover {
+  background-color: #fea116;
   transition: background-color 0.5s; /* Smooth transition for hover effect */
 }
 
 .sidebar:hover {
   width: 200px;
 }
-
 
 .main-content {
   margin-left: 93px; /* Default margin for the sidebar width */
@@ -668,10 +993,8 @@ span{
   margin-left: 200px; /* Adjust margin when sidebar is expanded */
 }
 
-
-
 .header {
-  background-color: #0F172B;
+  background-color: #0f172b;
   color: white;
   padding: 10px 20px; /* Adjust padding for space */
   display: flex;
@@ -684,10 +1007,8 @@ span{
   width: 100%;
 }
 
-
-
 .logout-logo-btn {
-  background-color: #FEA116; /* Background color for the logout button */
+  background-color: #fea116; /* Background color for the logout button */
   border: none; /* Remove default border */
   padding: 10px 15px; /* Add some padding */
   color: white; /* Text color */
@@ -717,7 +1038,6 @@ span{
   margin: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s;
-
 }
 .card:hover {
   transform: translateY(-20px);
@@ -733,7 +1053,8 @@ span{
   margin-bottom: 20px;
 }
 
-.table th, .table td {
+.table th,
+.table td {
   padding: 10px;
   text-align: left;
 }
@@ -747,34 +1068,39 @@ span{
   border-collapse: collapse;
 }
 
-.table-product th, .table-product td {
-  padding: 12px;
-  text-align: left;
-  border-bottom: 1px solid #ddd;
+.table-product th {
+  background-color: #0f172b; /* Dark background for header */
+  color: #ffffff; /* White text color */
+  padding: 12px; /* Padding inside header cells */
+  text-align: center; /* Align text to the left */
+  font-weight: bold; /* Bold text */
+  border-right: 2px solid #ddd; /* Bottom border for header */
 }
 .card-body {
   flex: 1 1 auto;
   min-height: 1px;
- 
 }
 .card-default .card-body {
   padding-top: 1rem;
 }
 
-.card-body .modal-body, .card-body .alert, th {
+.card-body .modal-body,
+.card-body .alert,
+th {
   font-family: "Poppins", sans-serif;
   font-weight: 800;
   font-style: normal;
   font-size: large;
-  color:#0F172B; 
+  color: #0f172b;
 }
 .table-product tbody td.action-buttons button,
-.table-product tbody td.action-buttons a, td {
+.table-product tbody td.action-buttons a,
+td {
   font-family: "Poppins", sans-serif;
   font-weight: 700;
   font-style: normal;
-  margin-top:20px;
-  margin-bottom:20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 .table-product tbody td.action-buttons {
   display: flex;
@@ -794,7 +1120,7 @@ span{
 .table-product tbody tr {
   margin: 0;
   padding: 0;
-  color:black;
+  color: black;
 }
 .table-product tbody tr:hover {
   background-color: rgb(253, 253, 221); /* Change background color on hover */
@@ -802,7 +1128,6 @@ span{
 /* Header alignment for actions column */
 .actions-header {
   text-align: center;
-  
 }
 
 .table-product td {
@@ -810,7 +1135,6 @@ span{
 }
 
 .dropdown {
-
   position: relative;
 }
 .dropdown * {
@@ -833,7 +1157,7 @@ span{
   box-shadow: 0 0 0.8em #fea116;
 }
 .select:hover {
-  background: #0F172B;
+  background: #0f172b;
 }
 
 .caret {
@@ -876,7 +1200,7 @@ span{
   cursor: pointer;
 }
 .menu li:hover {
-  background: #0F172B;
+  background: #0f172b;
 }
 .active {
   background: #fea116;
@@ -885,7 +1209,8 @@ menu.no-scroll {
   overflow: hidden;
 }
 
-.btn-custom, .edit-btn {
+.btn-custom,
+.edit-btn {
   background-color: #fea116; /* Same as Add Item button */
   border: none;
   color: white;
@@ -902,35 +1227,32 @@ menu.no-scroll {
   font-weight: 700;
   font-style: normal;
 }
-.edit-btn{
+.edit-btn {
   padding: 12px;
   font-size: 15px;
   width: 65px;
   font-family: "Poppins", sans-serif;
   font-weight: 700;
   font-style: normal;
- 
 }
 .btn-custom:hover {
-  background-color: #0F172B;
-  transform: scale(1.10);
-  border:none;
+  background-color: #0f172b;
+  transform: scale(1.1);
+  border: none;
 }
-.edit-btn:hover{
-  background-color: #0F172B;
-  transform: scale(1.10);
-  border:none;
+.edit-btn:hover {
+  background-color: #0f172b;
+  transform: scale(1.1);
+  border: none;
 }
-.btn:hover{
-  background-color: #0F172B;
-  transform: scale(1.10);
-  border:none;
+.btn:hover {
+  background-color: #0f172b;
+  transform: scale(1.1);
+  border: none;
 }
 .btn-custom i {
   margin-right: 5px; /* Space between icon and text */
 }
-
-
 
 @media (max-width: 768px) {
   .header {
@@ -942,19 +1264,20 @@ menu.no-scroll {
   }
 }
 @media (max-width: 768px) {
-  .table-product th, .table-product td {
+  .table-product th,
+  .table-product td {
     padding: 8px; /* Adjust padding for smaller screens */
   }
   .card-body {
     padding: 1rem; /* Adjust padding for smaller screens */
   }
-  .card-default{
+  .card-default {
     padding: 1rem;
   }
-  .car-header{
+  .car-header {
     padding: 1rem;
   }
-  .carding{
+  .carding {
     padding: 1rem;
   }
   .header {
@@ -965,7 +1288,6 @@ menu.no-scroll {
   .logout-logo-btn {
     margin-top: 10px; /* Add margin-top for spacing */
   }
-
 }
 @media (max-width: 576px) {
   .sidebar {
@@ -974,9 +1296,10 @@ menu.no-scroll {
   }
 
   .sidebar:hover {
-    width: 40px;/* Ensure width stays consistent */
+    width: 40px; /* Ensure width stays consistent */
   }
-  .sidebar a, .sidebar router-link {
+  .sidebar a,
+  .sidebar router-link {
     padding: 5px;
     font-size: 14px;
   }
@@ -1038,19 +1361,18 @@ menu.no-scroll {
     height: auto !important; /* Adjust height automatically */
   }
   /* Card Styles */
-.card {
-  margin: 5px 0; /* Reduce margin for smaller screens */
-  width: 100%; /* Ensure cards take full width */
-}
+  .card {
+    margin: 5px 0; /* Reduce margin for smaller screens */
+    width: 100%; /* Ensure cards take full width */
+  }
 
-
-/* Adjust padding and font sizes */
-.card-header h2 {
-  font-size: 18px; /* Adjust header font size */
-}
-.card-body {
-  padding: 10px; /* Adjust padding */
-}
+  /* Adjust padding and font sizes */
+  .card-header h2 {
+    font-size: 18px; /* Adjust header font size */
+  }
+  .card-body {
+    padding: 10px; /* Adjust padding */
+  }
 }
 @media (max-width: 320px) {
   #user-acquisition {
@@ -1062,7 +1384,8 @@ menu.no-scroll {
     font-size: 12px; /* Adjust font size for small screens */
   }
 
-  th, td {
+  th,
+  td {
     padding: 6px; /* Further reduced padding */
     text-align: left;
   }
@@ -1070,7 +1393,7 @@ menu.no-scroll {
     flex-direction: column; /* Stack header items vertically */
     align-items: flex-start; /* Align items to the start */
   }
-  
+
   .logout-logo-btn {
     margin-top: 10px; /* Add margin-top for spacing */
   }
@@ -1088,7 +1411,8 @@ menu.no-scroll {
     width: 100%; /* Ensure table takes full width */
     font-size: 14px; /* Adjust font size */
   }
-  th, td {
+  th,
+  td {
     padding: 8px; /* Reduce padding */
     text-align: left; /* Align text to the left */
   }
@@ -1100,7 +1424,8 @@ menu.no-scroll {
     width: 100%; /* Ensure table takes full width */
     overflow-x: auto; /* Allow horizontal scrolling */
   }
-  .table-product th, .table-product td {
+  .table-product th,
+  .table-product td {
     padding: 8px; /* Reduce padding */
     font-size: 14px; /* Adjust font size */
   }
@@ -1113,7 +1438,6 @@ menu.no-scroll {
   .sidebar {
     width: 100%; /* Full width sidebar on small screens */
     height: auto; /* Adjust height automatically */
-
   }
   .sidebar:hover {
     width: 100%; /* Full width on hover */
@@ -1125,13 +1449,12 @@ menu.no-scroll {
   .logout-logo-btn {
     margin-top: 10px; /* Add margin-top for spacing */
   }
-  .btn-custom, .edit-btn {
+  .btn-custom,
+  .edit-btn {
     font-size: 12px; /* Adjust font size */
     padding: 8px; /* Adjust padding */
   }
-
 }
-
 
 @media (max-width: 945px) {
   .sidebar {
@@ -1149,17 +1472,25 @@ menu.no-scroll {
     width: 100%; /* Full width on hover for small screens */
   }
 
-  .sidebar a, .sidebar router-link {
+  .sidebar a,
+  .sidebar router-link {
     justify-content: center; /* Center items for small screens */
   }
-  .card-default, .card-body, .card-header , th , tr , td , table{
+  .card-default,
+  .card-body,
+  .card-header,
+  th,
+  tr,
+  td,
+  table {
     width: auto;
   }
   .table-product {
     width: 100%; /* Ensure table takes full width */
     overflow-x: auto; /* Allow horizontal scrolling */
   }
-  .table-product th, .table-product td {
+  .table-product th,
+  .table-product td {
     padding: 8px; /* Reduce padding */
     font-size: 14px; /* Adjust font size */
   }
@@ -1169,7 +1500,6 @@ menu.no-scroll {
   .sidebar {
     width: 100%; /* Full width sidebar on small screens */
     height: auto; /* Adjust height automatically */
-
   }
   .sidebar:hover {
     width: 100%; /* Full width on hover */
@@ -1181,7 +1511,8 @@ menu.no-scroll {
   .logout-logo-btn {
     margin-top: 10px; /* Add margin-top for spacing */
   }
-  .btn-custom, .edit-btn {
+  .btn-custom,
+  .edit-btn {
     font-size: 12px; /* Adjust font size */
     padding: 8px; /* Adjust padding */
   }
@@ -1198,7 +1529,13 @@ menu.no-scroll {
 }
 
 @media (max-width: 1045px) {
-  .card-default, .card-body, .card-header , th , tr , td , table{
+  .card-default,
+  .card-body,
+  .card-header,
+  th,
+  tr,
+  td,
+  table {
     width: auto;
   }
 }
@@ -1210,12 +1547,10 @@ menu.no-scroll {
   position: fixed;
   top: 0;
   left: 0;
-  background-color: #0F172B;
+  background-color: #0f172b;
   color: #fff;
   padding: 20px;
   overflow-y: auto;
-
-
 }
 
 .sidebar img.logo {
@@ -1229,7 +1564,6 @@ menu.no-scroll {
   width: 100px;
 }
 
-
 .sidebar a,
 .sidebar router-link {
   display: flex;
@@ -1242,20 +1576,19 @@ menu.no-scroll {
 
 .sidebar a:hover,
 .sidebar router-link:hover {
-  background-color: #FEA116;
-  transition: background-color 0.5s; 
+  background-color: #fea116;
+  transition: background-color 0.5s;
 }
 
-
 .main-content {
-  margin-left: 93px; 
+  margin-left: 93px;
   padding: 0;
   transition: margin-left 0.5s; /* Smooth transition for the margin */
   overflow-y: auto; /* Enable scrolling if the content is too long */
-  height: calc(100vh - 60px); 
+  height: calc(100vh - 60px);
 }
 .header {
-  background-color: #0F172B;
+  background-color: #0f172b;
   color: white;
   padding: 10px 20px;
   display: flex;
@@ -1274,7 +1607,6 @@ menu.no-scroll {
 }
 .sidebar:hover ~ .card-main {
   margin-left: 200px;
-  
 }
 .sidebar:hover ~ .header {
   margin-left: 50px;
@@ -1282,18 +1614,18 @@ menu.no-scroll {
 /* Navbar Toggler for Small Screens */
 .navbar-toggler {
   display: none;
-  background-color: #FEA116;
+  background-color: #fea116;
   border: none;
-  color:white;
+  color: white;
   cursor: pointer;
   border-radius: 5px;
- padding: 0;
- margin:0;
+  padding: 0;
+  margin: 0;
   position: absolute;
   right: 20px;
   align-items: center;
 }
-.navbar-toggler-icon{
+.navbar-toggler-icon {
   padding: 0;
   margin: 0;
 }
@@ -1302,39 +1634,37 @@ menu.no-scroll {
   transition: 0.3s;
 }
 
-@media (max-width: 768px) { 
+@media (max-width: 768px) {
   .header {
     display: flex;
     align-items: center; /* Vertically center items */
     position: relative; /* Ensure positioning context */
   }
-  
+
   /* Adjust header padding for smaller screens */
 
   .sidebar {
     width: 100%; /* Full width on small screens */
     height: auto; /* Height auto adjusts */
-    position: fixed; 
+    position: fixed;
     overflow: hidden; /* Hide overflow on small screens */
     transform: translateY(-100%); /* Hide sidebar by default on small screens */
-  
   }
 
   .sidebar.collapsed {
     transform: translateY(0); /* Show sidebar when toggled */
-    position: relative; 
+    position: relative;
     transition: 0.2s;
   }
   .main-content {
     margin-left: 0;
     height: auto;
-
   }
 
   .navbar-toggler {
     display: block;
     top: 10px;
-  } 
+  }
   .header h1 {
     margin-bottom: 50px; /* Adjust spacing for smaller screens */
   }
@@ -1344,8 +1674,8 @@ menu.no-scroll {
     bottom: 10px; /* Ensure it stays at the bottom */
     right: 20px; /* Align to the right side */
   }
-  
 }
+
 details {
   position: relative;
   display: inline-block;
@@ -1353,22 +1683,45 @@ details {
 
 details summary {
   cursor: pointer;
-  padding: 10px;
+
   font-weight: bold;
 }
 
-.dropdown-menu {
+/* Align items in the summary */
+.inventory-summary {
   display: flex;
+  align-items: center;
+  gap: 4px; /* Space between elements */
+  cursor: pointer;
+  padding: 10px;
+  color: #fff;
+}
+
+/* Style for the dropdown icon */
+.inventory-summary .dropdown-icon {
+  font-size: 25px;
+  transition: transform 0.3s ease; /* Smooth rotation for the arrow */
+}
+
+/* Rotate the dropdown icon when details are open */
+details[open] .inventory-summary .dropdown-icon {
+  transform: rotate(180deg); /* Arrow points up when open */
+}
+details:hover {
+  background-color: #fea116;
+  transition: background-color 0.5s;
+}
+.dropdown-menu {
+  display: none;
+
   flex-direction: column;
   gap: 10px;
-  padding: 10px;
   border: 1px solid #ccc;
   background-color: navy;
   position: absolute;
   top: 100%;
   left: 0;
   z-index: 10;
-  display: none;
 }
 
 details[open] .dropdown-menu {
@@ -1379,5 +1732,12 @@ details[open] .dropdown-menu {
   text-decoration: none;
   color: #333;
 }
-
+.card-main2 {
+  background-color: #f4f4f4;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: 0.5s;
+  height: 300px;
+  position: relative;
+}
 </style>

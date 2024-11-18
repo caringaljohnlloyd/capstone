@@ -6,43 +6,51 @@
   />
   
   <div class="main-content">
-  
     <div class="sidebar" :class="{ 'collapsed': isSidebarCollapsed }">
-
-<img :src="require('../assets/images/logo1.png.png')" alt="Mono" class="logo">
-<router-link to="/admin2">
-  <i class="fa-solid fa-chart-simple"></i><span>Business Dashboard</span>
-</router-link>
-<details>
-  <summary>
-    <i class="fa-solid fa-chart-line"></i> Inventory Options
-  </summary>
-  <div class="dropdown-menu">
-    <router-link to="/analytics2">
-      <i class="fa-solid fa-chart-line"></i><span>Room Inventory</span>
-    </router-link>
-    <router-link to="/shopinventory">
-      <i class="fa-solid fa-chart-line"></i><span>Shop Inventory</span>
-    </router-link>
-    <router-link to="/reservations">
-      <i class="fa-solid fa-chart-line"></i><span>Restaurant Reservations</span>
-    </router-link>
-    <router-link to="/enrollment">
-      <i class="fa-solid fa-chart-line"></i><span>Enrollment Inventory</span>
-    </router-link>
+  
+  <img :src="require('../assets/images/logo1.png.png')" alt="Mono" class="logo">
+  <router-link to="/admin2">
+    <i class="fa-solid fa-chart-simple"></i><span>Business Dashboard</span>
+  </router-link>
+  <details >
+    <summary class="inventory-summary">
+      <i  style="padding: 10px; margin: 0" class="fa-solid fa-table"></i>
+      <span style="padding: 0; margin: 0" class="dropdown-icon">▾</span> 
+      <span style="padding: 0; margin: 0">Inventory Options</span>
+    </summary>
+    <div class="dropdown-menu">
+      <router-link to="/analytics2">
+        <i style="padding-right: 20px;" class="fa-solid fa-house"></i ><span>Room Inventory</span>
+      </router-link>
+      <router-link to="/shopinventory">
+        <i  style="padding-right: 20px;" class="fa-solid fa-shop"></i><span>Shop Inventory</span>
+      </router-link>
+      <router-link to="/cottagebooking">
+        <i  style="padding-right: 20px;" class="fa-solid fa-shop"></i><span>Cottage Inventory</span>
+      </router-link>
+      <router-link to="/reservations">
+        <i  style="padding-right: 20px;" class=" fa-solid fa-utensils"></i><span>Restaurant Reservations</span>
+      </router-link>
+    
+      <router-link to="/enrollment">
+        <i  style="padding-right: 20px;" class="fa-solid fa-person-swimming"></i><span>Enrollment Inventory</span>
+      </router-link>
+    </div>
+  </details>
+  
+  <router-link to="/teamadmin2">
+    <i class="fa-solid fa-people-group"></i><span>Team</span>
+  </router-link>
+  <router-link to="/monitorusers2">
+    <i class="fas fa-user"></i><span>Users</span>
+  </router-link>
+  <router-link to="/pos2">
+    <i  class="fa-solid fa-cart-plus"></i><span>POS</span>
+  </router-link>
+  <router-link to="/history">
+    <i  class="fa-solid fa-cart-plus"></i><span>History</span>
+  </router-link>
   </div>
-</details>
-
-<router-link to="/teamadmin2">
-  <i class="fa-solid fa-people-group"></i><span>Team</span>
-</router-link>
-<router-link to="/monitorusers2">
-  <i class="fas fa-user"></i><span>Users</span>
-</router-link>
-<router-link to="/pos2">
-  <i class="fa-solid fa-table-columns"></i><span>POS</span>
-</router-link>
-</div>
   
       <div class="header">
         <h1 class="h1-main">EDUARDO'S ADMIN</h1>
@@ -96,32 +104,32 @@
                               </tr>
                           </thead>
                           <tbody>
-                              <tr v-for="(info, index) in infos" :key="info.id">
-                                  <td>
-                                      <img 
-                                          class="img-fluid product-image" 
-                                          :src="`https://eduardos-resort.online/backend/backend/public/uploads/${info.prod_img}`" 
-                                          alt="Product Image" 
-                                          style="max-width: 80px; height: auto; object-fit: cover;"
-                                      />
-                                  </td>
-                                  <td>{{ info.prod_name }}</td>
-                                  <td>{{ info.prod_quantity }}</td>
-                                  <td>{{ info.prod_desc }}</td>
-                                  <td>{{ info.prod_price }}</td>
-                                  <td>{{ info.prod_quantity * info.prod_price }}</td>
-                                  <td class="action-buttons">
-                                      <button class="btn btn-custom" @click="openQuantityModal(info)">Add Quantity</button>
-                                      <router-link 
-                                          class="btn btn-custom" 
-                                          :to="{ name: 'auditHistory', params: { shopId: info.shop_id }}" 
-                                      >
-                                          Audit History
-                                      </router-link>
-                                      <button class="btn btn-custom" @click="openEditModal(info)">Edit</button>
-                                  </td>
-                              </tr>
-                          </tbody>
+                  <tr v-for="(info, index) in infos" :key="info.id">
+                    <td>
+                      <img 
+                        class="img-fluid product-image" 
+                        :src="`https://eduardos-resort.online/backend/backend/public/uploads/${info.prod_img}`" 
+                        alt="Product Image" 
+                        style="max-width: 80px; height: auto; object-fit: cover;"
+                      />
+                    </td>
+                    <td>{{ info.prod_name }}</td>
+                    <td>{{ info.prod_quantity }}</td>
+                    <td>{{ info.prod_desc }}</td>
+                    <td>{{ info.prod_price }}</td>
+                    <td>{{ info.prod_quantity * info.prod_price }}</td>
+                    <td class="action-buttons">
+                      <button class="btn btn-custom" @click="openQuantityModal(info)">Add Quantity</button>
+                      <router-link 
+                        class="btn btn-custom" 
+                        :to="{ name: 'auditHistory', params: { shopId: info.shop_id }}" 
+                      >
+                        Audit History
+                      </router-link>
+                      <button class="btn btn-custom" @click="openEditModal(info)">Edit</button>
+                    </td>
+                  </tr>
+                </tbody>
                       </table>
                   </div>
   
@@ -336,7 +344,9 @@
       </div>
     </div>
 </div>
-  
+  <br>
+
+  <div class="content">
   <div class="row">
     <!-- Table Product -->
     <div class="col-12">
@@ -346,7 +356,7 @@
         </div>
         <div class="card-body">
           <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
-            <table id="ordersTable" class="table  table-product" style="width: 100%">
+            <table id="ordersTable" class="table  table-product" >
               <thead>
                 <tr>
                   <th>User</th>
@@ -441,15 +451,15 @@
       </div>
     </div>
   </div>
+</div>
   
 
-  
-      <Notification
-        :show="notification.show"
-        :type="notification.type"
-        :message="notification.message"
-        class="bottom-right-notification"
-      />
+  <Notification
+    :show="notification.show"
+    :type="notification.type"
+    :message="notification.message"
+  />
+
     </div>
   </div>
   
@@ -540,8 +550,11 @@
       room: [],
       book: [],
       enroll: [],
+      reorderLevel: 10,
+      notifications: [], // Change this from single notification to an array
       infos: [],
       shop: [],
+      lowStockItems: [], 
       date: [],
       swimming_date: "",
       successMessage2: "",
@@ -848,16 +861,7 @@
         }
       },
   
-      showNotification(message, type) {
-        this.notification.message = message;
-        this.notification.type = type;
-        this.notification.show = true;
-  
-        // Hide notification after 3 seconds
-        setTimeout(() => {
-          this.notification.show = false;
-        }, 3000);
-      },
+     
   
       openAddTableModal() {
         this.addTableModalVisible = true;
@@ -1723,15 +1727,48 @@
     },
   
     async getInfo() {
-      try {
-        const inf = await axios.get("getDataShop");
-        this.infos = inf.data;
-        this.shop = inf.data;
-      } catch (error) {
-        console.log(error);
-      }
-    },
-  
+  try {
+    const inf = await axios.get("getDataShop");
+    this.infos = inf.data;
+    this.shop = inf.data;
+    this.checkReorderLevels();
+  } catch (error) {
+    console.log(error);
+  }
+},
+
+checkReorderLevels() {
+  this.lowStockItems = this.infos.filter(product => product.prod_quantity < this.reorderLevel);
+
+  if (this.lowStockItems.length > 0) {
+    const itemNames = this.lowStockItems.map(item => item.prod_name).join(', ');
+    this.notification.message = `Low stock alert: ${itemNames} are below the reorder level.`;
+    this.notification.type = 'danger'; // Set notification type to danger
+    this.notification.show = true;
+  } else {
+    this.notification.show = false; // Hide notification if no low stock items
+  }
+},
+
+
+
+showNotification(message, type, persistent = false) {
+  // Add a new notification to the array
+  this.notifications.push({
+    message,
+    type,
+    show: true,
+    persistent,
+  });
+
+  // Hide notification after 3 seconds if not persistent
+  if (!persistent) {
+    setTimeout(() => {
+      // Remove the notification after 3 seconds
+      this.notifications.shift(); // Remove the first notification
+    }, 3000);
+  }
+},
     openAddModal() {
       this.addModalVisible = true;
     },
@@ -1985,11 +2022,16 @@
     border-collapse: collapse;
   }
   
-  .table-product th, .table-product td {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-  }
+  .table-product th {
+  background-color: #0F172B; /* Dark background for header */
+  color: #ffffff; /* White text color */
+ margin: 0;
+ padding: 12px;
+  text-align: center; /* Align text to the left */
+  font-weight: bold; /* Bold text */
+  border-right: 2px solid #ddd; /* Bottom border for header */
+  
+}
   
   .card-body .modal-body, .card-body .alert, th , .modal-body {
     font-family: "Poppins", sans-serif;
@@ -2563,22 +2605,45 @@
 
 details summary {
   cursor: pointer;
-  padding: 10px;
+  
   font-weight: bold;
 }
 
-.dropdown-menu {
+/* Align items in the summary */
+.inventory-summary {
   display: flex;
+  align-items: center;
+  gap: 4px; /* Space between elements */
+  cursor: pointer;
+  padding: 10px;
+  color: #fff;
+}
+
+/* Style for the dropdown icon */
+.inventory-summary .dropdown-icon {
+  font-size: 25px;
+  transition: transform 0.3s ease; /* Smooth rotation for the arrow */
+}
+
+/* Rotate the dropdown icon when details are open */
+details[open] .inventory-summary .dropdown-icon {
+  transform: rotate(180deg); /* Arrow points up when open */
+}
+details:hover{
+  background-color: #FEA116;
+  transition: background-color 0.5s; 
+}
+.dropdown-menu {
+  display: none;
+
   flex-direction: column;
   gap: 10px;
-  padding: 10px;
   border: 1px solid #ccc;
   background-color: navy;
   position: absolute;
   top: 100%;
   left: 0;
   z-index: 10;
-  display: none;
 }
 
 details[open] .dropdown-menu {

@@ -99,26 +99,46 @@
 
     <!-- Right side of navbar (notifications, cart, profile, auth) -->
     <div class="d-flex align-items-center ms-auto justify-content-end">
-      <!-- Notifications -->
-      <div class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="notificationDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <i class="fas fa-bell"></i>
-          <span class="badge rounded-pill badge-notification bg-danger small-badge">{{ notifications.length }}</span>
-        </a>
-        <div class="dropdown-menu dropdown-menu-end bg-light m-0" aria-labelledby="notificationDropdown">
-          <template v-if="notifications.length">
-            <a v-for="(notification, index) in notifications" :key="index" class="dropdown-item" :href="notification.link">{{ notification.message }}</a>
-          </template>
-          <template v-else>
-            <p class="dropdown-item">No new notifications</p>
-          </template>
-        </div>
-      </div>
 
       <!-- Shopping Cart -->
       <router-link to="/shopcart" class="nav-link text-primary me-3">
         <i class="fa fa-shopping-cart"></i>
       </router-link>
+      <div class="nav-item dropdown">
+  <a class="nav-link dropdown-toggle" href="#" id="notificationDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <i class="fas fa-bell"></i>
+    <span class="badge rounded-pill badge-notification bg-danger small-badge">
+      {{ unreadNotifications.length }} <!-- Show count of unread notifications -->
+    </span>
+  </a>
+  <div class="dropdown-menu dropdown-menu-end bg-light m-0 p-2 notification-dropdown" aria-labelledby="notificationDropdown">
+    <template v-if="notifications.length">
+      <!-- "Mark All as Read" button -->
+      <div class="d-flex justify-content-end mb-2">
+        <button class="btn btn-sm btn-outline-secondary" @click="markAllAsRead">Mark all as read</button>
+      </div>
+      <!-- Scrollable area with wrapping notifications content -->
+      <div class="notification-list">
+        <a v-for="(notification, index) in notifications" :key="index" class="dropdown-item text-wrap d-flex align-items-center" :href="notification.link" :class="{ 'unread-notification': notification.notifstatus === 'unread' }">
+  <div class="flex-grow-1">
+    <p class="mb-0" style="white-space: normal;">{{ notification.message }}</p>
+    <!-- Timestamp below the message -->
+    <small class="text-muted timestamp">{{ notification.timestamp }}</small>
+  </div>
+  <!-- Show "New" badge only for unread notifications, aligned to the right -->
+  <span v-if="notification.notifstatus === 'unread'" class="badge bg-primary ms-2">New</span>
+</a>
+
+
+      </div>
+    </template>
+    <template v-else>
+      <p class="dropdown-item text-center">No new notifications</p>
+    </template>
+  </div>
+</div>
+
+
 
       <!-- Profile and Auth Dropdown -->
       <div class="nav-item dropdown">
@@ -446,7 +466,7 @@
             type="datetime-local" 
             v-model="selectedTime" 
             class="form-control" 
-            :min="minDate" 
+            :min="minDateTime()" 
             @change="updateEndTime" 
             required
           >
@@ -769,7 +789,9 @@ export default {
     authIcon() {
       return this.isAuthenticated ? 'fas fa-power-off logout-icon' : 'fas fa-sign-in-alt login-icon';
     },
-
+    unreadNotifications() {
+    return this.notifications.filter(notification => notification.notifstatus === 'unread');
+  }
 
   },
   created() {
@@ -779,6 +801,27 @@ export default {
     this.fetchCottages();
   },
   methods: {
+    markAllAsRead() {
+  // Filter unread notifications
+  const unreadNotifications = this.notifications.filter(notification => notification.notifstatus === 'unread');
+
+  // Prepare the list of notification_ids to be sent
+  const unreadIds = unreadNotifications.map(notification => notification.notification_id);
+
+  // Log the IDs to confirm
+  console.log("Unread Notification IDs:", unreadIds);
+
+  if (unreadIds.length > 0) {
+    axios.post('/notifications/mark-read', { ids: unreadIds })
+      .then(response => {
+        console.log(response.data.message); // Handle success
+        this.fetchNotifications(); // Re-fetch notifications after marking them as read
+      })
+      .catch(error => {
+        console.error('Error marking notifications as read', error); // Handle error
+      });
+  }
+},
         minDateTime() {
     // Create a new Date object for the current date and time
     const now = new Date();
@@ -1061,7 +1104,7 @@ export default {
     });
 
     // Step 7: Handle successful response
-    if (createResponse.status === 200) {
+    if (createResponse.notif === 200) {
       this.tableModalVisible = false; // Close modal on success
       this.showNotification('success', 'Table reservation with menu successful!');
       this.resetForm(); // Reset form after success
@@ -1436,8 +1479,95 @@ resetBookingForm() {
 <style>
 @import "@/assets/css/bootstrap.min.css";
 @import "@/assets/css/style.css";
+/* Basic styling for the notification dropdown */
+.notification-dropdown {
+  width: 400px;            /* Wider dropdown width for better readability */
+  max-width: 90vw;          /* Ensure it doesn't exceed 90% of the viewport width */
+  max-height: 400px;        /* Limit the height to ensure scrollable content */
+  overflow-y: auto;         /* Scroll vertically if content overflows */
+  overflow-x: hidden;       /* Hide horizontal overflow */
+  right: 0;
+  left: auto;
+  z-index: 1050;            /* Ensure dropdown appears above other elements */
+  word-wrap: break-word;    /* Break words to prevent overflow */
+  background-color: white;  /* White background for clarity */
+  border-radius: 8px;       /* Rounded corners for a cleaner design */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: adds subtle shadow for depth */
+}
 
-/* CSS for responsive modal */
+/* Styling for individual notification items */
+.notification-list a {
+  display: flex;
+  flex-direction: row;   /* Align items horizontally */
+  justify-content: space-between; /* Distribute space between message/timestamp and the badge */
+  align-items: center;   /* Align content vertically in the middle */
+  padding: 8px;          /* Reduced padding for compactness */
+  border-bottom: 1px solid #e9ecef; /* Separator between notifications */
+  color: #333;
+  text-decoration: none; /* Remove underline on links */
+  font-size: 0.75rem;    /* Smaller font size for notification text */
+}
+
+/* Hover effect for notifications */
+.notification-list a:hover {
+  background-color: #f8f9fa;  /* Light hover effect */
+}
+
+/* Highlight unread notifications with a light blue background */
+.unread-notification {
+  background-color: #e7f1ff;  /* Light blue background for unread notifications */
+}
+
+/* Badge size for unread notifications */
+.unread-notification .badge {
+  font-size: 0.75rem; /* Smaller badge for "New" indicator */
+  margin-left: 8px;   /* Adds some space between message/timestamp and the badge */
+}
+
+/* Styling for the timestamp */
+.notification-list .timestamp {
+  font-size: 0.6rem;   /* Smaller font size for the timestamp */
+  color: #6c757d;      /* Gray color for the timestamp */
+  margin-left: 10px;   /* Space between message and timestamp */
+  text-align: left;    /* Align timestamp to the left */
+}
+
+/* Responsive adjustments */
+
+/* For screens 576px and smaller (mobile) */
+@media (max-width: 576px) {
+  .notification-dropdown {
+    width: 90%;           /* Use 90% of the viewport width */
+    max-width: 90vw;      /* Ensure it doesn't exceed 90% of the viewport width */
+    left: 5%;             /* Center by adding equal left and right margins */
+    right: 5%;
+  }
+
+  .dropdown-menu[aria-labelledby="notificationDropdown"] {
+    width: 100%;          /* Make the dropdown take full width of the parent */
+  }
+}
+
+/* For screens up to 768px (small tablets and medium-sized screens) */
+@media (max-width: 768px) {
+  .notification-dropdown {
+    width: 90%;               /* Adjust width to 90% for tablets and small screens */
+    max-width: 90vw;          /* Ensure it does not exceed 90% of the viewport */
+    left: 5%;                 /* Add some margin to center it */
+    right: 5%;
+  }
+}
+
+/* For screens larger than 768px (desktops and large tablets) */
+@media (min-width: 769px) {
+  .notification-dropdown {
+    width: 400px;            /* Keep the default width of the dropdown for larger screens */
+    left: auto;              /* Ensure dropdown is aligned correctly */
+    right: 0;
+  }
+}
+
+
 .modal-dialog {
   max-width: 95vw; /* Adjust the maximum width as needed */
 }

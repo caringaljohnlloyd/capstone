@@ -11,7 +11,7 @@ class CottageBookingModel extends Model
     protected $useAutoIncrement = true;
     protected $returnType = 'array';
     protected $useSoftDeletes = false;
-    protected $allowedFields = ['user_id', 'selectedTime', 'selectedTimeout', 'cottage_id', 'cottagebooking_status', 'created_at','proofOfDownpayment'];
+    protected $allowedFields = ['user_id', 'selectedTime', 'selectedTimeout', 'cottage_id', 'cottagebooking_status', 'created_at','proofOfDownpayment','downpayment'];
 
     // Dates
     protected $useTimestamps = true;

@@ -4,15 +4,15 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class ReceiptModel extends Model
+class InventoryModel  extends Model
 {
-    protected $table            = 'receipts';
-    protected $primaryKey       = 'receipt_id';
+    protected $table            = 'inventory';
+    protected $primaryKey       = 'inventory_id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['invoice_id','payment_method','created_at','order_id'];
+    protected $allowedFields    = ['item_name','quantity'];
 
     // Dates
     protected $useTimestamps = false;

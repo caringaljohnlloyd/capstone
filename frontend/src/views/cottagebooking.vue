@@ -8,41 +8,50 @@
   <div class="main-content">
   
     <div class="sidebar" :class="{ 'collapsed': isSidebarCollapsed }">
-
-<img :src="require('../assets/images/logo1.png.png')" alt="Mono" class="logo">
-<router-link to="/admin2">
-  <i class="fa-solid fa-chart-simple"></i><span>Business Dashboard</span>
-</router-link>
-<details>
-  <summary>
-    <i class="fa-solid fa-chart-line"></i> Inventory Options
-  </summary>
-  <div class="dropdown-menu">
-    <router-link to="/analytics2">
-      <i class="fa-solid fa-chart-line"></i><span>Room Inventory</span>
-    </router-link>
-    <router-link to="/shopinventory">
-      <i class="fa-solid fa-chart-line"></i><span>Shop Inventory</span>
-    </router-link>
-    <router-link to="/reservations">
-      <i class="fa-solid fa-chart-line"></i><span>Restaurant Reservations</span>
-    </router-link>
-    <router-link to="/enrollment">
-      <i class="fa-solid fa-chart-line"></i><span>Enrollment Inventory</span>
-    </router-link>
+  
+  <img :src="require('../assets/images/logo1.png.png')" alt="Mono" class="logo">
+  <router-link to="/admin2">
+    <i class="fa-solid fa-chart-simple"></i><span>Business Dashboard</span>
+  </router-link>
+  <details >
+    <summary class="inventory-summary">
+      <i  style="padding: 10px; margin: 0" class="fa-solid fa-table"></i>
+      <span style="padding: 0; margin: 0" class="dropdown-icon">▾</span> 
+      <span style="padding: 0; margin: 0">Inventory Options</span>
+    </summary>
+    <div class="dropdown-menu">
+      <router-link to="/analytics2">
+        <i style="padding-right: 20px;" class="fa-solid fa-house"></i ><span>Room Inventory</span>
+      </router-link>
+      <router-link to="/shopinventory">
+        <i  style="padding-right: 20px;" class="fa-solid fa-shop"></i><span>Shop Inventory</span>
+      </router-link>
+      <router-link to="/cottagebooking">
+        <i  style="padding-right: 20px;" class="fa-solid fa-shop"></i><span>Cottage Inventory</span>
+      </router-link>
+      <router-link to="/reservations">
+        <i  style="padding-right: 20px;" class=" fa-solid fa-utensils"></i><span>Restaurant Reservations</span>
+      </router-link>
+    
+      <router-link to="/enrollment">
+        <i  style="padding-right: 20px;" class="fa-solid fa-person-swimming"></i><span>Enrollment Inventory</span>
+      </router-link>
+    </div>
+  </details>
+  
+  <router-link to="/teamadmin2">
+    <i class="fa-solid fa-people-group"></i><span>Team</span>
+  </router-link>
+  <router-link to="/monitorusers2">
+    <i class="fas fa-user"></i><span>Users</span>
+  </router-link>
+  <router-link to="/pos2">
+    <i  class="fa-solid fa-cart-plus"></i><span>POS</span>
+  </router-link>
+  <router-link to="/history">
+    <i  class="fa-solid fa-cart-plus"></i><span>History</span>
+  </router-link>
   </div>
-</details>
-
-<router-link to="/teamadmin2">
-  <i class="fa-solid fa-people-group"></i><span>Team</span>
-</router-link>
-<router-link to="/monitorusers2">
-  <i class="fas fa-user"></i><span>Users</span>
-</router-link>
-<router-link to="/pos2">
-  <i class="fa-solid fa-table-columns"></i><span>POS</span>
-</router-link>
-</div>
   
       <div class="header">
         <h1 class="h1-main">EDUARDO'S ADMIN</h1>

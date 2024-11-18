@@ -41,6 +41,8 @@ class MainController extends ResourceController
 {
 
     use ResponseTrait;
+    protected $notificationModel;
+
     protected $room;
     protected $orders;
     protected $orderitems;
@@ -61,6 +63,7 @@ class MainController extends ResourceController
     protected $roomAmenitiesModel;
     protected $cottageModel;
     protected $bookingModel;
+    protected $cottageBookingModel;
 
 
     public function __construct()
@@ -73,10 +76,94 @@ class MainController extends ResourceController
         $this->amenitiesModel = new AmenitiesModel();
         $this->roomAmenitiesModel = new RoomAmenitiesModel();
         $this->cottageModel = new CottageModel();
+        $this->notificationModel = new NotificationModel();
 
 
     }
+    public function markAsRead()
+    {
+        // Get the 'ids' from the JSON body
+        $ids = $this->request->getJSON(true)['ids'];  // Using getJSON() to decode the JSON body
+    
+        // Validate that IDs are provided
+        if (empty($ids) || !is_array($ids)) {
+            return $this->fail('Notification IDs are required and must be an array');
+        }
+    
+        // Log the received IDs for debugging
+        log_message('debug', 'Received IDs to mark as read: ' . implode(',', $ids));
+    
+        // Update the notifications' status to 'read' where the current status is 'unread'
+        $builder = $this->db->table('notifications');
+    
+        // Check if there are any unread notifications to update
+        $builder->whereIn('notification_id', $ids);
+        $builder->where('notifstatus', 'unread');
+        $notifications = $builder->get()->getResultArray();
+    
+        // Log the notifications that are found for update
+        log_message('debug', 'Notifications fetched for update: ' . print_r($notifications, true));
+    
+        // If no notifications match the criteria, return a failure message
+        if (empty($notifications)) {
+            log_message('error', 'No unread notifications found with the given IDs');
+            return $this->fail('No unread notifications found with the given IDs');
+        }
+    
+        // Perform the update: Change the 'notifstatus' to 'read'
+        $builder->whereIn('notification_id', $ids)
+                ->where('notifstatus', 'unread')
+                ->update(['notifstatus' => 'read']);
+    
+        // Check the number of affected rows
+        $affectedRows = $this->db->affectedRows();
+        log_message('debug', 'Number of affected rows: ' . $affectedRows);
+    
+        // If the update is successful, return a success response
+        if ($affectedRows > 0) {
+            return $this->respond(['status' => 'success', 'message' => 'Notifications marked as read'], 200);
+        } else {
+            // If no rows were affected, return an error response
+            log_message('error', 'No notifications were marked as read or an error occurred');
+            return $this->fail('No notifications were marked as read or an error occurred');
+        }
+    }
+    
+    
+    
+    
+    
 
+
+    
+    
+    
+    
+  public function getPendingAndConfirmedCottageBookings()
+{
+    $cottageBookingModel = new CottageBookingModel();
+
+    $bookings = $cottageBookingModel->whereIn('cottagebooking_status', ['pending', 'confirmed'])
+                                    ->select('cottage_id, selectedTime, selectedTimeout')
+                                    ->findAll();
+
+    return $this->response->setJSON($bookings);
+}
+
+
+
+    public function getPendingAndConfirmedBookings()
+    {
+        $bookingModel = new BookingModel();
+    
+        // Fetch bookings with "pending" or "confirmed" status
+        $bookings = $bookingModel->whereIn('booking_status', ['pending', 'confirmed'])
+                                 ->select('room_id, checkin, checkout')
+                                 ->findAll();
+    
+        return $this->response->setJSON($bookings);
+    }
+    
   // Get a list of all cottages or a single cottage by ID
   public function getCottages($cottage_id = null)
   {
@@ -1302,6 +1389,38 @@ public function cottageBooking()
         $data = $manifest->findAll();
         return $this->respond($data, 200);
     }
+    public function getCottageHistory()
+    {
+        $booking = new CottageBookingModel();
+        $data = $booking->select('cottagebooking.*, user.name AS user_name, user.id AS user_id')
+                        ->join('user', 'user.id = cottagebooking.user_id')
+                        ->findAll();
+        
+        return $this->respond($data, 200);
+    }
+    
+    public function getReservationHistory()
+    {
+        $booking = new ReservationModel();
+        // Join with the 'users' table to replace user IDs with names
+        $data = $booking->select('reservations.*, user.name AS user_name')
+                        ->join('user', 'user.id = reservations.user_id')
+                        ->findAll();
+        
+        return $this->respond($data, 200);
+    }
+    
+    public function getRoomBookingHistory()
+    {
+        $booking = new BookingModel();
+        $data = $booking->select('booking.*, user.name AS user_name, user.id AS user_id')
+                        ->join('user', 'user.id = booking.user_id') // Ensure 'user_id' matches actual field name
+                        ->findAll();
+    
+        return $this->respond($data, 200);
+    }
+    
+    
     public function getBookingHistory()
     {
         $booking = new BookingModel();
@@ -1376,7 +1495,6 @@ public function cottageBooking()
         $roomIds = [];
         foreach ($combination as $packs) {
             $rooms = $roomModel->where('packs', $packs)
-                ->where('room_status !=', 'booked') // Exclude rooms with status 'confirmed'
                 ->findAll();
             foreach ($rooms as $room) {
                 $roomIds[] = $room['room_id'];
@@ -2993,7 +3111,6 @@ private function deleteOldShopImage($imageName)
     
             // Update bookings and rooms
             $bookingModel->update($bookingIds, ['booking_status' => 'confirmed']);
-            $roomModel->update($roomIds, ['room_status' => 'booked']);
     
             return $this->respond(['message' => 'All bookings in group ' . $groupId . ' accepted successfully'], 200);
         } else {

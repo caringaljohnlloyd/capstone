@@ -36,6 +36,8 @@ const ShopInventory = () => import('../views/shopinventory.vue');
 const CottageBooking = () => import('../views/cottagebooking.vue');
 const Reservations = () => import('../views/reservations.vue');
 const Enrollment = () => import('../views/enrollment.vue');
+const history = () => import('../views/history.vue');
+
 
 const routes = [
   { path: '/', redirect: '/user' },
@@ -105,6 +107,11 @@ const routes = [
   {
     path: '/pos2',
     component: Pos2,
+    meta: { requiresAuth: true, roles: ['admin', 'admin2'] },
+  },
+  {
+    path: '/history',
+    component: history,
     meta: { requiresAuth: true, roles: ['admin', 'admin2'] },
   },
   {

@@ -6,43 +6,52 @@
   />
   
   <div class="main-content">
-  
+
     <div class="sidebar" :class="{ 'collapsed': isSidebarCollapsed }">
-
-<img :src="require('../assets/images/logo1.png.png')" alt="Mono" class="logo">
-<router-link to="/admin2">
-  <i class="fa-solid fa-chart-simple"></i><span>Business Dashboard</span>
-</router-link>
-<details>
-  <summary>
-    <i class="fa-solid fa-chart-line"></i> Inventory Options
-  </summary>
-  <div class="dropdown-menu">
-    <router-link to="/analytics2">
-      <i class="fa-solid fa-chart-line"></i><span>Room Inventory</span>
-    </router-link>
-    <router-link to="/shopinventory">
-      <i class="fa-solid fa-chart-line"></i><span>Shop Inventory</span>
-    </router-link>
-    <router-link to="/reservations">
-      <i class="fa-solid fa-chart-line"></i><span>Restaurant Reservations</span>
-    </router-link>
-    <router-link to="/enrollment">
-      <i class="fa-solid fa-chart-line"></i><span>Enrollment Inventory</span>
-    </router-link>
+  
+  <img :src="require('../assets/images/logo1.png.png')" alt="Mono" class="logo">
+  <router-link to="/admin2">
+    <i class="fa-solid fa-chart-simple"></i><span>Business Dashboard</span>
+  </router-link>
+  <details >
+    <summary class="inventory-summary">
+      <i  style="padding: 10px; margin: 0" class="fa-solid fa-table"></i>
+      <span style="padding: 0; margin: 0" class="dropdown-icon">▾</span> 
+      <span style="padding: 0; margin: 0">Inventory Options</span>
+    </summary>
+    <div class="dropdown-menu">
+      <router-link to="/analytics2">
+        <i style="padding-right: 20px;" class="fa-solid fa-house"></i ><span>Room Inventory</span>
+      </router-link>
+      <router-link to="/shopinventory">
+        <i  style="padding-right: 20px;" class="fa-solid fa-shop"></i><span>Shop Inventory</span>
+      </router-link>
+      <router-link to="/cottagebooking">
+        <i  style="padding-right: 20px;" class="fa-solid fa-shop"></i><span>Cottage Inventory</span>
+      </router-link>
+      <router-link to="/reservations">
+        <i  style="padding-right: 20px;" class=" fa-solid fa-utensils"></i><span>Restaurant Reservations</span>
+      </router-link>
+    
+      <router-link to="/enrollment">
+        <i  style="padding-right: 20px;" class="fa-solid fa-person-swimming"></i><span>Enrollment Inventory</span>
+      </router-link>
+    </div>
+  </details>
+  
+  <router-link to="/teamadmin2">
+    <i class="fa-solid fa-people-group"></i><span>Team</span>
+  </router-link>
+  <router-link to="/monitorusers2">
+    <i class="fas fa-user"></i><span>Users</span>
+  </router-link>
+  <router-link to="/pos2">
+    <i  class="fa-solid fa-cart-plus"></i><span>POS</span>
+  </router-link>
+  <router-link to="/history">
+    <i  class="fa-solid fa-cart-plus"></i><span>History</span>
+  </router-link>
   </div>
-</details>
-
-<router-link to="/teamadmin2">
-  <i class="fa-solid fa-people-group"></i><span>Team</span>
-</router-link>
-<router-link to="/monitorusers2">
-  <i class="fas fa-user"></i><span>Users</span>
-</router-link>
-<router-link to="/pos2">
-  <i class="fa-solid fa-table-columns"></i><span>POS</span>
-</router-link>
-</div>
   
       <div class="header">
         <h1 class="h1-main">EDUARDO'S ADMIN</h1>
@@ -167,6 +176,7 @@
         </div>
       </div>
     </div>
+    <br>
    <!-- Menu Table -->
    <div class="row">
    <div class="col-12">
@@ -332,7 +342,7 @@
   
   
   
-  
+  <br>
   
   <div class="row">
     <!-- Reservation List -->
@@ -2056,11 +2066,15 @@
     border-collapse: collapse;
   }
   
-  .table-product th, .table-product td {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-  }
+  .table-product th {
+  background-color: #0F172B; /* Dark background for header */
+  color: #ffffff; /* White text color */
+  padding: 12px; /* Padding inside header cells */
+  text-align: center; /* Align text to the left */
+  font-weight: bold; /* Bold text */
+  border-right: 2px solid #ddd; /* Bottom border for header */
+  
+}
   
   .card-body .modal-body, .card-body .alert, th , .modal-body {
     font-family: "Poppins", sans-serif;
@@ -2634,22 +2648,45 @@
 
 details summary {
   cursor: pointer;
-  padding: 10px;
+  
   font-weight: bold;
 }
 
-.dropdown-menu {
+/* Align items in the summary */
+.inventory-summary {
   display: flex;
+  align-items: center;
+  gap: 4px; /* Space between elements */
+  cursor: pointer;
+  padding: 10px;
+  color: #fff;
+}
+
+/* Style for the dropdown icon */
+.inventory-summary .dropdown-icon {
+  font-size: 25px;
+  transition: transform 0.3s ease; /* Smooth rotation for the arrow */
+}
+
+/* Rotate the dropdown icon when details are open */
+details[open] .inventory-summary .dropdown-icon {
+  transform: rotate(180deg); /* Arrow points up when open */
+}
+details:hover{
+  background-color: #FEA116;
+  transition: background-color 0.5s; 
+}
+.dropdown-menu {
+  display: none;
+
   flex-direction: column;
   gap: 10px;
-  padding: 10px;
   border: 1px solid #ccc;
   background-color: navy;
   position: absolute;
   top: 100%;
   left: 0;
   z-index: 10;
-  display: none;
 }
 
 details[open] .dropdown-menu {
@@ -2660,5 +2697,6 @@ details[open] .dropdown-menu {
   text-decoration: none;
   color: #333;
 }
+
 
   </style>

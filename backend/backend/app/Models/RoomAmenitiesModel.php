@@ -7,11 +7,11 @@ use CodeIgniter\Model;
 class RoomAmenitiesModel extends Model
 {
     protected $table            = 'room_amenities';
-    protected $primaryKey       = ['room_id','amenity_id']; // No primary key, it's a composite primary key
+    protected $primaryKey       = ['room_id','amenity_id']; 
     protected $returnType       = 'array';
     protected $useAutoIncrement = false; 
     protected $protectFields    = true;
-    protected $allowedFields    = ['room_id', 'amenity_id','stock'];
+    protected $allowedFields    = ['room_id', 'amenity_id','inventory_id','stock'];
 
     // Dates
     protected $useTimestamps = false;
